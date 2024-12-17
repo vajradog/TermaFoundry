@@ -1,0 +1,26 @@
+---
+import Container from "@components/container.astro";
+import Cta from "@components/cta.astro";
+import Features from "@components/features.astro";
+import Hero from "@components/hero.astro";
+import Logos from "@components/logos.astro";
+import Layout from "@layouts/Layout.astro";
+---
+
+<Layout title="">
+  <Container>
+    <Hero />
+    <div class="-mx-8 bg-gray-900 py-12">
+      <div class="max-w-6xl mx-auto px-4 text-left text-white">
+      <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+        Empowering the Next Generation of Tibetan Readers and Writers
+      </h2>
+      <p class="text-lg mt-4 text-slate-300">
+        At Terma Type Foundry, we create accessible, digitally optimized Tibetan fonts while honoring the cultural and spiritual essence of Tibetan calligraphy. By bridging tradition and innovation, we ensure the Tibetan script thrives in modern life—be it in classrooms, websites, or apps.
+      </p>
+    </div></div>
+    <br/><br/>
+    <Features />
+ 
+  </Container>
+</Layout>

@@ -1,0 +1,142 @@
+---
+// @ts-ignore
+import { Icon } from "astro-icon/components";
+import { Picture } from "astro:assets";
+import dlImage from 'assets/dl.png'; 
+import fonttestImage from 'assets/fonttest.png'; 
+
+const features = [
+  {
+    title: "Complexity for Beginners",
+    description:
+      "Traditional fonts, though beautiful, often intimidate new learners..",
+    icon: "bx:bxs-briefcase",
+  },
+  {
+    title: "Digital Adaptation",
+    description:
+      "Many fonts fail to integrate seamlessly with digital tools.",
+    icon: "bx:bxs-window-alt",
+  },
+  {
+    title: "Limited Modern Designs",
+    description:
+      "Existing fonts lack versatility for children, educators, and designers.  ",
+    icon: "bx:bxs-data",
+  },
+ 
+];
+
+const solutions = [
+  {
+    title: "Serif Font",
+    description:
+      "Elegant yet clear for modern reading and print.",
+    icon: "bx:bxs-briefcase",
+  },
+  {
+    title: "Sans-Serif Font",
+    description:
+      " A sleek design perfect for digital applications.",
+    icon: "bx:bxs-window-alt",
+  },
+  {
+    title: "Child-Friendly Font",
+    description:
+      "Simplified forms to inspire younger learners. ",
+    icon: "bx:bxs-data",
+  },
+  
+];
+---
+
+
+
+<div class="mt-16 md:mt-0">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+    Why It Matters
+  </h2>
+  <p class="text-lg mt-4 text-slate-600">
+    Current Challenges in Tibetan Typography
+  </p>
+</div>
+
+<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-5 gap-16 ">
+  
+  {
+    features.map((item) => (
+      <div class="flex gap-4 items-start">
+        <div class="mt-1 bg-black rounded-full  p-2 w-8 h-8 shrink-0">
+          <Icon class="text-white" name={item.icon} />
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">{item.title}</h3>{" "}
+          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
+        </div>
+      </div>
+    ))
+  }
+</div><br><hr>
+<div class="mt-16 md:mt-10">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+    Our Solution
+  </h2>
+  <p class="text-lg mt-4 text-slate-600">
+    Alternate Fonts, Not Replacements. We’re creating three foundational fonts:
+
+
+  </p>
+</div>
+<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-5 gap-16 ">
+  
+  {
+    solutions.map((item) => (
+      <div class="flex gap-4 items-start">
+        <div class="mt-1 bg-black rounded-full  p-2 w-8 h-8 shrink-0">
+          <Icon class="text-white" name={item.icon} />
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">{item.title}</h3>{" "}
+          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>
+<br>
+<Picture src={dlImage} formats={['avif', 'webp']} alt="Jamyang with HH the Dalai Lama." />
+
+
+<div class="mt-16 md:mt-10">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+    Features & Benefits
+    </h2>
+  <p class="text-lg mt-4 text-slate-600">
+    Educational Accessibility: Friendly fonts for children, students, and semi-literate readers.
+    Digital-Ready: Clear, optimized designs for websites, apps, and ebooks.
+    Cultural Preservation: Fonts that honor Tibetan script’s spiritual depth.
+    Global Communication: Seamless integration with multilingual content.
+<br><br>
+
+Who are semi-literate readers?
+Semi-literate individuals are those who can speak and understand Tibetan fluently but struggle with reading and writing the script. Often Tibetans born and raised in exile or modern contexts, they recognize basic words but lack confidence and fluency when engaging with written Tibetan. Complex and ornate traditional fonts can make the learning process intimidating and slow.
+
+By simplifying character forms, balancing proportions, and reducing visual complexity, our fonts make Tibetan more inviting and accessible—helping semi-literate readers gain confidence and improve their literacy.
+  </p>
+</div>
+
+<div class="mt-16 md:mt-10">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+    Impact
+    </h2>
+  <p class="text-lg mt-4 text-slate-600">
+    "Our Fonts, Your Stories"
+
+    For Students: Textbooks and storybooks made inviting and approachable.
+    For Educators: Tools that enhance teaching and content creation.
+    For Designers: Fonts optimized for modern software and devices.
+    Together, we make written Tibetan a living, evolving tradition for generations to come.
+  </p>
+</div>
+<Picture src={fonttestImage} formats={['avif', 'webp']} alt="Font Experiments" />
+

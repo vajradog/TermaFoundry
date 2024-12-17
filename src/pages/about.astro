@@ -1,0 +1,159 @@
+---
+import { getCollection } from "astro:content";
+import { Picture } from "astro:assets";
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/container.astro";
+import Sectionhead from "@components/sectionhead.astro";
+import thuptenImage from 'assets/thupten.png'; 
+import jamyangImage from 'assets/jamyang.png'; 
+
+import collabImage from 'assets/collab.png'; 
+
+// Filter team entries with 'draft: false' & date before current date
+const publishedTeamMembers = await getCollection("team", ({ data }) => {
+  return !data.draft && data.publishDate < new Date();
+});
+---
+
+<Layout title="About">
+  <Container>
+    <Sectionhead>
+      <Fragment slot="title">About Us</Fragment>
+      <Fragment slot="desc">We are a small passionate team.</Fragment>
+    </Sectionhead>
+
+    <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
+
+      <h2 class="font-bold text-3xl text-gray-800">Our Story</h2>
+      <p class="text-lg leading-relaxed text-slate-500">
+        The seed for Terma Type Foundry was planted 6 years ago in 2018 when my kids were much younger, and I was looking for creative ways to introduce them to the Tibetan language. I wanted their first steps into Tibetan to be exciting, engaging, and filled with joy—something that felt modern yet connected to our heritage.
+<br/><br/>
+        We started small:
+        <ul class="list-disc text-lg leading-relaxed text-slate-500">
+
+        <li>Creating animated videos for kids.</li>
+          <li>Commissioning cheerful Tibetan children’s songs.</li>
+            <li>Publishing two Tibetan kids’ books that taught shapes and numbers.</li>
+        </ul>
+        <p class="text-lg leading-relaxed text-slate-500"><br/>
+        But we hit a wall. The biggest hurdle was the limitation of Tibetan font designs. Misalignment issues, technical glitches, and a lack of child-friendly fonts made every project feel like pushing a boulder uphill.
+        <br/><br/>
+        In researching kids' educational materials from other languages like English, Japanese, and Korean, we saw fonts that were colorful, rounded, playful, and "cool"—exactly the qualities we wanted for Tibetan. That realization sparked a dream:
+        <br/><br/>
+        What if Tibetan could have its own array of modern, accessible, and joyful fonts?      </p>
+        <br><br>        <hr>
+        <h2 class="font-bold text-3xl text-gray-800">From Idea to Reality
+        </h2>
+        <p class="text-lg leading-relaxed text-slate-500">
+          or years, I worked closely with my father, Jamyang Dorjee, a master Tibetan calligrapher, alongside a dedicated team of scholars, linguists, and designers. Together, we explored ways to reimagine Tibetan script without losing its spiritual and cultural essence. We asked:  <br/><br/>
+          
+          <ul class="list-disc text-lg leading-relaxed text-slate-500">
+  
+          <li>How can we preserve the soul of Tibetan calligraphy while making it adaptable for the 21st century?</li>
+            <li>How can fonts be made easier for children and beginners?
+            </li>
+              <li>How can they look beautiful across screens, apps, and print?
+              </li>
+          </ul>
+          <p class="text-lg leading-relaxed text-slate-500"><br/>
+            The answer is Terma Type Foundry—a home for creating fonts that are not replacements but companions to traditional Tibetan script. Fonts that are approachable, modern, and ready to appear everywhere: comic books, apps, T-shirts, video games, and beyond.          <br/><br/>
+           </p>
+
+
+           <br><br>        <hr>
+      <h2 class="font-bold text-3xl text-gray-800">
+        Our Mission
+
+      </h2>
+      <p class="text-lg leading-relaxed text-slate-500">
+        At Terma Type Foundry, our mission is clear:
+
+        "To ensure the Tibetan script thrives in the modern world while honoring its timeless heritage."     
+        <br/><br/>
+        We design fonts that:
+        <ul class="list-disc text-lg leading-relaxed text-slate-500">
+
+        <li>Make Learning Fun: Child-friendly fonts that inspire the next generation.</li>
+          <li>Bridge Tradition and Innovation: Respecting calligraphic roots while embracing digital design.</li>
+            <li>Empower Creators: Tools for educators, designers, and storytellers to bring Tibetan to life across platforms.</li>
+
+          </ul>
+
+          <blockquote class="text-xl italic font-semibold text-slate-500">
+            <p>Our dream is simple yet powerful: to see Tibetan fonts everywhere—a living, evolving script that future generations are proud of.            </p>
+        </blockquote>
+
+    </div>
+    <br><br>        <hr><br><br>    
+
+
+    <h1 class="text-3xl font-bold text-center mb-8">Meet Our Team</h1>
+      <!-- Three  Columns -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
+
+     <!-- Container 1 -->
+
+    <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <Picture src={thuptenImage} formats={['avif', 'webp']} alt="Thupten Chakrishar." />
+
+      <div class="p-5">
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Thupten Chakrishar</h5>
+          <h3 class="text-sm text-slate-500">
+            Founder & Lead Technologist
+
+          </h3>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">A seasoned social entrepreneur and technologist, has spent over two decades blending technology, design, and community service. With a background in software development, media production, and 3D animation, his work reflects a rare mix of technical precision and creative vision. <br><br>As co-founder of the Himalayan Elders Project, Thupten has shown a deep commitment to cultural preservation. With Terma Type Foundry, he brings the expertise and dedication needed to ensure the Tibetan script thrives in the modern world.</p>
+        
+      </div>
+  </div>
+ <!-- Container 2 -->
+
+    <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <Picture src={jamyangImage} formats={['avif', 'webp']} alt="Jamyang Dorjee." />
+
+      <div class="p-5">
+              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Jamyang Dorjee</h5>
+          <h3 class="text-sm text-slate-500">
+            Master Calligrapher & Cultural Advisor
+          </h3>
+          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">A renowned master of Tibetan calligraphy, brings decades of experience and deep cultural wisdom to Terma Type Foundry. His expertise lies in preserving the spiritual and artistic essence of traditional Tibetan script while guiding its evolution for modern use. <br><br>Known for his meticulous craftsmanship and profound understanding of Tibetan heritage, Jamyang Dorjee ensures that each font retains the elegance, authenticity, and cultural depth that the script embodies. As a leading cultural advisor, his contributions help bridge the past and future, honoring tradition while enabling accessibility for new generations.</p>
+         
+      </div>
+    </div>
+
+ <!-- Container 3 -->
+      <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <Picture src={collabImage} formats={['avif', 'webp']} alt="Collaborators." />
+
+  <div class="p-5">
+          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Collaborators
+          </h5>
+      <h3 class="text-sm text-slate-500">
+       Names and Images to be released soon
+      </h3>
+      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">We are supported by a diverse team of Tibetan and non-Tibetan collaborators who share a deep commitment to revitalizing the Tibetan script. Tibetan scholars, educators, and cultural experts ensure each design remains faithful to its heritage, making the fonts practical for classrooms, beginners, and community use. <br><br>
+
+        Complementing this expertise are non-Tibetan graphic designers, typographers, and technical specialists who bring a wealth of global design experience. This unique collaboration blends cultural depth with design innovation, creating fonts that resonate with Tibetan communities while being adaptable for global audiences.
+        
+        </p>
+      <!--
+      <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          Read more
+           <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+          </svg>
+      </a>
+    -->
+  </div>
+</div>
+</div>
+
+<br><br>
+    
+  </Container>
+
+
+</Layout>
+
+
+
