@@ -1,0 +1,436 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: string;
+  schema?: object;
+}
+
+const {
+  title,
+  description = 'TermaFoundry — open tools for Tibetan text. CSS framework, curated fonts, pecha layouts, and learning utilities for the modern web.',
+  ogImage = '/images/placeholder.jpg',
+  ogType = 'website',
+  schema
+} = Astro.props;
+
+const navItems = [
+  { label: 'termaUI', href: '/termaui/', badge: 'CSS' },
+  { label: 'Fonts', href: '/fonts/library' },
+  { label: 'Typing', href: '/type' },
+  { label: 'PechaForge', href: '/pecha' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
+];
+
+const currentPath = Astro.url.pathname;
+const siteTitle = title ? `${title} — Terma Foundry` : 'Terma Foundry';
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://termafoundry.com');
+const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{siteTitle}</title>
+  <meta name="description" content={description}>
+
+  <!-- Canonical -->
+  <link rel="canonical" href={canonicalURL}>
+
+  <!-- Open Graph -->
+  <meta property="og:site_name" content="Terma Foundry">
+  <meta property="og:type" content={ogType}>
+  <meta property="og:title" content={siteTitle}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonicalURL}>
+  <meta property="og:image" content={ogImageURL}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Terma Foundry — open tools for Tibetan text">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content={siteTitle}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={ogImageURL}>
+
+  <!-- JSON-LD Structured Data -->
+  {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/dist/termaui.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="site-nav">
+    <a href="/" class="site-logo">Terma<span>Foundry</span></a>
+    <div class="site-nav-links">
+      {navItems.map(item => (
+        <a href={item.href} class={`site-nav-link ${currentPath.startsWith(item.href) && item.href !== '/' ? 'active' : ''}`}>
+          {item.label}
+          {item.badge && <span class="nav-badge">{item.badge}</span>}
+        </a>
+      ))}
+    </div>
+    <!-- Mobile menu toggle -->
+    <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <!-- Mobile nav -->
+  <div class="mobile-nav" id="mobile-nav">
+    {navItems.map(item => (
+      <a href={item.href} class="mobile-nav-link">{item.label}{item.badge && ` (${item.badge})`}</a>
+    ))}
+  </div>
+
+  <main>
+    <slot />
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="site-footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="site-logo" style="font-size:1.05rem;">Terma<span>Foundry</span></a>
+        <p>Open tools for Tibetan text on the modern web — CSS framework, fonts, layout utilities, and more. All built on our own termaUI.</p>
+        <div class="footer-tibetan" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</div>
+      </div>
+      <div class="footer-col">
+        <h4>Tools</h4>
+        <a href="/termaui/">termaUI CSS</a>
+        <a href="/fonts/library">Font Library</a>
+        <a href="/type">Typing Helper</a>
+        <a href="/pecha">PechaForge</a>
+      </div>
+      <div class="footer-col">
+        <h4>Foundry</h4>
+        <a href="/about">About Us</a>
+        <a href="/blog">Blog</a>
+        <a href="/contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <a href="https://github.com/vajradog/TermaFoundry" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/OpenPecha/tibetan-fonts" target="_blank" rel="noopener">OpenPecha Fonts</a>
+        <a href="https://w3c.github.io/tlreq/" target="_blank" rel="noopener">W3C Tibetan Layout</a>
+        <a href="mailto:termastudios@gmail.com">termastudios@gmail.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © {new Date().getFullYear()} Terma Type Foundry, New Paltz NY &middot; MIT License
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu
+    const btn = document.getElementById('mobile-menu-btn');
+    const nav = document.getElementById('mobile-nav');
+    btn?.addEventListener('click', () => {
+      nav?.classList.toggle('open');
+      btn.classList.toggle('open');
+    });
+
+    // Reveal on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('in-view');
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
+
+<style is:global>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface2: #253449;
+    --border: rgba(148,163,184,0.08);
+    --border2: rgba(148,163,184,0.14);
+    --text: #e2e8f0;
+    --text2: #94a3b8;
+    --muted: #64748b;
+    --accent: #38bdf8;
+    --gold: #fbbf24;
+    --red: #ef4444;
+    --green: #22c55e;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; height: auto; }
+
+  /* ── Reveal animation ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .65s cubic-bezier(.16,1,.3,1), transform .65s cubic-bezier(.16,1,.3,1);
+  }
+  .reveal.in-view { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: .08s; }
+  .reveal-delay-2 { transition-delay: .16s; }
+  .reveal-delay-3 { transition-delay: .24s; }
+  .reveal-delay-4 { transition-delay: .32s; }
+
+  /* ── NAV ── */
+  .site-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 60px;
+    background: rgba(15,23,42,0.9);
+    backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .site-logo {
+    font-weight: 800; font-size: 1.1rem; letter-spacing: -0.03em;
+    color: var(--text); text-decoration: none;
+  }
+  .site-logo span { color: var(--accent); }
+
+  .site-nav-links { display: flex; align-items: center; gap: 0.25rem; }
+  .site-nav-link {
+    display: flex; align-items: center; gap: 0.35rem;
+    color: var(--text2); font-size: .82rem; font-weight: 500;
+    padding: .35rem .65rem; border-radius: 6px;
+    transition: color .15s, background .15s;
+  }
+  .site-nav-link:hover { color: var(--text); background: rgba(148,163,184,0.06); }
+  .site-nav-link.active { color: var(--text); }
+
+  .nav-badge {
+    font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
+    padding: .1rem .35rem; border-radius: 3px;
+    background: rgba(56,189,248,0.12); color: var(--accent);
+    border: 1px solid rgba(56,189,248,0.2);
+  }
+
+  .site-nav-cta {
+    margin-left: .5rem;
+    padding: .35rem 1rem; border-radius: 6px; font-size: .82rem; font-weight: 600;
+    background: rgba(56,189,248,0.1); color: var(--accent);
+    border: 1px solid rgba(56,189,248,0.2);
+    transition: all .15s;
+  }
+  .site-nav-cta:hover { background: rgba(56,189,248,0.18); }
+
+  /* Mobile menu button */
+  .mobile-menu-btn {
+    display: none; flex-direction: column; gap: 4px;
+    background: none; border: none; cursor: pointer; padding: .5rem;
+  }
+  .mobile-menu-btn span {
+    display: block; width: 22px; height: 2px; background: var(--text2);
+    border-radius: 2px; transition: all .2s;
+  }
+  .mobile-menu-btn.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
+  .mobile-menu-btn.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  /* Mobile nav */
+  .mobile-nav {
+    display: none; flex-direction: column; gap: .25rem;
+    position: fixed; top: 60px; left: 0; right: 0; z-index: 199;
+    background: rgba(15,23,42,0.97); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 1rem 1.5rem 1.5rem;
+    transform: translateY(-8px); opacity: 0; pointer-events: none;
+    transition: all .2s;
+  }
+  .mobile-nav.open { transform: none; opacity: 1; pointer-events: all; }
+  .mobile-nav-link {
+    display: block; padding: .65rem .75rem; border-radius: 6px;
+    color: var(--text2); font-size: .9rem; font-weight: 500;
+    transition: all .15s;
+  }
+  .mobile-nav-link:hover { color: var(--text); background: rgba(148,163,184,0.06); }
+  .mobile-nav-cta {
+    display: block; margin-top: .5rem; padding: .65rem .75rem;
+    color: var(--accent); font-size: .9rem; font-weight: 600;
+  }
+
+  main { padding-top: 60px; }
+
+  /* ── Page sections ── */
+  .page-section {
+    max-width: 1100px; margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+  .page-section + .page-section {
+    padding-top: 0;
+  }
+  .section-eyebrow {
+    font-size: .78rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--accent); margin-bottom: .75rem;
+  }
+  .section-heading {
+    font-size: clamp(1.8rem, 4vw, 2.75rem); font-weight: 800;
+    letter-spacing: -.035em; line-height: 1.12; color: var(--text); margin-bottom: .9rem;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--muted); line-height: 1.75;
+    max-width: 540px; margin-bottom: 3.5rem;
+  }
+
+  /* ── Cards grid ── */
+  .cards-grid {
+    display: grid; gap: 1px;
+    background: var(--border);
+    border-radius: 16px; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .cards-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .cards-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .cards-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: var(--surface);
+    padding: 2rem 2rem 2.25rem;
+    transition: background .25s;
+  }
+  .card:hover { background: var(--surface2); }
+  .card-eyebrow {
+    font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+    color: var(--accent); margin-bottom: .75rem;
+  }
+  .card-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: .4rem; }
+  .card-desc { font-size: .85rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .6rem 1.4rem; border-radius: 8px; font-size: .88rem;
+    font-weight: 600; text-decoration: none; transition: all .15s; border: none; cursor: pointer;
+  }
+  .btn-primary { background: var(--accent); color: #0f172a; }
+  .btn-primary:hover { background: #7dd3fc; transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent; color: var(--accent);
+    border: 1px solid rgba(56,189,248,0.3);
+  }
+  .btn-outline:hover { background: rgba(56,189,248,0.08); }
+  .btn-ghost { background: rgba(148,163,184,0.08); color: var(--text2); }
+  .btn-ghost:hover { background: rgba(148,163,184,0.14); color: var(--text); }
+
+  /* ── Divider ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ── Inline code ── */
+  .inline-code {
+    font-family: 'JetBrains Mono', monospace; font-size: .82em;
+    color: var(--accent); background: rgba(56,189,248,0.08);
+    padding: .1em .35em; border-radius: 3px;
+  }
+
+  /* ── Blog prose ── */
+  .prose {
+    color: var(--text2); font-size: .97rem; line-height: 1.85;
+    max-width: 720px;
+  }
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    color: var(--text); font-weight: 700; line-height: 1.3;
+    margin: 2rem 0 .75rem;
+  }
+  .prose h1 { font-size: 2rem; }
+  .prose h2 { font-size: 1.45rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border); }
+  .prose h3 { font-size: 1.15rem; }
+  .prose p { margin-bottom: 1.25rem; }
+  .prose ul, .prose ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
+  .prose li { margin-bottom: .4rem; }
+  .prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+  .prose a:hover { color: #7dd3fc; }
+  .prose strong { color: var(--text); font-weight: 600; }
+  .prose code {
+    font-family: 'JetBrains Mono', monospace; font-size: .82em;
+    color: var(--accent); background: rgba(56,189,248,0.08);
+    padding: .1em .35em; border-radius: 3px;
+  }
+  .prose pre {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem; overflow-x: auto;
+    margin-bottom: 1.5rem;
+  }
+  .prose pre code { background: none; padding: 0; font-size: .85rem; color: var(--text2); }
+  .prose blockquote {
+    border-left: 3px solid var(--accent); margin: 1.5rem 0;
+    padding: .75rem 1.25rem; color: var(--text2);
+    background: rgba(56,189,248,0.04); border-radius: 0 6px 6px 0;
+  }
+  .prose img {
+    border-radius: 10px; border: 1px solid var(--border);
+    margin: 1.5rem 0; width: 100%;
+  }
+  .prose hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  .prose table {
+    width: 100%; border-collapse: collapse; margin-bottom: 1.5rem;
+    font-size: .88rem;
+  }
+  .prose th {
+    text-align: left; padding: .6rem .85rem;
+    border-bottom: 2px solid var(--border2);
+    color: var(--text); font-weight: 600;
+  }
+  .prose td {
+    padding: .55rem .85rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--text2);
+  }
+  .prose tr:hover td { background: rgba(148,163,184,0.03); }
+
+  /* ── Footer ── */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding: 4rem 2rem 2.5rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .site-footer-grid {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    margin-bottom: 3rem;
+  }
+  .footer-brand p { font-size: .82rem; color: var(--muted); line-height: 1.75; margin-top: .5rem; max-width: 260px; }
+  .footer-tibetan {
+    font-size: 1.4rem; margin-top: 1rem; color: var(--muted);
+    font-family: 'Jomolhari', serif;
+  }
+  .footer-col h4 { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .85rem; }
+  .footer-col a { display: block; font-size: .82rem; color: #475569; line-height: 2.2; transition: color .15s; }
+  .footer-col a:hover { color: var(--text2); }
+  .footer-bottom { font-size: .75rem; color: #334155; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .site-nav-links { display: none; }
+    .mobile-menu-btn { display: flex; }
+    .mobile-nav { display: flex; }
+    .cards-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .cards-grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .site-footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  }
+  @media (max-width: 600px) {
+    .page-section { padding: 4rem 1.25rem; }
+    .cards-grid-2, .cards-grid-3, .cards-grid-4 { grid-template-columns: 1fr; }
+    .site-footer-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,58 @@
+/* ==========================================================================
+   termaUI — Guardian utilities
+   Fixes Tibetan-specific rendering: clipping, line-breaking, scaling.
+   ========================================================================== */
+
+/* Prevent clipping of Tibetan vowel marks and stacked consonants */
+.tr-guard {
+  padding-block: 0.25em;
+}
+
+.tr-guard-lg {
+  padding-block: 0.5em;
+}
+
+/* ---------------------------------------------------------------------------
+   OVERFLOW SAFE
+   Last-resort overflow protection for Tibetan text in constrained containers.
+   Prevents horizontal overflow when text cannot wrap (e.g. no tsheg present,
+   or terma.js has not been run yet).
+
+   NOTE: This does NOT fix tsheg-aware line breaking — that requires
+   terma.prepare() from terma.js. This is purely a container protection guard.
+   --------------------------------------------------------------------------- */
+.tr-overflow-safe {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Scale Tibetan to match English visual weight */
+.tr-scale-up {
+  font-size: 120%;
+}
+
+.tr-scale-match {
+  font-size: 150%;
+}
+
+/* Vertical alignment fix for mixed Tibetan/English inline text */
+.tr-baseline {
+  vertical-align: middle;
+  line-height: 1.8;
+}
+
+/* ---------------------------------------------------------------------------
+   PUNCTUATION PROTECTION
+   Tibetan punctuation sequences that must never split across lines.
+   Wrap the sequence in a <span> with the appropriate class.
+   --------------------------------------------------------------------------- */
+
+/* Prevent double-shad ། ། from splitting across lines */
+.tr-shad-pair {
+  white-space: nowrap;
+}
+
+/* Protect non-breaking tsheg + shad (e.g. ང་།) from splitting */
+.tr-nobr-tsheg {
+  white-space: nowrap;
+}

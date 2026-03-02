@@ -1,165 +1,569 @@
 ---
-import { getCollection } from "astro:content";
-import { Picture } from "astro:assets";
-import Layout from "@layouts/Layout.astro";
-import Container from "@components/container.astro";
-import Sectionhead from "@components/sectionhead.astro";
-import thuptenImage from 'assets/thupten.png'; 
-import jamyangImage from 'assets/jamyang.png'; 
+import FontsBase from '@layouts/FontsBase.astro';
 
-import collabImage from 'assets/collab.png'; 
+const inDevelopment = [
+  {
+    name: 'Terma Serif',
+    tagline: 'For reading, print, and scholarship.',
+    desc: 'A refined serif typeface that honours Uchen calligraphic tradition while meeting the demands of modern print — consistent weight, precise hinting, reliable line-height, full Unicode coverage. The scholarly font Tibetan publishing has needed for a generation.',
+    accent: '#fbbf24',
+    audience: 'Scholars · Publishers · Textbooks · Liturgical materials',
+  },
+  {
+    name: 'Terma Sans',
+    tagline: 'For apps, screens, and interfaces.',
+    desc: 'The typeface the digital world has been waiting for. A clean, screen-optimised sans-serif that works at every scale — navigation labels, headlines, body text — and sits naturally alongside Latin, Chinese, and Devanagari in multilingual products.',
+    accent: '#38bdf8',
+    audience: 'App developers · Web designers · Multilingual publishing',
+  },
+  {
+    name: 'Terma Lotsawa',
+    tagline: 'For children, learners, and the diaspora.',
+    desc: "The font nobody has built yet. Simplified letterforms, generous spacing, and friendlier proportions that make Tibetan script approachable instead of intimidating. Designed alongside educators and diaspora Tibetans who told us the same story: \"I gave up because the writing looked too hard.\"",
+    accent: '#22c55e',
+    audience: 'Children · Heritage learners · Diaspora Tibetans · Educators',
+    image: '/images/fonttest.D-_DLzDb_Z1217SE.avif',
+    imageAlt: 'Terma Lotsawa concept — rounded, child-friendly Tibetan letterforms in progress',
+  },
+];
 
+const stats = [
+  { n: '6.5M', label: 'Tibetan speakers worldwide' },
+  { n: '150K+', label: 'Tibetan diaspora in exile' },
+  { n: '~12', label: 'Usable digital font families' },
+  { n: '0', label: 'Fonts designed for children' },
+];
 ---
 
-<Layout title="About">
-  <Container>
-    <Sectionhead>
-      <Fragment slot="title">Fonts</Fragment>
-      <Fragment slot="desc">Together we can make it happen</Fragment>
-    </Sectionhead>
-    <br>
+<FontsBase
+  title="Tibetan Fonts — 36 Free Typefaces & 3 Original Designs in Progress"
+  description="Why Tibetan typography needs a new generation of typefaces — and how you can help build them. Browse 36 free web fonts, plus three original Terma fonts being designed with master calligrapher Jamyang Dorjee."
+>
 
-    <h2 class="font-bold  text-gray-800 text-left">Terma Sans-Serif Font</h2>
-    <div class="grid min-h-[140px] w-full place-items-center shadow-md overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
-      <div class="flex gap-8">
-        
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
-            class="text-amber-500"></path>
-        </svg>
-        
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
-            class="text-purple-500"></path>
-        </svg>
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="text-pink-500">
-          </path>
-          <h2 class="text-gray-800 text-left">Support the project and help make this font</h2>
+  <!-- ═══════════════════════════════════════ HERO ═══════════════════════════════════════ -->
+  <section class="fonts-hero">
+    <div class="fonts-hero-inner">
+      <div class="section-eyebrow reveal" style="margin-bottom:1.5rem;">The Case for New Tibetan Fonts</div>
 
-        </svg>
+      <h1 class="fonts-hero-heading reveal">
+        The world's most underserved<br>writing system.
+      </h1>
+
+      <p class="fonts-hero-sub reveal">
+        Six million speakers. Fifteen centuries of literary tradition. A diaspora scattered across forty countries.
+        And fewer than a dozen usable digital typefaces — none of them designed for children, learners, or the modern web.
+        <br><br>
+        We are building the fonts that don't exist yet.
+      </p>
+
+      <div class="hero-ctas reveal">
+        <a href="/fonts/library" class="btn btn-primary btn-lg">
+          Available Fonts →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ STATS ═══════════════════════════════════════ -->
+  <section class="page-section" style="padding-top:0; padding-bottom:0;">
+    <div class="stats-row reveal">
+      {stats.map(s => (
+        <div class="stat-item">
+          <div class="stat-number">{s.n}</div>
+          <div class="stat-label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ THE GAP ═══════════════════════════════════════ -->
+  <section class="page-section">
+    <div class="section-eyebrow reveal">The Typography Gap</div>
+    <h2 class="section-heading reveal">A crisis hiding in plain sight.</h2>
+    <p class="section-sub reveal" style="max-width:600px;">
+      Latin script has thousands of typeface families. Tibetan has perhaps fifteen digital fonts of acceptable quality.
+      Of those, not one was designed with a child, a heritage learner, or a mobile developer in mind.
+    </p>
+
+    <div class="gap-grid reveal">
+
+      <div class="gap-card">
+        <div class="gap-icon">📚</div>
+        <h3>Children learn with the wrong tools</h3>
+        <p>
+          Tibetan school textbooks use fonts designed for monks and scholars — dense, intricate, unforgiving.
+          A child encountering the script for the first time faces a wall of complexity that students of
+          Latin or Cyrillic will never experience. The font itself becomes a barrier to literacy.
+        </p>
+      </div>
+
+      <div class="gap-card">
+        <div class="gap-icon">🌍</div>
+        <h3>The diaspora is losing the script</h3>
+        <p>
+          Second and third-generation Tibetan exiles speak the language fluently but cannot read or write it.
+          When we asked why, we heard the same answer again and again: <em>"The writing looked too hard.
+          The letters were too complicated. I gave up."</em> The problem is not ability — it's the fonts.
+        </p>
+      </div>
+
+      <div class="gap-card">
+        <div class="gap-icon">💻</div>
+        <h3>Developers have nowhere to turn</h3>
+        <p>
+          A developer building a Tibetan education app has one real option for a body font, and zero options
+          for a sans-serif that renders cleanly at small sizes on screen. So Tibetan apps don't get built.
+          Tibetan content stays off the platforms where the next generation actually lives.
+        </p>
+      </div>
+
+      <div class="gap-card">
+        <div class="gap-icon">✍️</div>
+        <h3>Existing fonts were not designed — they were digitised</h3>
+        <p>
+          Most available Tibetan fonts are digital tracings of hand-drawn letterforms from the 1990s.
+          They were never designed for screen rendering, variable weight, or multilingual typesetting.
+          They clip at small sizes, break on mobile, and sit poorly alongside Latin text.
+          They were good enough for the era they came from. That era is over.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin:0 auto;">
+
+  <!-- ═══════════════════════════════════════ THE FONTS ═══════════════════════════════════════ -->
+  <section class="page-section">
+    <div class="section-eyebrow reveal">What We Are Building</div>
+    <h2 class="section-heading reveal">Three fonts.<br>Three audiences no one else is serving.</h2>
+    <p class="section-sub reveal">
+      Each typeface is being developed from original calligraphic drawings with master calligrapher
+      Jamyang Dorjee, then refined for digital use by type designers fluent in both Tibetan script
+      tradition and modern OpenType engineering.
+    </p>
+
+    <div class="font-dev-list">
+      {inDevelopment.map((font, i) => (
+        <div class="font-dev-card reveal" style={`--accent-color: ${font.accent};`}>
+          <div class="font-dev-preview">
+            {font.image ? (
+              <img src={font.image} alt={font.imageAlt} class="font-dev-image" />
+            ) : (
+              <div class="font-dev-placeholder" style={`--card-accent: ${font.accent};`}></div>
+            )}
+            <div class="font-dev-status">In Development</div>
+          </div>
+          <div class="font-dev-info">
+            <div class="font-dev-number">0{i + 1}</div>
+            <h3 class="font-dev-name">{font.name}</h3>
+            <div class="font-dev-tagline">{font.tagline}</div>
+            <p class="font-dev-desc">{font.desc}</p>
+            <div class="font-dev-audience">
+              <span class="audience-label">For</span>
+              <span class="audience-value">{font.audience}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════ IN THE STUDIO ═══════════════════════════════════════ -->
+  <section class="page-section" style="padding-top:0; padding-bottom:0;">
+    <div class="studio-block reveal">
+      <div class="studio-image">
+        <img src="/images/hero.zW5XegNP_2pbEBd.webp" alt="Glyph construction — bezier curves and measurements for a Tibetan character in type design software" />
+      </div>
+      <div class="studio-text">
+        <div class="section-eyebrow">Work in Progress</div>
+        <h3>A single glyph,<br>hundreds of decisions.</h3>
+        <p>
+          Every curve, weight, and angle is deliberate. This is what type design actually looks like —
+          bezier paths, control points, and precise measurements for a single Tibetan character,
+          constructed from calligraphic drawings and refined digitally by hand.
+        </p>
+        <p>
+          Each of the hundreds of glyphs in a Tibetan typeface requires this level of care.
+          That is what your support makes possible.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin:0 auto;">
+
+  <!-- ═══════════════════════════════════════ THE TEAM ═══════════════════════════════════════ -->
+  <section class="page-section">
+    <div class="section-eyebrow reveal">The People Behind the Work</div>
+    <h2 class="section-heading reveal">Made with master<br>calligraphers, not algorithms.</h2>
+
+    <div class="team-prose reveal">
+      <p>
+        Terma Foundry was founded by <strong>Thupten Chakrishar</strong> — a technologist who started
+        this project six years ago wanting his children to love their language, and found the fonts to
+        do that simply didn't exist.
+      </p>
+      <p>
+        At the calligraphic core is his father, <strong>Jamyang Dorjee</strong> — a renowned master
+        whose decades of practice carry deep cultural wisdom and meticulous craftsmanship. Alongside him,
+        <strong>Tibetan linguists and educators</strong> review every design decision against the lived
+        reality of teaching and learning the script today — ensuring each font actually serves the people
+        who need it most.
+      </p>
+      <p>
+        Completing the foundry are the specialists that turning calligraphy into a working typeface
+        demands: <strong>type designers</strong> who translate hand-drawn letterforms into precise digital
+        outlines, <strong>font engineers</strong> who build the OpenType features, hinting, and kerning
+        that make a font render correctly at every size on every platform, and
+        <strong>Unicode specialists</strong> who ensure full script coverage and standards compliance.
+      </p>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin:0 auto;">
+
+  <!-- ═══════════════════════════════════════ IMPACT ═══════════════════════════════════════ -->
+  <section class="page-section">
+    <div class="section-eyebrow reveal">Why This Matters</div>
+    <h2 class="section-heading reveal">When these fonts exist,<br>everything becomes possible.</h2>
+
+    <div class="impact-grid reveal">
+      <div class="impact-item">
+        <div class="impact-icon">👧</div>
+        <h4>Children read with fonts made for them</h4>
+        <p>Tibetan school textbooks, storybooks, and digital learning tools built with letterforms
+        a child can actually befriend.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🏔️</div>
+        <h4>Diaspora learners don't give up</h4>
+        <p>Heritage language programmes, Tibetan apps, and community materials that feel
+        welcoming instead of forbidding.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">📱</div>
+        <h4>Tibetan belongs on every screen</h4>
+        <p>Developers can build the apps that don't exist. Tibetan text on phones, operating
+        systems, and interfaces — actually looking right.</p>
+      </div>
+      <div class="impact-item">
+        <div class="impact-icon">🔓</div>
+        <h4>Free forever</h4>
+        <p>Every font we produce is released under an open-source license — free to use,
+        modify, and redistribute, for every person and institution on earth, permanently.</p>
       </div>
     </div>
 
-
-    <br>
-
-    <h2 class="font-bold  text-gray-800 text-left">Terma Serif Font</h2>
-    <div class="grid min-h-[140px] w-full place-items-center shadow-md overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
-      <div class="flex gap-8">
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500">
-          </path>
-        </svg>
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="text-red-500">
-          </path>
-        </svg>
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
-            class="text-green-500"></path>
-        </svg>
-       
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="text-pink-500">
-          </path>
-          <h2 class="text-gray-800 text-left">Support the project and help make this font</h2>
-
-        </svg>
-      </div>
+    <div class="quote-block reveal">
+      <blockquote>
+        "We envision a world where Tibetan script isn't just preserved — it thrives.
+        Where Tibetan appears boldly on book covers, video game screens, and classroom whiteboards."
+      </blockquote>
+      <cite>— Terma Foundry Mission Statement</cite>
     </div>
+  </section>
 
-    <br>
-
-    <h2 class="font-bold  text-gray-800 text-left">Terma Child-Friendly Font</h2>
-    <div class="grid min-h-[140px] w-full place-items-center shadow-md overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
-      <div class="flex gap-8">
-       
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
-            class="text-indigo-500"></path>
-        </svg>
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
-            class="text-purple-500"></path>
-        </svg>
-        <svg class="text-gray-300 animate-spin" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-          width="24" height="24">
-          <path
-            d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.7501 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.2075 20.9022C6.66489 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80099 17.3838 6.66487 20.9022 5.20749C24.4206 3.7501 28.1917 3 32 3L32 3Z"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
-          <path
-            d="M32 3C36.5778 3 41.0906 4.08374 45.1692 6.16256C49.2477 8.24138 52.7762 11.2562 55.466 14.9605C58.1558 18.6647 59.9304 22.9531 60.6448 27.4748C61.3591 31.9965 60.9928 36.6232 59.5759 40.9762"
-            stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="text-pink-500">
-          </path>
-          <h2 class="text-gray-800 text-left">Support the project and help make this font</h2>
-
-        </svg>
+  <!-- ═══════════════════════════════════════ SUPPORT CTA ═══════════════════════════════════════ -->
+  <section class="support-section">
+    <div class="support-inner">
+      <div class="support-tibetan reveal" lang="bo">
+        <span class="tr-jomolhari tr-guard tr-shimmer tr-guard-lg">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span>
       </div>
+
+      <h2 class="support-heading reveal">Help us finish what we've started.</h2>
+      <p class="support-sub reveal">
+        Creating original Tibetan typefaces is painstaking work. A single font family takes 12–18 months
+        of calligraphic drawing, digitisation, hinting, and testing. We are committed to releasing
+        all three fonts freely — but we need resources to get there.
+      </p>
+
+      <div class="support-what reveal">
+        <h3>What your support enables</h3>
+        <ul>
+          <li>Calligrapher studio time and character drawing sessions</li>
+          <li>Type engineering: digitisation, hinting, OpenType feature development</li>
+          <li>Testing across platforms: Windows, macOS, iOS, Android, web browsers</li>
+          <li>Unicode compliance review and submission</li>
+          <li>Long-term hosting and open-source maintenance — forever</li>
+        </ul>
+      </div>
+
+      <div class="support-ctas reveal">
+        <a href="https://www.gofundme.com/f/termafonts" target="_blank" rel="noopener" class="btn btn-primary btn-xl">
+          Support on GoFundMe
+        </a>
+        <a href="mailto:termastudios@gmail.com" class="btn btn-outline btn-xl">
+          Get in Touch
+        </a>
+      </div>
+
+      <p class="support-note reveal">
+        Grant enquiries welcome. We are happy to provide detailed project documentation,
+        timelines, and budgets for institutional funders.
+        <a href="/fonts/proposal">Read the full technical proposal →</a> &nbsp;·&nbsp;
+        <a href="mailto:termastudios@gmail.com">termastudios@gmail.com</a>
+      </p>
     </div>
+  </section>
 
+  <!-- ═══════════════════════════════════════ AVAILABLE FONTS LINK ═══════════════════════════════════════ -->
+  <section class="page-section" style="padding-top:4rem; padding-bottom:5rem;">
+    <div class="library-banner reveal">
+      <div class="library-banner-text">
+        <h3>Already hosting five open-source fonts</h3>
+        <p>While we build the original typefaces, we package, self-host, and web-optimise
+        five existing open-source Tibetan fonts — ready to drop into any project via termaUI CSS.</p>
+      </div>
+      <a href="/fonts/library" class="btn btn-outline" style="white-space:nowrap;">
+        View Available Fonts →
+      </a>
+    </div>
+  </section>
 
+</FontsBase>
 
-    <br>
-    
-  </Container>
+<style>
+  /* ── Hero ── */
+  .fonts-hero {
+    min-height: 88vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 8rem 2rem 6rem;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(251,191,36,0.07) 0%, transparent 70%);
+    text-align: center;
+  }
+  .fonts-hero-inner { max-width: 760px; }
 
+  .hero-tibetan { margin-bottom: 2rem; text-align: center; width: 100%; }
+  .hero-tibetan span { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.8; display: inline-block; }
 
-</Layout>
+  .fonts-hero-heading {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 800; letter-spacing: -.04em; line-height: 1.1;
+    color: var(--text); margin-bottom: 1.5rem;
+  }
+  .fonts-hero-sub {
+    font-size: 1.08rem; color: var(--text2); line-height: 1.85;
+    max-width: 600px; margin: 0 auto 2.5rem;
+  }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
+  .btn-lg { padding: .75rem 1.8rem; font-size: .95rem; }
+  .btn-xl { padding: .85rem 2.2rem; font-size: 1rem; }
 
+  /* ── Stats ── */
+  .stats-row {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+    margin-top: 0;
+  }
+  .stat-item {
+    background: var(--surface); padding: 2.5rem 2rem; text-align: center;
+  }
+  .stat-number {
+    font-size: clamp(2rem, 4vw, 2.8rem); font-weight: 800;
+    letter-spacing: -.04em; color: var(--gold); margin-bottom: .35rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: .78rem; color: var(--muted); line-height: 1.4; text-transform: uppercase;
+    letter-spacing: .06em; font-weight: 500;
+  }
 
+  /* ── Gap cards ── */
+  .gap-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+  }
+  /* removed gap-card-wide — all 4 cards now fill a clean 2x2 grid */
+  .gap-card {
+    background: var(--surface); padding: 2.5rem 2.25rem;
+    transition: background .2s;
+  }
+  .gap-card:hover { background: var(--surface2); }
+  .gap-card-wide { grid-column: 1 / -1; }
+  .gap-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+  .gap-card h3 {
+    font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: .6rem;
+  }
+  .gap-card p {
+    font-size: .88rem; color: var(--muted); line-height: 1.8;
+  }
+  .gap-card p em { color: var(--text2); font-style: italic; }
+
+  /* ── Font dev cards ── */
+  .font-dev-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+
+  .font-dev-card {
+    display: grid; grid-template-columns: 1fr 2fr;
+    background: var(--surface); transition: background .2s;
+    border-left: 3px solid var(--accent-color, var(--border2));
+  }
+  .font-dev-card:hover { background: var(--surface2); }
+
+  .font-dev-preview {
+    padding: 3rem 2.5rem;
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: flex-start;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.015);
+  }
+  .font-dev-placeholder {
+    flex: 1; min-height: 120px;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, color-mix(in srgb, var(--card-accent, var(--accent)) 10%, transparent), transparent);
+    border-radius: 8px;
+  }
+  .font-dev-image {
+    width: 100%; height: auto; border-radius: 8px;
+    object-fit: contain; background: #fff;
+    padding: 1rem; box-sizing: border-box;
+  }
+  .font-dev-status {
+    font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--muted); background: rgba(148,163,184,0.06);
+    border: 1px solid var(--border); border-radius: 3px;
+    padding: .2em .6em;
+  }
+
+  .font-dev-info { padding: 3rem 2.5rem; }
+  .font-dev-number {
+    font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent-color, var(--accent)); margin-bottom: .5rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .font-dev-name { font-size: 1.6rem; font-weight: 800; color: var(--text); margin-bottom: .35rem; letter-spacing: -.03em; }
+  .font-dev-tagline { font-size: .83rem; color: var(--accent-color, var(--accent)); margin-bottom: 1rem; font-weight: 500; }
+  .font-dev-desc { font-size: .9rem; color: var(--text2); line-height: 1.8; margin-bottom: 1.25rem; }
+  .font-dev-audience { display: flex; gap: .5rem; align-items: baseline; }
+  .audience-label { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .audience-value { font-size: .8rem; color: var(--muted); }
+
+  /* ── In the Studio ── */
+  .studio-block {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    margin: 4rem 0;
+  }
+  .studio-image {
+    background: #0a0e1a;
+    display: flex; align-items: center; justify-content: center;
+    padding: 2rem;
+  }
+  .studio-image img {
+    width: 100%; height: auto; max-height: 480px;
+    object-fit: contain; border-radius: 6px;
+  }
+  .studio-text {
+    background: var(--surface); padding: 3.5rem 3rem;
+    display: flex; flex-direction: column; justify-content: center; gap: 1rem;
+  }
+  .studio-text h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800;
+    letter-spacing: -.03em; line-height: 1.2; color: var(--text);
+  }
+  .studio-text p { font-size: .92rem; color: var(--text2); line-height: 1.85; }
+
+  /* ── Team prose ── */
+  .team-prose {
+    max-width: 760px;
+    display: flex; flex-direction: column; gap: 1.25rem;
+  }
+  .team-prose p {
+    font-size: 1rem; color: var(--text2); line-height: 1.9;
+  }
+  .team-prose strong { color: var(--text); font-weight: 600; }
+  .team-prose-cta { margin-top: .75rem; }
+
+  /* ── Impact ── */
+  .impact-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--border); border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden; margin-bottom: 3rem;
+  }
+  .impact-item {
+    background: var(--surface); padding: 2rem 1.75rem;
+    transition: background .2s;
+  }
+  .impact-item:hover { background: var(--surface2); }
+  .impact-icon { font-size: 1.5rem; margin-bottom: .9rem; }
+  .impact-item h4 { font-size: .92rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; line-height: 1.4; }
+  .impact-item p { font-size: .82rem; color: var(--muted); line-height: 1.75; }
+
+  .quote-block {
+    border-left: 3px solid var(--gold);
+    padding: 1.75rem 2rem;
+    background: rgba(251,191,36,0.04);
+    border-radius: 0 12px 12px 0;
+  }
+  .quote-block blockquote {
+    font-size: 1.1rem; color: var(--text); line-height: 1.7;
+    font-style: italic; margin-bottom: .6rem;
+  }
+  .quote-block cite { font-size: .78rem; color: var(--muted); font-style: normal; }
+
+  /* ── Support section ── */
+  .support-section {
+    background: linear-gradient(180deg, transparent 0%, rgba(251,191,36,0.04) 40%, rgba(56,189,248,0.04) 100%);
+    border-top: 1px solid var(--border);
+    padding: 7rem 2rem;
+    text-align: center;
+  }
+  .support-inner { max-width: 700px; margin: 0 auto; }
+
+  .support-tibetan { margin-bottom: 2rem; }
+  .support-tibetan span { font-size: clamp(2rem, 6vw, 4rem); line-height: 2; }
+
+  .support-heading {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800; letter-spacing: -.04em; line-height: 1.15;
+    color: var(--text); margin-bottom: 1.25rem;
+  }
+  .support-sub { font-size: .97rem; color: var(--text2); line-height: 1.85; margin-bottom: 2.5rem; }
+
+  .support-what {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 2rem 2.5rem;
+    text-align: left; margin-bottom: 2.5rem;
+  }
+  .support-what h3 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 1rem; }
+  .support-what ul { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+  .support-what li {
+    font-size: .9rem; color: var(--text2); padding-left: 1.5rem; position: relative; line-height: 1.6;
+  }
+  .support-what li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-size: .85rem; }
+
+  .support-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .support-note { font-size: .82rem; color: var(--muted); }
+  .support-note a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ── Library banner ── */
+  .library-banner {
+    display: flex; align-items: center; gap: 3rem; flex-wrap: wrap;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2.5rem;
+    border-left: 4px solid var(--accent);
+  }
+  .library-banner-text { flex: 1; min-width: 240px; }
+  .library-banner-text h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+  .library-banner-text p { font-size: .88rem; color: var(--muted); line-height: 1.75; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .gap-grid { grid-template-columns: 1fr; }
+    .font-dev-card { grid-template-columns: 1fr; }
+    .font-dev-preview { border-right: none; border-bottom: 1px solid var(--border); }
+    .studio-block { grid-template-columns: 1fr; }
+    .impact-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .impact-grid { grid-template-columns: 1fr; }
+    .hero-ctas { flex-direction: column; align-items: center; }
+    .support-ctas { flex-direction: column; align-items: center; }
+    .library-banner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+  }
+</style>

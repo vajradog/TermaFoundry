@@ -1,0 +1,83 @@
+---
+import SiteLayout from './SiteLayout.astro';
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'Why Tibetan typography needs a new generation of typefaces — and how you can help us build them.' } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<SiteLayout title={title} description={description}>
+
+  <!-- Fonts sub-nav -->
+  <div class="fonts-subnav">
+    <div class="fonts-subnav-inner">
+      <span class="fonts-brand-tag">◈ Fonts</span>
+      <div class="fonts-subnav-links">
+        <a href="/fonts" class={`fonts-subnav-link ${currentPath === '/fonts' || currentPath === '/fonts/' ? 'fsn-active' : ''}`}>Overview</a>
+        <a href="/fonts/library" class={`fonts-subnav-link ${currentPath.startsWith('/fonts/library') ? 'fsn-active' : ''}`}>Available Fonts</a>
+        <a href="/fonts/proposal" class={`fonts-subnav-link ${currentPath.startsWith('/fonts/proposal') ? 'fsn-active' : ''}`}>Technical Proposal</a>
+      </div>
+      <a href="https://www.gofundme.com/f/termafonts" target="_blank" rel="noopener" class="fonts-subnav-ext">Support ↗</a>
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <slot />
+
+</SiteLayout>
+
+<style is:global>
+  /* ── Fonts sub-nav ── */
+  .fonts-subnav {
+    position: sticky;
+    top: 60px;
+    z-index: 150;
+    background: rgba(15,23,42,0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(148,163,184,0.08);
+  }
+  .fonts-subnav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .fonts-brand-tag {
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--gold, #fbbf24);
+    letter-spacing: -.01em;
+    flex-shrink: 0;
+  }
+  .fonts-subnav-links { display: flex; gap: .15rem; }
+  .fonts-subnav-link {
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--text2);
+    padding: .25rem .65rem;
+    border-radius: 5px;
+    transition: color .15s, background .15s;
+    text-decoration: none;
+  }
+  .fonts-subnav-link:hover { color: var(--text); background: rgba(148,163,184,0.06); }
+  .fonts-subnav-link.fsn-active { color: var(--text); background: rgba(148,163,184,0.08); }
+  .fonts-subnav-ext {
+    margin-left: auto;
+    font-size: .75rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color .15s;
+    text-decoration: none;
+  }
+  .fonts-subnav-ext:hover { color: var(--text2); }
+
+  @media (max-width: 900px) {
+    .fonts-subnav-ext { display: none; }
+  }
+</style>

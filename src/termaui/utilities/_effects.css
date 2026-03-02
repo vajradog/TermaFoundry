@@ -1,0 +1,230 @@
+/* ==========================================================================
+   termaUI -- Visual effect utilities
+   Gradient text, glows, outlines, and glass effects for Tibetan script.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   GRADIENT TEXT EFFECTS
+   Uses background-clip: text. Note: text-shadow does NOT work with
+   background-clip: text -- use the pseudo-element workaround (see glow).
+   --------------------------------------------------------------------------- */
+
+.tr-text-rainbow {
+  background: linear-gradient(
+    90deg,
+    #e63946 0%,
+    #f4a261 16%,
+    #e9c46a 32%,
+    #2a9d8f 48%,
+    #264653 64%,
+    #6a4c93 80%,
+    #e63946 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.tr-text-saffron {
+  background: linear-gradient(
+    90deg,
+    #e65100 0%,
+    #ff8f00 40%,
+    #ffd54f 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.tr-text-ink {
+  background: linear-gradient(
+    180deg,
+    #4a4a4a 0%,
+    #1a1a1a 60%,
+    #000000 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------------------------
+   GLOW EFFECTS
+   Pulsing aurora glow with @keyframes.
+   When combining with gradient text, add data-text="..." to the HTML element
+   so the pseudo-element can render the shadow behind the gradient.
+   --------------------------------------------------------------------------- */
+
+.tr-glow-aurora {
+  position: relative;
+  text-shadow:
+    0 0 10px rgba(42, 157, 143, 0.6),
+    0 0 20px rgba(42, 157, 143, 0.4),
+    0 0 40px rgba(42, 157, 143, 0.2);
+  animation: tr-aurora-pulse 3s ease-in-out infinite;
+}
+
+@keyframes tr-aurora-pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(42, 157, 143, 0.6),
+      0 0 20px rgba(42, 157, 143, 0.4),
+      0 0 40px rgba(42, 157, 143, 0.2);
+  }
+  50% {
+    text-shadow:
+      0 0 15px rgba(42, 157, 143, 0.8),
+      0 0 30px rgba(42, 157, 143, 0.5),
+      0 0 60px rgba(42, 157, 143, 0.3),
+      0 0 80px rgba(106, 76, 147, 0.2);
+  }
+}
+
+/* Pseudo-element workaround for gradient + glow combo.
+   Usage: <h1 class="tr-text-rainbow tr-glow-aurora" data-text="...">...</h1> */
+.tr-glow-aurora[data-text]::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow:
+    0 0 10px rgba(42, 157, 143, 0.6),
+    0 0 20px rgba(42, 157, 143, 0.4),
+    0 0 40px rgba(42, 157, 143, 0.2);
+  animation: tr-aurora-pulse 3s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------------------
+   OUTLINE EFFECTS
+   --------------------------------------------------------------------------- */
+
+.tr-outline-gold {
+  -webkit-text-stroke: 1px #c9a84c;
+  color: transparent;
+}
+
+.tr-outline-gold-fill {
+  -webkit-text-stroke: 1px #c9a84c;
+  color: #1a1a1a;
+}
+
+/* ---------------------------------------------------------------------------
+   GLASS / FROSTED EFFECTS
+   --------------------------------------------------------------------------- */
+
+.tr-glass {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  padding: 1em 1.5em;
+}
+
+.tr-glass-dark {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1em 1.5em;
+}
+
+/* ---------------------------------------------------------------------------
+   SHIMMER EFFECT
+   Animated metallic gold sweep. Bright highlight travels left to right.
+   --------------------------------------------------------------------------- */
+
+.tr-shimmer {
+  background: linear-gradient(
+    90deg,
+    #92700a 0%,
+    #c9a84c 20%,
+    #fef9c3 42%,
+    #ffd700 50%,
+    #fef9c3 58%,
+    #c9a84c 80%,
+    #92700a 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: tr-shimmer-sweep 3s ease-in-out infinite alternate;
+}
+
+@keyframes tr-shimmer-sweep {
+  from { background-position: 0% center; }
+  to   { background-position: 100% center; }
+}
+
+/* ---------------------------------------------------------------------------
+   FIRE TEXT
+   Bottom-to-top flame gradient from deep ember to bright gold tip.
+   --------------------------------------------------------------------------- */
+
+.tr-text-fire {
+  background: linear-gradient(
+    0deg,
+    #7f1d1d 0%,
+    #dc2626 28%,
+    #ea580c 52%,
+    #f97316 72%,
+    #fbbf24 88%,
+    #fef08a 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: tr-fire-flicker 2.2s ease-in-out infinite;
+}
+
+@keyframes tr-fire-flicker {
+  0%, 100% { filter: brightness(1); }
+  28%      { filter: brightness(1.13); }
+  55%      { filter: brightness(0.95); }
+  80%      { filter: brightness(1.09); }
+}
+
+/* ---------------------------------------------------------------------------
+   LAPIS LAZULI TEXT
+   Deep ultramarine gradient echoing the sacred pigment of Tibetan thangka.
+   --------------------------------------------------------------------------- */
+
+.tr-text-lapis {
+  background: linear-gradient(
+    135deg,
+    #1e3a8a 0%,
+    #1d4ed8 35%,
+    #3b82f6 65%,
+    #93c5fd 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------------------------
+   EMBOSS / CARVED STONE
+   Multi-layer text-shadow simulating script carved from above by directional light.
+   Does not use background-clip -- text-shadow works fully here.
+   --------------------------------------------------------------------------- */
+
+.tr-emboss {
+  color: #c2a46e;
+  text-shadow:
+    0 -1px 0 rgba(255, 245, 200, 0.55),
+    0  1px 2px rgba(0, 0, 0, 0.85),
+    1px 1px 3px rgba(0, 0, 0, 0.60),
+    0 0 10px rgba(200, 175, 120, 0.10);
+}

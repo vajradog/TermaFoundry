@@ -1,0 +1,1421 @@
+﻿---
+import Docs from '../../../layouts/TeruiDocs.astro';
+---
+
+<Docs title="Documentation — termaUI">
+
+  <p class="docs-funding-notice">termaUI is currently a working prototype. We are actively seeking funding to bring it to full production.</p>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       INSTALLATION
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="installation">
+    <h2>Installation</h2>
+    <p>
+      Add termaUI to your project in one line. Fonts are bundled — no extra config needed.
+    </p>
+
+    <h3>CDN (fastest)</h3>
+    <p>Drop this into your <code>&lt;head&gt;</code>:</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/termaui.min.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"</span><span class="tag">&gt;&lt;/script&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <h3>npm</h3>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">Terminal</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>npm install termaui</code></pre>
+      </div>
+    </div>
+    <p>Then import in your CSS or JS entry point:</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">CSS</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">/* In your main CSS file */</span>
+@import 'termaui/dist/termaui.css';</code></pre>
+      </div>
+    </div>
+
+    <h3>Download</h3>
+    <p>
+      Grab <code>termaui.css</code> directly and include it in your project.
+      The file is self-contained — fonts are loaded via <code>@font-face</code> from bundled WOFF2 files.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       FRAMEWORK GUIDES
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="framework-guides">
+    <h2>Framework Guides</h2>
+    <p>
+      termaUI is framework-agnostic. It's a CSS file plus an optional JS utility — it works in any environment that renders HTML.
+    </p>
+
+    <!-- Tailwind / compatibility callout -->
+    <div class="compat-callout">
+      <div class="compat-callout-title">✓ Works alongside Tailwind CSS, Bootstrap, and any other CSS framework</div>
+      <p>Every termaUI class uses a <code>tr-</code> prefix. There are no naming conflicts with Tailwind, Bootstrap, or any other utility framework. Just load both stylesheets and combine classes freely on the same element.</p>
+      <div class="code-block" style="margin-top:.75rem;">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML — termaUI + Tailwind together</span>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- Tailwind classes and termaUI tr-* classes coexist on the same element --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"p-4 rounded-xl bg-slate-900 <span class="hl">tr-glass</span>"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"text-sm text-slate-400 <span class="hl">tr-jomolhari tr-guard tr-text-rainbow</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+    བཀྲ་ཤིས་བདེ་ལེགས།
+  <span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <!-- Vanilla HTML -->
+    <h3>Vanilla HTML</h3>
+    <p>Drop the CDN link and optional script into your <code>&lt;head&gt;</code>. No build step needed.</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;head&gt;</span>
+  <span class="cmt">&lt;!-- 1. CSS --&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/termaui.min.css"</span><span class="tag">&gt;</span>
+  <span class="cmt">&lt;!-- 2. terma.js (required for correct line breaking) --&gt;</span>
+  <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;script&gt;</span>
+    document.addEventListener('DOMContentLoaded', () =&gt; terma.prepareAll());
+  <span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;/body&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <!-- Next.js App Router -->
+    <h3>Next.js (App Router)</h3>
+    <p>Import the CSS in your root layout. <code>terma.prepareAll()</code> needs DOM access, so run it in a <code>'use client'</code> component inside <code>useEffect</code>.</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">Terminal</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>npm install termaui</code></pre>
+      </div>
+    </div>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">app/layout.tsx — import CSS here</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>import <span class="str">'termaui/dist/termaui.css'</span>;
+<span class="cmt">// rest of your layout...</span></code></pre>
+      </div>
+    </div>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">app/TibetanInit.tsx — Client Component for terma.js</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="str">'use client'</span>;
+import &#123; useEffect &#125; from <span class="str">'react'</span>;
+import terma from <span class="str">'termaui'</span>;
+
+export function TibetanInit() &#123;
+  useEffect(() =&gt; &#123;
+    terma.prepareAll();
+  &#125;, []);
+  return null;
+&#125;</code></pre>
+      </div>
+    </div>
+    <div class="fw-note">Add <code>&lt;TibetanInit /&gt;</code> inside the <code>&lt;body&gt;</code> of your root layout. It renders nothing — it just runs <code>terma.prepareAll()</code> on mount and after each navigation.</div>
+
+    <!-- Next.js Pages Router -->
+    <h3>Next.js (Pages Router)</h3>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">pages/_app.tsx</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>import <span class="str">'termaui/dist/termaui.css'</span>;
+import &#123; useEffect &#125; from <span class="str">'react'</span>;
+import &#123; useRouter &#125; from <span class="str">'next/router'</span>;
+import terma from <span class="str">'termaui'</span>;
+
+export default function App(&#123; Component, pageProps &#125;) &#123;
+  const router = useRouter();
+  useEffect(() =&gt; &#123;
+    terma.prepareAll();
+    router.events.on(<span class="str">'routeChangeComplete'</span>, () =&gt; terma.prepareAll());
+    return () =&gt; router.events.off(<span class="str">'routeChangeComplete'</span>, () =&gt; terma.prepareAll());
+  &#125;, [router]);
+  return <span class="tag">&lt;Component</span> &#123;...pageProps&#125; <span class="tag">/&gt;</span>;
+&#125;</code></pre>
+      </div>
+    </div>
+
+    <!-- Astro -->
+    <h3>Astro</h3>
+    <p>Import the CSS in your base layout's frontmatter. Call <code>terma.prepareAll()</code> in a client <code>&lt;script&gt;</code> — Astro bundles it automatically.</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">src/layouts/BaseLayout.astro (npm)</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>---
+import <span class="str">'termaui/dist/termaui.css'</span>;
+---
+<span class="tag">&lt;html&gt;&lt;body&gt;</span>
+  <span class="tag">&lt;slot /&gt;</span>
+  <span class="tag">&lt;script&gt;</span>
+    import terma from <span class="str">'termaui'</span>;
+    terma.prepareAll();
+  <span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;/body&gt;&lt;/html&gt;</span></code></pre>
+      </div>
+    </div>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">src/layouts/BaseLayout.astro (CDN — no npm needed)</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/termaui.min.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"</span> <span class="attr">is:inline</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">is:inline</span><span class="tag">&gt;</span>
+  document.addEventListener('astro:page-load', () =&gt; terma.prepareAll());
+<span class="tag">&lt;/script&gt;</span></code></pre>
+      </div>
+    </div>
+    <div class="fw-note">Use <code>astro:page-load</code> (not <code>DOMContentLoaded</code>) when View Transitions are enabled — it fires after every client-side navigation.</div>
+
+    <!-- Vite React -->
+    <h3>Vite + React</h3>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">src/main.jsx — import CSS once at the entry point</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>import <span class="str">'termaui/dist/termaui.css'</span>;
+<span class="cmt">// rest of your entry point...</span></code></pre>
+      </div>
+    </div>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">Call terma.prepareAll() in a root useEffect</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>import &#123; useEffect &#125; from <span class="str">'react'</span>;
+import terma from <span class="str">'termaui'</span>;
+
+export default function App() &#123;
+  useEffect(() =&gt; &#123;
+    terma.prepareAll();
+  &#125;, []);
+  <span class="cmt">// ...your JSX</span>
+&#125;</code></pre>
+      </div>
+    </div>
+
+    <!-- Vite Vue -->
+    <h3>Vite + Vue</h3>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">src/main.ts — import CSS once</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>import <span class="str">'termaui/dist/termaui.css'</span>;
+import &#123; createApp &#125; from <span class="str">'vue'</span>;
+<span class="cmt">// rest of your entry point...</span></code></pre>
+      </div>
+    </div>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">Root component — call terma.prepareAll() in onMounted</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;script</span> <span class="attr">setup</span><span class="tag">&gt;</span>
+import &#123; onMounted &#125; from <span class="str">'vue'</span>;
+import terma from <span class="str">'termaui'</span>;
+onMounted(() =&gt; &#123;
+  terma.prepareAll();
+&#125;);
+<span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;template&gt;</span><span class="tag">&lt;slot /&gt;</span><span class="tag">&lt;/template&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <!-- SvelteKit -->
+    <h3>SvelteKit</h3>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">src/routes/+layout.svelte</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;script&gt;</span>
+  import <span class="str">'termaui/dist/termaui.css'</span>;
+  import &#123; onMount &#125; from <span class="str">'svelte'</span>;
+  import terma from <span class="str">'termaui'</span>;
+  onMount(() =&gt; &#123;
+    terma.prepareAll();
+  &#125;);
+<span class="tag">&lt;/script&gt;</span>
+<span class="tag">&lt;slot /&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       QUICK START
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="quick-start">
+    <h2>Quick Start</h2>
+    <p>
+      Three things to render Tibetan properly: the stylesheet, <code>lang="bo"</code> on your element, and the classes you need.
+    </p>
+
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- 1. Add the stylesheet --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"termaui.css"</span><span class="tag">&gt;</span>
+
+<span class="cmt">&lt;!-- 2. Use lang="bo" + termaUI classes --&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-jomolhari tr-guard</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <h3>Why <code>lang="bo"</code>?</h3>
+    <p>
+      termaUI uses the <code>:lang(bo)</code> selector to apply sensible defaults — font family, line-height, word-breaking — to all Tibetan content. Always set <code>lang="bo"</code> on elements containing Tibetan text, or on a parent <code>&lt;div&gt;</code> wrapping them.
+    </p>
+    <p>
+      The base reset provides: <code>font-family: Jomolhari</code>, <code>line-height: 1.8</code>, <code>word-break: keep-all</code>, <code>overflow-wrap: anywhere</code>, and <code>font-size: 1.1em</code>. These kick in automatically with <code>lang="bo"</code>.
+    </p>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       FONTS
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="tr-jomolhari">
+    <h2>Fonts</h2>
+    <p>
+      Six font-stack classes for different Tibetan typographic styles. Each class sets <code>font-family</code> with appropriate fallbacks. All fonts are bundled as WOFF2.
+    </p>
+
+    <!-- .tr-jomolhari -->
+    <h3><code>.tr-jomolhari</code></h3>
+    <p>Traditional Uchen script — the most widely used Tibetan typeface for body text, religious texts, and formal writing. Powered by Jomolhari.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-jomolhari</span>
+        <span class="class-ref-meta">Jomolhari → Noto Serif Tibetan → serif</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-jomolhari</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <!-- .tr-noto -->
+    <h3><code>.tr-noto</code></h3>
+    <p>Clean and even — Noto Serif Tibetan for modern digital use. Great for UI text and long-form reading on screens.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-noto</span>
+        <span class="class-ref-meta">Noto Serif Tibetan → Jomolhari → serif</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-noto tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-noto</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <!-- .tr-machine-uni -->
+    <h3><code>.tr-machine-uni</code></h3>
+    <p>Bold display face — Tibetan Machine Uni for headings, titles, and banners. Heavier strokes for visual impact.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-machine-uni</span>
+        <span class="class-ref-meta">Tibetan Machine Uni → Jomolhari → serif</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-machine-uni tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-machine-uni</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <!-- .tr-drutsa -->
+    <h3><code>.tr-drutsa</code></h3>
+    <p>Flowing Drutsa hand — Qomolangma-Drutsa for decorative and artistic use. The Tibetan equivalent of cursive/calligraphy.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-drutsa</span>
+        <span class="class-ref-meta">Qomolangma-Drutsa → Jomolhari → serif</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-drutsa tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-drutsa</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <!-- .tr-monlam -->
+    <h3><code>.tr-monlam</code></h3>
+    <p>Refined Monlam Bodyig for scholarly and literary contexts. Clean proportions with subtle elegance.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-monlam</span>
+        <span class="class-ref-meta">Monlam Bodyig → Noto Serif Tibetan → serif</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-monlam tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-monlam</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       EFFECTS
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="tr-text-rainbow">
+    <h2>Effects</h2>
+    <p>
+      Visual effects that work with Tibetan script — gradient text, glows, outlines, and glass panels. These use standard CSS techniques (<code>background-clip: text</code>, <code>text-shadow</code>, <code>backdrop-filter</code>) so they compose with any font class.
+    </p>
+
+    <!-- .tr-text-rainbow -->
+    <h3><code>.tr-text-rainbow</code></h3>
+    <p>Multi-color horizontal gradient across the text. Uses <code>background-clip: text</code>.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-text-rainbow</span>
+        <span class="class-ref-meta">Gradient text</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-text-rainbow" lang="bo" style="font-size:3rem;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-rainbow</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-text-saffron">
+    <!-- .tr-text-saffron -->
+    <h3><code>.tr-text-saffron</code></h3>
+    <p>Warm saffron-to-gold gradient inspired by monastic robes. Ideal for spiritual and ceremonial text.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-text-saffron</span>
+        <span class="class-ref-meta">Gradient text</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-text-saffron" lang="bo" style="font-size:3rem;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-saffron</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-text-ink">
+    <!-- .tr-text-ink -->
+    <h3><code>.tr-text-ink</code></h3>
+    <p>Subtle dark vertical gradient evoking traditional ink on paper. Best on light backgrounds.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-text-ink</span>
+        <span class="class-ref-meta">Gradient text</span>
+      </div>
+      <div class="class-ref-demo class-ref-demo-light">
+        <p class="tr-jomolhari tr-guard tr-text-ink" lang="bo" style="font-size:3rem;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- Use on a light background --&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-ink</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-glow-aurora">
+    <!-- .tr-glow-aurora -->
+    <h3><code>.tr-glow-aurora</code></h3>
+    <p>Pulsing teal aurora glow with <code>text-shadow</code> animation. Can be combined with gradient text using the <code>data-text</code> attribute.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-glow-aurora</span>
+        <span class="class-ref-meta">Animated glow</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-glow-aurora" lang="bo" style="font-size:3rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-glow-aurora</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/p&gt;</span>
+
+<span class="cmt">&lt;!-- Combine with gradient text: add data-text --&gt;</span>
+<span class="tag">&lt;h1</span> <span class="attr">class</span>=<span class="str">"tr-text-rainbow <span class="hl">tr-glow-aurora</span>"</span>
+    <span class="attr">data-text</span>=<span class="str">"བཀྲ་ཤིས་བདེ་ལེགས།"</span>
+    <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/h1&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-outline-gold">
+    <!-- .tr-outline-gold -->
+    <h3><code>.tr-outline-gold</code></h3>
+    <p>Gold stroke outline with transparent fill. Uses <code>-webkit-text-stroke</code>. For a filled version, use <code>.tr-outline-gold-fill</code>.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-outline-gold</span>
+        <span class="class-ref-meta">Text stroke</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-outline-gold" lang="bo" style="font-size:3rem;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-outline-gold</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/p&gt;</span>
+
+<span class="cmt">&lt;!-- Filled version (gold stroke + dark fill) --&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-outline-gold-fill</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-glass">
+    <!-- .tr-glass -->
+    <h3><code>.tr-glass</code></h3>
+    <p>Frosted glass panel with <code>backdrop-filter: blur</code>. Apply to a container, not text. Also available as <code>.tr-glass-dark</code> for darker backgrounds.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-glass</span>
+        <span class="class-ref-meta">Container effect</span>
+      </div>
+      <div class="class-ref-demo class-ref-demo-glass">
+        <div class="tr-glass" style="width:100%;">
+          <p class="tr-jomolhari tr-guard" lang="bo" style="font-size:2rem; color:#e2e8f0; margin:0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-glass</span>"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+    བཀྲ་ཤིས་བདེ་ལེགས།
+  <span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span>
+
+<span class="cmt">&lt;!-- Dark variant --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-glass-dark</span>"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-shimmer">
+    <!-- .tr-shimmer -->
+    <h3><code>.tr-shimmer</code></h3>
+    <p>Animated metallic gold sweep across text. A wide gold gradient animates left-to-right continuously, giving the glyphs a living shine. Uses <code>background-clip: text</code> and <code>@keyframes</code>.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-shimmer</span>
+        <span class="class-ref-meta">Animated gradient</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-shimmer" lang="bo" style="font-size:3rem;">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-shimmer</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-text-fire">
+    <!-- .tr-text-fire -->
+    <h3><code>.tr-text-fire</code></h3>
+    <p>Bottom-to-top flame gradient — deep crimson at the base rising through orange to bright gold at the tips. A subtle brightness flicker animation adds living fire. Uses <code>background-clip: text</code>.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-text-fire</span>
+        <span class="class-ref-meta">Animated gradient</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-text-fire" lang="bo" style="font-size:3rem;">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-fire</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-text-lapis">
+    <!-- .tr-text-lapis -->
+    <h3><code>.tr-text-lapis</code></h3>
+    <p>Deep ultramarine gradient echoing lapis lazuli — the sacred blue pigment ground from Himalayan stone and used in Tibetan thangka paintings for centuries. Uses <code>background-clip: text</code>.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-text-lapis</span>
+        <span class="class-ref-meta">Gradient text</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-text-lapis" lang="bo" style="font-size:3rem;">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-lapis</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-emboss">
+    <!-- .tr-emboss -->
+    <h3><code>.tr-emboss</code></h3>
+    <p>Carved-stone effect using multi-layer <code>text-shadow</code>. A light source from above creates a highlight on the upper edges and a deep shadow below, simulating script cut into warm sandstone. Unlike gradient effects, this uses <code>color</code> so <code>text-shadow</code> works natively.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-emboss</span>
+        <span class="class-ref-meta">text-shadow</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-emboss" lang="bo" style="font-size:3rem;">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-emboss</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       GUARDIAN
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="tr-guard">
+    <h2>Guardian Utilities</h2>
+    <p>
+      Tibetan script has tall vowel marks (གི, གུ, གེ) and stacked consonants that get clipped by tight layouts. Guardian utilities fix these rendering issues.
+    </p>
+
+    <!-- .tr-guard -->
+    <h3><code>.tr-guard</code></h3>
+    <p>Adds vertical padding (<code>padding-block: 0.25em</code>) to prevent clipping of vowel marks and stacked consonants. Use on every Tibetan text element. For extra-large text, use <code>.tr-guard-lg</code> (<code>0.5em</code>).</p>
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label bad">Without .tr-guard</div>
+        <div style="background:#0f172a; padding:0.5rem 1rem; border-radius:6px; overflow:hidden; line-height:1.2;">
+          <p class="tr-jomolhari" lang="bo" style="font-size:1.4rem; color:#e2e8f0; margin:0; line-height:1.2; padding:0;">རྒྱལ་བའི་བསྟན་པ་རིན་པོ་ཆེ།</p>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label good">With .tr-guard</div>
+        <div style="background:#0f172a; padding:0.5rem 1rem; border-radius:6px; overflow:hidden;">
+          <p class="tr-jomolhari tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0; margin:0;">རྒྱལ་བའི་བསྟན་པ་རིན་པོ་ཆེ།</p>
+        </div>
+      </div>
+    </div>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari <span class="hl">tr-guard</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>རྒྱལ་བའི་བསྟན་པ་རིན་པོ་ཆེ།<span class="tag">&lt;/p&gt;</span>
+
+<span class="cmt">&lt;!-- For headings / large text --&gt;</span>
+<span class="tag">&lt;h1</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari <span class="hl">tr-guard-lg</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/h1&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-overflow-safe">
+    <h3><code>.tr-overflow-safe</code></h3>
+    <p>Last-resort overflow protection for constrained containers. Prevents Tibetan text from spilling out of its box when no break opportunities exist.</p>
+    <p><strong>Important:</strong> this is <em>not</em> tsheg-aware line breaking. It uses <code>overflow-wrap: anywhere</code> which breaks at byte boundaries — potentially mid-syllable — as a fallback. For correct line-breaking at tsheg, use <code>terma.prepare()</code> from <code>terma.js</code>.</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-overflow-safe</span>"</span> <span class="attr">style</span>=<span class="str">"max-width: 300px"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+    བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ།
+  <span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-scale-up">
+    <!-- .tr-scale-up -->
+    <h3><code>.tr-scale-up</code></h3>
+    <p>Scales Tibetan text to <code>120%</code> to match the visual weight of surrounding English text. Use <code>.tr-scale-match</code> (<code>150%</code>) for headings or when Tibetan needs more presence.</p>
+    <div class="compare-row">
+      <div class="compare-col">
+        <div class="compare-label bad">Without scaling</div>
+        <p style="font-size:1rem; color:#94a3b8; line-height:1.8; margin:0;">
+          The mantra <span class="tr-jomolhari tr-guard" lang="bo" style="color:#e2e8f0;">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span> is sacred.
+        </p>
+      </div>
+      <div class="compare-col">
+        <div class="compare-label good">With .tr-scale-up</div>
+        <p style="font-size:1rem; color:#94a3b8; line-height:1.8; margin:0;">
+          The mantra <span class="tr-jomolhari tr-guard tr-scale-up tr-baseline" lang="bo" style="color:#e2e8f0;">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span> is sacred.
+        </p>
+      </div>
+    </div>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p&gt;</span>The mantra
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-scale-up</span> tr-baseline"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+    ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།
+  <span class="tag">&lt;/span&gt;</span> is sacred.
+<span class="tag">&lt;/p&gt;</span>
+
+<span class="cmt">&lt;!-- 150% for headings --&gt;</span>
+<span class="tag">&lt;h1&gt;</span><span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari <span class="hl">tr-scale-match</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/span&gt;&lt;/h1&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-baseline">
+    <!-- .tr-baseline -->
+    <h3><code>.tr-baseline</code></h3>
+    <p>Fixes vertical alignment when Tibetan appears inline with English. Sets <code>vertical-align: middle</code> and <code>line-height: 1.8</code>. Always pair with <code>.tr-scale-up</code> for inline use.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-baseline</span>
+        <span class="class-ref-meta">Vertical alignment fix</span>
+      </div>
+      <div class="class-ref-demo">
+        <p style="font-size:1rem; color:#94a3b8; line-height:1.8; margin:0;">
+          In Tibetan, "hello" is <span class="tr-jomolhari tr-guard tr-scale-up tr-baseline" lang="bo" style="color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས།</span> — a common greeting.
+        </p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p&gt;</span>In Tibetan, "hello" is
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard tr-scale-up <span class="hl">tr-baseline</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+    བཀྲ་ཤིས་བདེ་ལེགས།
+  <span class="tag">&lt;/span&gt;</span> — a common greeting.
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-shad-pair">
+    <h3><code>.tr-shad-pair</code></h3>
+    <p>Prevents double-shad (<span class="tr-jomolhari tr-guard" lang="bo" style="color:#e2e8f0;">། །</span>) from splitting across lines. Wrap the sequence in a <code>&lt;span&gt;</code>. Double-shad marks verse endings and must never be separated.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-shad-pair</span>
+        <span class="class-ref-meta">white-space: nowrap</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard" lang="bo" style="font-size:1.3rem; color:#e2e8f0; margin:0; max-width:400px;">བྱང་ཆུབ་སེམས་དཔའི་སྡེ་སྣོད་<span class="tr-shad-pair">། །</span>ཡང་དག་པའི་མཐའ་ཞེས་བྱ་བ།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>...སྡེ་སྣོད་<span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-shad-pair</span>"</span><span class="tag">&gt;</span>། །<span class="tag">&lt;/span&gt;</span>ཡང་དག...</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-nobr-tsheg">
+    <h3><code>.tr-nobr-tsheg</code></h3>
+    <p>Protects non-breaking tsheg + shad sequences (e.g. <span class="tr-jomolhari tr-guard" lang="bo" style="color:#e2e8f0;">ང་།</span>) from splitting. The tsheg before shad must never cause a line break. Also fixable via <code>terma.prepare()</code> which auto-replaces with non-breaking tsheg (U+0F0C).</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>...རིང་<span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-nobr-tsheg</span>"</span><span class="tag">&gt;</span>ང་།<span class="tag">&lt;/span&gt;</span> ...</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       TYPOGRAPHY
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="tr-text-sm">
+    <h2>Typography</h2>
+    <p>
+      Font sizes, line heights, letter spacing, and alignment utilities tuned for Tibetan script metrics. Each font size class pairs <code>font-size</code> with a <code>line-height</code> optimized for Tibetan's tall vowel marks and stacked consonants.
+    </p>
+
+    <h3>Font Sizes</h3>
+    <p>T-shirt scale from <code>.tr-text-sm</code> to <code>.tr-text-5xl</code>. Each size sets both <code>font-size</code> and a paired <code>line-height</code> — larger text uses tighter leading, smaller text gets more breathing room.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-text-sm → .tr-text-5xl</span>
+        <span class="class-ref-meta">8 sizes</span>
+      </div>
+      <div class="class-ref-demo">
+        <div style="width:100%;">
+          <div class="tr-jomolhari tr-guard tr-text-sm" lang="bo" style="color:#64748b; margin-bottom:0.5rem;">sm — བཀྲ་ཤིས་བདེ་ལེགས།</div>
+          <div class="tr-jomolhari tr-guard tr-text-base" lang="bo" style="color:#94a3b8; margin-bottom:0.5rem;">base — བཀྲ་ཤིས་བདེ་ལེགས།</div>
+          <div class="tr-jomolhari tr-guard tr-text-xl" lang="bo" style="color:#cbd5e1; margin-bottom:0.5rem;">xl — བཀྲ་ཤིས་བདེ་ལེགས།</div>
+          <div class="tr-jomolhari tr-guard tr-text-2xl" lang="bo" style="color:#e2e8f0; margin-bottom:0.5rem;">2xl — བཀྲ་ཤིས་བདེ་ལེགས།</div>
+          <div class="tr-jomolhari tr-guard tr-text-3xl" lang="bo" style="color:#f1f5f9; margin-bottom:0;">3xl — བཀྲ་ཤིས།</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-sm</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/p&gt;</span>  <span class="cmt">/* 0.85rem / 1.6 */</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-base</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/p&gt;</span> <span class="cmt">/* 1.1rem / 1.8  */</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-lg</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/p&gt;</span>  <span class="cmt">/* 1.4rem / 1.8  */</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-xl</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/p&gt;</span>  <span class="cmt">/* 1.75rem / 1.7 */</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-2xl</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/p&gt;</span> <span class="cmt">/* 2.25rem / 1.6 */</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-3xl</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/p&gt;</span> <span class="cmt">/* 3rem / 1.5    */</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-4xl</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/p&gt;</span> <span class="cmt">/* 4rem / 1.4    */</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-5xl</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>...<span class="tag">&lt;/p&gt;</span> <span class="cmt">/* 5rem / 1.3    */</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-leading-tight">
+    <h3><code>.tr-leading-*</code></h3>
+    <p>Standalone line-height overrides. Use <code>.tr-leading-relaxed</code> for verse and liturgical text, <code>.tr-leading-loose</code> for spaced meditation text.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-leading-tight → .tr-leading-loose</span>
+        <span class="class-ref-meta">Line height</span>
+      </div>
+      <div class="class-ref-demo">
+        <div style="width:100%; display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+          <div>
+            <div style="font-size:0.68rem; color:#475569; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem; font-weight:600;">leading-tight (1.4)</div>
+            <div class="tr-jomolhari tr-guard tr-leading-tight" lang="bo" style="font-size:1.2rem; color:#e2e8f0; margin:0; max-width:280px;">བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན། བཅོམ་ལྡན་འདས་རྒྱལ་པོའི་ཁབ་བྱ་རྒོད་ཕུང་པོའི་རི་ལ།</div>
+          </div>
+          <div>
+            <div style="font-size:0.68rem; color:#475569; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem; font-weight:600;">leading-relaxed (2.2)</div>
+            <div class="tr-jomolhari tr-guard tr-leading-relaxed" lang="bo" style="font-size:1.2rem; color:#e2e8f0; margin:0; max-width:280px;">བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན། བཅོམ་ལྡན་འདས་རྒྱལ་པོའི་ཁབ་བྱ་རྒོད་ཕུང་པོའི་རི་ལ།</div>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- Verse text with relaxed spacing --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard tr-text-lg <span class="hl">tr-leading-relaxed</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p&gt;</span>བྱང་ཕྱོགས་མུན་པའི་སྨག་རུམ་ན། །<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;p&gt;</span>གངས་ལ་ཉི་མ་ཤར་འདྲ་བའི། །<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-text-left">
+    <h3>Text Alignment</h3>
+    <p><code>.tr-text-left</code>, <code>.tr-text-center</code>, <code>.tr-text-right</code>, <code>.tr-text-justify</code> — standard alignment utilities.</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-text-center</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-indent">
+    <h3><code>.tr-indent</code></h3>
+    <p>Adds <code>text-indent: 2em</code> for traditional Tibetan prose paragraphs.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-indent</span>
+        <span class="class-ref-meta">text-indent: 2em</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-indent" lang="bo" style="font-size:1.2rem; color:#e2e8f0; margin:0; max-width:500px;">བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན། བཅོམ་ལྡན་འདས་རྒྱལ་པོའི་ཁབ་བྱ་རྒོད་ཕུང་པོའི་རི་ལ།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-indent</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ...
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-justify-bo">
+    <h3><code>.tr-justify-bo</code></h3>
+    <p>Tibetan justification. <strong>Requires <code>terma.prepare()</code></strong> — without it, this class does nothing useful. Browsers treat all Tibetan text as a single unbreakable word, so <code>text-align: justify</code> has no break points to work with. <code>terma.prepare()</code> injects zero-width spaces after each tsheg, giving the browser the break opportunities it needs. This class then applies the alignment.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-justify-bo</span>
+        <span class="class-ref-meta">Tibetan justification</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-justify-bo" lang="bo" style="font-size:1.2rem; color:#e2e8f0; margin:0; max-width:500px;">བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན། བཅོམ་ལྡན་འདས་རྒྱལ་པོའི་ཁབ་བྱ་རྒོད་ཕུང་པོའི་རི་ལ། དགེ་སློང་གི་དགེ་འདུན་ཆེན་པོ་དང་། བྱང་ཆུབ་སེམས་དཔའི་དགེ་འདུན་ཆེན་པོ་དང་ཐབས་གཅིག་ཏུ་བཞུགས་ཏེ།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-justify-bo</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ...
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       STACKING
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="tr-stack-safe">
+    <h2>Stacking &amp; Complex Script</h2>
+    <p>
+      Tibetan consonants stack vertically within syllables using Unicode subjoined characters (U+0F90-U+0FBC). Sanskrit mantras and dharani contain especially complex stacks — 3 or 4 consonants deep — that need extra vertical room and explicit OpenType feature support.
+    </p>
+
+    <h3><code>.tr-stack-safe</code></h3>
+    <p>Extra line-height and padding for text containing complex consonant stacks. Prevents clipping of tall Sanskrit mantra syllables that extend well below the baseline.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-stack-safe</span>
+        <span class="class-ref-meta">line-height: 2.4 + padding</span>
+      </div>
+      <div class="class-ref-demo">
+        <div style="width:100%;">
+          <div style="font-size:0.68rem; color:#475569; text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0.5rem; font-weight:600;">Sanskrit mantra with complex stacks</div>
+          <p class="tr-jomolhari tr-guard tr-stack-safe tr-ligatures" lang="bo" style="font-size:1.4rem; color:#e2e8f0; margin:0;">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ། ཏདྱ་ཐཱ། ཨོཾ་གཏེ་གཏེ་པཱ་ར་གཏེ་པཱ་ར་སཾ་གཏེ་བོ་དྷི་སྭཱ་ཧཱ།</p>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- Text with complex stacks needs extra room --&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-stack-safe</span> tr-ligatures"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ། ཏདྱ་ཐཱ།...
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-ligatures">
+    <h3><code>.tr-ligatures</code></h3>
+    <p>Explicitly enables OpenType ligature features (<code>blws</code> — Below Base Substitution, <code>abvs</code> — Above Base Substitution) that fonts use to compose vertical consonant stacks. Without these, some browsers may render stacked consonants as separate glyphs on the baseline.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-ligatures</span>
+        <span class="class-ref-meta">OpenType features</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-ligatures" lang="bo" style="font-size:1.6rem; color:#e2e8f0; margin:0; text-align:center;">རྒྱུ། སྒྲུབ། བསྒྲིགས། སྤྱོད།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard <span class="hl">tr-ligatures</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  རྒྱུ། སྒྲུབ། བསྒྲིགས། སྤྱོད།
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-yig-chung">
+    <h3><code>.tr-yig-chung</code></h3>
+    <p>Commentary text (<span class="tr-jomolhari tr-guard" lang="bo" style="color:#e2e8f0;">ཡིག་ཆུང་།</span>) — traditional 25% size reduction with letter-heads aligned to the top of root text. Use as an inline <code>&lt;span&gt;</code> within root text.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-yig-chung</span>
+        <span class="class-ref-meta">Commentary size</span>
+      </div>
+      <div class="class-ref-demo">
+        <p class="tr-jomolhari tr-guard tr-ligatures" lang="bo" style="font-size:1.5rem; color:#e2e8f0; margin:0; max-width:600px; line-height:2.2;">བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། <span class="tr-yig-chung" style="color:#94a3b8;">འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན། བཅོམ་ལྡན་འདས་རྒྱལ་པོའི་ཁབ་བྱ་རྒོད་ཕུང་པོའི་རི་ལ།</span> དགེ་སློང་གི་དགེ་འདུན་ཆེན་པོ་དང་།</p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-guard tr-ligatures"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི...
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-yig-chung</span>"</span><span class="tag">&gt;</span>འདི་སྐད་བདག་གིས་ཐོས...<span class="tag">&lt;/span&gt;</span>
+  དགེ་སློང་གི...
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       PECHA
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="tr-pecha">
+    <h2>Pecha Styling</h2>
+    <p>
+      Traditional Tibetan loose-leaf manuscript format (<span class="tr-jomolhari tr-guard tr-scale-up tr-baseline" lang="bo" style="color:#e2e8f0;">དཔེ་ཆ།</span>). Authentic three-column layout: abbreviated title (ཆིང་) in the left margin, main text in the center, folio number on the right — all separated by vertical red rules. Wide ~6:1 landscape ratio with double red border.
+    </p>
+
+    <h3><code>.tr-pecha</code></h3>
+    <p>Main container: 6:1 aspect ratio, double red border, three-column grid. Use <code>.tr-pecha-title</code> for the left margin, <code>.tr-pecha-body</code> for the text, and <code>.tr-pecha-folio</code> for the right folio number.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-pecha</span>
+        <span class="class-ref-meta">Manuscript container</span>
+      </div>
+      <div class="class-ref-demo class-ref-demo-light" style="padding:1.5rem; background:#f8fafc;">
+        <div class="tr-pecha tr-jomolhari tr-guard" style="width:100%;" lang="bo">
+          <div class="tr-pecha-title" style="color:#991b1b; font-size:0.7rem;">ཤེས་རབ་སྙིང་པོ།</div>
+          <div class="tr-pecha-body">༄༅། །བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན། བཅོམ་ལྡན་འདས་རྒྱལ་པོའི་ཁབ་བྱ་རྒོད་ཕུང་པོའི་རི་ལ། དགེ་སློང་གི་དགེ་འདུན་ཆེན་པོ་དང་། བྱང་ཆུབ་སེམས་དཔའི་དགེ་འདུན་ཆེན་པོ་དང་ཐབས་གཅིག་ཏུ་བཞུགས་ཏེ།</div>
+          <div class="tr-pecha-folio tr-noto" style="color:#991b1b;">༢</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-pecha</span> tr-jomolhari tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  <span class="cmt">&lt;!-- Left: abbreviated title (ching) --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-pecha-title</span>"</span><span class="tag">&gt;</span>ཤེས་རབ་སྙིང་པོ།<span class="tag">&lt;/div&gt;</span>
+  <span class="cmt">&lt;!-- Center: main text --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-pecha-body</span>"</span><span class="tag">&gt;</span>༄༅། །བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ...<span class="tag">&lt;/div&gt;</span>
+  <span class="cmt">&lt;!-- Right: folio number --&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-pecha-folio</span>"</span><span class="tag">&gt;</span>༢<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-pecha-dark">
+    <h3><code>.tr-pecha-dark</code></h3>
+    <p>Gold text on dark indigo — sacred text variant (<span class="tr-jomolhari tr-guard tr-scale-up tr-baseline" lang="bo" style="color:#e2e8f0;">གསེར་ཡིག</span>). The amber column separators adapt automatically.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">.tr-pecha-dark</span>
+        <span class="class-ref-meta">Gold on indigo</span>
+      </div>
+      <div class="class-ref-demo" style="padding:1.5rem;">
+        <div class="tr-pecha tr-pecha-dark tr-jomolhari tr-guard" style="width:100%;" lang="bo">
+          <div class="tr-pecha-title" style="font-size:0.7rem;">རྡོ་རྗེ་གཅོད་པ།</div>
+          <div class="tr-pecha-body">༄༅། །བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན། བཅོམ་ལྡན་འདས་རྒྱལ་པོའི་ཁབ་བྱ་རྒོད་ཕུང་པོའི་རི་ལ། དགེ་སློང་གི་དགེ་འདུན་ཆེན་པོ་དང་། བྱང་ཆུབ་སེམས་དཔའི་དགེ་འདུན་ཆེན་པོ་དང་ཐབས་གཅིག་ཏུ་བཞུགས་ཏེ།</div>
+          <div class="tr-pecha-folio tr-noto">༥</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"tr-pecha <span class="hl">tr-pecha-dark</span> tr-jomolhari tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"tr-pecha-title"</span><span class="tag">&gt;</span>རྡོ་རྗེ་གཅོད་པ།<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"tr-pecha-body"</span><span class="tag">&gt;</span>༄༅། །བཅོམ་ལྡན་འདས་མ...<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"tr-pecha-folio"</span><span class="tag">&gt;</span>༥<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="doc-section" id="tr-pecha-title">
+    <a id="tr-pecha-folio" style="display:none;"></a>
+    <a id="tr-yig-mgo" style="display:none;"></a>
+    <h3><code>.tr-pecha-title</code> / <code>.tr-pecha-folio</code> / <code>.tr-yig-mgo</code></h3>
+    <p>
+      <code>.tr-pecha-title</code> — left margin column for the abbreviated title (ཆིང་). <code>.tr-pecha-folio</code> — right margin column for the folio number (ཤོག་གྲངས་). <code>.tr-yig-mgo</code> — add this class to a <code>&lt;span&gt;</code> to automatically prepend the traditional opening mark <span class="tr-jomolhari tr-guard" lang="bo" style="color:#e2e8f0;">༄༅།</span>.
+    </p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">Full pecha with yig mgo</span>
+        <span class="class-ref-meta">Complete structure</span>
+      </div>
+      <div class="class-ref-demo class-ref-demo-light" style="padding:1.5rem; background:#f8fafc;">
+        <div class="tr-pecha tr-jomolhari tr-guard" style="width:100%;" lang="bo">
+          <div class="tr-pecha-title" style="color:#991b1b; font-size:0.7rem;">བར་དོ་ཐོས་གྲོལ།</div>
+          <div class="tr-pecha-body"><span class="tr-yig-mgo"></span>བར་དོ་ཐོས་གྲོལ་ཆེན་མོ། ཞེས་བྱ་བ་ལས། ཁྲིད་ཡིག་རིག་འཛིན་གྱི་ཕྲིན་ལས། མི་ལོ་འགར་གྱིས་མི་ཤེས་ཤིང་། ཆོས་ཀྱི་གཞི་ལ་བརྟེན་ནས་ཀུན་གྱིས་སྒྲུབ་པར་བྱ་བའི་ཕྱིར།</div>
+          <div class="tr-pecha-folio tr-noto" style="color:#991b1b;">༣</div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"tr-pecha tr-jomolhari tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-pecha-title</span>"</span><span class="tag">&gt;</span>བར་དོ་ཐོས་གྲོལ།<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-pecha-body</span>"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-yig-mgo</span>"</span><span class="tag">&gt;&lt;/span&gt;</span>བར་དོ་ཐོས་གྲོལ...
+  <span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-pecha-folio</span>"</span><span class="tag">&gt;</span>༣<span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <a id="tr-pecha-title-rotated" style="display:none;"></a>
+    <h3 style="margin-top:2rem;"><code>.tr-pecha-title-rotated</code></h3>
+    <p>Optional modifier for the title column. Rotates the label 90° counter-clockwise using <code>transform: rotate(-90deg)</code> — uses transform rather than <code>writing-mode</code> for reliable Tibetan glyph rendering.</p>
+    <div style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1.5rem;">
+      <div>
+        <div class="compare-label good" style="font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#38bdf8; margin-bottom:0.5rem;">Default (horizontal)</div>
+        <div class="tr-pecha tr-jomolhari tr-guard" lang="bo">
+          <div class="tr-pecha-title" style="color:#991b1b; font-size:0.7rem;">ཤེས་རབ།</div>
+          <div class="tr-pecha-body"><span class="tr-yig-mgo"></span>ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན།</div>
+          <div class="tr-pecha-folio tr-noto" style="color:#991b1b;">༡</div>
+        </div>
+      </div>
+      <div>
+        <div class="compare-label good" style="font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:#38bdf8; margin-bottom:0.5rem;">Rotated (vertical label)</div>
+        <div class="tr-pecha tr-jomolhari tr-guard" lang="bo">
+          <div class="tr-pecha-title" style="color:#991b1b; font-size:0.7rem;"><span class="tr-pecha-title-rotated">ཤེས་རབ།</span></div>
+          <div class="tr-pecha-body"><span class="tr-yig-mgo"></span>ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན།</div>
+          <div class="tr-pecha-folio tr-noto" style="color:#991b1b;">༡</div>
+        </div>
+      </div>
+    </div>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"tr-pecha-title"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-pecha-title-rotated</span>"</span><span class="tag">&gt;</span>ཤེས་རབ།<span class="tag">&lt;/span&gt;</span>
+<span class="tag">&lt;/div&gt;</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       TERMA.JS
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="terma-js">
+    <h2>terma.js</h2>
+    <p>
+      JavaScript companion for termaUI that fixes problems CSS alone cannot solve.
+      <strong>The CSS classes work without it</strong> — fonts, effects, sizes, guardian utilities, pecha, and all visual styling are CSS-only. But <strong>for correct Tibetan line breaking you need terma.js</strong>. Without it, browsers break text at every tsheg, splitting multi-syllable words mid-word by default.
+    </p>
+
+    <div class="requires-table">
+      <div class="requires-table-col">
+        <div class="requires-table-head css-head">CSS only — no terma.js needed</div>
+        <div class="requires-table-body">
+          <div class="requires-row">All font classes (<code>.tr-jomolhari</code> etc.)</div>
+          <div class="requires-row">All effects (<code>.tr-text-rainbow</code>, <code>.tr-shimmer</code> etc.)</div>
+          <div class="requires-row">Guardian utilities (<code>.tr-guard</code>, <code>.tr-scale-up</code> etc.)</div>
+          <div class="requires-row">Typography (<code>.tr-text-xl</code>, <code>.tr-leading-*</code> etc.)</div>
+          <div class="requires-row">Pecha styling (<code>.tr-pecha</code>, <code>.tr-pecha-dark</code> etc.)</div>
+          <div class="requires-row">Stacking (<code>.tr-stack-safe</code>, <code>.tr-ligatures</code> etc.)</div>
+          <div class="requires-row"><code>.tr-shad-pair</code> (manual wrapping)</div>
+        </div>
+      </div>
+      <div class="requires-table-col">
+        <div class="requires-table-head js-head">Requires terma.js</div>
+        <div class="requires-table-body">
+          <div class="requires-row"><strong>Correct line breaking</strong> — browsers break at every tsheg without it</div>
+          <div class="requires-row"><code>.tr-justify-bo</code> — does nothing without <code>terma.prepare()</code></div>
+          <div class="requires-row"><code>.tr-nobr-tsheg</code> — CSS partial fix only; terma.js automates correctly</div>
+          <div class="requires-row">Double-shad auto-protection (terma.js wraps them automatically)</div>
+          <div class="requires-row">Unicode NFC normalization for search &amp; storage</div>
+        </div>
+      </div>
+    </div>
+
+    <h3><code>terma.prepare(element)</code></h3>
+    <p>Processes all Tibetan text inside the given element:</p>
+    <ul style="color:#94a3b8; font-size:0.92rem; margin-bottom:1.25rem; padding-left:1.5rem;">
+      <li style="margin-bottom:0.4rem;">Inserts zero-width spaces after tsheg (<span class="tr-jomolhari tr-guard" lang="bo" style="color:#e2e8f0;">་</span>) for proper line-break opportunities</li>
+      <li style="margin-bottom:0.4rem;">Replaces tsheg before shad with non-breaking tsheg (U+0F0C) to prevent <span class="tr-jomolhari tr-guard" lang="bo" style="color:#e2e8f0;">ང་།</span> splitting</li>
+      <li style="margin-bottom:0.4rem;">Wraps double-shad (<span class="tr-jomolhari tr-guard" lang="bo" style="color:#e2e8f0;">། །</span>) with word-joiners so they stay together</li>
+    </ul>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- Include the script (CDN) --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="cmt">&lt;!-- Process a single element --&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  <span class="hl">terma.prepare</span>(document.querySelector('[lang="bo"]'));
+<span class="tag">&lt;/script&gt;</span>
+
+<span class="cmt">&lt;!-- Or process all Tibetan text on the page --&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  <span class="hl">terma.prepareAll</span>();
+<span class="tag">&lt;/script&gt;</span></code></pre>
+      </div>
+    </div>
+    <p>Combine with <code>.tr-justify-bo</code> for the best Tibetan justification: <code>terma.prepare()</code> gives browsers break points, and the CSS class handles the alignment.</p>
+
+    <h3 style="margin-top:2rem;"><code>terma.normalize(element)</code></h3>
+    <p>Applies Unicode NFC normalization to all text inside the element. Solves the "invisible search failure" problem: the same Tibetan syllable can be encoded as different Unicode sequences that look identical but compare as unequal strings. Normalizing to NFC before storing or searching ensures consistent matching.</p>
+    <ul style="color:#94a3b8; font-size:0.92rem; margin-bottom:1.25rem; padding-left:1.5rem;">
+      <li style="margin-bottom:0.4rem;">Fixes mismatches between pre-composed and decomposed sequences</li>
+      <li style="margin-bottom:0.4rem;">Run on user input before database queries, or on content at render time</li>
+      <li style="margin-bottom:0.4rem;">Note: NFC does not fix wrong character order (dotted circle bugs) — that requires fixing the source data or input method</li>
+    </ul>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">JS</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">// Normalize a single element</span>
+<span class="hl">terma.normalize</span>(document.querySelector('[lang="bo"]'));
+
+<span class="cmt">// Or normalize all Tibetan text on the page</span>
+<span class="hl">terma.normalizeAll</span>();
+
+<span class="cmt">// Normalize a string directly (e.g. before a search query)</span>
+const query = userInput.<span class="hl">normalize</span>('NFC');</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       MIXED LANGUAGE PATTERNS
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="mixed-language">
+    <h2>Mixed Language Patterns</h2>
+    <p>
+      Real-world apps mix Tibetan and English. Here are the recommended patterns.
+    </p>
+
+    <h3>Inline Tibetan in English text</h3>
+    <p>Wrap Tibetan in a <code>&lt;span&gt;</code> with the full utility stack: <code>tr-jomolhari tr-guard tr-scale-up tr-baseline</code>.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">Inline pattern</span>
+        <span class="class-ref-meta">Most common</span>
+      </div>
+      <div class="class-ref-demo">
+        <p style="font-size:0.95rem; color:#94a3b8; line-height:1.8; margin:0; max-width:600px;">
+          The Heart Sutra (<span class="tr-jomolhari tr-guard tr-scale-up tr-baseline" lang="bo" style="color:#e2e8f0;">ཤེས་རབ་སྙིང་པོ།</span>) is one of the most important texts in Mahayana Buddhism. Its full title in Tibetan is <span class="tr-jomolhari tr-guard tr-scale-up tr-baseline" lang="bo" style="color:#e2e8f0;">བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ།</span>
+        </p>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;p&gt;</span>The Heart Sutra
+  (<span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-jomolhari tr-guard tr-scale-up tr-baseline</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+    ཤེས་རབ་སྙིང་པོ།
+  <span class="tag">&lt;/span&gt;</span>) is one of the most
+  important texts in Mahayana Buddhism.
+<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <h3>Tibetan block in English page</h3>
+    <p>For a full block of Tibetan text (a verse, prayer, or paragraph), use a <code>&lt;div&gt;</code> or <code>&lt;blockquote&gt;</code> with <code>lang="bo"</code>.</p>
+    <div class="class-ref">
+      <div class="class-ref-header">
+        <span class="class-ref-name">Block pattern</span>
+        <span class="class-ref-meta">Verse / prayer</span>
+      </div>
+      <div class="class-ref-demo">
+        <div style="width:100%;">
+          <p style="font-size:0.85rem; color:#64748b; margin-bottom:0.5rem;">Milarepa's Homage:</p>
+          <div class="tr-jomolhari tr-guard tr-overflow-safe" lang="bo" style="font-size:1.3rem; color:#e2e8f0; line-height:2;">
+            <p style="color:#e2e8f0; margin-bottom:0.25rem;">ན་མོ་གུ་རུ།</p>
+            <p style="color:#e2e8f0; margin-bottom:0.25rem;">མར་པ་ལོ་ཙཱ་བཀའ་དྲིན་ཅན།</p>
+            <p style="color:#e2e8f0; margin-bottom:0;">མི་ལ་རས་པ་རྣལ་འབྱོར་པ།</p>
+          </div>
+        </div>
+      </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;blockquote</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-jomolhari tr-guard tr-overflow-safe</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p&gt;</span>ན་མོ་གུ་རུ།<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;p&gt;</span>མར་པ་ལོ་ཙཱ་བཀའ་དྲིན་ཅན།<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;p&gt;</span>མི་ལ་རས་པ་རྣལ་འབྱོར་པ།<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;/blockquote&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <h3>UI labels and navigation</h3>
+    <p>For bilingual interfaces — nav items, buttons, labels — use the inline pattern at smaller sizes.</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="tag">&lt;nav&gt;</span>
+  <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"/home"</span><span class="tag">&gt;</span>
+    Home / <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-noto tr-guard tr-scale-up tr-baseline</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>གཙོ་ངོས།<span class="tag">&lt;/span&gt;</span>
+  <span class="tag">&lt;/a&gt;</span>
+  <span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"/about"</span><span class="tag">&gt;</span>
+    About / <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"tr-noto tr-guard tr-scale-up tr-baseline"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>སྐོར།<span class="tag">&lt;/span&gt;</span>
+  <span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;/nav&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <h3>Cheat sheet</h3>
+    <p>Quick reference for the most common class combinations:</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">Common Combos</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">/* Body text */</span>
+<span class="hl">tr-jomolhari tr-guard</span>
+
+<span class="cmt">/* Inline Tibetan in English */</span>
+<span class="hl">tr-jomolhari tr-guard tr-scale-up tr-baseline</span>
+
+<span class="cmt">/* Decorative heading */</span>
+<span class="hl">tr-drutsa tr-guard-lg tr-text-saffron</span>
+
+<span class="cmt">/* Modern UI text */</span>
+<span class="hl">tr-noto tr-guard tr-overflow-safe</span>
+
+<span class="cmt">/* Verse in a glass card */</span>
+<span class="hl">tr-glass</span> &gt; <span class="hl">tr-jomolhari tr-guard tr-overflow-safe</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+</Docs>

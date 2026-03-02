@@ -1,159 +1,137 @@
----
-import { getCollection } from "astro:content";
-import { Picture } from "astro:assets";
-import Layout from "@layouts/Layout.astro";
-import Container from "@components/container.astro";
-import Sectionhead from "@components/sectionhead.astro";
-import thuptenImage from 'assets/thupten.png'; 
-import jamyangImage from 'assets/jamyang.png'; 
-
-import collabImage from 'assets/collab.png'; 
-
-// Filter team entries with 'draft: false' & date before current date
-const publishedTeamMembers = await getCollection("team", ({ data }) => {
-  return !data.draft && data.publishDate < new Date();
-});
+﻿---
+import SiteLayout from '@layouts/SiteLayout.astro';
+import { Picture } from 'astro:assets';
+import thuptenImage from '../assets/thupten.png';
+import jamyangImage from '../assets/jamyang.png';
+import collabImage from '../assets/collab.png';
 ---
 
-<Layout title="About">
-  <Container>
-    <Sectionhead>
-      <Fragment slot="title">About Us</Fragment>
-      <Fragment slot="desc">We are a small passionate team.</Fragment>
-    </Sectionhead>
+<SiteLayout title="About Terma Foundry — Team, Mission & Tibetan Typography" description="Meet the Terma Foundry team: founder Thupten Chakrishar, master calligrapher Jamyang Dorjee, and our extended team of linguists, type designers, and Unicode specialists.">
 
-    <div class="flex flex-col gap-3 mx-auto max-w-4xl mt-16">
+  <!-- PAGE HEADER -->
+  <section class="page-section" style="padding-bottom:2rem;">
+    <div class="section-eyebrow reveal">About Us</div>
+    <h1 class="section-heading reveal">We are a small passionate<br>team with a large mission.</h1>
+    <p class="section-sub reveal">Started by a father wanting his children to love their language. Built with a master calligrapher. Shaped by a community.</p>
+  </section>
 
-      <h2 class="font-bold text-3xl text-gray-800">Our Story</h2>
-      <p class="text-lg leading-relaxed text-slate-500">
-        The seed for Terma Type Foundry was planted 6 years ago in 2018 when my kids were much younger, and I was looking for creative ways to introduce them to the Tibetan language. I wanted their first steps into Tibetan to be exciting, engaging, and filled with joy—something that felt modern yet connected to our heritage.
-<br/><br/>
-        We started small:
-        <ul class="list-disc text-lg leading-relaxed text-slate-500">
+  <!-- OUR STORY -->
+  <section class="page-section" style="padding-top:0;">
+    <div class="story-grid reveal">
+      <div class="story-text">
+        <h2>Our Story</h2>
+        <p>The seed for Terma Type Foundry was planted six years ago in 2018 when my kids were much younger, and I was looking for creative ways to introduce them to the Tibetan language. I wanted their first steps into Tibetan to be exciting, engaging, and filled with joy — something that felt modern yet connected to our heritage.</p>
+        <p>We started small: creating animated videos for kids, commissioning cheerful Tibetan children's songs, and publishing two Tibetan kids' books that taught shapes and numbers.</p>
+        <p>But we hit a wall. The biggest hurdle was the limitation of Tibetan font designs. Misalignment issues, technical glitches, and a lack of child-friendly fonts made every project feel like pushing a boulder uphill.</p>
+        <p>In researching educational materials from other languages — English, Japanese, Korean — we saw fonts that were colorful, rounded, playful, and "cool." That realization sparked a dream: <em>What if Tibetan could have its own array of modern, accessible, and joyful fonts?</em></p>
 
-        <li>Creating animated videos for kids.</li>
-          <li>Commissioning cheerful Tibetan children’s songs.</li>
-            <li>Publishing two Tibetan kids’ books that taught shapes and numbers.</li>
-        </ul>
-        <p class="text-lg leading-relaxed text-slate-500"><br/>
-        But we hit a wall. The biggest hurdle was the limitation of Tibetan font designs. Misalignment issues, technical glitches, and a lack of child-friendly fonts made every project feel like pushing a boulder uphill.
-        <br/><br/>
-        In researching kids' educational materials from other languages like English, Japanese, and Korean, we saw fonts that were colorful, rounded, playful, and "cool"—exactly the qualities we wanted for Tibetan. That realization sparked a dream:
-        <br/><br/>
-        What if Tibetan could have its own array of modern, accessible, and joyful fonts?      </p>
-        <br><br>        <hr>
-        <h2 class="font-bold text-3xl text-gray-800">From Idea to Reality
-        </h2>
-        <p class="text-lg leading-relaxed text-slate-500">
-          or years, I worked closely with my father, Jamyang Dorjee, a master Tibetan calligrapher, alongside a dedicated team of scholars, linguists, and designers. Together, we explored ways to reimagine Tibetan script without losing its spiritual and cultural essence. We asked:  <br/><br/>
-          
-          <ul class="list-disc text-lg leading-relaxed text-slate-500">
-  
+        <div class="story-divider"></div>
+
+        <h2>From Idea to Reality</h2>
+        <p>For years, I worked closely with my father, Jamyang Dorjee — a master Tibetan calligrapher — alongside a dedicated team of scholars, linguists, and designers. Together we asked:</p>
+        <ul>
           <li>How can we preserve the soul of Tibetan calligraphy while making it adaptable for the 21st century?</li>
-            <li>How can fonts be made easier for children and beginners?
-            </li>
-              <li>How can they look beautiful across screens, apps, and print?
-              </li>
-          </ul>
-          <p class="text-lg leading-relaxed text-slate-500"><br/>
-            The answer is Terma Type Foundry—a home for creating fonts that are not replacements but companions to traditional Tibetan script. Fonts that are approachable, modern, and ready to appear everywhere: comic books, apps, T-shirts, video games, and beyond.          <br/><br/>
-           </p>
-
-
-           <br><br>        <hr>
-      <h2 class="font-bold text-3xl text-gray-800">
-        Our Mission
-
-      </h2>
-      <p class="text-lg leading-relaxed text-slate-500">
-        At Terma Type Foundry, our mission is clear:
-
-        "To ensure the Tibetan script thrives in the modern world while honoring its timeless heritage."     
-        <br/><br/>
-        We design fonts that:
-        <ul class="list-disc text-lg leading-relaxed text-slate-500">
-
-        <li>Make Learning Fun: Child-friendly fonts that inspire the next generation.</li>
-          <li>Bridge Tradition and Innovation: Respecting calligraphic roots while embracing digital design.</li>
-            <li>Empower Creators: Tools for educators, designers, and storytellers to bring Tibetan to life across platforms.</li>
-
-          </ul>
-
-          <blockquote class="text-xl italic font-semibold text-slate-500">
-            <p>Our dream is simple yet powerful: to see Tibetan fonts everywhere—a living, evolving script that future generations are proud of.            </p>
-        </blockquote>
-
-    </div>
-    <br><br>        <hr><br><br>    
-
-
-    <h1 class="text-3xl font-bold text-center mb-8">Meet Our Team</h1>
-      <!-- Three  Columns -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
-
-     <!-- Container 1 -->
-
-    <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Picture src={thuptenImage} formats={['avif', 'webp']} alt="Thupten Chakrishar." />
-
-      <div class="p-5">
-              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Thupten Chakrishar</h5>
-          <h3 class="text-sm text-slate-500">
-            Founder & Lead Technologist
-
-          </h3>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">A seasoned social entrepreneur and technologist, has spent over two decades blending technology, design, and community service. With a background in software development, media production, and 3D animation, his work reflects a rare mix of technical precision and creative vision. <br><br>As co-founder of the Himalayan Elders Project, Thupten has shown a deep commitment to cultural preservation. With Terma Type Foundry, he brings the expertise and dedication needed to ensure the Tibetan script thrives in the modern world.</p>
-        
+          <li>How can fonts be made easier for children and beginners?</li>
+          <li>How can they look beautiful across screens, apps, and print?</li>
+        </ul>
+        <p>The answer is TermaFoundry — a studio that designs and builds open tools for Tibetan script. We created termaUI (the world's first Tibetan CSS framework), we're designing original typefaces with master calligraphers, and we're building layout and learning utilities no one else has made. Not replacements for tradition, but companions to it — approachable, precise, and ready to appear everywhere: comic books, apps, T-shirts, video games, and beyond.</p>
       </div>
-  </div>
- <!-- Container 2 -->
-
-    <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <Picture src={jamyangImage} formats={['avif', 'webp']} alt="Jamyang Dorjee." />
-
-      <div class="p-5">
-              <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Jamyang Dorjee</h5>
-          <h3 class="text-sm text-slate-500">
-            Master Calligrapher & Cultural Advisor
-          </h3>
-          <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">A renowned master of Tibetan calligraphy, brings decades of experience and deep cultural wisdom to Terma Type Foundry. His expertise lies in preserving the spiritual and artistic essence of traditional Tibetan script while guiding its evolution for modern use. <br><br>Known for his meticulous craftsmanship and profound understanding of Tibetan heritage, Jamyang Dorjee ensures that each font retains the elegance, authenticity, and cultural depth that the script embodies. As a leading cultural advisor, his contributions help bridge the past and future, honoring tradition while enabling accessibility for new generations.</p>
-         
+      <div class="story-mission-card reveal reveal-delay-1">
+        <div class="mission-label">Our Mission</div>
+        <div class="mission-quote tr-jomolhari tr-text-saffron tr-guard" lang="bo">
+          བོད་ཡིག་རྒྱལ་ཁབ་ཡོངས་ལ་གདར་ཤིས་སྦར་ཀ།
+        </div>
+        <p class="mission-en">"To ensure the Tibetan script thrives in the modern world while honoring its timeless heritage."</p>
+        <div class="mission-pillars">
+          <div class="pillar"><span class="pillar-dot"></span>Make learning fun with child-friendly designs</div>
+          <div class="pillar"><span class="pillar-dot"></span>Bridge traditional calligraphy and digital design</div>
+          <div class="pillar"><span class="pillar-dot"></span>Empower educators, designers, and storytellers</div>
+        </div>
       </div>
     </div>
+  </section>
 
- <!-- Container 3 -->
-      <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        <Picture src={collabImage} formats={['avif', 'webp']} alt="Collaborators." />
+  <hr class="divider" style="max-width:1100px; margin: 0 auto;">
 
-  <div class="p-5">
-          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Collaborators
-          </h5>
-      <h3 class="text-sm text-slate-500">
-       Names and Images to be released soon
-      </h3>
-      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">We are supported by a diverse team of Tibetan and non-Tibetan collaborators who share a deep commitment to revitalizing the Tibetan script. Tibetan scholars, educators, and cultural experts ensure each design remains faithful to its heritage, making the fonts practical for classrooms, beginners, and community use. <br><br>
+  <!-- TEAM -->
+  <section class="page-section">
+    <div class="section-eyebrow reveal">The Team</div>
+    <h2 class="section-heading reveal">Meet the people behind<br>Terma Type Foundry.</h2>
 
-        Complementing this expertise are non-Tibetan graphic designers, typographers, and technical specialists who bring a wealth of global design experience. This unique collaboration blends cultural depth with design innovation, creating fonts that resonate with Tibetan communities while being adaptable for global audiences.
-        
-        </p>
-      <!--
-      <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-          Read more
-           <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-          </svg>
-      </a>
-    -->
-  </div>
-</div>
-</div>
+    <div class="team-grid reveal">
+      <div class="team-card">
+        <div class="team-photo">
+          <Picture src={thuptenImage} formats={['avif', 'webp']} alt="Thupten Chakrishar" width={400} height={400} />
+        </div>
+        <div class="team-info">
+          <h3 class="team-name">Thupten Chakrishar</h3>
+          <div class="team-role">Founder & Lead Technologist</div>
+          <p class="team-bio">A seasoned social entrepreneur and technologist with over two decades blending technology, design, and community service. With a background in software development, media production, and 3D animation, his work reflects a rare mix of technical precision and creative vision. Co-founder of the Himalayan Elders Project, he brings the expertise and dedication needed to ensure Tibetan script thrives in the modern world.</p>
+        </div>
+      </div>
 
-<br><br>
-    
-  </Container>
+      <div class="team-card">
+        <div class="team-photo">
+          <Picture src={jamyangImage} formats={['avif', 'webp']} alt="Jamyang Dorjee" width={400} height={400} />
+        </div>
+        <div class="team-info">
+          <h3 class="team-name">Jamyang Dorjee</h3>
+          <div class="team-role">Master Calligrapher & Cultural Advisor</div>
+          <p class="team-bio">A renowned master of Tibetan calligraphy with decades of experience and deep cultural wisdom. His expertise lies in preserving the spiritual and artistic essence of traditional Tibetan script while guiding its evolution for modern use. Known for meticulous craftsmanship and profound understanding of Tibetan heritage, he ensures that each font retains the elegance, authenticity, and cultural depth that the script embodies.</p>
+        </div>
+      </div>
 
+      <div class="team-card">
+        <div class="team-photo">
+          <Picture src={collabImage} formats={['avif', 'webp']} alt="The extended team — linguists, educators, type designers, font engineers, and Unicode specialists" width={400} height={400} />
+        </div>
+        <div class="team-info">
+          <h3 class="team-name">The Extended Team</h3>
+          <div class="team-role">Linguists · Educators · Type Designers · Font Engineers · Unicode Specialists</div>
+          <p class="team-bio">Behind every typeface is a community. Tibetan linguists and educators — from classroom teachers in Dharamsala to heritage language tutors in New York — review every design decision against the lived reality of teaching and learning the script today. Type designers translate Jamyang Dorjee's calligraphic originals into precise digital outlines, ensuring the character of the hand survives the journey from paper to pixel. Font engineers build the OpenType feature tables, hinting instructions, and kerning that make a font render correctly at every size on every platform. And Unicode specialists ensure full script coverage and standards compliance — because Tibetan's stacked consonants and combining marks must be encoded exactly right for the font to work everywhere it needs to.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-</Layout>
+</SiteLayout>
 
+<style>
+  .story-grid { display: grid; grid-template-columns: 1fr 360px; gap: 4rem; align-items: start; }
+  .story-text h2 { font-size: 1.35rem; font-weight: 700; color: var(--text); margin: 2rem 0 .75rem; }
+  .story-text h2:first-child { margin-top: 0; }
+  .story-text p { font-size: .95rem; color: var(--text2); line-height: 1.85; margin-bottom: 1rem; }
+  .story-text em { color: var(--accent); font-style: normal; }
+  .story-text ul { padding-left: 1.25rem; margin-bottom: 1rem; }
+  .story-text li { font-size: .95rem; color: var(--text2); line-height: 1.8; margin-bottom: .3rem; }
+  .story-divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 
+  .story-mission-card {
+    position: sticky; top: 80px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem; border-top: 3px solid var(--accent);
+  }
+  .mission-label { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); margin-bottom: 1.25rem; }
+  .mission-quote { font-size: 1.15rem; display: block; margin-bottom: 1rem; padding-block: .25em; line-height: 1.9; }
+  .mission-en { font-size: .88rem; color: var(--text2); line-height: 1.7; margin-bottom: 1.5rem; font-style: italic; }
+  .mission-pillars { display: flex; flex-direction: column; gap: .6rem; }
+  .pillar { display: flex; align-items: flex-start; gap: .6rem; font-size: .82rem; color: var(--muted); line-height: 1.5; }
+  .pillar-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: .42rem; flex-shrink: 0; }
 
+  .team-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+  .team-card { display: grid; grid-template-columns: 220px 1fr; background: var(--surface); transition: background .25s; }
+  .team-card:hover { background: var(--surface2); }
+  .team-photo { overflow: hidden; }
+  .team-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .team-info { padding: 2.25rem 2.5rem; }
+  .team-name { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+  .team-role { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--accent); margin-bottom: 1rem; }
+  .team-bio { font-size: .88rem; color: var(--text2); line-height: 1.8; }
+
+  @media (max-width: 900px) {
+    .story-grid { grid-template-columns: 1fr; }
+    .story-mission-card { position: static; }
+    .team-card { grid-template-columns: 1fr; }
+    .team-photo { height: 220px; }
+  }
+</style>

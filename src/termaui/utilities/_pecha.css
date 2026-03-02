@@ -1,0 +1,116 @@
+/* ==========================================================================
+   termaUI — Pecha manuscript styling
+   Traditional Tibetan loose-leaf manuscript format (དཔེ་ཆ།).
+   Authentic three-column layout: title margin | main text | folio number,
+   separated by vertical red rules. Wide landscape ~6:1 ratio.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   PECHA CONTAINER
+   Authentic pecha proportions: ~6:1 landscape.
+   Three-column grid: [left margin] [main text] [right folio].
+   Double red border: outer border + inset box-shadow.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha {
+  aspect-ratio: 6 / 1;
+  background: #faf0dc;
+  color: #1a1a1a;
+  border: 2px solid #b91c1c;
+  box-shadow: inset 0 0 0 4px #faf0dc, inset 0 0 0 6px #b91c1c;
+  border-radius: 2px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 9% 1fr 9%;
+  align-items: stretch;
+}
+
+/* ---------------------------------------------------------------------------
+   DARK VARIANT
+   Gold text on dark indigo — for sacred texts (གསེར་ཡིག).
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-dark {
+  background: #1e1b4b;
+  color: #d4a843;
+  border-color: #92400e;
+  box-shadow: inset 0 0 0 4px #1e1b4b, inset 0 0 0 6px #92400e;
+}
+
+.tr-pecha-dark .tr-pecha-title,
+.tr-pecha-dark .tr-pecha-folio {
+  border-color: #92400e;
+}
+
+/* ---------------------------------------------------------------------------
+   TITLE MARGIN (left column)
+   Abbreviated text title (ཆིང་) or section name.
+   Separated from the body by a vertical red rule.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.3rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-align: center;
+  border-right: 1px solid #b91c1c;
+}
+
+/* ---------------------------------------------------------------------------
+   PECHA BODY TEXT
+   Main text block: justified, 6-line density, traditional spacing.
+   Bordered on right by vertical red rule separating the folio column.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-body {
+  padding: 0.55rem 1rem;
+  line-height: 1.85;
+  font-size: 1.1rem;
+  text-align: justify;
+  border-right: 1px solid #b91c1c;
+  overflow-x: hidden; /* clip horizontal overflow only; allow tall stacks to breathe vertically */
+}
+
+/* ---------------------------------------------------------------------------
+   FOLIO NUMBER (right column)
+   Page number in the right margin. Horizontal text, centered.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-folio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------------------
+   TITLE ROTATED MODIFIER
+   Rotates only the text label 90° counter-clockwise (reads bottom→top).
+   Apply to a <span> INSIDE .tr-pecha-title so the border-right stays vertical:
+     <div class="tr-pecha-title">
+       <span class="tr-pecha-title-rotated">ཤེས་རབ།</span>
+     </div>
+   Uses transform rather than writing-mode for reliable Tibetan glyph rendering.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-title-rotated {
+  display: inline-block;
+  transform: rotate(-90deg);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------------
+   YIG MGO — page/section opening mark
+   The traditional ༄༅། mark that begins pecha pages and headlines.
+   Apply to a <span> at the start of the body text.
+   --------------------------------------------------------------------------- */
+
+.tr-yig-mgo::before {
+  content: "༄༅། ";
+}

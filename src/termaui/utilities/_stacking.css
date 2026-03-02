@@ -1,0 +1,45 @@
+/* ==========================================================================
+   termaUI — Stacking & complex script support
+   Utilities for Tibetan consonant stacking, Sanskrit mantra rendering,
+   and traditional commentary (yig chung) formatting.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   STACK-SAFE
+   Extra vertical room for text containing complex consonant stacks —
+   Sanskrit mantras, dharani, multi-level subjoined consonants that extend
+   well below the baseline. Prevents clipping.
+   --------------------------------------------------------------------------- */
+
+.tr-stack-safe {
+  line-height: 2.4;
+  padding-block: 0.3em;
+}
+
+/* ---------------------------------------------------------------------------
+   LIGATURES
+   Explicitly enable OpenType features required for correct Tibetan
+   consonant stacking. Fonts use blws (Below Base Substitution) and
+   abvs (Above Base Substitution) lookups to compose vertical stacks.
+   Without these, complex stacks may render as separate glyphs on
+   the baseline instead of vertically composed.
+   --------------------------------------------------------------------------- */
+
+.tr-ligatures {
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: "liga" 1, "blws" 1, "abvs" 1;
+}
+
+/* ---------------------------------------------------------------------------
+   YIG CHUNG — Commentary text
+   Traditional Tibetan typography uses 25-30% smaller text for
+   commentarial annotations. The letter-heads (tops of the characters)
+   must align at the same height as the root text.
+   Use inline within root-text containers.
+   --------------------------------------------------------------------------- */
+
+.tr-yig-chung {
+  font-size: 75%;
+  vertical-align: top;
+  line-height: inherit;
+}

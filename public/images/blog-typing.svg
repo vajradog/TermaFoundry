@@ -1,0 +1,271 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0f1f35"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="keyHL" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="600" fill="url(#bg)"/>
+
+  <!-- Subtle scanlines -->
+  <pattern id="lines" width="4" height="4" patternUnits="userSpaceOnUse">
+    <line x1="0" y1="0" x2="4" y2="0" stroke="rgba(148,163,184,0.02)" stroke-width="1"/>
+  </pattern>
+  <rect width="960" height="600" fill="url(#lines)"/>
+
+  <!-- Typing area (top left panel) -->
+  <g transform="translate(60, 70)">
+    <!-- Practice textarea mockup -->
+    <rect width="460" height="120" rx="10" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+    <!-- Tibetan text being typed -->
+    <text x="20" y="42" font-family="serif" font-size="26" fill="#e2e8f0">ཀ་ཁ་ག་ང་།</text>
+    <text x="20" y="76" font-family="serif" font-size="24" fill="#94a3b8">ཅ་ཆ་ཇ་ཉ་།</text>
+    <!-- Cursor blink indicator -->
+    <rect x="192" y="56" width="2.5" height="22" rx="1" fill="#38bdf8" opacity="0.9" filter="url(#glow)"/>
+    <!-- WPM / Accuracy bar -->
+    <rect y="104" width="460" height="16" rx="0" fill="rgba(15,23,42,0.5)"/>
+    <g transform="translate(12, 112)">
+      <text font-family="system-ui" font-size="9" fill="#38bdf8" letter-spacing="0.5">WPM</text>
+      <text x="28" font-family="system-ui" font-size="9" font-weight="700" fill="#e2e8f0">32</text>
+      <text x="62" font-family="system-ui" font-size="9" fill="#38bdf8" letter-spacing="0.5">ACC</text>
+      <text x="90" font-family="system-ui" font-size="9" font-weight="700" fill="#e2e8f0">96%</text>
+      <text x="130" font-family="system-ui" font-size="9" fill="#38bdf8" letter-spacing="0.5">STREAK</text>
+      <text x="180" font-family="system-ui" font-size="9" font-weight="700" fill="#fbbf24">24</text>
+    </g>
+  </g>
+
+  <!-- Keyboard visualization -->
+  <g transform="translate(60, 214)">
+    <!-- Keyboard background -->
+    <rect width="460" height="200" rx="12" fill="rgba(15,23,42,0.95)" stroke="rgba(148,163,184,0.12)" stroke-width="1"/>
+
+    <!-- Row 1 keys -->
+    <!-- Helper: key(x, y, label, sublabel, highlight) -->
+    <!-- Row 1: Q W E R T Y U I O P -->
+    <g transform="translate(12, 14)" font-family="system-ui, sans-serif">
+
+      <!-- Key macro: x, tibetan char, qwerty key, highlight? -->
+      <!-- Q - ཀ -->
+      <g transform="translate(0,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">q</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཀ</text>
+      </g>
+      <!-- W - ཁ -->
+      <g transform="translate(42,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">w</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཁ</text>
+      </g>
+      <!-- E - ་ (tsheg) -->
+      <g transform="translate(84,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">e</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#64748b" text-anchor="middle">ེ</text>
+      </g>
+      <!-- R -->
+      <g transform="translate(126,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">r</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ར</text>
+      </g>
+      <!-- T - highlighted (next key) -->
+      <g transform="translate(168,0)">
+        <rect width="38" height="38" rx="6" fill="url(#keyHL)" stroke="rgba(56,189,248,0.6)" stroke-width="1.5"/>
+        <text x="19" y="16" font-size="10" fill="rgba(255,255,255,0.8)" text-anchor="middle">t</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#fff" text-anchor="middle" filter="url(#glow)">ཏ</text>
+      </g>
+      <!-- Y -->
+      <g transform="translate(210,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">y</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཡ</text>
+      </g>
+      <!-- U -->
+      <g transform="translate(252,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">u</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#64748b" text-anchor="middle">ུ</text>
+      </g>
+      <!-- I -->
+      <g transform="translate(294,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">i</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#64748b" text-anchor="middle">ི</text>
+      </g>
+      <!-- O -->
+      <g transform="translate(336,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">o</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#64748b" text-anchor="middle">ོ</text>
+      </g>
+      <!-- P -->
+      <g transform="translate(378,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">p</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">པ</text>
+      </g>
+    </g>
+
+    <!-- Row 2: A S D F G H J K L -->
+    <g transform="translate(32, 60)" font-family="system-ui, sans-serif">
+      <!-- A - ཨ -->
+      <g transform="translate(0,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">a</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཨ</text>
+      </g>
+      <!-- S - ས -->
+      <g transform="translate(42,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">s</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ས</text>
+      </g>
+      <!-- D - ད -->
+      <g transform="translate(84,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">d</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ད</text>
+      </g>
+      <!-- F - recently typed (dimmed glow) -->
+      <g transform="translate(126,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.25)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">f</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#7dd3fc" text-anchor="middle">ཕ</text>
+      </g>
+      <!-- G - ག -->
+      <g transform="translate(168,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">g</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ག</text>
+      </g>
+      <!-- H - ཧ -->
+      <g transform="translate(210,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">h</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཧ</text>
+      </g>
+      <!-- J - ཇ -->
+      <g transform="translate(252,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">j</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཇ</text>
+      </g>
+      <!-- K - ཀ (shift k = kh?) -->
+      <g transform="translate(294,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">k</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཀ</text>
+      </g>
+      <!-- L - ལ -->
+      <g transform="translate(336,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">l</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ལ</text>
+      </g>
+    </g>
+
+    <!-- Row 3: Z X C V B N M -->
+    <g transform="translate(52, 106)" font-family="system-ui, sans-serif">
+      <g transform="translate(0,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">z</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཟ</text>
+      </g>
+      <g transform="translate(42,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">x</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཞ</text>
+      </g>
+      <g transform="translate(84,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">c</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ཅ</text>
+      </g>
+      <g transform="translate(126,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">v</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">བ</text>
+      </g>
+      <g transform="translate(168,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">b</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">བ</text>
+      </g>
+      <g transform="translate(210,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">n</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">ན</text>
+      </g>
+      <g transform="translate(252,0)">
+        <rect width="38" height="38" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+        <text x="19" y="16" font-size="10" fill="#64748b" text-anchor="middle">m</text>
+        <text x="19" y="32" font-family="serif" font-size="13" fill="#cbd5e1" text-anchor="middle">མ</text>
+      </g>
+    </g>
+
+    <!-- Spacebar -->
+    <g transform="translate(100, 152)" font-family="system-ui, sans-serif">
+      <rect width="260" height="34" rx="6" fill="rgba(30,41,59,0.9)" stroke="rgba(148,163,184,0.15)" stroke-width="1"/>
+      <text x="130" y="21" font-size="10" fill="#475569" text-anchor="middle">SPACE · ་ tsheg</text>
+    </g>
+  </g>
+
+  <!-- Right panel -->
+  <g transform="translate(580, 120)">
+    <text font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#38bdf8">LEARNING</text>
+    <text y="40" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="800" fill="#e2e8f0" letter-spacing="-0.5">Tibetan</text>
+    <text y="70" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="800" fill="#e2e8f0" letter-spacing="-0.5">Typing</text>
+    <text y="100" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="800" fill="#e2e8f0" letter-spacing="-0.5">Practice</text>
+    <rect y="116" width="48" height="3" rx="1.5" fill="url(#gold)"/>
+
+    <text y="152" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#94a3b8">5 structured lessons.</text>
+    <text y="170" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#94a3b8">Monlam IME built in.</text>
+    <text y="188" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#94a3b8">WPM + accuracy tracking.</text>
+
+    <!-- Lesson list -->
+    <g transform="translate(0, 212)" font-family="system-ui, sans-serif" font-size="12">
+      <text fill="#64748b" letter-spacing="1" font-size="10">5 LESSONS</text>
+      <g transform="translate(0, 18)">
+        <rect width="8" height="8" rx="2" fill="#fbbf24" y="-1"/>
+        <text x="16" y="8" fill="#cbd5e1">Alphabet — 30 consonants</text>
+      </g>
+      <g transform="translate(0, 38)">
+        <rect width="8" height="8" rx="2" fill="#38bdf8" y="-1"/>
+        <text x="16" y="8" fill="#cbd5e1">Vowels — 4 diacritics</text>
+      </g>
+      <g transform="translate(0, 58)">
+        <rect width="8" height="8" rx="2" fill="#22c55e" y="-1"/>
+        <text x="16" y="8" fill="#cbd5e1">Stacked consonants</text>
+      </g>
+      <g transform="translate(0, 78)">
+        <rect width="8" height="8" rx="2" fill="#a855f7" y="-1"/>
+        <text x="16" y="8" fill="#cbd5e1">Words</text>
+      </g>
+      <g transform="translate(0, 98)">
+        <rect width="8" height="8" rx="2" fill="#f97316" y="-1"/>
+        <text x="16" y="8" fill="#cbd5e1">Sentences</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Divider -->
+  <line x1="548" y1="80" x2="548" y2="520" stroke="rgba(148,163,184,0.07)" stroke-width="1"/>
+
+  <!-- Branding -->
+  <text x="480" y="575" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#475569" text-anchor="middle" letter-spacing="1">TERMA FOUNDRY · termafoundry.com</text>
+</svg>

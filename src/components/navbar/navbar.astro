@@ -5,24 +5,37 @@ import Dropdown from "./dropdown.astro";
 import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
 
 const menuitems = [
- 
   {
-    title: "About",
-    path: "/about",
+    title: "termaUI",
+    path: "/termaui/",
+    badge: "CSS",
   },
   {
     title: "Fonts",
     path: "/fonts",
   },
   {
-    title: "Contact",
-    path: "/contact",
+    title: "Typing",
+    path: "/type",
+    badge: "Soon",
+  },
+  {
+    title: "PechaForge",
+    path: "/pecha",
+    badge: "Soon",
   },
   {
     title: "Blog",
     path: "/blog",
   },
-
+  {
+    title: "About",
+    path: "/about",
+  },
+  {
+    title: "Contact",
+    path: "/contact",
+  },
 ];
 ---
 
@@ -70,15 +83,9 @@ const menuitems = [
             ))
           }
         </ul>
-        <div class="lg:hidden flex items-center mt-3 gap-4">
-          <Link href="https://www.gofundme.com/f/termafonts" size="md" block>Support the Project</Link>
-        </div>
+
       </MenuItems>
     </Astronav>
-    <div>
-      <div class="hidden lg:flex items-center gap-4">
-        <Link href="https://www.gofundme.com/f/termafonts" size="md">Support the Project</Link>
-      </div>
-    </div>
+
   </header>
 </Container>

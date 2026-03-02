@@ -1,73 +1,178 @@
 ---
 import { getCollection } from "astro:content";
-import { Picture } from "astro:assets";
-import Layout from "@layouts/Layout.astro";
-import Container from "@components/container.astro";
-import Sectionhead from "@components/sectionhead.astro";
+import SiteLayout from '@layouts/SiteLayout.astro';
 
-// Filter blog entries with 'draft: false' & date before current date
 const publishedBlogEntries = await getCollection("blog", ({ data }) => {
   return !data.draft && data.publishDate < new Date();
 });
 
-// Sort content entries by publication date
-publishedBlogEntries.sort(function (a, b) {
-  return b.data.publishDate.valueOf() - a.data.publishDate.valueOf();
-});
+publishedBlogEntries.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 ---
 
-<Layout title="Blog">
-  <Container>
-    <Sectionhead>
-      <Fragment slot="title">Our Blog</Fragment>
-      <Fragment slot="desc">
-        Everything you need to know about Tibetan fonts, literacy, and culture.
-      </Fragment>
-    </Sectionhead>
-    <main class="mt-16">
-      <ul class="grid gap-16 max-w-4xl mx-auto">
-        {
-          publishedBlogEntries.map((blogPostEntry, index) => (
-            <li>
-              <a href={`/blog/${blogPostEntry.slug}`}>
-                <div class="grid md:grid-cols-2 gap-5 md:gap-10 items-center">
-                  <Picture
-                    src={blogPostEntry.data.image.src}
-                    alt={blogPostEntry.data.image.alt}
-                    sizes="(max-width: 800px) 100vw, 800px"
-                    width={800}
-                    height={600}
-                    loading={index <= 2 ? "eager" : "lazy"}
-                    decoding={index <= 2 ? "sync" : "async"}
-                    class="w-full rounded-md object-cover object-center bg-white"
-                  />
-                  <div>
-                    <span class="text-blue-400 uppercase tracking-wider text-sm font-medium">
-                      {blogPostEntry.data.category}
-                    </span>
+<SiteLayout title="Blog — Tibetan Typography, Tools & Digital Preservation" description="In-depth articles on Tibetan typography, pecha manuscripts, CSS frameworks, fonts, and digital tools for preserving and advancing the Tibetan script.">
 
-                    <h2 class="text-3xl font-semibold leading-snug tracking-tight mt-1 ">
-                      {blogPostEntry.data.title}
-                    </h2>
+  <!-- HEADER -->
+  <section class="page-section" style="padding-bottom:2rem;">
+    <div class="section-eyebrow reveal">Blog</div>
+    <h1 class="section-heading reveal">Tibetan type,<br>culture, and craft.</h1>
+    <p class="section-sub reveal">Notes on Tibetan typography, digital preservation, and the craft behind building open tools for a living script.</p>
+  </section>
 
-                    <div class="flex gap-2 mt-3">
-                      <span class="text-gray-400">
-                        {blogPostEntry.data.author}
-                      </span>
-                      <span class="text-gray-400">• </span>
-                      <time
-                        class="text-gray-400"
-                        datetime={blogPostEntry.data.publishDate.toISOString()}>
-                        {blogPostEntry.data.publishDate.toDateString()}
-                      </time>
-                    </div>
-                  </div>
+  <!-- POSTS -->
+  <section class="page-section" style="padding-top:0;">
+    {publishedBlogEntries.length === 0 ? (
+      <div class="empty-state reveal">
+        <p>No posts yet — check back soon.</p>
+      </div>
+    ) : (
+      <ul class="blog-list">
+        {publishedBlogEntries.map((post, index) => (
+          <li class="blog-item reveal">
+            <a href={`/blog/${post.slug}`} class="blog-card">
+              <div class="blog-image">
+                <img
+                  src={post.data.image.src}
+                  alt={post.data.image.alt}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding={index === 0 ? "sync" : "async"}
+                  fetchpriority={index === 0 ? "high" : "auto"}
+                  width="960"
+                  height="600"
+                />
+              </div>
+              <div class="blog-info">
+                <div class="blog-category">{post.data.category}</div>
+                <h2 class="blog-title">{post.data.title}</h2>
+                <div class="blog-meta">
+                  <span>{post.data.author}</span>
+                  <span class="meta-dot">·</span>
+                  <time datetime={post.data.publishDate.toISOString()}>
+                    {post.data.publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </time>
                 </div>
-              </a>
-            </li>
-          ))
-        }
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="blog-tags">
+                    {post.data.tags.map((tag: string) => (
+                      <span class="blog-tag">#{tag}</span>
+                    ))}
+                  </div>
+                )}
+                <div class="blog-read-more">Read article →</div>
+              </div>
+            </a>
+          </li>
+        ))}
       </ul>
-    </main><br><br>
-  </Container>
-</Layout>
+    )}
+  </section>
+
+</SiteLayout>
+
+<style>
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted);
+    font-size: .95rem;
+  }
+
+  .blog-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .blog-item { background: var(--bg); }
+
+  .blog-card {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .blog-card:hover { background: var(--surface); }
+
+  .blog-image {
+    overflow: hidden;
+    aspect-ratio: 16/10;
+    background: var(--surface);
+  }
+  .blog-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+  }
+  .blog-card:hover .blog-image img { transform: scale(1.03); }
+
+  .blog-info {
+    padding: 2.25rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: .5rem;
+  }
+
+  .blog-category {
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent);
+  }
+
+  .blog-title {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.35;
+    letter-spacing: -.02em;
+    margin: .15rem 0;
+  }
+
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .8rem;
+    color: var(--muted);
+  }
+  .meta-dot { color: var(--border); }
+
+  .blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: .15rem;
+  }
+  .blog-tag {
+    font-size: .72rem;
+    color: var(--muted);
+    background: var(--surface);
+    padding: .15em .5em;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .blog-read-more {
+    font-size: .82rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-top: .5rem;
+    transition: opacity .2s;
+  }
+  .blog-card:hover .blog-read-more { opacity: .75; }
+
+  @media (max-width: 768px) {
+    .blog-card { grid-template-columns: 1fr; }
+    .blog-image { aspect-ratio: 16/9; }
+    .blog-info { padding: 1.5rem; }
+    .blog-title { font-size: 1.15rem; }
+  }
+</style>

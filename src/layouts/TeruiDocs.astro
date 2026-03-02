@@ -1,0 +1,401 @@
+﻿---
+import SiteLayout from './SiteLayout.astro';
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'Documentation — termaUI CSS Framework for Tibetan language rendering.' } = Astro.props;
+---
+
+<SiteLayout title={title} description={description}>
+
+  <!-- termaUI sub-nav -->
+  <div class="termaui-subnav">
+    <div class="termaui-subnav-inner">
+      <span class="termaui-brand-tag">◈ termaUI</span>
+      <div class="termaui-subnav-links">
+        <a href="/termaui/" class="termaui-subnav-link">Overview</a>
+        <a href="/termaui/docs/" class="termaui-subnav-link tsn-active">Documentation</a>
+      </div>
+      <a href="https://github.com/vajradog/TermaFoundry" target="_blank" rel="noopener" class="termaui-subnav-gh">GitHub ↗</a>
+    </div>
+  </div>
+
+  <!-- Docs layout: sidebar + content -->
+  <div class="docs-layout">
+    <aside class="docs-sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Getting Started</div>
+        <a href="#installation" class="sidebar-link">Installation</a>
+        <a href="#framework-guides" class="sidebar-link">Framework Guides</a>
+        <a href="#quick-start" class="sidebar-link">Quick Start</a>
+        <a href="#terma-js" class="sidebar-link"><code>terma.js</code> ★</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Fonts</div>
+        <a href="#tr-jomolhari" class="sidebar-link"><code>.tr-jomolhari</code></a>
+        <a href="#tr-noto" class="sidebar-link"><code>.tr-noto</code></a>
+        <a href="#tr-machine-uni" class="sidebar-link"><code>.tr-machine-uni</code></a>
+        <a href="#tr-drutsa" class="sidebar-link"><code>.tr-drutsa</code></a>
+        <a href="#tr-monlam" class="sidebar-link"><code>.tr-monlam</code></a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Effects</div>
+        <a href="#tr-text-rainbow" class="sidebar-link"><code>.tr-text-rainbow</code></a>
+        <a href="#tr-text-saffron" class="sidebar-link"><code>.tr-text-saffron</code></a>
+        <a href="#tr-text-ink" class="sidebar-link"><code>.tr-text-ink</code></a>
+        <a href="#tr-glow-aurora" class="sidebar-link"><code>.tr-glow-aurora</code></a>
+        <a href="#tr-outline-gold" class="sidebar-link"><code>.tr-outline-gold</code></a>
+        <a href="#tr-glass" class="sidebar-link"><code>.tr-glass</code></a>
+        <a href="#tr-shimmer" class="sidebar-link"><code>.tr-shimmer</code></a>
+        <a href="#tr-text-fire" class="sidebar-link"><code>.tr-text-fire</code></a>
+        <a href="#tr-text-lapis" class="sidebar-link"><code>.tr-text-lapis</code></a>
+        <a href="#tr-emboss" class="sidebar-link"><code>.tr-emboss</code></a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Guardian</div>
+        <a href="#tr-guard" class="sidebar-link"><code>.tr-guard</code></a>
+        <a href="#tr-overflow-safe" class="sidebar-link"><code>.tr-overflow-safe</code></a>
+        <a href="#tr-scale-up" class="sidebar-link"><code>.tr-scale-up</code></a>
+        <a href="#tr-baseline" class="sidebar-link"><code>.tr-baseline</code></a>
+        <a href="#tr-shad-pair" class="sidebar-link"><code>.tr-shad-pair</code></a>
+        <a href="#tr-nobr-tsheg" class="sidebar-link"><code>.tr-nobr-tsheg</code></a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Typography</div>
+        <a href="#tr-text-sm" class="sidebar-link"><code>.tr-text-*</code></a>
+        <a href="#tr-leading-tight" class="sidebar-link"><code>.tr-leading-*</code></a>
+        <a href="#tr-text-left" class="sidebar-link"><code>.tr-text-align</code></a>
+        <a href="#tr-indent" class="sidebar-link"><code>.tr-indent</code></a>
+        <a href="#tr-justify-bo" class="sidebar-link"><code>.tr-justify-bo</code></a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Stacking</div>
+        <a href="#tr-stack-safe" class="sidebar-link"><code>.tr-stack-safe</code></a>
+        <a href="#tr-ligatures" class="sidebar-link"><code>.tr-ligatures</code></a>
+        <a href="#tr-yig-chung" class="sidebar-link"><code>.tr-yig-chung</code></a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Pecha</div>
+        <a href="#tr-pecha" class="sidebar-link"><code>.tr-pecha</code></a>
+        <a href="#tr-pecha-dark" class="sidebar-link"><code>.tr-pecha-dark</code></a>
+        <a href="#tr-pecha-title" class="sidebar-link"><code>.tr-pecha-title</code></a>
+        <a href="#tr-pecha-folio" class="sidebar-link"><code>.tr-pecha-folio</code></a>
+        <a href="#tr-yig-mgo" class="sidebar-link"><code>.tr-yig-mgo</code></a>
+        <a href="#tr-pecha-title-rotated" class="sidebar-link"><code>.tr-pecha-title-rotated</code></a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-heading">Patterns</div>
+        <a href="#mixed-language" class="sidebar-link">Mixed Language</a>
+      </div>
+    </aside>
+    <div class="docs-main">
+      <slot />
+    </div>
+  </div>
+
+</SiteLayout>
+
+<script>
+  // Copy buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const code = btn.closest('.code-block')?.querySelector('code')?.textContent || '';
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+      });
+    });
+  });
+
+  // Active sidebar link tracking
+  const sections = document.querySelectorAll('.doc-section');
+  const sidebarLinks = document.querySelectorAll('.sidebar-link');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        sidebarLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.sidebar-link[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '-80px 0px -60% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+
+<style is:global>
+  /* ── Sub-nav (shared with TeruiBase, defined here for docs pages) ── */
+  .termaui-subnav {
+    position: sticky;
+    top: 60px;
+    z-index: 150;
+    background: rgba(15,23,42,0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(148,163,184,0.08);
+  }
+  .termaui-subnav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .termaui-brand-tag {
+    font-size: .78rem;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: -.01em;
+    flex-shrink: 0;
+  }
+  .termaui-subnav-links { display: flex; gap: .15rem; }
+  .termaui-subnav-link {
+    font-size: .8rem;
+    font-weight: 500;
+    color: var(--text2);
+    padding: .25rem .65rem;
+    border-radius: 5px;
+    transition: color .15s, background .15s;
+  }
+  .termaui-subnav-link:hover { color: var(--text); background: rgba(148,163,184,0.06); }
+  .termaui-subnav-link.tsn-active { color: var(--text); background: rgba(148,163,184,0.08); }
+  .termaui-subnav-gh {
+    margin-left: auto;
+    font-size: .75rem;
+    font-weight: 500;
+    color: var(--muted);
+    transition: color .15s;
+  }
+  .termaui-subnav-gh:hover { color: var(--text2); }
+
+  /* ── Docs layout ── */
+  .docs-layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    /* no margin-top — SiteLayout's main already has padding-top:60px */
+    /* sub-nav is 44px sticky, content starts naturally below it */
+  }
+
+  /* ── Sidebar ── */
+  .docs-sidebar {
+    position: sticky;
+    top: 104px; /* 60px main-nav + 44px sub-nav */
+    height: calc(100vh - 104px);
+    overflow-y: auto;
+    padding: 2rem 0 2rem 1.5rem;
+    border-right: 1px solid rgba(148,163,184,0.08);
+    background: rgba(15,23,42,0.5);
+  }
+  .docs-sidebar::-webkit-scrollbar { width: 4px; }
+  .docs-sidebar::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.15); border-radius: 4px; }
+
+  .sidebar-section { margin-bottom: 1.75rem; }
+  .sidebar-heading {
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: #64748b;
+    margin-bottom: .6rem;
+    padding-left: .75rem;
+  }
+  .sidebar-link {
+    display: block;
+    font-size: .82rem;
+    color: #94a3b8;
+    text-decoration: none;
+    padding: .3rem .75rem;
+    border-left: 2px solid transparent;
+    transition: all .15s;
+    border-radius: 0 4px 4px 0;
+  }
+  .sidebar-link:hover { color: #e2e8f0; background: rgba(148,163,184,0.04); }
+  .sidebar-link.active {
+    color: #38bdf8;
+    border-left-color: #38bdf8;
+    background: rgba(56,189,248,0.06);
+  }
+  .sidebar-link code { font-family: 'JetBrains Mono', monospace; font-size: .78rem; }
+
+  /* ── Docs main ── */
+  .docs-main {
+    padding: 3rem 3.5rem 6rem;
+    max-width: 860px;
+  }
+
+  /* ── Doc sections ── */
+  .docs-funding-notice {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    font-style: italic;
+    border-left: 2px solid rgba(148,163,184,0.25);
+    padding: .6rem 1rem;
+    margin-bottom: 2.5rem;
+    background: rgba(148,163,184,0.05);
+    border-radius: 0 6px 6px 0;
+    line-height: 1.6;
+  }
+  .doc-section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 120px; /* accounts for both navs */
+  }
+  .doc-section h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -.03em;
+    color: #f1f5f9;
+    margin-bottom: .75rem;
+    padding-bottom: .75rem;
+    border-bottom: 1px solid rgba(148,163,184,0.08);
+  }
+  .doc-section h3 { font-size: 1.1rem; font-weight: 700; color: #f1f5f9; margin-bottom: .4rem; }
+  .doc-section p { font-size: .92rem; color: #94a3b8; line-height: 1.75; margin-bottom: 1.25rem; }
+  .doc-section p code, .doc-section li code {
+    font-family: 'JetBrains Mono', monospace; font-size: .82em;
+    color: #38bdf8; background: rgba(56,189,248,0.08);
+    padding: .1em .35em; border-radius: 3px;
+  }
+
+  /* ── Class reference card ── */
+  .class-ref {
+    background: #1e293b; border: 1px solid rgba(148,163,184,0.08);
+    border-radius: 12px; overflow: hidden; margin-bottom: 2rem;
+  }
+  .class-ref-header {
+    padding: 1rem 1.5rem; border-bottom: 1px solid rgba(148,163,184,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .class-ref-name { font-family: 'JetBrains Mono', monospace; font-size: .95rem; font-weight: 600; color: #38bdf8; }
+  .class-ref-meta { font-size: .75rem; color: #475569; }
+  .class-ref-demo { padding: 2rem 1.5rem; min-height: 4rem; display: flex; align-items: center; }
+  .class-ref-demo-light { background: #faf5ee; }
+  .class-ref-demo-glass { background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1e1b4b 100%); }
+
+  /* ── Code blocks ── */
+  .code-block { position: relative; background: #0f172a; border-top: 1px solid rgba(148,163,184,0.06); }
+  .code-block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .6rem 1.25rem; border-bottom: 1px solid rgba(148,163,184,0.06);
+    background: rgba(148,163,184,0.02);
+  }
+  .code-block-title { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: #475569; }
+  .copy-btn {
+    font-family: 'Inter', sans-serif; font-size: .7rem; font-weight: 500;
+    color: #475569; background: transparent;
+    border: 1px solid rgba(148,163,184,0.12); border-radius: 4px;
+    padding: .2rem .5rem; cursor: pointer; transition: all .15s;
+  }
+  .copy-btn:hover { color: #e2e8f0; border-color: rgba(148,163,184,0.3); }
+  .copy-btn.copied { color: #38bdf8; border-color: rgba(56,189,248,0.3); }
+  .code-block pre {
+    padding: 1rem 1.25rem; font-family: 'JetBrains Mono', monospace;
+    font-size: .8rem; line-height: 1.7; color: #94a3b8;
+    overflow-x: auto; background: transparent; border: none; margin: 0;
+  }
+  .code-block code .tag { color: #f472b6; }
+  .code-block code .attr { color: #c084fc; }
+  .code-block code .str { color: #38bdf8; }
+  .code-block code .cmt { color: #475569; }
+  .code-block code .hl { color: #38bdf8; background: rgba(56,189,248,0.08); padding: .05em .15em; border-radius: 3px; }
+
+  .code-standalone {
+    background: #1e293b; border: 1px solid rgba(148,163,184,0.08);
+    border-radius: 12px; overflow: hidden; margin-bottom: 1.5rem;
+  }
+  .code-standalone .code-block { border-top: none; }
+
+  /* ── Comparison rows ── */
+  .compare-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: rgba(148,163,184,0.06); border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(148,163,184,0.08); margin-bottom: 1.5rem;
+  }
+  .compare-col { background: #1e293b; padding: 1.5rem; }
+  .compare-label { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .75rem; }
+  .compare-label.bad { color: #ef4444; }
+  .compare-label.good { color: #38bdf8; }
+
+  /* ── Tailwind / framework compatibility callout ── */
+  .compat-callout {
+    background: rgba(56,189,248,0.05);
+    border: 1px solid rgba(56,189,248,0.18);
+    border-radius: 10px;
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .compat-callout-title {
+    font-size: .88rem; font-weight: 700; color: #38bdf8;
+    margin-bottom: .5rem;
+  }
+  .compat-callout p {
+    font-size: .88rem; color: #94a3b8; margin-bottom: 0; line-height: 1.65;
+  }
+  .compat-callout .code-block {
+    border-radius: 8px; overflow: hidden;
+    border: 1px solid rgba(148,163,184,0.1);
+  }
+  .compat-callout .code-block-header { background: transparent; }
+
+  /* ── Framework note ── */
+  .fw-note {
+    font-size: .82rem; color: #64748b; background: rgba(148,163,184,0.04);
+    border-left: 2px solid rgba(148,163,184,0.15);
+    padding: .6rem .9rem; border-radius: 0 6px 6px 0;
+    margin-bottom: 1.5rem; line-height: 1.6;
+  }
+  .fw-note code {
+    font-family: 'JetBrains Mono', monospace; font-size: .82em;
+    color: #38bdf8; background: rgba(56,189,248,0.08);
+    padding: .1em .35em; border-radius: 3px;
+  }
+
+  /* ── requires-table (CSS-only vs terma.js) ── */
+  .requires-table {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+    background: rgba(148,163,184,0.06); border-radius: 12px; overflow: hidden;
+    border: 1px solid rgba(148,163,184,0.08); margin: 1.25rem 0 2rem;
+  }
+  .requires-table-col { background: #1e293b; }
+  .requires-table-head {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; padding: .75rem 1.1rem;
+    border-bottom: 1px solid rgba(148,163,184,0.08);
+  }
+  .requires-table-head.css-head { color: #22c55e; }
+  .requires-table-head.js-head { color: #f59e0b; }
+  .requires-table-body { padding: .5rem 0; }
+  .requires-row {
+    font-size: .82rem; color: #94a3b8; padding: .45rem 1.1rem;
+    border-bottom: 1px solid rgba(148,163,184,0.04);
+    line-height: 1.5;
+  }
+  .requires-row:last-child { border-bottom: none; }
+  .requires-row code {
+    font-family: 'JetBrains Mono', monospace; font-size: .8em;
+    color: #38bdf8; background: rgba(56,189,248,0.08);
+    padding: .1em .3em; border-radius: 3px;
+  }
+  .requires-row strong { color: #e2e8f0; font-weight: 600; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .termaui-subnav-gh { display: none; }
+    .docs-layout { grid-template-columns: 1fr; }
+    .docs-sidebar {
+      position: static; height: auto;
+      border-right: none; border-bottom: 1px solid rgba(148,163,184,0.08);
+      padding: 1.5rem; display: flex; flex-wrap: wrap; gap: .5rem 2rem;
+    }
+    .sidebar-section { margin-bottom: .5rem; }
+    .sidebar-heading { margin-bottom: .25rem; }
+    .sidebar-link { display: inline-block; border-left: none; padding: .25rem .5rem; font-size: .78rem; }
+    .sidebar-link.active { border-left: none; border-bottom: 2px solid #38bdf8; border-radius: 0; }
+    .docs-main { padding: 2rem 1.5rem 4rem; }
+  }
+  @media (max-width: 600px) {
+    .compare-row { grid-template-columns: 1fr; }
+  }
+</style>

@@ -6,9 +6,14 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "npm run css:dist && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "css:build": "postcss src/termaui/termaui.css -o public/dist/termaui.css --no-map",
+    "css:minify": "postcss public/dist/termaui.css --use cssnano -o public/dist/termaui.min.css --no-map",
+    "css:dist": "npm run css:build && npm run css:minify",
+    "pkg:build": "npm run css:dist && node scripts/build-pkg.mjs",
+    "pkg:copy": "node scripts/build-pkg.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.2",
@@ -26,5 +31,12 @@
     "astro-seo": "^0.8.3",
     "sharp": "^0.33.4",
     "tailwindcss": "^3.4.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.27",
+    "cssnano": "^7.1.2",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "postcss-import": "^16.1.1"
   }
 }

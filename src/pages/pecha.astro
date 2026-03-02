@@ -1,0 +1,1237 @@
+---
+import SiteLayout from '@layouts/SiteLayout.astro';
+---
+
+<SiteLayout title="PechaForge — Free Tibetan Pecha Manuscript Creator Online" description="Create authentic Tibetan pecha manuscripts in your browser. PechaForge formats Tibetan text into traditional three-column pecha pages with yig mgo, Tibetan folios, and PDF export. Free, no account.">
+
+  <section class="pf-page">
+
+    <!-- ═══ TOOLBAR ═══════════════════════════════════════════════════════ -->
+    <div class="pf-toolbar reveal">
+      <div class="pf-toolbar-row">
+        <h1 class="pf-title">PechaForge</h1>
+        <div class="pf-toolbar-actions">
+          <button class="pf-btn pf-btn-primary" id="btn-generate">Generate Preview</button>
+          <button class="pf-btn" id="btn-print" title="Export as PDF via browser print">Export PDF</button>
+          <button class="pf-btn" id="btn-print-duplex" title="Export double-sided PDF for cutting into pecha leaves">Double-Sided</button>
+          <button class="pf-btn-icon" id="btn-save" title="Save project as .json file">Save</button>
+          <button class="pf-btn-icon" id="btn-load" title="Load project from .json file">Load</button>
+          <input type="file" id="file-load" accept=".json" class="pf-hidden">
+        </div>
+      </div>
+
+      <!-- Settings row -->
+      <div class="pf-settings">
+        <div class="pf-setting">
+          <label for="set-font">Font</label>
+          <select id="set-font">
+            <optgroup label="Uchen — Formal">
+              <option value="Jomolhari" selected>Jomolhari</option>
+              <option value="Noto Serif Tibetan">Noto Serif Tibetan</option>
+              <option value="Tibetan Machine Uni">Tibetan Machine Uni</option>
+              <option value="DDC Uchen">DDC Uchen</option>
+              <option value="DDC Rinzin">DDC Rinzin</option>
+              <option value="Monlam Bodyig">Monlam Bodyig</option>
+              <option value="BabelStone Tibetan">BabelStone Tibetan</option>
+              <option value="BabelStone Tibetan Slim">BabelStone Slim</option>
+              <option value="GangJie Uchen">GangJie Uchen</option>
+              <option value="Jamyang Monlam Uchen">Jamyang Monlam</option>
+              <option value="Panchen Tsukring">Panchen Tsukring</option>
+              <option value="Riwoche Dhodri">Riwoche Dhodri</option>
+              <option value="Sadri Yigchen">Sadri Yigchen</option>
+            </optgroup>
+            <optgroup label="Qomolangma">
+              <option value="Qomolangma-UchenSarchen">Qomolangma Sarchen</option>
+              <option value="Qomolangma-Betsu">Qomolangma Betsu</option>
+              <option value="Qomolangma-Tsutong">Qomolangma Tsutong</option>
+            </optgroup>
+            <optgroup label="Monlam Uni">
+              <option value="Monlam Uni OuChan1">Monlam OuChan 1</option>
+              <option value="Monlam Uni OuChan2">Monlam OuChan 2</option>
+              <option value="Monlam Uni OuChan3">Monlam OuChan 3</option>
+              <option value="Monlam Uni OuChan4">Monlam OuChan 4</option>
+              <option value="Monlam Uni OuChan5">Monlam OuChan 5</option>
+              <option value="Monlam Uni PayTsik">Monlam PayTsik</option>
+              <option value="Monlam Uni Tikrang">Monlam Tikrang</option>
+              <option value="Monlam Uni TikTong">Monlam TikTong</option>
+            </optgroup>
+            <optgroup label="Sans-Serif">
+              <option value="Noto Sans Tibetan">Noto Sans Tibetan</option>
+              <option value="MiSans Tibetan">MiSans Tibetan</option>
+              <option value="Monlam Uni Sans">Monlam Sans</option>
+            </optgroup>
+            <optgroup label="Drutsa — Cursive">
+              <option value="Qomolangma-Drutsa">Qomolangma Drutsa</option>
+              <option value="GangJie Drutsa">GangJie Drutsa</option>
+              <option value="Khampa Dedri Drutsa">Khampa Drutsa</option>
+              <option value="Sadri Drutsa">Sadri Drutsa</option>
+              <option value="Monlam Uni Dutsa1">Monlam Dutsa 1</option>
+              <option value="Monlam Uni Dutsa2">Monlam Dutsa 2</option>
+            </optgroup>
+            <optgroup label="Semi-Cursive">
+              <option value="Joyig">Joyig</option>
+              <option value="Khampa Dedri Chuyig">Khampa Chuyig</option>
+              <option value="Khampa Dedri Bechu">Khampa Bechu</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="pf-setting">
+          <label for="set-theme">Theme</label>
+          <select id="set-theme">
+            <option value="light" selected>Light (Parchment)</option>
+            <option value="dark">Dark (Gold on Indigo)</option>
+            <option value="bw">Black &amp; White</option>
+            <option value="maroon">Maroon (Monastic)</option>
+          </select>
+        </div>
+        <div class="pf-setting">
+          <label for="set-title">Title Text</label>
+          <input type="text" id="set-title" placeholder="ཤེས་རབ།" lang="bo" class="pf-title-input">
+        </div>
+        <div class="pf-setting">
+          <label for="set-folio-start">Start Folio</label>
+          <input type="number" id="set-folio-start" value="1" min="1" max="999">
+        </div>
+        <div class="pf-setting">
+          <label for="set-lines">Lines / Page</label>
+          <input type="number" id="set-lines" value="7" min="2" max="12">
+        </div>
+        <div class="pf-setting pf-setting-toggle">
+          <label for="set-yigmgo">Yig mgo</label>
+          <button id="set-yigmgo" class="pf-toggle active" title="Add ༄༅། opening mark to first page">ON</button>
+        </div>
+        <div class="pf-setting pf-setting-toggle">
+          <label for="set-ime">IME</label>
+          <button id="set-ime" class="pf-toggle active" title="Toggle Tibetan IME keyboard">ON</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ INPUT SECTION ═════════════════════════════════════════════════ -->
+    <div class="pf-input-section reveal" id="input-section">
+      <div class="pf-input-header">
+        <span class="pf-input-label">Paste or type Tibetan text</span>
+        <span class="pf-charcount" id="charcount">0 chars</span>
+        <button class="pf-btn-sm" id="btn-toggle-input">Hide Input</button>
+      </div>
+      <textarea
+        id="pf-textarea"
+        class="pf-textarea"
+        placeholder="Paste Tibetan text here, or type using the IME..."
+        lang="bo"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      ></textarea>
+    </div>
+
+    <!-- ═══ PREVIEW SECTION ═══════════════════════════════════════════════ -->
+    <div class="pf-preview" id="preview-section">
+      <div class="pf-preview-header" id="preview-header" style="display:none;">
+        <span class="pf-preview-label" id="preview-label">0 pages</span>
+      </div>
+      <div class="pf-pages" id="pf-pages">
+        <!-- Pecha pages rendered here by JS -->
+      </div>
+    </div>
+
+  </section>
+</SiteLayout>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     SCRIPT
+     ═══════════════════════════════════════════════════════════════════════ -->
+<script>
+  // ─── IME keymap (from terma-ime.js) ─────────────────────────────────────
+  const IME_MAP = {
+    'k':'\u0F40','[':'\u0F41','g':'\u0F42',',':'\u0F44',
+    'c':'\u0F45','x':'\u0F46','j':'\u0F47','.':'\u0F49',
+    't':'\u0F4F',']':'\u0F50','d':'\u0F51','n':'\u0F53',
+    'p':'\u0F54','f':'\u0F55','b':'\u0F56','m':'\u0F58',
+    ';':'\u0F59',':':'\u0F5A','\\':'\u0F5B','v':'\u0F5D',
+    'w':'\u0F5E','z':'\u0F5F',"'":'\u0F60','y':'\u0F61',
+    'r':'\u0F62','l':'\u0F63','q':'\u0F64','s':'\u0F66',
+    'h':'\u0F67','a':'\u0F68',
+    'i':'\u0F72','u':'\u0F74','e':'\u0F7A','o':'\u0F7C',
+    ' ':'\u0F0B','/':'\u0F0D','-':'\u0F0C',
+    '0':'\u0F20','1':'\u0F21','2':'\u0F22','3':'\u0F23',
+    '4':'\u0F24','5':'\u0F25','6':'\u0F26','7':'\u0F27',
+    '8':'\u0F28','9':'\u0F29',
+    'K':'\u0F90','G':'\u0F92','C':'\u0F95','X':'\u0F96',
+    'J':'\u0F97','T':'\u0F9F','D':'\u0FA1','N':'\u0FA3',
+    'P':'\u0FA4','B':'\u0FA6','M':'\u0FA8','V':'\u0FAD',
+    'W':'\u0FAE','Z':'\u0FAF','Y':'\u0FB1','R':'\u0FB2',
+    'L':'\u0FB3','Q':'\u0FB4','S':'\u0FB6','H':'\u0FB7','A':'\u0FB8',
+  };
+
+  const IME_PASS = new Set([
+    'Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp','ArrowDown',
+    'Home','End','PageUp','PageDown','Tab','Enter','Escape',
+    'F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12',
+    'CapsLock','Shift','Control','Alt','Meta','AltGraph',
+  ]);
+
+  // ─── State ──────────────────────────────────────────────────────────────
+  const state = {
+    text: '',
+    font: 'Jomolhari',
+    theme: 'light',
+    titleText: '',
+    folioStart: 1,
+    linesPerPage: 7,
+    imeEnabled: true,
+    yigmgo: true,
+    pages: [],
+  };
+
+  let autosaveTimer = null;
+  const LS_KEY = 'pechaforge-draft';
+
+  // ─── DOM refs ───────────────────────────────────────────────────────────
+  const textarea      = document.getElementById('pf-textarea');
+  const pagesContainer = document.getElementById('pf-pages');
+  const previewHeader = document.getElementById('preview-header');
+  const previewLabel  = document.getElementById('preview-label');
+  const charcount     = document.getElementById('charcount');
+  const inputSection  = document.getElementById('input-section');
+  const fileLoad      = document.getElementById('file-load');
+
+  const selFont       = document.getElementById('set-font');
+  const selTheme      = document.getElementById('set-theme');
+  const inpTitle      = document.getElementById('set-title');
+  const inpFolio      = document.getElementById('set-folio-start');
+  const inpLines      = document.getElementById('set-lines');
+  const btnIme        = document.getElementById('set-ime');
+  const btnYigmgo     = document.getElementById('set-yigmgo');
+
+  // ─── Helpers ────────────────────────────────────────────────────────────
+
+  /** Convert Arabic integer to Tibetan numeral string. */
+  function toTibetanNumeral(n) {
+    return String(n).replace(/[0-9]/g, function (d) {
+      return String.fromCharCode(0x0F20 + Number(d));
+    });
+  }
+
+  /** Update character counter display. */
+  function updateCharCount() {
+    const len = [...textarea.value].length;
+    charcount.textContent = len + ' char' + (len !== 1 ? 's' : '');
+  }
+
+  // ─── Pagination ─────────────────────────────────────────────────────────
+
+  /**
+   * Split text into pecha pages.
+   * Lines are split on \n, grouped into chunks of linesPerPage.
+   */
+  function paginate(text, linesPerPage, folioStart) {
+    if (!text.trim()) return [];
+
+    let lines = text.split('\n');
+
+    // Trim trailing empty lines
+    while (lines.length > 0 && lines[lines.length - 1].trim() === '') {
+      lines.pop();
+    }
+    if (lines.length === 0) return [];
+
+    const pages = [];
+    for (let i = 0; i < lines.length; i += linesPerPage) {
+      const chunk = lines.slice(i, i + linesPerPage);
+      pages.push({
+        lines: chunk,
+        folioNum: folioStart + pages.length,
+        isFirst: pages.length === 0,
+      });
+    }
+    return pages;
+  }
+
+  // ─── Tibetan line-breaking (from terma.js) ──────────────────────────────
+
+  /** Insert ZWS after tsheg for line-break opportunities, protect shad pairs. */
+  function prepareTibetan(el) {
+    const TSHEG = '\u0F0B';
+    const TSHEG_NB = '\u0F0C';
+    const SHAD = '\u0F0D';
+    const ZWS = '\u200B';
+    const WJ = '\u2060';
+
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+
+    for (let i = nodes.length - 1; i >= 0; i--) {
+      let t = nodes[i].textContent;
+      // Protect tsheg+shad from splitting
+      t = t.replaceAll(TSHEG + SHAD, TSHEG_NB + SHAD);
+      // Protect double shad
+      t = t.replaceAll(SHAD + ' ' + SHAD, SHAD + WJ + ' ' + WJ + SHAD);
+      // Insert ZWS after tsheg for line-break opportunities
+      t = t.replace(new RegExp(TSHEG + '(?!' + ZWS + ')', 'g'), TSHEG + ZWS);
+      if (t !== nodes[i].textContent) nodes[i].textContent = t;
+    }
+  }
+
+  // ─── Render Preview ─────────────────────────────────────────────────────
+
+  /** Build a single pecha page element (body or title). */
+  function buildPechaPage(opts) {
+    var themeClass = '';
+    if (state.theme === 'dark') themeClass = ' tr-pecha-dark';
+    else if (state.theme === 'bw') themeClass = ' pf-theme-bw';
+    else if (state.theme === 'maroon') themeClass = ' pf-theme-maroon';
+    var fontStyle = "font-family: '" + state.font + "', 'Noto Serif Tibetan', serif;";
+
+    var el = document.createElement('div');
+    el.className = 'tr-pecha' + themeClass + ' pf-page-item';
+    if (opts.isTitlePage) el.classList.add('pf-title-page');
+    el.setAttribute('lang', 'bo');
+    el.style.cssText = fontStyle;
+
+    // Title column (left margin)
+    var titleCol = document.createElement('div');
+    titleCol.className = 'tr-pecha-title';
+    if (state.titleText && !opts.isTitlePage) {
+      var titleSpan = document.createElement('span');
+      titleSpan.className = 'pf-side-title';
+      titleSpan.textContent = state.titleText;
+      titleCol.appendChild(titleSpan);
+    }
+
+    // Body column
+    var bodyCol = document.createElement('div');
+    bodyCol.className = 'tr-pecha-body';
+
+    if (opts.isTitlePage) {
+      // Title page: large centered title text
+      bodyCol.classList.add('pf-title-body');
+      bodyCol.textContent = state.titleText || '';
+    } else {
+      if (opts.isFirstBody && state.yigmgo) {
+        bodyCol.classList.add('tr-yig-mgo');
+      }
+      bodyCol.textContent = opts.lines.join('\n');
+    }
+
+    // Folio column (right margin)
+    var folioCol = document.createElement('div');
+    folioCol.className = 'tr-pecha-folio';
+    if (!opts.isTitlePage) {
+      folioCol.textContent = toTibetanNumeral(opts.folioNum);
+    }
+
+    el.appendChild(titleCol);
+    el.appendChild(bodyCol);
+    el.appendChild(folioCol);
+    return el;
+  }
+
+  function renderPreview() {
+    var pages = paginate(state.text, state.linesPerPage, state.folioStart);
+    state.pages = pages;
+    pagesContainer.innerHTML = '';
+
+    if (pages.length === 0 && !state.titleText) {
+      previewHeader.style.display = 'none';
+      return;
+    }
+
+    // Preload the selected font so browser downloads it before painting
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load("1em '" + state.font + "'", "\u0F40");
+    }
+
+    // Count: title page + body pages
+    var totalPages = pages.length + (state.titleText ? 1 : 0);
+    previewHeader.style.display = 'flex';
+    previewLabel.textContent = totalPages + ' page' + (totalPages !== 1 ? 's' : '');
+
+    // Collect all page elements
+    var allPages = [];
+
+    // 1. Title page (if title text is set)
+    if (state.titleText) {
+      allPages.push(buildPechaPage({ isTitlePage: true }));
+    }
+
+    // 2. Body pages
+    pages.forEach(function (page, idx) {
+      allPages.push(buildPechaPage({
+        isTitlePage: false,
+        isFirstBody: idx === 0,
+        lines: page.lines,
+        folioNum: page.folioNum,
+      }));
+    });
+
+    // Group into sheets of 3 for print layout
+    for (var i = 0; i < allPages.length; i += 3) {
+      var sheet = document.createElement('div');
+      sheet.className = 'pf-print-sheet';
+      for (var j = i; j < Math.min(i + 3, allPages.length); j++) {
+        sheet.appendChild(allPages[j]);
+      }
+      pagesContainer.appendChild(sheet);
+    }
+
+    // Apply Tibetan line-breaking to all body pages
+    pagesContainer.querySelectorAll('.tr-pecha-body').forEach(function (body) {
+      if (!body.closest('.pf-title-page')) prepareTibetan(body);
+    });
+  }
+
+  // ─── IME Handler ────────────────────────────────────────────────────────
+
+  function imeHandler(ev) {
+    if (!state.imeEnabled) return;
+    if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    if (IME_PASS.has(ev.key)) return;
+    const mapped = IME_MAP[ev.key];
+    if (mapped === undefined) return;
+
+    ev.preventDefault();
+    const el = ev.target;
+    const s = el.selectionStart != null ? el.selectionStart : el.value.length;
+    const e = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+    el.value = el.value.slice(0, s) + mapped + el.value.slice(e);
+    const pos = s + mapped.length;
+    el.setSelectionRange(pos, pos);
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  // ─── Save / Load / localStorage ─────────────────────────────────────────
+
+  function getProjectData() {
+    return {
+      version: 1,
+      text: state.text,
+      font: state.font,
+      theme: state.theme,
+      titleText: state.titleText,
+      folioStart: state.folioStart,
+      linesPerPage: state.linesPerPage,
+      yigmgo: state.yigmgo,
+    };
+  }
+
+  function loadProjectData(data) {
+    if (!data || data.version !== 1) return false;
+
+    state.text         = data.text || '';
+    state.font         = data.font || 'Jomolhari';
+    state.theme        = data.theme || 'light';
+    state.titleText    = data.titleText || '';
+    state.folioStart   = data.folioStart || 1;
+    state.linesPerPage = data.linesPerPage || 7;
+    state.yigmgo       = data.yigmgo !== false;
+
+    // Sync DOM controls
+    textarea.value      = state.text;
+    selFont.value       = state.font;
+    selTheme.value      = state.theme;
+    inpTitle.value      = state.titleText;
+    inpFolio.value      = String(state.folioStart);
+    inpLines.value      = String(state.linesPerPage);
+    btnYigmgo.textContent = state.yigmgo ? 'ON' : 'OFF';
+    btnYigmgo.classList.toggle('active', state.yigmgo);
+
+    updateCharCount();
+    if (state.text.trim()) renderPreview();
+    return true;
+  }
+
+  function saveProject() {
+    const data = getProjectData();
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'pechaforge-project.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  function loadProject(file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (!loadProjectData(data)) {
+          alert('Invalid PechaForge project file.');
+        }
+      } catch (_) {
+        alert('Could not parse project file.');
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function scheduleAutosave() {
+    clearTimeout(autosaveTimer);
+    autosaveTimer = setTimeout(function () {
+      try {
+        localStorage.setItem(LS_KEY, JSON.stringify(getProjectData()));
+      } catch (_) { /* quota exceeded — silent */ }
+    }, 1000);
+  }
+
+  const SEED_TITLE = '༄༅། །གསོལ་འདེབས་ལེའུ་བདུན་མ་བསྡུས་པ་བཞུགས་སོ། །';
+  const SEED_TEXT = `ཨེ་མ་ཧོ༔
+ཐོག་མའི་སངས་རྒྱས་ཆོས་སྐུ་ཀུན་ཏུ་བཟང་༔
+རྒྱལ་བ་རབ་འབྱམས་དཀྱིལ་འཁོར་ལོངས་སྤྱོད་རྫོགས༔
+གང་ལ་གང་འདུལ་གར་བསྒྱུར་སྤྲུལ་པའི་སྐུ༔
+སྐུ་གསུམ་དབྱེར་མེད་ཨོ་རྒྱན་རིན་པོ་ཆེ༔
+གསོལ་བ་འདེབས་སོ་ཐུགས་རྗེས་སྤྱན་གྱིས་གཟིགས༔
+བྱིན་གྱིས་རློབས་ཤིག་ཐར་པའི་ལམ་སྣ་དྲོངས༔
+སྣང་བ་མཐའ་ཡས་སངས་རྒྱས་འོད་དཔག་མེད༔
+འཇིག་རྟེན་དབང་ཕྱུག་བྱམས་མགོན་སྤྱན་རས་གཟིགས༔
+དཀྱིལ་འཁོར་གཙོ་བོ་ཁྲག་འཐུང་ཧེ་རུ་ཀ༔
+ཀུན་གྱི་བདག་ཉིད་ཨོ་རྒྱན་རིན་པོ་ཆེ༔
+གསོལ་བ་འདེབས་སོ་ཐུགས་རྗེས་སྤྱན་གྱིས་གཟིགས༔
+བྱིན་གྱིས་རློབས་ཤིག་ཐར་པའི་ལམ་སྣ་དྲོངས༔
+དྷ་ན་ཀོ་ཤ་པདྨའི་སྦུབས་སུ་འཁྲུངས༔
+ཨོ་རྒྱན་ཆོས་ཀྱི་རྒྱལ་པོའི་རྒྱལ་སྲིད་མཛད༔
+མངལ་གྱི་མ་གོས་དྲི་མེད་སྤྲུལ་པའི་སྐུ༔
+སྲིད་གསུམ་མཚུངས་མེད་ཨོ་རྒྱན་རིན་པོ་ཆེ༔
+གསོལ་བ་འདེབས་སོ་ཐུགས་རྗེས་སྤྱན་གྱིས་གཟིགས༔
+བྱིན་གྱིས་རློབས་ཤིག་ཐར་པའི་ལམ་སྣ་དྲོངས༔
+བསླབ་སྦྱངས་མཐར་ཕྱིན་འཛམ་གླིང་མཁས་པའི་མཆོག༔
+བརྟུལ་ཞུགས་མཐར་ཕྱིན་མ་མོ་བྲན་དུ་བཀོལ༔
+སྒྲུབ་པ་མཐར་ཕྱིན་སྣང་སྲིད་དབང་དུ་བསྡུས༔
+ཐམས་ཅད་མཁྱེན་པ་ཨོ་རྒྱན་རིན་པོ་ཆེ༔
+གསོལ་བ་འདེབས་སོ་ཐུགས་རྗེས་སྤྱན་གྱིས་གཟིགས༔
+བྱིན་གྱིས་རློབས་ཤིག་ཐར་པའི་ལམ་སྣ་དྲོངས༔
+བོད་ཡུལ་དབུས་སུ་ལྷ་སྲིན་དམ་ལ་བཏགས༔
+མངའ་བདག་རྒྱལ་པོའི་དགོངས་པ་རྫོགས་པར་མཛད༔
+སྐལ་ལྡན་མ་ལུས་རིག་འཛིན་ས་ལ་བཀོད༔
+འགྲོ་བའི་འདྲེན་མཆོག་ཨོ་རྒྱན་རིན་པོ་ཆེ༔
+གསོལ་བ་འདེབས་སོ་ཐུགས་རྗེས་སྤྱན་གྱིས་གཟིགས༔
+བྱིན་གྱིས་རློབས་ཤིག་ཐར་པའི་ལམ་སྣ་དྲོངས༔
+ལས་ཅན་དོན་དུ་ཟབ་གཏེར་འབུམ་ཕྲག་སྦས༔
+མངོན་སུམ་ཇི་བཞིན་ཕྱི་རབས་ལུང་བསྟན་མཛད༔
+འབྲལ་མེད་ཐུགས་རྗེས་སྐྱོང་བར་ཞལ་གྱིས་བཞེས༔
+དུས་གསུམ་ཀུན་མཁྱེན་ཨོ་རྒྱན་རིན་པོ་ཆེ༔
+གསོལ་བ་འདེབས་སོ་ཐུགས་རྗེས་སྤྱན་གྱིས་གཟིགས༔
+བྱིན་གྱིས་རློབས་ཤིག་ཐར་པའི་ལམ་སྣ་དྲོངས༔
+འདི་ནས་རྔ་ཡབ་པདྨའི་གླིང་དུ་འགྲོ༔
+ཚེས་བཅུ་བྱུང་རེས་བོད་དུ་འོང་ངོ་གསུངས༔
+སྙིགས་མའི་སེམས་ཅན་མོས་གདུང་བརྩེ་བ་ཅན༔
+འགྲོ་བའི་སྐྱབས་མགོན་ཨོ་རྒྱན་རིན་པོ་ཆེ༔
+གསོལ་བ་འདེབས་སོ་ཐུགས་རྗེས་སྤྱན་གྱིས་གཟིགས༔
+བྱིན་གྱིས་རློབས་ཤིག་ཐར་པའི་ལམ་སྣ་དྲོངས༔
+འཆི་མེད་རྡོ་རྗེ་ལྟ་བུའི་གོ་འཕང་བརྙེས༔
+ལྷོ་ནུབ་གདུག་པ་སྲིན་པོའི་ཁ་གནོན་མཛད༔
+རྒྱལ་བ་གཞན་ལས་ཐུགས་རྗེ་ངོ་མཚར་ཆེ༔
+འགྲོ་ཀུན་སྐྱབས་གཅིག་ཨོ་རྒྱན་རིན་པོ་ཆེ༔
+གསོལ་བ་འདེབས་སོ་ཐུགས་རྗེས་སྤྱན་གྱིས་གཟིགས༔
+བྱིན་གྱིས་རློབས་ཤིག་ཐར་པའི་ལམ་སྣ་དྲོངས༔
+འདི་ནས་བཟུང་སྟེ་ཐར་པ་མ་ཐོབ་བར༔
+རེ་སའི་སྐྱབས་གནས་གཞན་ན་མ་མཆིས་པས༔
+ཡེངས་མེད་ཐུགས་རྗེའི་སྤྱན་གྱིས་བདག་ལ་གཟིགས༔
+མཆོག་དང་ཐུན་མོང་དངོས་གྲུབ་བདག་ལ་སྩོལ༔
+ཀ་དག་རིག་པའི་ངོ་བོ་མཐོང་ནས་ཀྱང་༔
+མྱུར་དུ་ཁྱེད་རང་ལྟ་བུར་བྱིན་གྱིས་རློབས༔`;
+
+  function loadAutosave() {
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      if (raw) {
+        const data = JSON.parse(raw);
+        loadProjectData(data);
+        return;
+      }
+    } catch (_) { /* corrupted — ignore */ }
+    // No saved state — load seed text
+    state.text      = SEED_TEXT;
+    state.titleText = SEED_TITLE;
+    textarea.value  = SEED_TEXT;
+    inpTitle.value  = SEED_TITLE;
+    updateCharCount();
+    renderPreview();
+  }
+
+  // ─── Event wiring ──────────────────────────────────────────────────────
+
+  // Textarea
+  textarea.addEventListener('keydown', imeHandler);
+  textarea.addEventListener('input', function () {
+    state.text = textarea.value;
+    updateCharCount();
+    scheduleAutosave();
+  });
+
+  // Title input also gets IME
+  inpTitle.addEventListener('keydown', imeHandler);
+
+  // Settings → state + re-render
+  selFont.addEventListener('change', function (e) {
+    state.font = e.target.value;
+    // Update title input font to match
+    inpTitle.style.fontFamily = "'" + state.font + "', 'Noto Serif Tibetan', serif";
+    scheduleAutosave();
+    if (state.pages.length) renderPreview();
+  });
+
+  selTheme.addEventListener('change', function (e) {
+    state.theme = e.target.value;
+    scheduleAutosave();
+    if (state.pages.length) renderPreview();
+  });
+
+  inpTitle.addEventListener('input', function (e) {
+    state.titleText = e.target.value;
+    scheduleAutosave();
+    if (state.pages.length) renderPreview();
+  });
+
+  inpFolio.addEventListener('change', function (e) {
+    state.folioStart = parseInt(e.target.value) || 1;
+    scheduleAutosave();
+    if (state.pages.length) renderPreview();
+  });
+
+  inpLines.addEventListener('change', function (e) {
+    state.linesPerPage = parseInt(e.target.value) || 7;
+    scheduleAutosave();
+    if (state.pages.length) renderPreview();
+  });
+
+  // IME toggle
+  btnIme.addEventListener('click', function () {
+    state.imeEnabled = !state.imeEnabled;
+    btnIme.textContent = state.imeEnabled ? 'ON' : 'OFF';
+    btnIme.classList.toggle('active', state.imeEnabled);
+  });
+
+  // Yig mgo toggle
+  btnYigmgo.addEventListener('click', function () {
+    state.yigmgo = !state.yigmgo;
+    btnYigmgo.textContent = state.yigmgo ? 'ON' : 'OFF';
+    btnYigmgo.classList.toggle('active', state.yigmgo);
+    scheduleAutosave();
+    if (state.pages.length) renderPreview();
+  });
+
+  // Action buttons
+  document.getElementById('btn-generate').addEventListener('click', function () {
+    state.text = textarea.value;
+    renderPreview();
+  });
+
+  document.getElementById('btn-print').addEventListener('click', function () {
+    if (!state.pages.length) {
+      state.text = textarea.value;
+      renderPreview();
+    }
+    if (state.pages.length) window.print();
+  });
+
+  document.getElementById('btn-print-duplex').addEventListener('click', function () {
+    state.text = textarea.value;
+    var pages = paginate(state.text, state.linesPerPage, state.folioStart);
+    if (pages.length === 0 && !state.titleText) return;
+
+    // Build all body page elements
+    var bodyPages = pages.map(function (page, idx) {
+      return buildPechaPage({
+        isTitlePage: false,
+        isFirstBody: idx === 0,
+        lines: page.lines,
+        folioNum: page.folioNum,
+      });
+    });
+
+    // Save current preview and replace with duplex layout
+    var savedHTML = pagesContainer.innerHTML;
+    pagesContainer.innerHTML = '';
+
+    // Sheet 1 (front): Title/cover page with instructions
+    var coverSheet = document.createElement('div');
+    coverSheet.className = 'pf-print-sheet pf-duplex-cover';
+    if (state.titleText) {
+      coverSheet.appendChild(buildPechaPage({ isTitlePage: true }));
+    }
+    var instr = document.createElement('div');
+    instr.className = 'pf-duplex-instructions';
+    instr.innerHTML =
+      '<strong>Double-Sided Printing Instructions</strong><br>' +
+      'Print with duplex enabled (flip on long edge).<br>' +
+      'After printing, cut each sheet into 3 horizontal strips.<br>' +
+      'Each strip becomes a double-sided pecha leaf.';
+    coverSheet.appendChild(instr);
+    pagesContainer.appendChild(coverSheet);
+
+    // Sheet 2 (back of cover): blank
+    var blankSheet = document.createElement('div');
+    blankSheet.className = 'pf-print-sheet pf-duplex-blank';
+    pagesContainer.appendChild(blankSheet);
+
+    // Arrange body pages for duplex: groups of 6
+    // Front sheet: pages 0, 2, 4 (odd pecha pages: 1, 3, 5)
+    // Back sheet:  pages 1, 3, 5 (even pecha pages: 2, 4, 6)
+    for (var i = 0; i < bodyPages.length; i += 6) {
+      var chunk = bodyPages.slice(i, Math.min(i + 6, bodyPages.length));
+
+      // Front sheet (odd pages: positions 0, 2, 4)
+      var frontSheet = document.createElement('div');
+      frontSheet.className = 'pf-print-sheet';
+      for (var f = 0; f < chunk.length; f += 2) {
+        frontSheet.appendChild(chunk[f]);
+      }
+      pagesContainer.appendChild(frontSheet);
+
+      // Back sheet (even pages in REVERSE order for long-edge flip)
+      // Front: 1,3,5 top→bottom. When flipped on long edge, top↔bottom.
+      // So back must be: 6,4,2 (top→bottom) to align 1↔2, 3↔4, 5↔6.
+      var backPages = [];
+      for (var b = 1; b < chunk.length; b += 2) {
+        backPages.push(chunk[b]);
+      }
+      backPages.reverse();
+      var backSheet = document.createElement('div');
+      backSheet.className = 'pf-print-sheet';
+      for (var bp = 0; bp < backPages.length; bp++) {
+        backSheet.appendChild(backPages[bp]);
+      }
+      if (backSheet.children.length > 0) {
+        pagesContainer.appendChild(backSheet);
+      }
+    }
+
+    // Apply Tibetan line-breaking
+    pagesContainer.querySelectorAll('.tr-pecha-body').forEach(function (body) {
+      if (!body.closest('.pf-title-page')) prepareTibetan(body);
+    });
+
+    // Add duplex class to body for print styling
+    document.body.classList.add('pf-duplex-mode');
+    window.print();
+    document.body.classList.remove('pf-duplex-mode');
+
+    // Restore normal preview
+    pagesContainer.innerHTML = savedHTML;
+  });
+
+  document.getElementById('btn-save').addEventListener('click', saveProject);
+
+  document.getElementById('btn-load').addEventListener('click', function () {
+    fileLoad.click();
+  });
+
+  fileLoad.addEventListener('change', function (e) {
+    if (e.target.files[0]) loadProject(e.target.files[0]);
+    e.target.value = '';
+  });
+
+  // Toggle input visibility
+  document.getElementById('btn-toggle-input').addEventListener('click', function () {
+    const ta = inputSection.querySelector('.pf-textarea');
+    ta.classList.toggle('pf-hidden');
+    this.textContent = ta.classList.contains('pf-hidden') ? 'Show Input' : 'Hide Input';
+  });
+
+  // ─── Init ───────────────────────────────────────────────────────────────
+  loadAutosave();
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     STYLES
+     ═══════════════════════════════════════════════════════════════════════ -->
+<style is:global>
+
+  /* ─── Page shell ──────────────────────────────────────────────────────── */
+  .pf-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem 2rem 3rem;
+  }
+
+  /* ─── Toolbar ─────────────────────────────────────────────────────────── */
+  .pf-toolbar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .pf-toolbar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-bottom: .75rem;
+  }
+  .pf-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -.02em;
+  }
+  .pf-toolbar-actions {
+    display: flex;
+    gap: .5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* ─── Settings ────────────────────────────────────────────────────────── */
+  .pf-settings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem;
+    align-items: flex-end;
+  }
+  .pf-setting {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+  }
+  .pf-setting label {
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--muted);
+  }
+  .pf-setting select,
+  .pf-setting input[type="text"],
+  .pf-setting input[type="number"] {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: .82rem;
+    padding: .35rem .5rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    transition: border-color .15s;
+  }
+  .pf-title-input {
+    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif !important;
+    font-size: 1rem !important;
+    width: 140px;
+    line-height: 1.6;
+  }
+  .pf-setting select { min-width: 160px; }
+  .pf-setting input[type="number"] { width: 65px; }
+  .pf-setting select:focus,
+  .pf-setting input:focus {
+    border-color: rgba(56,189,248,0.35);
+    box-shadow: 0 0 0 2px rgba(56,189,248,0.08);
+  }
+
+  /* ─── Buttons ─────────────────────────────────────────────────────────── */
+  .pf-btn {
+    background: rgba(56,189,248,0.1);
+    border: 1px solid rgba(56,189,248,0.2);
+    color: var(--accent);
+    font-size: .78rem;
+    font-weight: 600;
+    padding: .4rem .9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .12s;
+    font-family: 'Inter', sans-serif;
+  }
+  .pf-btn:hover { background: rgba(56,189,248,0.18); }
+
+  .pf-btn-primary {
+    background: var(--accent);
+    color: #0f172a;
+    border-color: var(--accent);
+  }
+  .pf-btn-primary:hover { background: #7dd3fc; }
+
+  .pf-btn-icon {
+    background: rgba(148,163,184,0.06);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-size: .75rem;
+    font-weight: 600;
+    padding: .4rem .65rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .12s;
+    font-family: 'Inter', sans-serif;
+  }
+  .pf-btn-icon:hover { background: rgba(148,163,184,0.12); color: var(--text); }
+
+  .pf-btn-sm {
+    font-size: .68rem;
+    padding: .2rem .5rem;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all .12s;
+    font-family: 'Inter', sans-serif;
+  }
+  .pf-btn-sm:hover { color: var(--text2); border-color: var(--border2); }
+
+  /* ─── Toggle button ───────────────────────────────────────────────────── */
+  .pf-toggle {
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: .72rem;
+    font-weight: 700;
+    padding: .35rem .65rem;
+    cursor: pointer;
+    transition: all .12s;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .pf-toggle.active {
+    background: rgba(56,189,248,0.1);
+    border-color: rgba(56,189,248,0.3);
+    color: var(--accent);
+  }
+
+  /* ─── Input section ───────────────────────────────────────────────────── */
+  .pf-input-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+  }
+  .pf-input-header {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .5rem;
+  }
+  .pf-input-label {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--text2);
+  }
+  .pf-charcount {
+    margin-left: auto;
+    font-size: .68rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .pf-textarea {
+    width: 100%;
+    min-height: 200px;
+    background: var(--bg);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 1rem;
+    color: var(--text);
+    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
+    font-size: 1.3rem;
+    line-height: 2.2;
+    resize: vertical;
+    outline: none;
+    caret-color: var(--accent);
+    transition: border-color .15s, box-shadow .15s;
+    display: block;
+  }
+  .pf-textarea:focus {
+    border-color: rgba(56,189,248,0.35);
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.08);
+  }
+  .pf-textarea::placeholder {
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-size: .9rem;
+  }
+
+  /* ─── Preview ─────────────────────────────────────────────────────────── */
+  .pf-preview-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: .75rem;
+  }
+  .pf-preview-label {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--text2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .pf-pages {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .pf-print-sheet {
+    display: contents; /* invisible wrapper on screen */
+  }
+  .pf-page-item {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  }
+  /* Override :lang(bo) font-family so children inherit from the inline style on .tr-pecha */
+  .pf-page-item .tr-pecha-body,
+  .pf-page-item .tr-pecha-title,
+  .pf-page-item .tr-pecha-folio,
+  .pf-page-item .pf-side-title {
+    font-family: inherit;
+  }
+
+  /* ─── Title page ─────────────────────────────────────────────────────── */
+  .pf-title-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    font-weight: 400;
+    padding: 1rem 2rem;
+  }
+
+  /* ─── Double-line borders (traditional pecha style) ──────────────────── */
+  .pf-page-item.tr-pecha {
+    border: 3px double #b91c1c;
+    box-shadow: none;
+  }
+  .pf-page-item.tr-pecha-dark {
+    border: 3px double #92400e;
+    box-shadow: none;
+  }
+  .pf-page-item .tr-pecha-title {
+    border-right: 3px double #b91c1c;
+  }
+  .pf-page-item .tr-pecha-body {
+    border-right: 3px double #b91c1c;
+  }
+  .pf-page-item.tr-pecha-dark .tr-pecha-title,
+  .pf-page-item.tr-pecha-dark .tr-pecha-body {
+    border-color: #92400e;
+  }
+
+  /* ─── Title page: single rectangle with inner border frame ──────────── */
+  .pf-title-page.tr-pecha {
+    grid-template-columns: 1fr;
+    box-shadow:
+      inset 0 0 0 28px #faf0dc,
+      inset 0 0 0 30px #b91c1c,
+      inset 0 0 0 33px #faf0dc,
+      inset 0 0 0 35px #b91c1c;
+  }
+  .pf-title-page.tr-pecha-dark {
+    box-shadow:
+      inset 0 0 0 28px #1e1b4b,
+      inset 0 0 0 30px #92400e,
+      inset 0 0 0 33px #1e1b4b,
+      inset 0 0 0 35px #92400e;
+  }
+  .pf-title-page .tr-pecha-title,
+  .pf-title-page .tr-pecha-folio {
+    display: none !important;
+  }
+  .pf-title-page .tr-pecha-body {
+    border-right: none !important;
+  }
+
+  /* ─── Theme: Black & White ─────────────────────────────────────────── */
+  .pf-page-item.pf-theme-bw {
+    background: #fff;
+    color: #000;
+    border-color: #000;
+    box-shadow: none;
+  }
+  .pf-page-item.pf-theme-bw .tr-pecha-title,
+  .pf-page-item.pf-theme-bw .tr-pecha-body {
+    border-color: #000;
+  }
+  .pf-title-page.pf-theme-bw {
+    box-shadow:
+      inset 0 0 0 28px #fff,
+      inset 0 0 0 30px #000,
+      inset 0 0 0 33px #fff,
+      inset 0 0 0 35px #000;
+  }
+
+  /* ─── Theme: Maroon (Monastic) ─────────────────────────────────────── */
+  .pf-page-item.pf-theme-maroon {
+    background: #2c0a0a;
+    color: #e8d5b0;
+    border-color: #c9a84c;
+    box-shadow: none;
+  }
+  .pf-page-item.pf-theme-maroon .tr-pecha-title,
+  .pf-page-item.pf-theme-maroon .tr-pecha-body {
+    border-color: #c9a84c;
+  }
+  .pf-title-page.pf-theme-maroon {
+    box-shadow:
+      inset 0 0 0 28px #2c0a0a,
+      inset 0 0 0 30px #c9a84c,
+      inset 0 0 0 33px #2c0a0a,
+      inset 0 0 0 35px #c9a84c;
+  }
+
+  /* ─── Side title (left column) — wraps multiline ─────────────────────── */
+  .tr-pecha-title {
+    overflow: hidden;
+  }
+  .pf-side-title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+    text-align: center;
+    line-height: 1.4;
+    font-size: 0.65rem;
+    max-height: 100%;
+  }
+
+  /* ─── Duplex instructions (hidden on screen) ─────────────────────────── */
+  .pf-duplex-instructions {
+    display: none;
+  }
+  .pf-duplex-blank {
+    display: none;
+  }
+
+  /* ─── Utility ─────────────────────────────────────────────────────────── */
+  .pf-hidden { display: none !important; }
+
+  /* ─── Print ───────────────────────────────────────────────────────────── */
+  @media print {
+    .site-nav, .site-footer, .mobile-nav, .mobile-menu-btn,
+    .pf-toolbar, .pf-input-section, .pf-preview-header {
+      display: none !important;
+    }
+
+    main { padding-top: 0 !important; }
+
+    body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .pf-page {
+      padding: 0 !important;
+      max-width: none !important;
+    }
+    .pf-preview { padding: 0 !important; }
+
+    @page {
+      size: landscape;
+      margin: 0.5cm;
+    }
+
+    .pf-pages {
+      gap: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* Each sheet = one printed page, 3 pechas spaced evenly */
+    .pf-print-sheet {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 100vh;
+      page-break-after: always;
+      break-after: page;
+    }
+    .pf-print-sheet:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+
+    .pf-page-item {
+      page-break-inside: avoid;
+      break-inside: avoid;
+      width: 100% !important;
+      border-radius: 0 !important;
+    }
+
+    /* ── Duplex mode: CSS Grid for pixel-perfect front/back alignment ──── */
+    /* Both front and back sheets use identical 3-row grid so strips align */
+    .pf-duplex-mode .pf-print-sheet {
+      display: grid !important;
+      grid-template-rows: 1fr 1fr 1fr;
+      align-items: center;
+      height: 100vh;
+      padding: 0 !important;
+    }
+    .pf-duplex-mode .pf-page-item {
+      width: 100% !important;
+    }
+
+    /* Duplex cover: flex center for title + instructions */
+    .pf-duplex-mode .pf-duplex-cover {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .pf-duplex-mode .pf-duplex-cover .pf-page-item {
+      width: 100% !important;
+    }
+    .pf-duplex-instructions {
+      display: block !important;
+      text-align: center;
+      font-size: 11pt;
+      line-height: 1.8;
+      color: black;
+      margin-top: 1.5cm;
+      font-family: sans-serif;
+    }
+
+    /* Blank back of cover */
+    .pf-duplex-blank {
+      display: block !important;
+      height: 100vh;
+    }
+
+    /* ── Regular print: preserve on-screen colors ─────────────────────── */
+    .pf-page-item,
+    .pf-page-item * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+
+    /* ── Duplex only: force black and white regardless of theme ─────── */
+    .pf-duplex-mode .pf-page-item {
+      background: white !important;
+      color: black !important;
+      border-color: black !important;
+    }
+    .pf-duplex-mode .pf-page-item:not(.pf-title-page) {
+      box-shadow: none !important;
+    }
+    .pf-duplex-mode .pf-page-item.pf-title-page {
+      box-shadow:
+        inset 0 0 0 28px white,
+        inset 0 0 0 30px black,
+        inset 0 0 0 33px white,
+        inset 0 0 0 35px black !important;
+    }
+    .pf-duplex-mode .pf-page-item .tr-pecha-title,
+    .pf-duplex-mode .pf-page-item .tr-pecha-body {
+      border-color: black !important;
+    }
+  }
+
+  /* ─── Responsive ──────────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .pf-page { padding: 1rem 1rem 2rem; }
+    .pf-toolbar-row { flex-wrap: wrap; gap: .5rem; }
+    .pf-toolbar-actions { flex-wrap: wrap; }
+    .pf-settings { gap: .5rem; }
+  }
+  @media (max-width: 600px) {
+    .pf-page { padding: .75rem .75rem 2rem; }
+    .pf-title-input { width: 100px; }
+    .pf-toolbar { padding: .75rem; border-radius: 10px; }
+    .pf-input-section { border-radius: 10px; }
+    .pf-textarea { font-size: 1.1rem; min-height: 150px; }
+  }
+</style>

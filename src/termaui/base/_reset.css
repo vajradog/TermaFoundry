@@ -1,0 +1,21 @@
+/* ==========================================================================
+   termaUI — Base reset for Tibetan language content
+   :lang(bo) for inherited properties, [lang="bo"] for container-level.
+   ========================================================================== */
+
+:lang(bo) {
+  font-family: 'Jomolhari', 'Noto Serif Tibetan', 'Tibetan Machine Uni', serif;
+  line-height: 1.8;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+  /* font-size intentionally NOT set here — 1.1em compounded in nested elements
+     and conflicted with tr-text-* utilities. Use .tr-text-base for sizing. */
+}
+
+[lang="bo"] {
+  direction: ltr;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

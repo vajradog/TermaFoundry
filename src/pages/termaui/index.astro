@@ -1,0 +1,1192 @@
+﻿---
+import Base from '../../layouts/TeruiBase.astro';
+
+const tibetanSample = 'བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ།';
+const heroText = 'བཀྲ་ཤིས་བདེ་ལེགས།';
+
+const fonts = [
+  { name: 'Jomolhari', cls: 'tr-jomolhari', desc: 'Traditional Uchen manuscript style. Ideal for body text and religious content.' },
+  { name: 'Noto Serif Tibetan', cls: 'tr-noto', desc: "Google's modern serif. Clean readability for apps and UI." },
+  { name: 'Tibetan Machine Uni', cls: 'tr-machine-uni', desc: 'Bold and impactful. Built for display, headlines, and navigation.' },
+  { name: 'Qomolangma-Drutsa', cls: 'tr-drutsa', desc: 'Flowing cursive hand. Artistic and calligraphic.' },
+  { name: 'Monlam Bodyig', cls: 'tr-monlam', desc: 'Refined thin strokes. Elegant for long-form reading.' },
+];
+
+const effects = [
+  { name: 'Rainbow', cls: 'tr-text-rainbow', text: 'ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།', desc: 'Multi-stop spectrum gradient' },
+  { name: 'Shimmer', cls: 'tr-shimmer', text: 'ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།', desc: 'Animated metallic gold sweep' },
+  { name: 'Fire', cls: 'tr-text-fire', text: 'ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།', desc: 'Flame gradient from ember to gold' },
+  { name: 'Emboss', cls: 'tr-emboss', text: 'ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།', desc: 'Carved stone with directional light' },
+];
+---
+
+<Base title="termaUI — Tibetan CSS Framework">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-heading-wrap reveal" id="hero-switcher">
+        <h1 class="hero-heading hero-slot hero-en" id="hero-en">
+          Render beautiful Tibetan<br>
+          typography without ever<br>
+          leaving your HTML.
+        </h1>
+        <div class="hero-heading hero-slot hero-bo" id="hero-bo" aria-hidden="true">
+          <span class="tr-jomolhari tr-guard" lang="bo">བོད་ཡིག་གི་མཛེས་རྩལ་ཇི་བཞིན་མངོན་པར་བྱ།</span>
+        </div>
+      </div>
+      <p class="hero-sub reveal reveal-delay-1">
+        A utility-first CSS framework packed with classes like
+        <code class="hl-code">tr-jomolhari</code>,
+        <code class="hl-code">tr-guard</code>,
+        <code class="hl-code hl-pink">tr-text-rainbow</code> and
+        <code class="hl-code hl-teal">tr-glow-aurora</code>
+        that can be composed to render any Tibetan script, directly in your markup.
+      </p>
+      <div class="hero-actions reveal reveal-delay-2">
+        <a href="#start" class="btn-primary">Get started</a>
+        <div class="search-mock">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M17.5 17.5L13.875 13.875M15.833 9.167a6.667 6.667 0 11-13.333 0 6.667 6.667 0 0113.333 0z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <span>Quick search...</span>
+          <kbd>Ctrl K</kbd>
+        </div>
+      </div>
+      <p class="funding-notice reveal reveal-delay-3">
+        termaUI is currently a working prototype. We are actively seeking funding to bring it to full production.
+      </p>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE DEMO -->
+  <section class="demo-section reveal" id="demo">
+    <div class="demo-container" data-base="">
+      <!-- Preview Card -->
+      <div class="demo-preview">
+        <div class="demo-card" id="demo-card"></div>
+      </div>
+
+      <!-- Code Editor -->
+      <div class="demo-editor">
+        <div class="editor-chrome">
+          <div class="editor-dots"><span></span><span></span><span></span></div>
+          <div class="editor-tabs" id="editor-tabs">
+            <button class="editor-tab active" data-step="0">Plain</button>
+            <button class="editor-tab" data-step="1">+ Font</button>
+            <button class="editor-tab" data-step="2">+ Effect</button>
+            <button class="editor-tab" data-step="3">In Context</button>
+          </div>
+        </div>
+        <div class="editor-body">
+          <pre class="editor-code" id="editor-code"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FONT FOUNDRY -->
+  <section class="section" id="fonts">
+    <div class="section-eyebrow reveal">The Font Foundry</div>
+    <h2 class="section-heading reveal">36 Tibetan typefaces,<br>ready for the web.</h2>
+    <p class="section-sub reveal">
+      Every font is subsetted to WOFF2, optimized with <code style="color:#38bdf8; font-family:'JetBrains Mono',monospace; font-size:0.9em;">unicode-range</code>, and loaded on demand. Here are five featured families — with dozens more in the full library.
+    </p>
+
+    <div class="font-showcase reveal">
+      {fonts.map((font, i) => (
+        <div class={`font-row ${i === fonts.length - 1 ? 'font-row-last' : ''}`}>
+          <div class="font-row-sample">
+            <span class={`${font.cls} tr-guard`} lang="bo">{tibetanSample}</span>
+          </div>
+          <div class="font-row-meta">
+            <div class="font-row-name">{font.name}</div>
+            <div class="card-label">.{font.cls}</div>
+            <div class="card-desc">{font.desc}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="fonts-more reveal">
+      <a href="/fonts/library" class="effects-more-link">
+        Browse all 36 fonts in the library
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- EFFECTS -->
+  <section class="section" id="effects">
+    <div class="section-eyebrow reveal">Visual Alchemy</div>
+    <h2 class="section-heading reveal">Effects that feel<br>like magic.</h2>
+    <p class="section-sub reveal">
+      Modern CSS effects tuned for Tibetan script. Gradients, glows, outlines, and glass — one class away.
+    </p>
+
+    <div class="grid grid-2 reveal">
+      {effects.map(fx => (
+        <div class="card">
+          <div class="fx-demo">
+            <span
+              class={`tr-jomolhari ${fx.cls} tr-guard`}
+              lang="bo"
+              style="font-size:3.5rem;"
+            >{fx.text}</span>
+          </div>
+          <div class="card-label">.{fx.cls}</div>
+          <div class="card-title">{fx.name}</div>
+          <div class="card-desc">{fx.desc}</div>
+        </div>
+      ))}
+    </div>
+
+    <div class="effects-more reveal">
+      <a href="/termaui/docs#effects" class="effects-more-link">
+        Browse all 10 effects in the docs
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- PECHA -->
+  <section class="section" id="pecha">
+    <div class="section-eyebrow reveal">The Pecha Layout</div>
+    <h2 class="section-heading reveal">Traditional manuscript format,<br>rendered in CSS.</h2>
+    <p class="section-sub reveal">
+      The pecha (དཔེ་ཆ) is Tibet's traditional book format — long narrow leaves of text with a title margin, body column, and folio number, all separated by red rules. termaUI makes it one component.
+    </p>
+
+    <div class="pecha-showcase reveal">
+
+      <!-- Light pecha -->
+      <div class="pecha-demo-block">
+        <div class="pecha-demo-label">Light — Classical Manuscript</div>
+        <div class="tr-pecha" style="width:100%; max-width:860px;">
+          <div class="tr-pecha-title tr-jomolhari tr-guard" lang="bo">
+            <span class="tr-pecha-title-rotated">ཤེས་རབ།</span>
+          </div>
+          <div class="tr-pecha-body tr-jomolhari tr-guard" lang="bo">
+            <span class="tr-yig-mgo"></span>བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ། བཅོམ་ལྡན་འདས་རྒྱལ་པོའི་ཁབ་བྱ་རྒོད་ཕུང་པོའི་རི་ལ་དགེ་སློང་གི་དགེ་འདུན་ཆེན་པོ་དང་། བྱང་ཆུབ་སེམས་དཔའི་དགེ་འདུན་ཆེན་པོ་དང་ཐབས་ཅིག་ཏུ་བཞུགས་ཏེ།
+          </div>
+          <div class="tr-pecha-folio tr-jomolhari tr-guard" lang="bo">༡་ཀ</div>
+        </div>
+        <div class="pecha-cls-row">
+          <code>.tr-pecha</code>
+          <code>.tr-pecha-title</code>
+          <code>.tr-pecha-body</code>
+          <code>.tr-pecha-folio</code>
+          <code>.tr-yig-mgo</code>
+        </div>
+      </div>
+
+      <!-- Dark pecha -->
+      <div class="pecha-demo-block">
+        <div class="pecha-demo-label">Dark — Sacred Gold Script (གསེར་ཡིག)</div>
+        <div class="tr-pecha tr-pecha-dark" style="width:100%; max-width:860px;">
+          <div class="tr-pecha-title tr-jomolhari tr-guard" lang="bo">
+            <span class="tr-pecha-title-rotated" style="color:#d4a843;">རྡོ་རྗེ།</span>
+          </div>
+          <div class="tr-pecha-body tr-jomolhari tr-guard" lang="bo">
+            <span class="tr-yig-mgo"></span>ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ། གང་གིས་བློ་ལྡན་རྣམས་ཀྱི་མུན་སེལ་མཛད་པ། ཚངས་པའི་གདུང་དབྱངས་སྙན་པའི་ངག་གིས་གསུངས། ཤེས་རབ་ཡེ་ཤེས་ཀྱི་ཕ་རོལ་ཕྱིན་མཆོག རང་བཞིན་འོད་གསལ་ལ་ཕྱག་འཚལ་ལོ།
+          </div>
+          <div class="tr-pecha-folio tr-jomolhari tr-guard" lang="bo" style="color:#d4a843;">༡་ཀ</div>
+        </div>
+        <div class="pecha-cls-row">
+          <code>.tr-pecha-dark</code>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pecha-more reveal">
+      <a href="/termaui/docs#pecha" class="effects-more-link">
+        See full pecha documentation
+        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- GUARDIAN -->
+  <section class="section" id="guardian">
+    <div class="section-eyebrow reveal">The Guardian Layer</div>
+    <h2 class="section-heading reveal">Rendering problems,<br>solved in one class.</h2>
+    <p class="section-sub reveal">
+      Tibetan's toughest challenges — clipping, line-breaking, baseline alignment — fixed with utility classes.
+    </p>
+
+    <div class="grid grid-3 reveal">
+      <div class="card">
+        <div class="guard-demo">
+          <div class="guard-label bad">Without</div>
+          <div class="guard-box bad">
+            <span class="tr-jomolhari" lang="bo" style="font-size:1.3rem; line-height:1.2; display:block; overflow:hidden; max-height:2em;">
+              བསྒྲུབས། བསྐྱངས། མགྲོན། སྒྲུབ།
+            </span>
+          </div>
+          <div class="guard-label good">With .tr-guard</div>
+          <div class="guard-box good">
+            <span class="tr-jomolhari tr-guard" lang="bo" style="font-size:1.3rem; display:block;">
+              བསྒྲུབས། བསྐྱངས། མགྲོན། སྒྲུབ།
+            </span>
+          </div>
+        </div>
+        <div class="card-label">.tr-guard</div>
+        <div class="card-title">Stack Guard</div>
+        <div class="card-desc">Prevents clipping of vowel marks and stacked consonants.</div>
+      </div>
+
+      <div class="card">
+        <div class="guard-demo">
+          <div class="guard-box good" style="min-height:5em;">
+            <span class="tr-jomolhari tr-break tr-guard" lang="bo" style="font-size:1.1rem; display:block;">
+              བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ་བཞུགས་སོ། འདི་སྐད་བདག་གིས་ཐོས་པ་དུས་གཅིག་ན།
+            </span>
+          </div>
+        </div>
+        <div class="card-label">.tr-break</div>
+        <div class="card-title">Tsheg Break</div>
+        <div class="card-desc">Syllable-aware line wrapping at tsheg boundaries.</div>
+      </div>
+
+      <div class="card">
+        <div class="guard-demo">
+          <div class="guard-label bad">Default</div>
+          <div class="guard-box" style="background: rgba(148,163,184,0.04);">
+            <span style="font-size:1rem; line-height:2; color:#94a3b8;">
+              The text <span class="tr-jomolhari" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span> means hello.
+            </span>
+          </div>
+          <div class="guard-label good">With .tr-scale-up</div>
+          <div class="guard-box good">
+            <span style="font-size:1rem; line-height:2; color:#e2e8f0;">
+              The text <span class="tr-jomolhari tr-scale-up tr-baseline" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span> means hello.
+            </span>
+          </div>
+        </div>
+        <div class="card-label">.tr-scale-up</div>
+        <div class="card-title">Optical Scale</div>
+        <div class="card-desc">Scales Tibetan 120% to match English visual weight.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY termaUI -->
+  <section class="section" id="why">
+    <div class="section-eyebrow reveal">Digital Sovereignty</div>
+    <h2 class="section-heading reveal">Tibetan as a first-class<br>citizen of the internet.</h2>
+    <p class="section-sub reveal">
+      termaUI puts the power of defining Tibetan digital aesthetics back into the hands of the community.
+    </p>
+
+    <div class="grid grid-3 reveal">
+      <div class="card">
+        <div class="why-icon">&#x1F3E0;</div>
+        <div class="card-title">Native Comfort</div>
+        <div class="card-desc">People are 75% more likely to engage with content in their native script. termaUI ensures Tibetan websites feel like home — not a poorly translated afterthought.</div>
+      </div>
+      <div class="card">
+        <div class="why-icon">&#x1F9D3;</div>
+        <div class="card-title">Accessible to Elders</div>
+        <div class="card-desc">Standard web fonts are too thin for Tibetan. The <code class="inline-code">.tr-scale-up</code> and <code class="inline-code">.tr-noto</code> classes let elders read dharma teachings without straining.</div>
+      </div>
+      <div class="card">
+        <div class="why-icon">&#x2728;</div>
+        <div class="card-title">Professional Voice</div>
+        <div class="card-desc">Monasteries, artists, and small businesses can present their work with the same polish as a global brand — building trust for Tibetan initiatives.</div>
+      </div>
+      <div class="card">
+        <div class="why-icon">&#x1F6E0;</div>
+        <div class="card-title">End to Unicode Fighting</div>
+        <div class="card-desc">Developers no longer manually write complex CSS to stop vowels from clipping. Focus on features, not fonts. termaUI is a shared design language for Tibetan script.</div>
+      </div>
+      <div class="card">
+        <div class="why-icon">&#x1F4C8;</div>
+        <div class="card-title">Faster Time to Market</div>
+        <div class="card-desc">Build a fully localized Tibetan app in days instead of months. Launch local tools — from Tibetan e-commerce to educational platforms — that were previously impractical.</div>
+      </div>
+      <div class="card">
+        <div class="why-icon">&#x1F3D4;</div>
+        <div class="card-title">Community-Defined Aesthetics</div>
+        <div class="card-desc">Most languages depend on big tech to define their script's look. termaUI lets Tibetans define their own digital aesthetic — ink-bleed effects, gradients with cultural meaning.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GET STARTED -->
+  <section class="section" id="start">
+    <div class="section-eyebrow reveal">Get Started</div>
+    <h2 class="section-heading reveal">Two lines of code.<br>That's it.</h2>
+    <p class="section-sub reveal">
+      No build tools. No config. Drop in the stylesheet and start writing.
+    </p>
+
+    <div class="code-examples reveal">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">Basic Usage</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- 1. Add the stylesheet --&gt;</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"termaui.css"</span><span class="tag">&gt;</span>
+
+<span class="cmt">&lt;!-- 2. Use lang="bo" + termaUI classes --&gt;</span>
+<span class="tag">&lt;h1</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-text-rainbow tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  བཀྲ་ཤིས་བདེ་ལེགས།
+<span class="tag">&lt;/h1&gt;</span></code></pre>
+      </div>
+
+      <div class="code-grid">
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-title">Font Selection</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari"</span><span class="tag">&gt;</span>   Jomolhari
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-noto"</span><span class="tag">&gt;</span>  Noto Serif
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-machine-uni"</span><span class="tag">&gt;</span>   Machine Uni
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-drutsa"</span><span class="tag">&gt;</span> Qomolangma
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-monlam"</span><span class="tag">&gt;</span> Monlam
+<span class="cmt">&lt;!-- + 31 more fonts → /fonts/library --&gt;</span></code></pre>
+        </div>
+
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-title">Mixed Language</span>
+            <button class="copy-btn">Copy</button>
+          </div>
+          <pre><code><span class="tag">&lt;p&gt;</span>The word
+  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-scale-up
+    tr-baseline"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+    བཀྲ་ཤིས་བདེ་ལེགས།
+  <span class="tag">&lt;/span&gt;</span>
+  means hello.
+<span class="tag">&lt;/p&gt;</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</Base>
+
+<!-- Hero language switcher -->
+<script>
+  const heroSwitcher = document.getElementById('hero-switcher');
+  const heroEn       = document.getElementById('hero-en');
+  const heroBo       = document.getElementById('hero-bo');
+
+  if (heroSwitcher && heroEn && heroBo) {
+    let showingBo = false;
+
+    function glimmer() {
+      heroSwitcher.classList.add('glimmering');
+      setTimeout(() => heroSwitcher.classList.remove('glimmering'), 1000);
+    }
+
+    function switchHero() {
+      glimmer();
+      if (!showingBo) {
+        // EN → BO: fade English out, then fade Tibetan in
+        heroEn.classList.add('hero-fade-out');
+        setTimeout(() => {
+          heroBo.classList.add('hero-active');
+          heroBo.removeAttribute('aria-hidden');
+        }, 380);
+        showingBo = true;
+      } else {
+        // BO → EN: fade Tibetan out, then restore English
+        heroBo.classList.remove('hero-active');
+        heroBo.setAttribute('aria-hidden', 'true');
+        setTimeout(() => {
+          heroEn.classList.remove('hero-fade-out');
+        }, 380);
+        showingBo = false;
+      }
+    }
+
+    // First switch after 3.8 s, then every 4.5 s
+    setTimeout(() => {
+      switchHero();
+      setInterval(switchHero, 4500);
+    }, 3800);
+  }
+</script>
+
+<!-- Interactive Demo Script -->
+<script>
+  const V1 = 'དངོས་གྲུབ་མཆོག་བརྙེས་ཡ་མཚན་ཆེན་པོ་ཡིས། །';
+  const V2 = 'འཇིག་རྟེན་མ་འགྱུར་པདྨའི་རྒྱལ་པོ་ལས། །';
+  const V3 = 'དེ་བཞིན་གཤེགས་པའི་མན་ངག་གསང་ཆེན་རྣམས། །';
+  const V4 = 'ཀློང་ནས་བཀྲོལ་མཛད་དེ་ལ་ཕྱག་འཚལ་ལོ། །';
+
+  const VL = (cls, text) => `<p class="${cls}" lang="bo">${text}</p>`;
+
+  // Progressive enhancement: problem → fix → beauty → real world
+  const cardLayouts = [
+    // Plain: no framework, system font, broken rendering
+    () => `
+      <div class="layout-plain">
+        <div class="verse-block">
+          <p class="verse-line-raw" lang="bo">${V1}</p>
+          <p class="verse-line-raw" lang="bo">${V2}</p>
+          <p class="verse-line-raw" lang="bo">${V3}</p>
+          <p class="verse-line-raw" lang="bo">${V4}</p>
+        </div>
+        <div class="plain-hint">system font &middot; no guard padding &middot; clipped vowels</div>
+      </div>
+    `,
+    // + Font: add tr-jomolhari tr-guard — the instant fix
+    () => `
+      <div class="layout-font">
+        <div class="verse-block">
+          ${VL('verse-line tr-jomolhari tr-guard', V1)}
+          ${VL('verse-line tr-jomolhari tr-guard', V2)}
+          ${VL('verse-line tr-jomolhari tr-guard', V3)}
+          ${VL('verse-line tr-jomolhari tr-guard', V4)}
+        </div>
+        <cite class="verse-cite" lang="bo">པདྨའི་རྒྱལ་པོའི་བསྟོད་པ།</cite>
+      </div>
+    `,
+    // + Effect: add tr-text-saffron — the beauty layer
+    () => `
+      <div class="layout-effect">
+        <div class="verse-block">
+          ${VL('verse-line tr-jomolhari tr-text-saffron tr-guard', V1)}
+          ${VL('verse-line tr-jomolhari tr-text-saffron tr-guard', V2)}
+          ${VL('verse-line tr-jomolhari tr-text-saffron tr-guard', V3)}
+          ${VL('verse-line tr-jomolhari tr-text-saffron tr-guard', V4)}
+        </div>
+        <cite class="verse-cite gold" lang="bo">པདྨའི་རྒྱལ་པོའི་བསྟོད་པ།</cite>
+      </div>
+    `,
+    // In Context: real bilingual component
+    () => `
+      <div class="layout-context">
+        <span class="context-tag">Article</span>
+        <h3 class="context-heading tr-machine-uni tr-guard" lang="bo">པདྨའི་རྒྱལ་པོའི་བསྟོད་པ།</h3>
+        <div class="verse-block">
+          ${VL('verse-line tr-jomolhari tr-text-saffron tr-guard', V1)}
+          ${VL('verse-line tr-jomolhari tr-text-saffron tr-guard', V2)}
+        </div>
+        <p class="context-body">
+          A homage to <span class="tr-jomolhari tr-scale-up tr-baseline" lang="bo">པདྨའི་རྒྱལ་པོ</span> — the Lotus King — who liberated the secret <span class="tr-jomolhari tr-scale-up tr-baseline" lang="bo">མན་ངག</span> from the vast expanse.
+        </p>
+      </div>
+    `,
+  ];
+
+  // Code for each layout
+  const L = (n, h) => `<span class="ln">${String(n).padStart(2)}</span>  ${h}`;
+  const T = s => `<span class="t">${s}</span>`;
+  const A = s => `<span class="a">${s}</span>`;
+  const S = s => `<span class="s">${s}</span>`;
+  const HL = s => `<span class="s hl">${s}</span>`;
+
+  const codeBlocks = [
+    // Plain — no classes, just raw HTML
+    [
+      L(1,  `${T('&lt;!-- No framework, just HTML --&gt;')}`),
+      L(2,  ``),
+      L(3,  `${T('&lt;p')} ${A('lang')}=${S('"bo"')}${T('&gt;')}`),
+      L(4,  `  དངོས་གྲུབ་མཆོག་བརྙེས་ཡ་མཚན་ཆེན་པོ་ཡིས། །`),
+      L(5,  `  འཇིག་རྟེན་མ་འགྱུར་པདྨའི་རྒྱལ་པོ་ལས། །`),
+      L(6,  `  དེ་བཞིན་གཤེགས་པའི་མན་ངག་གསང་ཆེན་རྣམས། །`),
+      L(7,  `  ཀློང་ནས་བཀྲོལ་མཛད་དེ་ལ་ཕྱག་འཚལ་ལོ། །`),
+      L(8,  `${T('&lt;/p&gt;')}`),
+    ].join('\n'),
+    // + Font — add two classes, everything changes
+    [
+      L(1,  `${T('&lt;!-- Add two classes. That\'s it. --&gt;')}`),
+      L(2,  ``),
+      L(3,  `${T('&lt;p')} ${A('class')}=${HL('"tr-jomolhari tr-guard"')}`),
+      L(4,  `   ${A('lang')}=${S('"bo"')}${T('&gt;')}`),
+      L(5,  `  དངོས་གྲུབ་མཆོག་བརྙེས་ཡ་མཚན་ཆེན་པོ་ཡིས། །`),
+      L(6,  `  འཇིག་རྟེན་མ་འགྱུར་པདྨའི་རྒྱལ་པོ་ལས། །`),
+      L(7,  `  དེ་བཞིན་གཤེགས་པའི་མན་ངག་གསང་ཆེན་རྣམས། །`),
+      L(8,  `  ཀློང་ནས་བཀྲོལ་མཛད་དེ་ལ་ཕྱག་འཚལ་ལོ། །`),
+      L(9,  `${T('&lt;/p&gt;')}`),
+    ].join('\n'),
+    // + Effect — one more class for saffron gradient
+    [
+      L(1,  `${T('&lt;!-- One more class for the effect --&gt;')}`),
+      L(2,  ``),
+      L(3,  `${T('&lt;p')} ${A('class')}=${S('"tr-jomolhari')} ${HL('"tr-text-saffron"')}`),
+      L(4,  `   ${S('"tr-guard"')} ${A('lang')}=${S('"bo"')}${T('&gt;')}`),
+      L(5,  `  དངོས་གྲུབ་མཆོག་བརྙེས་ཡ་མཚན་ཆེན་པོ་ཡིས། །`),
+      L(6,  `  འཇིག་རྟེན་མ་འགྱུར་པདྨའི་རྒྱལ་པོ་ལས། །`),
+      L(7,  `  དེ་བཞིན་གཤེགས་པའི་མན་ངག་གསང་ཆེན་རྣམས། །`),
+      L(8,  `  ཀློང་ནས་བཀྲོལ་མཛད་དེ་ལ་ཕྱག་འཚལ་ལོ། །`),
+      L(9,  `${T('&lt;/p&gt;')}`),
+    ].join('\n'),
+    // In Context — bilingual real component
+    [
+      L(1,  `${T('&lt;article&gt;')}`),
+      L(2,  `  ${T('&lt;h3')} ${A('lang')}=${S('"bo"')}${T('&gt;')}པདྨའི་རྒྱལ་པོའི་བསྟོད་པ།${T('&lt;/h3&gt;')}`),
+      L(3,  `  ${T('&lt;p')} ${A('class')}=${HL('"tr-jomolhari tr-text-saffron tr-guard"')}`),
+      L(4,  `     ${A('lang')}=${S('"bo"')}${T('&gt;')}`),
+      L(5,  `    དངོས་གྲུབ་མཆོག་བརྙེས་ཡ་མཚན་ཆེན་པོ་ཡིས། །`),
+      L(6,  `  ${T('&lt;/p&gt;')}`),
+      L(7,  `  ${T('&lt;p&gt;')}A homage to`),
+      L(8,  `    ${T('&lt;span')} ${A('class')}=${HL('"tr-jomolhari tr-scale-up"')}`),
+      L(9,  `      ${HL('"tr-baseline"')} ${A('lang')}=${S('"bo"')}${T('&gt;')}`),
+      L(10, `      པདྨའི་རྒྱལ་པོ`),
+      L(11, `    ${T('&lt;/span&gt;')} — the Lotus King.`),
+      L(12, `  ${T('&lt;/p&gt;')}`),
+      L(13, `${T('&lt;/article&gt;')}`),
+    ].join('\n'),
+  ];
+
+  const cardEl = document.getElementById('demo-card');
+  const codeEl = document.getElementById('editor-code');
+  const tabs = document.querySelectorAll('.editor-tab');
+
+  let current = 0;
+  let timer;
+
+  function setStep(i) {
+    current = i;
+    tabs.forEach((t, j) => t.classList.toggle('active', j === i));
+
+    // Crossfade card
+    cardEl.style.opacity = '0';
+    cardEl.style.transform = 'scale(0.97)';
+    setTimeout(() => {
+      cardEl.className = 'demo-card';
+      cardEl.innerHTML = cardLayouts[i]();
+      cardEl.style.opacity = '1';
+      cardEl.style.transform = 'scale(1)';
+    }, 250);
+
+    // Crossfade code
+    codeEl.style.opacity = '0';
+    setTimeout(() => {
+      codeEl.innerHTML = codeBlocks[i];
+      codeEl.style.opacity = '1';
+    }, 150);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      setStep(parseInt(tab.dataset.step));
+      clearInterval(timer);
+      timer = setInterval(() => setStep((current + 1) % 4), 5000);
+    });
+  });
+
+  setStep(0);
+  timer = setInterval(() => setStep((current + 1) % 4), 5000);
+</script>
+
+<style is:global>
+  /* ====== HERO ====== */
+  .hero {
+    position: relative;
+    padding: 11rem 2rem 5rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    top: -250px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1000px;
+    height: 700px;
+    background: radial-gradient(ellipse 70% 50%, rgba(56,189,248,0.12) 0%, rgba(139,92,246,0.06) 50%, transparent 80%);
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .hero-heading {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: #f1f5f9;
+    margin-bottom: 1.75rem;
+  }
+  /* === Hero language switcher === */
+  .hero-heading-wrap {
+    position: relative;
+    margin-bottom: 1.75rem;
+  }
+  .hero-heading-wrap .hero-heading {
+    margin-bottom: 0;
+  }
+  .hero-slot {
+    will-change: opacity, filter;
+    transition:
+      opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+      filter  0.75s cubic-bezier(0.4, 0, 0.2, 1),
+      translate 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  /* English — always in DOM flow, gives wrapper its height */
+  .hero-en { translate: 0 0; }
+  .hero-en.hero-fade-out {
+    opacity: 0;
+    filter: blur(14px);
+    translate: 0 -14px;
+    pointer-events: none;
+  }
+  /* Tibetan — absolute overlay */
+  .hero-bo {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    filter: blur(14px);
+    translate: 0 14px;
+    pointer-events: none;
+  }
+  .hero-bo.hero-active {
+    opacity: 1;
+    filter: blur(0);
+    translate: 0 0;
+    pointer-events: auto;
+  }
+  /* Give Tibetan glyphs room to breathe at display size */
+  .hero-bo span {
+    font-size: clamp(2.2rem, 5.5vw, 3.75rem);
+    letter-spacing: 0.03em;
+    word-spacing: 0.08em;
+    line-height: 2.2;
+    animation: bo-breathe 5s ease-in-out infinite;
+  }
+  @keyframes bo-breathe {
+    0%   { color: #f8fafc; text-shadow: 0 0 50px rgba(255,255,255,0.08); }
+    45%  { color: #fde68a; text-shadow: 0 0 70px rgba(251,191,36,0.22); }
+    100% { color: #f8fafc; text-shadow: 0 0 50px rgba(255,255,255,0.08); }
+  }
+  /* Magic shimmer pulse behind heading during switch */
+  .hero-heading-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -2.5rem -40%;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(56,189,248,0.18) 0%,
+      rgba(139,92,246,0.10) 40%,
+      transparent 70%
+    );
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: -1;
+  }
+  .hero-heading-wrap.glimmering::after {
+    animation: hero-glimmer 1s ease forwards;
+  }
+  @keyframes hero-glimmer {
+    0%   { opacity: 0; transform: scale(0.75); }
+    40%  { opacity: 1; transform: scale(1.1);  }
+    100% { opacity: 0; transform: scale(1);    }
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    line-height: 1.85;
+    color: #94a3b8;
+    margin-bottom: 2.5rem;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Highlighted code terms in hero text */
+  .hl-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88em;
+    font-weight: 500;
+    color: #38bdf8;
+    background: rgba(56,189,248,0.1);
+    padding: 0.12em 0.4em;
+    border-radius: 5px;
+    border: 1px solid rgba(56,189,248,0.15);
+  }
+  .hl-code.hl-pink { color: #f472b6; background: rgba(244,114,182,0.1); border-color: rgba(244,114,182,0.15); }
+  .hl-code.hl-teal { color: #2dd4bf; background: rgba(45,212,191,0.1); border-color: rgba(45,212,191,0.15); }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .funding-notice {
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    text-align: center;
+    border-top: 1px solid rgba(148,163,184,0.12);
+    padding-top: 1.25rem;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.65rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background: #0ea5e9;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+  }
+  .btn-primary:hover { background: #0284c7; transform: translateY(-1px); }
+
+  .search-mock {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 1rem 0.55rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid rgba(148,163,184,0.15);
+    background: rgba(30,41,59,0.6);
+    color: #64748b;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    min-width: 220px;
+  }
+  .search-mock:hover { border-color: rgba(148,163,184,0.3); }
+  .search-mock svg { flex-shrink: 0; }
+  .search-mock span { flex: 1; text-align: left; }
+  .search-mock kbd {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    border: 1px solid rgba(148,163,184,0.2);
+    background: rgba(148,163,184,0.06);
+    color: #475569;
+  }
+
+  /* ====== INTERACTIVE DEMO ====== */
+  .demo-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 5rem;
+  }
+  .demo-container {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(148,163,184,0.1);
+    box-shadow: 0 25px 65px rgba(0,0,0,0.25), 0 0 0 1px rgba(148,163,184,0.05);
+  }
+
+  /* Preview panel */
+  .demo-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3.5rem 3rem;
+    background: linear-gradient(160deg, #1e293b 0%, #0f172a 100%);
+    position: relative;
+    min-height: 500px;
+  }
+  .demo-preview::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 40%, rgba(56,189,248,0.04), transparent 60%);
+  }
+  .demo-card {
+    position: relative;
+    background: rgba(30,41,59,0.8);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 16px;
+    padding: 2rem 2rem;
+    max-width: 440px;
+    width: 100%;
+    transition: opacity 0.35s ease, transform 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  /* ---- Verse typography core ---- */
+  .demo-card .verse-block { margin: 0; }
+  .demo-card .verse-block p { margin: 0; }
+  .demo-card .verse-line {
+    font-size: 1.45rem;
+    line-height: 1.8;
+    color: #e2e8f0;
+    margin: 0;
+    display: block;
+  }
+  .demo-card .verse-line-lg {
+    font-size: 1.5rem;
+    line-height: 1.8;
+    color: #e2e8f0;
+    margin: 0;
+    display: block;
+  }
+
+  /* ---- Attribution ---- */
+  .demo-card .verse-divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(148,163,184,0.2);
+    margin: 1rem auto 0.75rem;
+  }
+  .demo-card .verse-cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.95rem;
+    color: #38bdf8;
+    font-weight: 500;
+  }
+  .demo-card .verse-cite.gold { color: #fbbf24; }
+  .demo-card .verse-cite-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(148,163,184,0.1);
+  }
+  .demo-card .verse-cite-row cite {
+    font-style: normal;
+    font-size: 0.9rem;
+    color: #0ea5e9;
+    font-weight: 600;
+  }
+  .demo-card .cite-dot { color: #475569; font-size: 0.8rem; }
+  .demo-card .cite-title { color: #64748b; font-size: 0.82rem; }
+
+  /* ---- Step 1: Plain — broken rendering, the problem ---- */
+  .layout-plain { text-align: left; }
+  .verse-line-raw {
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+    line-height: 1.2 !important;
+    padding-block: 0 !important;
+    font-size: 1.2rem !important;
+    color: #64748b !important;
+    margin: 0;
+    display: block;
+  }
+  .plain-hint {
+    margin-top: 1rem;
+    font-size: 0.72rem;
+    color: #475569;
+    letter-spacing: 0.03em;
+    font-family: 'Inter', system-ui, sans-serif;
+    border-top: 1px solid rgba(148,163,184,0.08);
+    padding-top: 0.75rem;
+  }
+  .demo-card:has(.layout-plain) {
+    border-color: rgba(239,68,68,0.15);
+  }
+
+  /* ---- Step 2: + Font — the fix ---- */
+  .layout-font { text-align: left; }
+
+  /* ---- Step 3: + Effect — the beauty ---- */
+  .layout-effect { text-align: left; }
+
+  /* ---- Step 4: In Context — real bilingual component ---- */
+  .layout-context { text-align: left; }
+  .context-tag {
+    display: inline-block;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #38bdf8;
+    background: rgba(56,189,248,0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 0.6rem;
+  }
+  .context-heading {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+  .context-body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.8;
+    color: #94a3b8;
+    margin: 1rem 0 0;
+    border-top: 1px solid rgba(148,163,184,0.08);
+    padding-top: 0.75rem;
+  }
+
+  /* Code editor panel */
+  .demo-editor {
+    background: #0f172a;
+    display: flex;
+    flex-direction: column;
+  }
+  .editor-chrome {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid rgba(148,163,184,0.08);
+    background: rgba(15,23,42,0.8);
+  }
+  .editor-dots { display: flex; gap: 6px; }
+  .editor-dots span { width: 10px; height: 10px; border-radius: 50%; }
+  .editor-dots span:nth-child(1) { background: #ef4444; opacity: 0.7; }
+  .editor-dots span:nth-child(2) { background: #f59e0b; opacity: 0.7; }
+  .editor-dots span:nth-child(3) { background: #22c55e; opacity: 0.7; }
+
+  .editor-tabs { display: flex; gap: 2px; margin-left: auto; }
+  .editor-tab {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #475569;
+    background: transparent;
+    border: none;
+    padding: 0.4rem 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 6px;
+  }
+  .editor-tab:hover { color: #94a3b8; }
+  .editor-tab.active { color: #e2e8f0; background: rgba(148,163,184,0.1); }
+
+  .editor-body {
+    flex: 1;
+    padding: 1.25rem 0;
+    overflow-x: auto;
+    min-height: 380px;
+  }
+  .editor-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.85;
+    color: #94a3b8;
+    margin: 0;
+    padding: 0 1.25rem;
+    transition: opacity 0.15s;
+    white-space: pre;
+  }
+  .editor-code .ln {
+    display: inline-block;
+    width: 2em;
+    text-align: right;
+    color: #334155;
+    margin-right: 1.5em;
+    user-select: none;
+  }
+  .editor-code .t { color: #f472b6; }
+  .editor-code .a { color: #c084fc; }
+  .editor-code .s { color: #38bdf8; }
+  .editor-code .hl {
+    color: #38bdf8;
+    background: rgba(56,189,248,0.08);
+    border-radius: 3px;
+    padding: 0.05em 0.15em;
+  }
+
+  @media (max-width: 900px) {
+    .demo-container { grid-template-columns: 1fr; }
+    .demo-editor { border-top: 1px solid rgba(148,163,184,0.08); }
+    .editor-body { min-height: 300px; }
+  }
+
+  /* ====== FONT SHOWCASE ====== */
+  .font-showcase {
+    border: 1px solid rgba(148,163,184,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .font-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    border-bottom: 1px solid rgba(148,163,184,0.06);
+    transition: background 0.3s;
+  }
+  .font-row:hover { background: rgba(148,163,184,0.03); }
+  .font-row-last { border-bottom: none; }
+  .font-row-sample {
+    padding: 2rem 2.5rem;
+    font-size: 1.6rem;
+    line-height: 2.2;
+    color: #cbd5e1;
+    border-right: 1px solid rgba(148,163,184,0.06);
+  }
+  .font-row-meta {
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .font-row-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+    margin-bottom: 0.25rem;
+  }
+
+  @media (max-width: 768px) {
+    .font-row { grid-template-columns: 1fr; }
+    .font-row-sample { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.06); }
+  }
+
+  /* ====== EFFECTS GRID (5-col → 3-col → 2-col → 1-col) ====== */
+  .effects-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+  }
+  @media (max-width: 1100px) { .effects-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 640px)  { .effects-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 420px)  { .effects-grid { grid-template-columns: 1fr; } }
+
+  /* ====== EFFECTS MORE LINK ====== */
+  .effects-more {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .effects-more-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #38bdf8;
+    text-decoration: none;
+    padding: 0.6rem 1.25rem;
+    border: 1px solid rgba(56,189,248,0.2);
+    border-radius: 8px;
+    background: rgba(56,189,248,0.05);
+    transition: all 0.2s;
+  }
+  .effects-more-link:hover {
+    border-color: rgba(56,189,248,0.4);
+    background: rgba(56,189,248,0.1);
+    color: #7dd3fc;
+  }
+
+  /* ====== EFFECT DEMOS ====== */
+  .fx-demo {
+    display: flex;
+    align-items: center;
+    min-height: 5rem;
+    margin-bottom: 1.25rem;
+  }
+  .fx-demo-light {
+    background: #faf5ee;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+  }
+  .fx-demo-glass {
+    background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1e1b4b 100%);
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  /* ====== PECHA SHOWCASE ====== */
+  .pecha-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .pecha-demo-block {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+  }
+  .pecha-demo-label {
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #64748b;
+  }
+  .pecha-cls-row {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+    margin-top: .1rem;
+  }
+  .pecha-cls-row code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    color: #38bdf8;
+    background: rgba(56,189,248,.08);
+    border: 1px solid rgba(56,189,248,.15);
+    padding: .15em .5em;
+    border-radius: 4px;
+  }
+  .fonts-more {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .pecha-more {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  /* ====== GUARDIAN DEMOS ====== */
+  .guard-demo { margin-bottom: 1.25rem; }
+  .guard-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .guard-label.bad { color: #ef4444; }
+  .guard-label.good { color: #38bdf8; }
+  .guard-box {
+    background: rgba(148,163,184,0.04);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.75rem;
+    border-left: 2px solid transparent;
+  }
+  .guard-box.bad { border-left-color: #ef4444; overflow: hidden; }
+  .guard-box.good { border-left-color: #38bdf8; }
+
+  /* ====== WHY SECTION ====== */
+  .why-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .inline-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+    color: #38bdf8;
+    background: rgba(56,189,248,0.08);
+    padding: 0.1em 0.35em;
+    border-radius: 3px;
+  }
+
+  /* ====== CODE EXAMPLES ====== */
+  .code-examples { max-width: 680px; }
+  .code-examples .code-block { margin-bottom: 1rem; }
+  .code-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  @media (max-width: 640px) {
+    .code-grid { grid-template-columns: 1fr; }
+  }
+</style>

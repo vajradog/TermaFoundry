@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1a1530"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="tradition" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="600" fill="url(#bg)"/>
+
+  <!-- Subtle texture -->
+  <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="1" cy="1" r="0.8" fill="rgba(148,163,184,0.05)"/>
+  </pattern>
+  <rect width="960" height="600" fill="url(#dots)"/>
+
+  <!-- Left: Traditional vs Contemporary contrast -->
+  <g transform="translate(60, 80)">
+
+    <!-- Section label -->
+    <text font-family="system-ui, sans-serif" font-size="10" fill="#64748b" letter-spacing="2">TRADITIONAL</text>
+
+    <!-- Traditional uchen block - ornate, formal -->
+    <rect y="18" width="420" height="130" rx="10" fill="rgba(251,191,36,0.06)" stroke="rgba(251,191,36,0.2)" stroke-width="1"/>
+    <text x="20" y="58" font-family="serif" font-size="48" fill="#fbbf24">ཤེས་རབ།</text>
+    <text x="20" y="96" font-family="serif" font-size="36" fill="#f59e0b" opacity="0.8">སྙིང་རྗེ་ཆེན་པོ།</text>
+    <text x="20" y="130" font-family="serif" font-size="28" fill="#d97706" opacity="0.6">བྱང་ཆུབ་ཀྱི་སེམས།</text>
+
+    <!-- Arrow: tradition → contemporary -->
+    <g transform="translate(0, 172)">
+      <text font-family="system-ui, sans-serif" font-size="10" fill="#64748b" letter-spacing="2">CONTEMPORARY</text>
+    </g>
+
+    <!-- Contemporary block - cleaner, sans-feel -->
+    <rect y="190" width="420" height="130" rx="10" fill="rgba(56,189,248,0.06)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+    <text x="20" y="232" font-family="sans-serif" font-size="46" fill="#38bdf8">ཤེས་རབ།</text>
+    <text x="20" y="272" font-family="sans-serif" font-size="34" fill="#7dd3fc" opacity="0.8">སྙིང་རྗེ་ཆེན་པོ།</text>
+    <text x="20" y="308" font-family="sans-serif" font-size="26" fill="#bae6fd" opacity="0.6">བྱང་ཆུབ་ཀྱི་སེམས།</text>
+
+    <!-- Design principles tags -->
+    <g transform="translate(0, 342)">
+      <rect width="100" height="24" rx="12" fill="rgba(34,197,94,0.12)" stroke="rgba(34,197,94,0.3)" stroke-width="1"/>
+      <text x="50" y="16.5" font-family="system-ui" font-size="10" font-weight="600" fill="#22c55e" text-anchor="middle">Accessible</text>
+    </g>
+    <g transform="translate(112, 342)">
+      <rect width="100" height="24" rx="12" fill="rgba(168,85,247,0.12)" stroke="rgba(168,85,247,0.3)" stroke-width="1"/>
+      <text x="50" y="16.5" font-family="system-ui" font-size="10" font-weight="600" fill="#a855f7" text-anchor="middle">Digital-first</text>
+    </g>
+    <g transform="translate(224, 342)">
+      <rect width="100" height="24" rx="12" fill="rgba(251,191,36,0.12)" stroke="rgba(251,191,36,0.3)" stroke-width="1"/>
+      <text x="50" y="16.5" font-family="system-ui" font-size="10" font-weight="600" fill="#fbbf24" text-anchor="middle">Universal</text>
+    </g>
+
+    <!-- Comparison spectrum bar -->
+    <g transform="translate(0, 390)">
+      <text font-family="system-ui" font-size="10" fill="#64748b">Formal ←</text>
+      <rect x="58" y="-7" width="300" height="6" rx="3" fill="rgba(30,41,59,0.8)" stroke="rgba(148,163,184,0.1)" stroke-width="1"/>
+      <!-- Gradient fill -->
+      <defs>
+        <linearGradient id="spectrum" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#fbbf24"/>
+          <stop offset="100%" stop-color="#38bdf8"/>
+        </linearGradient>
+      </defs>
+      <rect x="58" y="-7" width="300" height="6" rx="3" fill="url(#spectrum)" opacity="0.6"/>
+      <text x="370" font-family="system-ui" font-size="10" fill="#64748b">→ Modern</text>
+    </g>
+  </g>
+
+  <!-- Right panel -->
+  <g transform="translate(548, 100)">
+    <!-- Divider line -->
+    <line x1="-18" y1="0" x2="-18" y2="420" stroke="rgba(148,163,184,0.08)" stroke-width="1"/>
+
+    <text font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#38bdf8">TERMA FONTS</text>
+
+    <text y="38" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="800" fill="#e2e8f0" letter-spacing="-0.4">The Case for</text>
+    <text y="64" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="800" fill="#e2e8f0" letter-spacing="-0.4">Alternate</text>
+    <text y="90" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="800" fill="#fbbf24" letter-spacing="-0.4">Tibetan Fonts</text>
+
+    <rect y="106" width="48" height="3" rx="1.5" fill="url(#gold)"/>
+
+    <text y="142" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#94a3b8">Tradition meets</text>
+    <text y="160" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#94a3b8">universal design for</text>
+    <text y="178" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#94a3b8">a living script.</text>
+
+    <!-- Three pillars -->
+    <g transform="translate(0, 205)" font-family="system-ui, sans-serif">
+      <text font-size="10" fill="#475569" letter-spacing="1.5">THREE PILLARS</text>
+
+      <g transform="translate(0, 20)">
+        <rect width="360" height="52" rx="8" fill="rgba(30,41,59,0.6)" stroke="rgba(148,163,184,0.08)" stroke-width="1"/>
+        <text x="14" y="20" font-size="12" font-weight="600" fill="#fbbf24">Cultural Authenticity</text>
+        <text x="14" y="38" font-size="11" fill="#64748b">Rooted in Tibetan calligraphic tradition</text>
+      </g>
+
+      <g transform="translate(0, 82)">
+        <rect width="360" height="52" rx="8" fill="rgba(30,41,59,0.6)" stroke="rgba(148,163,184,0.08)" stroke-width="1"/>
+        <text x="14" y="20" font-size="12" font-weight="600" fill="#38bdf8">Universal Design</text>
+        <text x="14" y="38" font-size="11" fill="#64748b">Readable for learners, children, diaspora</text>
+      </g>
+
+      <g transform="translate(0, 144)">
+        <rect width="360" height="52" rx="8" fill="rgba(30,41,59,0.6)" stroke="rgba(148,163,184,0.08)" stroke-width="1"/>
+        <text x="14" y="20" font-size="12" font-weight="600" fill="#22c55e">Digital Optimization</text>
+        <text x="14" y="38" font-size="11" fill="#64748b">Crisp on screens, multilingual layouts</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Branding -->
+  <text x="480" y="575" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#475569" text-anchor="middle" letter-spacing="1">TERMA FOUNDRY · termafoundry.com</text>
+</svg>

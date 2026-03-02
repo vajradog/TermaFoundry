@@ -1,0 +1,54 @@
+{
+  "name": "termaui",
+  "version": "0.1.0",
+  "description": "Tibetan typography CSS framework — fonts, utility classes, and rendering fixes for Tibetan script on the web.",
+  "keywords": [
+    "tibetan",
+    "typography",
+    "css",
+    "fonts",
+    "uchen",
+    "drutsa",
+    "buddhist",
+    "tibetan-fonts",
+    "tibetan-script",
+    "tibetan-language"
+  ],
+  "homepage": "https://termafoundry.com/termaui",
+  "bugs": {
+    "url": "https://github.com/termafoundry/termafoundry/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/termafoundry/termafoundry.git",
+    "directory": "packages/termaui"
+  },
+  "license": "MIT",
+  "author": "Terma Foundry <hello@termafoundry.com>",
+  "main": "dist/terma.js",
+  "module": "dist/terma.esm.js",
+  "style": "dist/termaui.css",
+  "exports": {
+    ".": {
+      "import": "./dist/terma.esm.js",
+      "require": "./dist/terma.js",
+      "default": "./dist/terma.js"
+    },
+    "./dist/termaui.css": "./dist/termaui.css",
+    "./dist/termaui.min.css": "./dist/termaui.min.css",
+    "./dist/terma.js": "./dist/terma.js",
+    "./dist/terma.esm.js": "./dist/terma.esm.js"
+  },
+  "files": [
+    "dist/",
+    "fonts/",
+    "README.md"
+  ],
+  "sideEffects": [
+    "dist/termaui.css",
+    "dist/termaui.min.css"
+  ],
+  "engines": {
+    "node": ">=16"
+  }
+}

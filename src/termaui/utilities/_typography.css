@@ -1,0 +1,114 @@
+/* ==========================================================================
+   termaUI — Typography utilities
+   Font sizes, line heights, letter spacing, alignment, and indent
+   tuned for Tibetan script metrics.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   FONT SIZES
+   T-shirt scale with paired line-heights optimized for Tibetan vowel marks
+   and stacked consonants. Base is 1.1rem from the :lang(bo) reset.
+   --------------------------------------------------------------------------- */
+
+.tr-text-sm {
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.tr-text-base {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.tr-text-lg {
+  font-size: 1.4rem;
+  line-height: 1.8;
+}
+
+.tr-text-xl {
+  font-size: 1.75rem;
+  line-height: 1.7;
+}
+
+.tr-text-2xl {
+  font-size: 2.25rem;
+  line-height: 1.6;
+}
+
+.tr-text-3xl {
+  font-size: 3rem;
+  line-height: 1.5;
+}
+
+.tr-text-4xl {
+  font-size: 4rem;
+  line-height: 1.4;
+}
+
+.tr-text-5xl {
+  font-size: 5rem;
+  line-height: 1.3;
+}
+
+/* ---------------------------------------------------------------------------
+   LINE HEIGHTS
+   Standalone overrides for verse, prose, and meditation text spacing.
+   --------------------------------------------------------------------------- */
+
+.tr-leading-tight {
+  line-height: 1.4;
+}
+
+.tr-leading-normal {
+  line-height: 1.8;
+}
+
+.tr-leading-relaxed {
+  line-height: 2.2;
+}
+
+.tr-leading-loose {
+  line-height: 2.6;
+}
+
+/* ---------------------------------------------------------------------------
+   TEXT ALIGNMENT
+   --------------------------------------------------------------------------- */
+
+.tr-text-left {
+  text-align: left;
+}
+
+.tr-text-center {
+  text-align: center;
+}
+
+.tr-text-right {
+  text-align: right;
+}
+
+.tr-text-justify {
+  text-align: justify;
+}
+
+/* ---------------------------------------------------------------------------
+   TEXT INDENT
+   Traditional Tibetan prose and verse often use indentation.
+   --------------------------------------------------------------------------- */
+
+.tr-indent {
+  text-indent: 2em;
+}
+
+/* ---------------------------------------------------------------------------
+   TIBETAN JUSTIFICATION
+   text-align: justify alone does nothing useful for Tibetan — browsers treat
+   the entire string as one "word" with no break points.
+   This class REQUIRES terma.prepare() from terma.js, which injects zero-width
+   spaces after each tsheg to give the browser break opportunities.
+   Together they produce correct justified Tibetan text.
+   --------------------------------------------------------------------------- */
+
+.tr-justify-bo {
+  text-align: justify;
+}

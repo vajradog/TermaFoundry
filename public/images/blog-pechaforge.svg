@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1a2540"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="parchment" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#faf0dc"/>
+      <stop offset="100%" stop-color="#f0e4c4"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="960" height="600" fill="url(#bg)"/>
+
+  <!-- Subtle grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(148,163,184,0.04)" stroke-width="1"/>
+  </pattern>
+  <rect width="960" height="600" fill="url(#grid)"/>
+
+  <!-- Pecha page simulation (center-left) -->
+  <g transform="translate(80, 160)" filter="url(#shadow)">
+    <!-- Pecha page background - extreme landscape ratio -->
+    <rect width="560" height="93" rx="3" fill="url(#parchment)"/>
+    <!-- Left column border (red rule) -->
+    <line x1="56" y1="0" x2="56" y2="93" stroke="#b91c1c" stroke-width="1.5"/>
+    <!-- Right column border (red rule) -->
+    <line x1="504" y1="0" x2="504" y2="93" stroke="#b91c1c" stroke-width="1.5"/>
+    <!-- Outer border -->
+    <rect width="560" height="93" rx="3" fill="none" stroke="#b91c1c" stroke-width="1.5"/>
+
+    <!-- Yig mgo mark -->
+    <text x="66" y="30" font-family="serif" font-size="14" fill="#1a0a00" opacity="0.8">༄༅།</text>
+
+    <!-- Body text (Tibetan) -->
+    <text x="66" y="30" font-family="serif" font-size="14" fill="#1a0a00">ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ།</text>
+    <text x="66" y="50" font-family="serif" font-size="13" fill="#1a0a00" opacity="0.85">གང་གི་རྗེས་སུ་འབྲང་བའི་སེམས་ཅན་ཐམས་ཅད།</text>
+    <text x="66" y="69" font-family="serif" font-size="13" fill="#1a0a00" opacity="0.7">བྱང་ཆུབ་སེམས་དཔའི་སྤྱོད་པ་ལ་བརྩོན་པར་བྱའོ།</text>
+
+    <!-- Left title column (rotated) -->
+    <text x="28" y="60" font-family="serif" font-size="11" fill="#1a0a00" opacity="0.7" text-anchor="middle">ཤེས་རབ།</text>
+
+    <!-- Right folio column -->
+    <text x="525" y="55" font-family="serif" font-size="16" fill="#1a0a00" text-anchor="middle">༡</text>
+  </g>
+
+  <!-- Second pecha page (slightly offset/rotated) -->
+  <g transform="translate(90, 280) rotate(-1)" filter="url(#shadow)">
+    <rect width="560" height="93" rx="3" fill="#ede8d8"/>
+    <line x1="56" y1="0" x2="56" y2="93" stroke="#b91c1c" stroke-width="1.5"/>
+    <line x1="504" y1="0" x2="504" y2="93" stroke="#b91c1c" stroke-width="1.5"/>
+    <rect width="560" height="93" rx="3" fill="none" stroke="#b91c1c" stroke-width="1.5"/>
+    <text x="66" y="30" font-family="serif" font-size="14" fill="#1a0a00" opacity="0.75">རབ་ཏུ་དགའ་བའི་ས་ལ་གནས་པ་དེས།</text>
+    <text x="66" y="50" font-family="serif" font-size="13" fill="#1a0a00" opacity="0.65">སྙིང་རྗེའི་ཐུགས་ཀྱིས་སེམས་ཅན་ལ་གཟིགས་ནས།</text>
+    <text x="525" y="55" font-family="serif" font-size="16" fill="#1a0a00" text-anchor="middle" opacity="0.8">༢</text>
+  </g>
+
+  <!-- Right panel — text content -->
+  <g transform="translate(700, 120)">
+    <!-- Category label -->
+    <text font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" letter-spacing="2" fill="#38bdf8" text-transform="uppercase">TOOLS</text>
+
+    <!-- Main heading -->
+    <text y="36" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="800" fill="#e2e8f0" letter-spacing="-0.5">Pecha</text>
+    <text y="70" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="800" fill="#e2e8f0" letter-spacing="-0.5">Forge</text>
+
+    <!-- Accent line -->
+    <rect y="86" width="48" height="3" rx="1.5" fill="url(#gold)"/>
+
+    <!-- Description -->
+    <text y="120" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#94a3b8" style="max-width:200px">Traditional Tibetan</text>
+    <text y="138" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#94a3b8">pecha manuscripts</text>
+    <text y="156" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#94a3b8">in your browser.</text>
+
+    <!-- Feature pills -->
+    <g transform="translate(0, 185)">
+      <rect width="72" height="22" rx="11" fill="rgba(56,189,248,0.12)" stroke="rgba(56,189,248,0.3)" stroke-width="1"/>
+      <text x="36" y="15.5" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#38bdf8" text-anchor="middle">PDF Export</text>
+    </g>
+    <g transform="translate(0, 214)">
+      <rect width="68" height="22" rx="11" fill="rgba(251,191,36,0.12)" stroke="rgba(251,191,36,0.3)" stroke-width="1"/>
+      <text x="34" y="15.5" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#fbbf24" text-anchor="middle">36 Fonts</text>
+    </g>
+    <g transform="translate(0, 243)">
+      <rect width="60" height="22" rx="11" fill="rgba(34,197,94,0.12)" stroke="rgba(34,197,94,0.3)" stroke-width="1"/>
+      <text x="30" y="15.5" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#22c55e" text-anchor="middle">Free Tool</text>
+    </g>
+  </g>
+
+  <!-- Terma Foundry branding (bottom) -->
+  <text x="480" y="575" font-family="system-ui, -apple-system, sans-serif" font-size="11" fill="#475569" text-anchor="middle" letter-spacing="1">TERMA FOUNDRY · termafoundry.com</text>
+</svg>

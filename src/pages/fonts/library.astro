@@ -1,0 +1,1348 @@
+---
+import FontsBase from '@layouts/FontsBase.astro';
+
+const sample = {
+  long:  'བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ།',
+  short: 'བཀྲ་ཤིས་བདེ་ལེགས།',
+  alpha: 'ཀ་ཁ་ག་ང་ཅ་ཆ་ཇ་ཉ་ཏ་ཐ་ད་ན་པ་ཕ་བ་མ་ཙ་ཚ་ཛ་ཝ་ཞ་ཟ་འ་ཡ་ར་ལ་ཤ་ས་ཧ་ཨ།',
+};
+
+const uchen = [
+  {
+    name: 'Jomolhari',
+    cls: 'tr-jomolhari',
+    author: 'Christopher J. Fynn',
+    license: 'SIL OFL',
+    licenseUrl: 'https://openfontlicense.org/',
+    desc: 'The workhorse of Tibetan digital typography. Warm, classical Uchen manuscript strokes — the closest digital equivalent to hand-written religious texts. Suited to body text, liturgical content, and long-form reading.',
+    useCase: 'Body text · Liturgical · Manuscripts · Long-form',
+  },
+  {
+    name: 'DDC Uchen',
+    cls: 'tr-ddc-uchen',
+    author: 'Christopher J. Fynn / Dzongkha Development Commission',
+    license: 'SIL OFL',
+    licenseUrl: 'https://openfontlicense.org/',
+    desc: 'The official Unicode Tibetan font developed for the government of Bhutan. Clean, authoritative Uchen strokes used by Kuensel (Bhutan\'s national newspaper). Excellent Unicode coverage for both Tibetan and Dzongkha.',
+    useCase: 'Official documents · News · Bilingual publishing · Dzongkha',
+  },
+  {
+    name: 'BabelStone Tibetan',
+    cls: 'tr-babelstone',
+    author: 'Andrew West / BabelStone',
+    license: 'SIL OFL',
+    licenseUrl: 'https://openfontlicense.org/',
+    desc: 'One of the broadest-coverage Tibetan Unicode fonts available. Designed specifically to support the full Unicode Tibetan block — ideal for scholarly work, rare script forms, and texts with complex consonant stacks that defeat other fonts.',
+    useCase: 'Scholarly · Wide Unicode coverage · Rare stacks · Research',
+  },
+  {
+    name: 'BabelStone Tibetan Slim',
+    cls: 'tr-babelstone-slim',
+    author: 'Andrew West / BabelStone',
+    license: 'SIL OFL',
+    licenseUrl: 'https://openfontlicense.org/',
+    desc: 'A reduced-line-height variant of BabelStone Tibetan. The Slim version trades the extreme headroom for more compact layout — better for ordinary modern Tibetan text where mantra-depth stacks are rare.',
+    useCase: 'Modern text · Compact layout · Digital · Web body',
+  },
+  {
+    name: 'Noto Serif Tibetan',
+    cls: 'tr-noto',
+    author: 'Google Fonts',
+    license: 'SIL OFL',
+    licenseUrl: 'https://openfontlicense.org/',
+    desc: 'Google\'s modern Tibetan serif — screen-optimised, consistently rendered, and built to international Unicode standards. The only available Tibetan font with a full weight axis (Thin through Black). Excellent for apps, digital interfaces, and multilingual layouts.',
+    useCase: 'Digital interfaces · Apps · Web · Small-size rendering',
+    hasWeights: true,
+  },
+  {
+    name: 'Tibetan Machine Uni',
+    cls: 'tr-machine-uni',
+    author: 'Tibetan & Himalayan Library (THDL)',
+    license: 'GPL v2',
+    licenseUrl: 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html',
+    desc: 'Bold, high-contrast strokes built for display and headline use. Impactful and authoritative — excellent for navigation labels, headings, and poster-scale titles. Wide Unicode coverage. The traditional heavyweight of Tibetan digital typography.',
+    useCase: 'Headlines · Display · Navigation · Print titles · Signage',
+  },
+  {
+    name: 'Monlam Bodyig',
+    cls: 'tr-monlam',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'Refined thin strokes with elegant proportions. A graceful literary Uchen — where the text recedes and the meaning speaks. Suited to poetry collections, literary publications, and long-form reading where a quieter aesthetic is needed.',
+    useCase: 'Literary · Poetry · Elegant long-form · Publications',
+  },
+  {
+    name: 'GangJie Uchen',
+    cls: 'tr-gangjie',
+    author: 'Gangjie Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'A clean, even-stroked modern Uchen. Consistent stroke weight and neutral character make it a solid choice for interface labels, forms, and anywhere that text needs to be readable without demanding attention.',
+    useCase: 'UI labels · Forms · Digital neutral · Interface text',
+  },
+  {
+    name: 'Jamyang Monlam Uchen',
+    cls: 'tr-jamyang',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'An Uchen with strong calligraphic character — noticeable contrast between thick and thin strokes gives it a sculptural quality. Works well at larger sizes where that stroke personality can be appreciated.',
+    useCase: 'Headings · Large display · Calligraphic feel · Print',
+  },
+  {
+    name: 'Panchen Tsukring',
+    cls: 'tr-panchen',
+    author: 'Open Pecha Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'Traditional Uchen with extended vertical proportions — the tsukring (long-headed) style with taller ascenders. A formal, classical appearance suited to religious and ceremonial texts.',
+    useCase: 'Religious texts · Formal · Ceremonial · Traditional publishing',
+  },
+  {
+    name: 'Riwoche Dhodri',
+    cls: 'tr-riwoche',
+    author: 'Open Pecha Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'A woodblock-print-inspired Uchen with the yigchen quality of traditional xylographic printing. Ink-spread character and slightly rough edges evoke centuries of block-printed scripture.',
+    useCase: 'Heritage publishing · Display · Woodblock aesthetic · Titles',
+  },
+  {
+    name: 'Sadri Yigchen',
+    cls: 'tr-sadri',
+    author: 'Sadri Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'Clean, well-proportioned formal Uchen from the Sadri collection. Balanced stroke weights — solid for body text, textbooks, and educational materials where legibility at smaller sizes matters.',
+    useCase: 'Education · Textbooks · Body text · Learning materials',
+  },
+  {
+    name: 'DDC Rinzin',
+    cls: 'tr-ddc-rinzin',
+    author: 'Christopher J. Fynn / DDC',
+    license: 'SIL OFL',
+    licenseUrl: 'https://openfontlicense.org/',
+    desc: 'A decorative Uchen with distinctive calligraphic character developed alongside DDC Uchen. Expressive stroke endings and refined proportions make it a standout display face for titles and artistic applications.',
+    useCase: 'Display · Titles · Artistic · Invitations · Decorative',
+  },
+  {
+    name: 'Monlam Uni OuChan1',
+    cls: 'tr-monlam-ouchan1',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'The reference Uchen from Monlam AI\'s OuChan series — clean, well-proportioned strokes with strong Unicode coverage. Designed for screen legibility at body text sizes with consistent weight across the full Tibetan block.',
+    useCase: 'Body text · Digital · Apps · Screen · General purpose',
+  },
+  {
+    name: 'Monlam Uni OuChan2',
+    cls: 'tr-monlam-ouchan2',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'Second variant of Monlam AI\'s OuChan Uchen series. Slightly different stroke contrast and proportions — a softer, more open feel suited to textbooks and educational content.',
+    useCase: 'Education · Textbooks · Digital body · Reading',
+  },
+  {
+    name: 'Monlam Uni OuChan3',
+    cls: 'tr-monlam-ouchan3',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'Third variant in the OuChan series. A slightly bolder stroke character — sits well in paragraph text for printed materials and longer documents where a firm, confident presence is needed.',
+    useCase: 'Print · Publications · Body text · Documents',
+  },
+  {
+    name: 'Monlam Uni OuChan4',
+    cls: 'tr-monlam-ouchan4',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'Fourth OuChan variant with refined proportions and clean geometry. Particularly suited to UI text, labels, and interface elements where Uchen needs to coexist with Latin or CJK typography.',
+    useCase: 'UI labels · Multilingual · Interface · Digital',
+  },
+  {
+    name: 'Monlam Uni OuChan5',
+    cls: 'tr-monlam-ouchan5',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'Fifth and final OuChan variant — the most distinctive of the series. Strong character with deliberate stroke contrast. Works well at display sizes for headings and pull quotes.',
+    useCase: 'Headings · Display · Pull quotes · Larger sizes',
+  },
+  {
+    name: 'Monlam Uni PayTsik',
+    cls: 'tr-monlam-paytsik',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'PayTsik (ཕྱག་རྩིག) — a formal seal/stamp-style Uchen with compact, authoritative letterforms. Traditionally used for official seals, colophons, and ceremonial inscriptions. High visual density and gravitas.',
+    useCase: 'Seals · Colophons · Official · Ceremonial · Headings',
+  },
+  {
+    name: 'Monlam Uni Tikrang',
+    cls: 'tr-monlam-tikrang',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'Tikrang (ཏིག་རིང) — an ornamental Uchen with extended, flowing vertical strokes. The extra height gives it a regal, architecturally impressive quality suited to large-scale display and illuminated titles.',
+    useCase: 'Ornamental · Large display · Illuminated titles · Print',
+  },
+  {
+    name: 'Monlam Uni TikTong',
+    cls: 'tr-monlam-tiktong',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'TikTong (ཏིག་ཐུང) — an ornamental Uchen with compact, squared proportions. Dense and decorative, with strong visual weight. Effective for chapter headings, short display text, and woodblock-inspired layouts.',
+    useCase: 'Display · Chapter headings · Decorative · Print',
+  },
+  {
+    name: 'Qomolangma-UchenSarchen',
+    cls: 'tr-qomolangma-sarchen',
+    author: 'THDL / Qomolangma Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'Sarchen (སར་ཆེན) — "large script" Uchen from the THDL Qomolangma series. Grand proportions and generous strokes give it an imposing classical quality — the typeface of monastery inscriptions and large-format printing.',
+    useCase: 'Large format · Monastery texts · Print titles · Classical',
+  },
+  {
+    name: 'Qomolangma-Betsu',
+    cls: 'tr-qomolangma-betsu',
+    author: 'THDL / Qomolangma Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'Betsu — a compact, abbreviated Uchen variant from the Qomolangma series. Shorter letterforms with slightly compressed proportions — efficient for annotations, captions, yig-chung positions, and tight-space layouts.',
+    useCase: 'Annotations · Captions · Compact layouts · Yig-chung',
+  },
+  {
+    name: 'Qomolangma-Tsutong',
+    cls: 'tr-qomolangma-tsutong',
+    author: 'THDL / Qomolangma Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'Tsutong (གཙུག་ཐུང) — "short-headed" Uchen with reduced ascender height for more compact text blocks. A modern, efficient Uchen suited to digital interfaces where tight line-heights are required.',
+    useCase: 'UI · Compact digital text · Labels · Modern interfaces',
+  },
+];
+
+const drutsa = [
+  {
+    name: 'Qomolangma-Drutsa',
+    cls: 'tr-drutsa',
+    author: 'THDL / Qomolangma Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'Flowing drutsa cursive — the script of correspondence, artistic works, and informal Tibetan writing. Organic, calligraphic, expressive. One of the most widely used drutsa digital fonts.',
+    useCase: 'Correspondence · Artistic titles · Cursive display · Informal',
+  },
+  {
+    name: 'GangJie Drutsa',
+    cls: 'tr-gangjie-drutsa',
+    author: 'Gangjie Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'A rhythmic drutsa hand with balanced slant and consistent stroke flow. Clean and legible without losing the fluidity that makes drutsa feel alive.',
+    useCase: 'Cursive display · Artistic headings · Informal writing',
+  },
+  {
+    name: 'Khampa Dedri Drutsa',
+    cls: 'tr-khampa-drutsa',
+    author: 'Khampa Dedri Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'An expressive drutsa hand from the Khampa Dedri family — bolder strokes and more pronounced flowing connections than many drutsa fonts, giving it a lively, energetic character.',
+    useCase: 'Display · Artistic · Expressive headings · Posters',
+  },
+  {
+    name: 'Sadri Drutsa',
+    cls: 'tr-sadri-drutsa',
+    author: 'Sadri Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'A refined drutsa cursive from the Sadri collection. Elegant flowing forms with good legibility — a drutsa that can be used at body sizes without feeling chaotic.',
+    useCase: 'Literary display · Cursive body · Artistic publications',
+  },
+  {
+    name: 'Monlam Uni Dutsa1',
+    cls: 'tr-monlam-dutsa1',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'Monlam AI\'s first drutsa variant — a clean, energetic cursive with strong Unicode coverage. Flowing connections and good legibility make it the most versatile of the Monlam Uni cursive family.',
+    useCase: 'Display · Titles · Artistic · Correspondence',
+  },
+  {
+    name: 'Monlam Uni Dutsa2',
+    cls: 'tr-monlam-dutsa2',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'Second Monlam Uni drutsa variant — a bolder, more expressive cursive character with stronger stroke weight variation. Suited to poster headlines, cover titles, and anywhere cursive needs visual impact.',
+    useCase: 'Posters · Bold display · Expressive titles · Large cursive',
+  },
+];
+
+const modern = [
+  {
+    name: 'Noto Sans Tibetan',
+    cls: 'tr-noto-sans',
+    author: 'Google Fonts',
+    license: 'SIL OFL',
+    licenseUrl: 'https://openfontlicense.org/',
+    desc: 'Google\'s Unicode Tibetan sans-serif — the sans companion to Noto Serif Tibetan. Clean, uniform strokes without calligraphic contrast. Excellent for UI, apps, and digital interfaces where a modern neutral feel is preferred over traditional script aesthetics.',
+    useCase: 'UI · Apps · Digital interfaces · Modern · Multilingual',
+  },
+  {
+    name: 'MiSans Tibetan',
+    cls: 'tr-misans',
+    author: 'Xiaomi',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'A geometric modern sans-serif developed by Xiaomi for the MiSans system font family. Uniform stroke weight, high x-height, and very good screen rendering at small sizes. Brings a contemporary global-design sensibility to Tibetan typography.',
+    useCase: 'System UI · Small sizes · Modern design · Digital products',
+  },
+  {
+    name: 'Monlam Uni Sans',
+    cls: 'tr-monlam-sans',
+    author: 'Monlam AI',
+    license: 'Open',
+    licenseUrl: 'https://monlam.ai/',
+    desc: 'Monlam AI\'s interpretation of a sans-serif Uchen — the classical headed letterforms translated into a stroke-uniform, sans-serif structure. A unique hybrid that bridges traditional Tibetan script and contemporary typographic conventions.',
+    useCase: 'Hybrid aesthetic · Modern Tibetan · Tech · Contemporary',
+  },
+];
+
+const semicursive = [
+  {
+    name: 'Joyig',
+    cls: 'tr-joyig',
+    author: 'Open Pecha Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'Joyig (འཇོ་ཡིག) sits between Uchen and Drutsa — a semi-formal script with some of the speed of cursive but clearer letterforms. Traditionally used for personal correspondence and informal documents.',
+    useCase: 'Semi-formal · Correspondence · Personal writing · Notes',
+  },
+  {
+    name: 'Khampa Dedri Chuyig',
+    cls: 'tr-chuyig',
+    author: 'Khampa Dedri Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'Chuyig (ཆུ་ཡིག) — the flowing script of official correspondence and government documents. More structured than drutsa, more personal than formal Uchen. A distinctive rhythmic quality.',
+    useCase: 'Official correspondence · Government · Formal letters',
+  },
+  {
+    name: 'Khampa Dedri Bechu',
+    cls: 'tr-bechu',
+    author: 'Khampa Dedri Project',
+    license: 'Open',
+    licenseUrl: 'https://github.com/OpenPecha/tibetan-fonts',
+    desc: 'Bechu (འབེ་ཆུང) — an informal, simplified script used for everyday handwriting and quick notes. The most relaxed of the Khampa Dedri scripts; casual and approachable.',
+    useCase: 'Casual · Notes · Informal writing · Personal',
+  },
+];
+
+const notoWeights = [
+  { label: 'Thin',       cls: 'tr-noto-thin'      },
+  { label: 'Light',      cls: 'tr-noto-light'     },
+  { label: 'Regular',    cls: 'tr-noto'           },
+  { label: 'Medium',     cls: 'tr-noto-medium'    },
+  { label: 'SemiBold',   cls: 'tr-noto-semibold'  },
+  { label: 'Bold',       cls: 'tr-noto-bold'      },
+  { label: 'ExtraBold',  cls: 'tr-noto-extrabold' },
+  { label: 'Black',      cls: 'tr-noto-black'     },
+];
+
+const totalFonts = uchen.length + modern.length + drutsa.length + semicursive.length;
+---
+
+<FontsBase
+  title="Tibetan Font Library — termaUI"
+  description={`${totalFonts} open-source Tibetan fonts packaged, self-hosted, and web-optimised by Terma Foundry. One CSS class away from any project.`}
+>
+
+  <!-- HEADER -->
+  <section class="lib-hero">
+    <div class="lib-hero-top">
+      <div>
+        <div class="section-eyebrow reveal">Available Now</div>
+        <h1 class="lib-hero-heading reveal">{totalFonts} Tibetan fonts, ready for the web.</h1>
+        <p class="lib-hero-sub reveal">
+          Open-source Tibetan fonts packaged as WOFF2, self-hosted, one CSS class to use.
+        </p>
+        <a href="/fonts" class="case-link reveal">The Case for New Tibetan Fonts →</a>
+      </div>
+      <div class="lib-hero-usage reveal">
+        <code class="usage-quick-code">&lt;link rel="stylesheet" href="/dist/termaui.css"&gt;</code>
+        <span class="usage-quick-sep">then</span>
+        <code class="usage-quick-code">&lt;p class="<strong>tr-jomolhari</strong> tr-guard" lang="bo"&gt;…&lt;/p&gt;</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ PREVIEW BAR ═══════ -->
+  <div class="preview-bar" id="preview-bar">
+    <div class="preview-bar-inner">
+
+      <!-- Row 1: Input + controls -->
+      <div class="preview-input-row">
+        <div class="preview-input-wrap">
+          <span class="preview-cursor-icon" aria-hidden="true">ཀ</span>
+          <input
+            id="preview-input"
+            type="text"
+            class="preview-input tr-jomolhari tr-guard"
+            placeholder="ཀ་བ་གི་ཉིན་མ།"
+            autocomplete="off"
+            spellcheck="false"
+            lang="bo"
+          >
+        </div>
+        <button class="ime-toggle active" id="ime-toggle" title="Toggle Tibetan keyboard input">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M8 12h.01M12 12h.01M16 12h.01M6 16h5M15 16h3"/>
+          </svg>
+          <span class="ime-status-on">ཀ Tibetan</span>
+          <span class="ime-status-off">A Latin</span>
+        </button>
+        <button class="kbd-help-btn" id="kbd-help-btn" title="Show keyboard layout map">?</button>
+      </div>
+
+      <!-- No-install notice -->
+      <div class="no-install-notice">No Tibetan keyboard or font installation needed — type directly in your browser using standard keys.</div>
+
+      <!-- Row 2: Quick phrases + size slider -->
+      <div class="preview-toolbar">
+        <div class="preview-phrases">
+          <span class="toolbar-label">Try</span>
+          <button class="phrase-btn" data-text="བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ།">Heart Sutra</button>
+          <button class="phrase-btn" data-text="བཀྲ་ཤིས་བདེ་ལེགས།">བཀྲ་ཤིས</button>
+          <button class="phrase-btn" data-text="ཀ་ཁ་ག་ང་ཅ་ཆ་ཇ་ཉ་ཏ་ཐ་ད་ན་པ་ཕ་བ་མ་ཙ་ཚ་ཛ་ཝ་ཞ་ཟ་འ་ཡ་ར་ལ་ཤ་ས་ཧ་ཨ།">Alphabet</button>
+          <button class="phrase-btn" data-text="ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།">OM maṇi</button>
+          <button class="phrase-btn" data-text="ཀུན་མཁྱེན་ཐུགས་རྗེ་ཆེན་པོ།">Omniscient</button>
+          <button class="phrase-clear" id="phrase-clear" title="Clear preview text">✕ Clear</button>
+        </div>
+        <div class="preview-size-wrap">
+          <span class="size-px" id="size-value">28px</span>
+          <input type="range" id="size-slider" class="size-slider" min="16" max="72" value="28" step="2">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Keyboard map panel (lazy-rendered, hidden by default) -->
+    <div class="kbd-map" id="kbd-map" hidden>
+      <div class="kbd-map-inner">
+        <div class="kbd-map-header">
+          <span class="kbd-map-title">Keyboard Layout — Monlam / Keyman Phonetic</span>
+          <span class="kbd-map-sub">Shift + key = subjoined consonant for stacking (e.g. R = ྲ ra-ta)</span>
+        </div>
+        <div class="kbd-map-grid" id="kbd-map-grid"></div>
+        <div class="kbd-map-footer">
+          <span><strong>Vowels:</strong> i&thinsp;=&thinsp;ི &ensp; u&thinsp;=&thinsp;ུ &ensp; e&thinsp;=&thinsp;ེ &ensp; o&thinsp;=&thinsp;ོ</span>
+          <span><strong>Punct:</strong> Space&thinsp;=&thinsp;་ &ensp; /&thinsp;=&thinsp;། &ensp; -&thinsp;=&thinsp;༌</span>
+          <span><strong>Numbers:</strong> 0–9&thinsp;=&thinsp;༠–༩</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ UCHEN ═══════ -->
+  <section class="page-section">
+    <div class="script-header reveal">
+      <div class="script-eyebrow">Uchen Script · དབུ་ཅན</div>
+      <h2 class="script-title">Formal upright script — {uchen.length} fonts</h2>
+      <p class="script-desc">The "headed" script — Tibetan's equivalent of print letterforms. Used in religious texts, official publishing, education, and anywhere a formal, authoritative presence is needed.</p>
+    </div>
+
+    <div class="font-showcase">
+      {uchen.map((font, i) => (
+        <div class={`font-row ${i === uchen.length - 1 ? 'font-row-last' : ''}`}>
+          <div class="font-sample">
+            <div class={`${font.cls} tr-guard font-sample-long`} lang="bo" data-live-preview data-default={sample.long}>{sample.long}</div>
+            <div class="font-sample-alpha">
+              <span class={`${font.cls} tr-guard`} lang="bo">{sample.alpha}</span>
+            </div>
+            <div class="font-sample-short">
+              <span class={`${font.cls} tr-guard`} lang="bo">{sample.short}</span>
+            </div>
+          </div>
+          <div class="font-meta">
+            <div class="font-name">{font.name}</div>
+            <div class="font-cls-badge"><code>.{font.cls}</code></div>
+            <div class="font-desc">{font.desc}</div>
+            <div class="font-usecase">{font.useCase}</div>
+            <div class="font-footer">
+              <span class="font-license">
+                <a href={font.licenseUrl} target="_blank" rel="noopener">{font.license}</a>
+              </span>
+              <span class="font-author">by {font.author}</span>
+            </div>
+            {font.hasWeights && (
+              <div class="font-weights-note">Full weight axis — see showcase below ↓</div>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- NOTO WEIGHT SHOWCASE -->
+  <section class="page-section" style="padding-top:0;">
+    <div class="weight-showcase reveal">
+      <div class="weight-showcase-header">
+        <div class="weight-showcase-label">Noto Serif Tibetan — Full Weight Axis (100–900)</div>
+        <p>The only available Tibetan font with a complete weight range. Use <code>.tr-noto</code> as the base, or use the weight-specific helper classes below.</p>
+      </div>
+      <div class="weight-rows">
+        {notoWeights.map(w => (
+          <div class="weight-row">
+            <div class="weight-label-col">
+              <span class="weight-name">{w.label}</span>
+              <code class="weight-cls">.{w.cls}</code>
+            </div>
+            <div class={`${w.cls} tr-guard weight-sample`} lang="bo" data-live-preview data-default={sample.short}>{sample.short}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin:0 auto;">
+
+  <!-- ═══════ MODERN SANS ═══════ -->
+  <section class="page-section">
+    <div class="script-header reveal">
+      <div class="script-eyebrow">Modern Sans-Serif · ཐིག་གཟུགས</div>
+      <h2 class="script-title">Contemporary sans-serif — {modern.length} fonts</h2>
+      <p class="script-desc">Tibetan typography's newest category — stroke-uniform sans-serif designs built for screens, apps, and modern multilingual products. Unicode-compliant, OpenType-engineered, and optimised for the digital environments where Tibetan increasingly lives.</p>
+    </div>
+
+    <div class="font-showcase">
+      {modern.map((font, i) => (
+        <div class={`font-row ${i === modern.length - 1 ? 'font-row-last' : ''}`}>
+          <div class="font-sample">
+            <div class={`${font.cls} tr-guard font-sample-long`} lang="bo" data-live-preview data-default={sample.long}>{sample.long}</div>
+            <div class="font-sample-alpha">
+              <span class={`${font.cls} tr-guard`} lang="bo">{sample.alpha}</span>
+            </div>
+            <div class="font-sample-short">
+              <span class={`${font.cls} tr-guard`} lang="bo">{sample.short}</span>
+            </div>
+          </div>
+          <div class="font-meta">
+            <div class="font-name">{font.name}</div>
+            <div class="font-cls-badge"><code>.{font.cls}</code></div>
+            <div class="font-desc">{font.desc}</div>
+            <div class="font-usecase">{font.useCase}</div>
+            <div class="font-footer">
+              <span class="font-license">
+                <a href={font.licenseUrl} target="_blank" rel="noopener">{font.license}</a>
+              </span>
+              <span class="font-author">by {font.author}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin:0 auto;">
+
+  <!-- ═══════ DRUTSA ═══════ -->
+  <section class="page-section">
+    <div class="script-header reveal">
+      <div class="script-eyebrow">Drutsa Script · དབུ་མེད་འབྲུ་ཚ</div>
+      <h2 class="script-title">Flowing cursive script — {drutsa.length} fonts</h2>
+      <p class="script-desc">The "headless" cursive — fluid, connected letterforms used for correspondence, artistic works, and everyday Tibetan writing. Expressive and personal; a different aesthetic register from Uchen entirely.</p>
+    </div>
+
+    <div class="font-showcase">
+      {drutsa.map((font, i) => (
+        <div class={`font-row ${i === drutsa.length - 1 ? 'font-row-last' : ''}`}>
+          <div class="font-sample">
+            <div class={`${font.cls} tr-guard font-sample-long`} lang="bo" data-live-preview data-default={sample.long}>{sample.long}</div>
+            <div class="font-sample-short">
+              <span class={`${font.cls} tr-guard`} lang="bo">{sample.short}</span>
+            </div>
+          </div>
+          <div class="font-meta">
+            <div class="font-name">{font.name}</div>
+            <div class="font-cls-badge"><code>.{font.cls}</code></div>
+            <div class="font-desc">{font.desc}</div>
+            <div class="font-usecase">{font.useCase}</div>
+            <div class="font-footer">
+              <span class="font-license">
+                <a href={font.licenseUrl} target="_blank" rel="noopener">{font.license}</a>
+              </span>
+              <span class="font-author">by {font.author}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin:0 auto;">
+
+  <!-- ═══════ SEMI-CURSIVE ═══════ -->
+  <section class="page-section">
+    <div class="script-header reveal">
+      <div class="script-eyebrow">Semi-Cursive Scripts · ཆུ་ཡིག · འཇོ་ཡིག · འབེ་ཆུང</div>
+      <h2 class="script-title">Correspondence &amp; informal scripts — {semicursive.length} fonts</h2>
+      <p class="script-desc">Scripts between formal Uchen and flowing Drutsa — used historically for letters, official correspondence, and everyday documents. Typographically distinct and expressive.</p>
+    </div>
+
+    <div class="font-showcase">
+      {semicursive.map((font, i) => (
+        <div class={`font-row ${i === semicursive.length - 1 ? 'font-row-last' : ''}`}>
+          <div class="font-sample">
+            <div class={`${font.cls} tr-guard font-sample-long`} lang="bo" data-live-preview data-default={sample.long}>{sample.long}</div>
+            <div class="font-sample-short">
+              <span class={`${font.cls} tr-guard`} lang="bo">{sample.short}</span>
+            </div>
+          </div>
+          <div class="font-meta">
+            <div class="font-name">{font.name}</div>
+            <div class="font-cls-badge"><code>.{font.cls}</code></div>
+            <div class="font-desc">{font.desc}</div>
+            <div class="font-usecase">{font.useCase}</div>
+            <div class="font-footer">
+              <span class="font-license">
+                <a href={font.licenseUrl} target="_blank" rel="noopener">{font.license}</a>
+              </span>
+              <span class="font-author">by {font.author}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CLASS REFERENCE -->
+  <section class="page-section" style="padding-top:0;">
+    <div class="usage-box reveal">
+      <div class="usage-label">Complete Class Reference</div>
+      <p>Add <code>termaui.css</code> to your page, then apply the font class alongside <code>tr-guard</code> on any element with <code>lang="bo"</code>:</p>
+      <pre><code><span class="cm">/* Uchen (15 fonts) */</span>
+.tr-jomolhari  .tr-ddc-uchen    .tr-babelstone  .tr-babelstone-slim
+.tr-noto       .tr-noto-thin    .tr-noto-light   .tr-noto-medium
+.tr-noto-semibold  .tr-noto-bold  .tr-noto-extrabold  .tr-noto-black
+.tr-machine-uni  .tr-monlam     .tr-gangjie      .tr-jamyang
+.tr-panchen    .tr-riwoche      .tr-sadri        .tr-tashi
+.tr-wangdi     .tr-ddc-rinzin
+
+<span class="cm">/* Drutsa (4 fonts) */</span>
+.tr-drutsa  .tr-gangjie-drutsa  .tr-khampa-drutsa  .tr-sadri-drutsa
+
+<span class="cm">/* Semi-cursive (3 fonts) */</span>
+.tr-joyig  .tr-chuyig  .tr-bechu</code></pre>
+      <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.25rem;">
+        <a href="/termaui/" class="btn btn-ghost">termaUI Overview</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMING SOON TEASER -->
+  <section class="page-section" style="padding-top:0; padding-bottom:6rem;">
+    <div class="teaser-banner reveal">
+      <div class="teaser-text">
+        <div class="teaser-eyebrow">Original Fonts in Development</div>
+        <h3>Three typefaces being built from scratch.</h3>
+        <p>
+          A scholarly serif, a digital sans-serif, and a child-friendly typeface — designed with
+          master calligrapher Jamyang Dorjee. These will be the first Tibetan fonts
+          built from the ground up for the modern digital world.
+        </p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:.6rem; flex-shrink:0;">
+        <a href="/fonts" class="btn btn-primary" style="white-space:nowrap;">Learn More &amp; Support →</a>
+        <a href="/fonts/proposal" class="btn btn-ghost" style="white-space:nowrap; text-align:center;">Technical Proposal</a>
+      </div>
+    </div>
+  </section>
+
+</FontsBase>
+
+<style>
+  /* Compact hero */
+  .lib-hero {
+    max-width: 1200px; margin: 0 auto;
+    padding: 1.75rem 2rem 1.25rem;
+  }
+  .lib-hero-top {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 2rem; flex-wrap: wrap;
+  }
+  .lib-hero-heading {
+    font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 800;
+    letter-spacing: -.03em; line-height: 1.15;
+    color: var(--text); margin: .35rem 0 .3rem;
+  }
+  .lib-hero-sub {
+    font-size: .85rem; color: var(--text2); line-height: 1.6; max-width: 440px;
+  }
+  .case-link {
+    display: inline-block; margin-top: .75rem;
+    font-size: .8rem; font-weight: 600; color: var(--muted);
+    text-decoration: none; letter-spacing: .01em;
+    transition: color .15s;
+  }
+  .case-link:hover { color: var(--accent); }
+  .lib-hero-usage {
+    display: flex; align-items: center; gap: .75rem; flex-wrap: wrap;
+    flex-shrink: 0;
+  }
+  .usage-quick-code {
+    font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+    color: var(--accent); background: rgba(56,189,248,.08);
+    padding: .25em .55em; border-radius: 5px;
+  }
+  .usage-quick strong { color: var(--accent); }
+  .usage-quick-sep { font-size: .72rem; color: var(--muted); flex-shrink: 0; }
+
+  /* Script section headers */
+  .script-header { margin-bottom: 2rem; }
+  .script-eyebrow {
+    font-size: .68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--accent); margin-bottom: .6rem;
+  }
+  .script-title { font-size: 1.4rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+  .script-desc { font-size: .88rem; color: var(--text2); line-height: 1.8; max-width: 720px; }
+
+  /* Font showcase */
+  .font-showcase {
+    border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .font-row {
+    display: grid; grid-template-columns: 1.5fr 1fr;
+    border-bottom: 1px solid var(--border);
+    transition: background .2s;
+  }
+  .font-row:hover { background: var(--surface); }
+  .font-row-last { border-bottom: none; }
+
+  .font-sample {
+    padding: 1.75rem 2rem;
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: .5rem;
+  }
+  .font-sample-long { font-size: 1.45rem; line-height: 2.2; color: var(--text); }
+  .font-sample-alpha span { font-size: .88rem; line-height: 2; color: var(--muted); }
+  .font-sample-short span { font-size: 1.05rem; line-height: 2; color: var(--muted); }
+
+  .font-meta {
+    padding: 1.75rem 2rem;
+    display: flex; flex-direction: column; justify-content: center; gap: .35rem;
+  }
+  .font-name { font-size: .95rem; font-weight: 700; color: var(--text); }
+  .font-cls-badge code {
+    font-family: 'JetBrains Mono', monospace; font-size: .75rem;
+    color: var(--accent); background: rgba(56,189,248,.08);
+    padding: .15em .45em; border-radius: 3px;
+  }
+  .font-desc { font-size: .8rem; color: var(--muted); line-height: 1.7; margin-top: .15rem; }
+  .font-usecase { font-size: .7rem; color: var(--text2); font-weight: 500; margin-top: .1rem; }
+  .font-footer { display: flex; gap: .75rem; align-items: center; margin-top: .15rem; }
+  .font-license { font-size: .68rem; }
+  .font-license a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; transition: color .15s; }
+  .font-license a:hover { color: var(--text2); }
+  .font-author { font-size: .68rem; color: var(--muted); }
+  .font-weights-note {
+    font-size: .72rem; color: var(--accent); margin-top: .35rem; font-style: italic;
+  }
+
+  /* Weight showcase */
+  .weight-showcase {
+    border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+    background: var(--surface);
+  }
+  .weight-showcase-header {
+    padding: 1.5rem 2rem; border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .weight-showcase-label {
+    font-size: .7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--accent); margin-bottom: .6rem;
+  }
+  .weight-showcase-header p { font-size: .85rem; color: var(--text2); line-height: 1.7; margin: 0; }
+  .weight-showcase-header p code {
+    font-family: 'JetBrains Mono', monospace; font-size: .82em;
+    color: var(--accent); background: rgba(56,189,248,.08);
+    padding: .1em .3em; border-radius: 3px;
+  }
+  .weight-row {
+    display: grid; grid-template-columns: 200px 1fr;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .weight-row:last-child { border-bottom: none; }
+  .weight-label-col {
+    padding: .75rem 1.5rem;
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: .25rem;
+    background: var(--bg);
+  }
+  .weight-name { font-size: .82rem; font-weight: 600; color: var(--text); }
+  .weight-cls { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--accent); }
+  .weight-sample { padding: .6rem 1.75rem; font-size: 1.35rem; line-height: 2; color: var(--text); }
+
+  /* Usage box */
+  .usage-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 2rem 2.25rem;
+  }
+  .usage-label {
+    font-size: .68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--accent); margin-bottom: .85rem;
+  }
+  .usage-box p { font-size: .88rem; color: var(--text2); margin-bottom: 1rem; }
+  .usage-box p code {
+    font-family: 'JetBrains Mono', monospace; font-size: .82em;
+    color: var(--accent); background: rgba(56,189,248,.08);
+    padding: .1em .35em; border-radius: 3px;
+  }
+  .usage-box pre {
+    background: #0f172a; border: 1px solid var(--border);
+    border-radius: 8px; padding: 1.25rem 1.5rem; overflow-x: auto;
+    margin-bottom: 0;
+  }
+  .usage-box pre code {
+    font-family: 'JetBrains Mono', monospace; font-size: .79rem;
+    color: #94a3b8; line-height: 1.9;
+  }
+  .usage-box .hl { color: var(--accent); }
+  .usage-box .cm { color: #475569; }
+
+  /* Teaser banner */
+  .teaser-banner {
+    display: flex; align-items: center; gap: 3rem; flex-wrap: wrap;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2.5rem;
+    border-left: 4px solid var(--gold);
+  }
+  .teaser-text { flex: 1; min-width: 240px; }
+  .teaser-eyebrow {
+    font-size: .68rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: var(--gold); margin-bottom: .5rem;
+  }
+  .teaser-text h3 { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+  .teaser-text p { font-size: .87rem; color: var(--muted); line-height: 1.75; }
+
+  @media (max-width: 900px) {
+    .font-row { grid-template-columns: 1fr; }
+    .font-sample { border-right: none; border-bottom: 1px solid var(--border); }
+    .weight-row { grid-template-columns: 130px 1fr; }
+    .teaser-banner { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    .lib-hero-top { flex-direction: column; align-items: flex-start; }
+    .lib-hero-usage { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .weight-row { grid-template-columns: 1fr; }
+    .weight-label-col { border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  /* ═══ Preview Bar ═══════════════════════════════════════════════════════════ */
+
+  .preview-bar {
+    position: sticky;
+    top: 104px; /* site-nav 60px + fonts-subnav 44px */
+    z-index: 100;
+    background: rgba(15,23,42,0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border2);
+    border-top: 1px solid var(--border);
+    width: 100%;
+  }
+
+  .preview-bar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: .85rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+  }
+
+  /* ─ Input row ────────────────────────────────────────────────────── */
+  .preview-input-row {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+  }
+
+  .preview-input-wrap {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+
+  .preview-cursor-icon {
+    position: absolute;
+    left: .9rem;
+    font-family: 'Jomolhari', serif;
+    font-size: 1.05rem;
+    color: var(--muted);
+    pointer-events: none;
+    user-select: none;
+    line-height: 1;
+    z-index: 1;
+  }
+
+  .preview-input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: .55rem 1rem .55rem 2.5rem;
+    font-size: 1.45rem;
+    line-height: 2.1;
+    color: var(--text);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    min-width: 0;
+  }
+  .preview-input:focus {
+    border-color: rgba(56,189,248,0.4);
+    box-shadow: 0 0 0 3px rgba(56,189,248,0.07);
+  }
+  .preview-input::placeholder {
+    color: var(--muted);
+    opacity: .45;
+  }
+
+  /* ─ IME toggle button ────────────────────────────────────────────── */
+  .ime-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: .38rem;
+    padding: .48rem .85rem;
+    border: 1px solid rgba(56,189,248,0.25);
+    border-radius: 8px;
+    background: rgba(56,189,248,0.08);
+    color: var(--accent);
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: .01em;
+    cursor: pointer;
+    transition: all .15s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-family: inherit;
+  }
+  .ime-toggle:hover { background: rgba(56,189,248,0.16); }
+  .ime-toggle:not(.active) {
+    background: rgba(148,163,184,0.07);
+    color: var(--muted);
+    border-color: var(--border);
+  }
+  .ime-status-off { display: none; }
+  .ime-toggle:not(.active) .ime-status-on { display: none; }
+  .ime-toggle:not(.active) .ime-status-off { display: inline; }
+
+  /* ─ Keyboard help button ─────────────────────────────────────────── */
+  .kbd-help-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: none;
+    color: var(--muted);
+    font-size: .72rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .15s;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .kbd-help-btn:hover,
+  .kbd-help-btn.active {
+    color: var(--accent);
+    border-color: rgba(56,189,248,0.3);
+    background: rgba(56,189,248,0.07);
+  }
+
+  /* ─ Toolbar row (phrases + size) ────────────────────────────────── */
+  .no-install-notice {
+    font-size: .72rem; color: #64748b; padding: .3rem .1rem;
+    font-style: italic; letter-spacing: .01em;
+  }
+
+  .preview-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    flex-wrap: wrap;
+  }
+
+  .preview-phrases {
+    display: flex;
+    align-items: center;
+    gap: .35rem;
+    flex-wrap: wrap;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .toolbar-label {
+    font-size: .62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    color: var(--muted);
+    margin-right: .15rem;
+    flex-shrink: 0;
+  }
+
+  .phrase-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: .22rem .65rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: none;
+    color: var(--text2);
+    font-size: .72rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .15s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .phrase-btn:hover {
+    border-color: rgba(56,189,248,0.3);
+    color: var(--accent);
+    background: rgba(56,189,248,0.05);
+  }
+
+  .phrase-clear {
+    display: inline-flex;
+    align-items: center;
+    padding: .22rem .65rem;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    background: none;
+    color: var(--muted);
+    font-size: .72rem;
+    cursor: pointer;
+    transition: all .15s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .phrase-clear:hover { color: #f87171; }
+
+  /* ─ Size control ─────────────────────────────────────────────────── */
+  .preview-size-wrap {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    flex-shrink: 0;
+  }
+
+  .size-px {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7rem;
+    color: var(--muted);
+    min-width: 34px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .size-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 110px;
+    height: 3px;
+    background: var(--border2);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .size-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .size-slider::-webkit-slider-thumb:hover { background: #7dd3fc; }
+  .size-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: none;
+    cursor: pointer;
+  }
+
+  /* ─ Keyboard map panel ───────────────────────────────────────────── */
+  .kbd-map {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .kbd-map-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: .9rem 2rem 1rem;
+  }
+  .kbd-map-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: .65rem;
+  }
+  .kbd-map-title {
+    font-size: .65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .kbd-map-sub {
+    font-size: .7rem;
+    color: var(--muted);
+  }
+  .kbd-map-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3rem;
+    margin-bottom: .7rem;
+  }
+  .kbd-cell {
+    display: inline-flex;
+    align-items: center;
+    gap: .22rem;
+    padding: .18rem .5rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    cursor: default;
+    transition: border-color .1s;
+  }
+  .kbd-cell:hover { border-color: var(--border2); }
+  .kbd-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .68rem;
+    color: var(--muted);
+    min-width: .75rem;
+    text-align: center;
+  }
+  .kbd-char {
+    font-family: 'Jomolhari', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .kbd-name {
+    font-size: .62rem;
+    color: var(--muted);
+    display: none;
+  }
+  .kbd-map-footer {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-size: .74rem;
+    color: var(--text2);
+    line-height: 2;
+  }
+  .kbd-map-footer strong { color: var(--text); }
+
+  /* ─ Responsive ───────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .preview-input { font-size: 1.15rem; }
+    .preview-toolbar { gap: .5rem; }
+    .size-slider { width: 80px; }
+  }
+  @media (max-width: 600px) {
+    .preview-bar-inner { padding: .7rem 1.25rem; }
+    .preview-input-row { gap: .4rem; }
+    .preview-input { font-size: 1rem; padding-left: 2.2rem; }
+    .preview-cursor-icon { left: .7rem; font-size: .9rem; }
+    .ime-toggle .ime-status-on { display: none; }
+    .size-slider { width: 60px; }
+    .kbd-map-inner { padding: .75rem 1.25rem; }
+  }
+</style>
+
+<script is:inline>
+(function () {
+  'use strict';
+
+  // ─── Tibetan IME key map (Monlam / Keyman phonetic QWERTY) ─────────────────
+  var IME_MAP = {
+    'k':'\u0F40','[':'\u0F41','g':'\u0F42',',':'\u0F44',
+    'c':'\u0F45','x':'\u0F46','j':'\u0F47','.':'\u0F49',
+    't':'\u0F4F',']':'\u0F50','d':'\u0F51','n':'\u0F53',
+    'p':'\u0F54','f':'\u0F55','b':'\u0F56','m':'\u0F58',
+    ';':'\u0F59',':':'\u0F5A','\\':'\u0F5B','v':'\u0F5D',
+    'w':'\u0F5E','z':'\u0F5F',"'":'\u0F60','y':'\u0F61',
+    'r':'\u0F62','l':'\u0F63','q':'\u0F64','s':'\u0F66',
+    'h':'\u0F67','a':'\u0F68',
+    'i':'\u0F72','u':'\u0F74','e':'\u0F7A','o':'\u0F7C',
+    ' ':'\u0F0B','/':'\u0F0D','-':'\u0F0C',
+    '0':'\u0F20','1':'\u0F21','2':'\u0F22','3':'\u0F23','4':'\u0F24',
+    '5':'\u0F25','6':'\u0F26','7':'\u0F27','8':'\u0F28','9':'\u0F29',
+    'K':'\u0F90','G':'\u0F92','C':'\u0F95','X':'\u0F96','J':'\u0F97',
+    'T':'\u0F9F','D':'\u0FA1','N':'\u0FA3','P':'\u0FA4','B':'\u0FA6',
+    'M':'\u0FA8','V':'\u0FAD','W':'\u0FAE','Z':'\u0FAF',
+    'Y':'\u0FB1','R':'\u0FB2','L':'\u0FB3','Q':'\u0FB4',
+    'S':'\u0FB6','H':'\u0FB7','A':'\u0FB8'
+  };
+
+  var PASS = {
+    'Backspace':1,'Delete':1,'ArrowLeft':1,'ArrowRight':1,'ArrowUp':1,'ArrowDown':1,
+    'Home':1,'End':1,'PageUp':1,'PageDown':1,'Tab':1,'Enter':1,'Escape':1,
+    'F1':1,'F2':1,'F3':1,'F4':1,'F5':1,'F6':1,'F7':1,'F8':1,'F9':1,'F10':1,'F11':1,'F12':1,
+    'CapsLock':1,'Shift':1,'Control':1,'Alt':1,'Meta':1,'AltGraph':1
+  };
+
+  function imeInsert(el, ch) {
+    var s = el.selectionStart != null ? el.selectionStart : el.value.length;
+    var e = el.selectionEnd   != null ? el.selectionEnd   : el.value.length;
+    el.value = el.value.slice(0, s) + ch + el.value.slice(e);
+    var pos = s + ch.length;
+    el.setSelectionRange(pos, pos);
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+
+  function imeHandler(ev) {
+    if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    if (PASS[ev.key]) return;
+    var ch = IME_MAP[ev.key];
+    if (ch !== undefined) { ev.preventDefault(); imeInsert(ev.target, ch); }
+  }
+
+  // ─── DOM refs ───────────────────────────────────────────────────────────────
+  var previewInput = document.getElementById('preview-input');
+  var sizeSlider   = document.getElementById('size-slider');
+  var sizeValue    = document.getElementById('size-value');
+  var imeToggle    = document.getElementById('ime-toggle');
+  var kbdHelpBtn   = document.getElementById('kbd-help-btn');
+  var kbdMap       = document.getElementById('kbd-map');
+  var kbdMapGrid   = document.getElementById('kbd-map-grid');
+  var phraseClr    = document.getElementById('phrase-clear');
+  var phraseBtns   = document.querySelectorAll('.phrase-btn');
+  var livePreviews = document.querySelectorAll('[data-live-preview]');
+
+  if (!previewInput) return;
+
+  // ─── IME: attach by default ─────────────────────────────────────────────────
+  var imeActive = true;
+  previewInput.addEventListener('keydown', imeHandler);
+
+  // ─── Sync initial font size from slider value ────────────────────────────────
+  updateSize(parseInt(sizeSlider.value, 10));
+
+  // ─── Update all live preview samples ────────────────────────────────────────
+  function updatePreviews(text) {
+    livePreviews.forEach(function (el) {
+      el.textContent = (text && text.length > 0) ? text : (el.dataset.default || '');
+    });
+  }
+
+  // ─── Update font-size on main display samples only ──────────────────────────
+  function updateSize(px) {
+    sizeValue.textContent = px + 'px';
+    document.querySelectorAll('.font-sample-long[data-live-preview]').forEach(function (el) {
+      el.style.fontSize = px + 'px';
+    });
+  }
+
+  // ─── Input → live preview ───────────────────────────────────────────────────
+  previewInput.addEventListener('input', function () {
+    updatePreviews(previewInput.value);
+  });
+
+  // ─── Size slider ────────────────────────────────────────────────────────────
+  sizeSlider.addEventListener('input', function () {
+    updateSize(parseInt(sizeSlider.value, 10));
+  });
+
+  // ─── IME toggle ─────────────────────────────────────────────────────────────
+  imeToggle.addEventListener('click', function () {
+    imeActive = !imeActive;
+    if (imeActive) {
+      previewInput.addEventListener('keydown', imeHandler);
+      imeToggle.classList.add('active');
+    } else {
+      previewInput.removeEventListener('keydown', imeHandler);
+      imeToggle.classList.remove('active');
+    }
+    previewInput.focus();
+  });
+
+  // ─── Keyboard hint panel (lazy-built on first open) ─────────────────────────
+  var kbdBuilt = false;
+
+  function buildKbdGrid() {
+    if (kbdBuilt) return;
+    kbdBuilt = true;
+    var entries = [
+      ['k','\u0F40','ka'],     ['[','\u0F41','kha'],   ['g','\u0F42','ga'],    [',','\u0F44','nga'],
+      ['c','\u0F45','ca'],     ['x','\u0F46','cha'],   ['j','\u0F47','ja'],    ['.','\u0F49','nya'],
+      ['t','\u0F4F','ta'],     [']','\u0F50','tha'],   ['d','\u0F51','da'],    ['n','\u0F53','na'],
+      ['p','\u0F54','pa'],     ['f','\u0F55','pha'],   ['b','\u0F56','ba'],    ['m','\u0F58','ma'],
+      [';','\u0F59','tsa'],    [':','\u0F5A','tsha'],  ['\\','\u0F5B','dza'],  ['v','\u0F5D','wa'],
+      ['w','\u0F5E','zha'],    ['z','\u0F5F','za'],    ["'",'\u0F60',"'a"],    ['y','\u0F61','ya'],
+      ['r','\u0F62','ra'],     ['l','\u0F63','la'],    ['q','\u0F64','sha'],   ['s','\u0F66','sa'],
+      ['h','\u0F67','ha'],     ['a','\u0F68','a']
+    ];
+    var frag = document.createDocumentFragment();
+    entries.forEach(function (entry) {
+      var cell = document.createElement('span');
+      cell.className = 'kbd-cell';
+      cell.title = entry[2];
+      cell.innerHTML =
+        '<span class="kbd-key">' + entry[0] + '</span>' +
+        '<span class="kbd-char">' + entry[1] + '</span>';
+      frag.appendChild(cell);
+    });
+    kbdMapGrid.appendChild(frag);
+  }
+
+  kbdHelpBtn.addEventListener('click', function () {
+    kbdMap.hidden = !kbdMap.hidden;
+    kbdHelpBtn.classList.toggle('active', !kbdMap.hidden);
+    if (!kbdMap.hidden) buildKbdGrid();
+  });
+
+  // ─── Quick phrase buttons ───────────────────────────────────────────────────
+  phraseBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var text = btn.dataset.text || '';
+      previewInput.value = text;
+      updatePreviews(text);
+      previewInput.focus();
+    });
+  });
+
+  phraseClr.addEventListener('click', function () {
+    previewInput.value = '';
+    updatePreviews('');
+    previewInput.focus();
+  });
+
+  // ─── Auto-focus input after page settles ────────────────────────────────────
+  setTimeout(function () { previewInput.focus(); }, 350);
+
+})();
+</script>

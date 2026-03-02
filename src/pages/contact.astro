@@ -1,53 +1,109 @@
 ---
-import Container from "@components/container.astro";
-import Sectionhead from "@components/sectionhead.astro";
-import Layout from "@layouts/Layout.astro";
-import { Icon } from "astro-icon/components";
-import Link from "@components/ui/link.astro";
+import SiteLayout from '@layouts/SiteLayout.astro';
 ---
 
-<Layout title="Contact">
-  <Container>
-    <Sectionhead>
-      <Fragment slot="title">Get Involved</Fragment>
-      <Fragment slot="desc">Help us create tools that make Tibetan script accessible and vibrant.
-     </Fragment>
-    </Sectionhead>
+<SiteLayout title="Contact Terma Foundry — Partner & Get Involved" description="Get involved with Terma Foundry's mission to build open tools for Tibetan script. Collaborate on projects or share the work with your community.">
 
-    <div class="grid md:grid-cols-1 gap-10 mx-auto max-w-4xl mt-16">
-      <div>
-        <h2 class="font-medium text-2xl text-gray-800">Terma Type Foundry is based in New Paltz, New York
+  <!-- HEADER -->
+  <section class="page-section" style="padding-bottom:2rem;">
+    <div class="section-eyebrow reveal">Contact</div>
+    <h1 class="section-heading reveal">Get Involved.</h1>
+    <p class="section-sub reveal">Help us create tools that make Tibetan script accessible, vibrant, and ready for the 21st century. Every bit of support makes a difference.</p>
+  </section>
 
-          <br><br>
-        <h2 class="font-medium text-2xl text-gray-800">Donate:
-        <span class="text-lg leading-relaxed text-slate-500 mt-3">
-          Your support ensures the fonts are freely available for all.  <span class="mt-6 flex flex-col sm:flex-row gap-3">
-            <Link
-              href="#"
-              href="https://www.gofundme.com/f/termafonts"
-              target="_blank"
-              class="flex gap-1 items-center justify-center"
-              rel="noopener">
-              <Icon class="text-white w-5 h-5" name="bx:bxs-donate-heart" />
-      
-               Support the Project
-            </Link></span>
-        </span></h2>
-        <br>
-        <h2 class="font-medium text-2xl text-gray-800">Partner with Us:
-        <span class="text-lg leading-relaxed text-slate-500 mt-3">
-          Collaborate on educational initiatives, design projects, or research: termastudios@gmail.com
-        </span></h2>  <br>
-        <h2 class="font-medium text-2xl text-gray-800">Spread the Word:
-        <span class="text-lg leading-relaxed text-slate-500 mt-3">
-          Share our mission to revitalize Tibetan literacy.
-        </span></h2>
-        <div class="mt-5">
-        
-        </div>
+  <!-- CARDS -->
+  <section class="page-section" style="padding-top:0;">
+    <div class="cards-grid cards-grid-2 reveal">
+
+      <div class="card contact-card">
+        <div class="contact-icon">◈</div>
+        <div class="card-eyebrow">Partner With Us</div>
+        <div class="card-title">Collaborate</div>
+        <div class="card-desc">Are you an educator, institution, or design studio working with Tibetan script? We welcome collaborations on educational initiatives, research, and design projects.</div>
+        <a href="mailto:termastudios@gmail.com" class="btn btn-outline contact-btn">termastudios@gmail.com</a>
       </div>
-      <div>
+
+      <div class="card contact-card">
+        <div class="contact-icon">◎</div>
+        <div class="card-eyebrow">Spread the Word</div>
+        <div class="card-title">Share Our Mission</div>
+        <div class="card-desc">Help us reach more educators, designers, and Tibetan learners around the world. Share our work, use our fonts, and tell others about the power of beautiful Tibetan typography.</div>
+        <a href="https://termafoundry.com" class="btn btn-outline contact-btn">Share termafoundry.com</a>
+      </div>
+
+    </div>
+
+    <!-- Location + email info -->
+    <div class="contact-info reveal">
+      <div class="info-row">
+        <span class="info-label">Location</span>
+        <span class="info-value">New Paltz, New York, USA</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Email</span>
+        <a href="mailto:termastudios@gmail.com" class="info-value info-link">termastudios@gmail.com</a>
       </div>
     </div>
-  </Container>
-</Layout>
+
+  </section>
+
+</SiteLayout>
+
+<style>
+  .contact-card {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+  }
+
+  .contact-icon {
+    font-size: 1.75rem;
+    color: var(--accent);
+    margin-bottom: .25rem;
+    line-height: 1;
+  }
+
+  .contact-btn {
+    margin-top: auto;
+    padding-top: 1.25rem;
+    align-self: flex-start;
+  }
+
+  .contact-info {
+    margin-top: 3rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 1.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .info-row:last-child { border-bottom: none; }
+
+  .info-label {
+    font-size: .7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--muted);
+    min-width: 90px;
+    flex-shrink: 0;
+  }
+
+  .info-value {
+    font-size: .9rem;
+    color: var(--text2);
+  }
+
+  .info-link {
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity .2s;
+  }
+  .info-link:hover { opacity: .75; }
+</style>
