@@ -54,6 +54,31 @@ const effects = [
     </div>
   </section>
 
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stats-inner">
+      <div class="stat-item">
+        <div class="stat-num">36</div>
+        <div class="stat-label">Tibetan typefaces</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">CSS utility modules</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-num">1</div>
+        <div class="stat-label">stylesheet to import</div>
+      </div>
+      <div class="stat-sep"></div>
+      <div class="stat-item">
+        <div class="stat-num">0</div>
+        <div class="stat-label">build tools required</div>
+      </div>
+    </div>
+  </div>
+
   <!-- INTERACTIVE DEMO -->
   <section class="demo-section reveal" id="demo">
     <div class="demo-container" data-base="">
@@ -77,6 +102,108 @@ const effects = [
           <pre class="editor-code" id="editor-code"></pre>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- BENTO SHOWCASE -->
+  <section class="section bento-section" id="showcase">
+    <div class="section-eyebrow reveal">What You Can Build</div>
+    <h2 class="section-heading reveal">One stylesheet.<br>Every Tibetan need.</h2>
+    <p class="section-sub reveal">
+      Every cell below is live termaUI — font stacks, visual effects, manuscript layouts, rendering fixes, and mixed-language typography all working together in one imported stylesheet.
+    </p>
+
+    <div class="bento-grid reveal">
+
+      <!-- FONT SPECIMEN — spans 2 cols -->
+      <div class="bento-cell bento-fonts">
+        <div class="bento-eyebrow">Font Stacks — one class per typeface</div>
+        <div class="bento-font-rows">
+          <div class="bento-font-row">
+            <span class="bento-font-cls">.tr-jomolhari</span>
+            <span class="tr-jomolhari tr-guard bento-tibetan" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span>
+          </div>
+          <div class="bento-font-row">
+            <span class="bento-font-cls">.tr-machine-uni</span>
+            <span class="tr-machine-uni tr-guard bento-tibetan" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span>
+          </div>
+          <div class="bento-font-row">
+            <span class="bento-font-cls">.tr-drutsa</span>
+            <span class="tr-drutsa tr-guard bento-tibetan" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span>
+          </div>
+          <div class="bento-font-row">
+            <span class="bento-font-cls">.tr-monlam</span>
+            <span class="tr-monlam tr-guard bento-tibetan" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span>
+          </div>
+          <div class="bento-font-row">
+            <span class="bento-font-cls">.tr-noto</span>
+            <span class="tr-noto tr-guard bento-tibetan" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span>
+          </div>
+        </div>
+        <a href="/fonts/library" class="bento-link">Browse all 36 typefaces →</a>
+      </div>
+
+      <!-- EFFECTS -->
+      <div class="bento-cell bento-effects">
+        <div class="bento-eyebrow">Visual Effects</div>
+        <div class="bento-effect-stack">
+          <div class="tr-jomolhari tr-text-rainbow tr-guard bento-effect-text" lang="bo">བཀྲ་ཤིས།</div>
+          <div class="tr-jomolhari tr-shimmer tr-guard bento-effect-text" lang="bo">གསེར་ཡིག</div>
+          <div class="tr-jomolhari tr-glow-aurora tr-guard bento-effect-text" lang="bo">ཨོཾ་མ་ཎི།</div>
+          <div class="tr-jomolhari tr-text-fire tr-guard bento-effect-text" lang="bo">མེ་ལྕེ།</div>
+        </div>
+        <a href="/termaui/docs#effects" class="bento-link">10 effects in the docs →</a>
+      </div>
+
+      <!-- PECHA -->
+      <div class="bento-cell bento-pecha">
+        <div class="bento-eyebrow">Pecha Layout — .tr-pecha</div>
+        <div class="bento-pecha-wrap">
+          <div class="tr-pecha">
+            <div class="tr-pecha-title tr-jomolhari tr-guard" lang="bo">
+              <span class="tr-pecha-title-rotated">ཤེས་རབ།</span>
+            </div>
+            <div class="tr-pecha-body tr-jomolhari tr-guard" lang="bo" style="font-size:0.82rem;">
+              <span class="tr-yig-mgo"></span>བཅོམ་ལྡན་འདས་མ་ཤེས་རབ་ཀྱི་ཕ་རོལ་ཏུ་ཕྱིན་པའི་སྙིང་པོ།
+            </div>
+            <div class="tr-pecha-folio tr-jomolhari tr-guard" lang="bo">༡་ཀ</div>
+          </div>
+        </div>
+        <a href="/termaui/docs#pecha" class="bento-link">Pecha module docs →</a>
+      </div>
+
+      <!-- GUARDIAN FIX -->
+      <div class="bento-cell bento-guardian">
+        <div class="bento-eyebrow">Stack Guard — .tr-guard</div>
+        <div class="bento-guard-wrap">
+          <div class="bento-guard-block bento-guard-bad">
+            <span class="bento-guard-label bento-guard-label-bad">✗ without</span>
+            <span class="tr-jomolhari bento-guard-text" lang="bo" style="line-height:1.1; display:block; overflow:hidden; max-height:2.4em;">བསྒྲུབས། བསྐྱངས། མགྲོན།</span>
+          </div>
+          <div class="bento-guard-block bento-guard-good">
+            <span class="bento-guard-label bento-guard-label-good">✓ with .tr-guard</span>
+            <span class="tr-jomolhari tr-guard bento-guard-text" lang="bo">བསྒྲུབས། བསྐྱངས། མགྲོན།</span>
+          </div>
+        </div>
+        <a href="/termaui/docs#guardian" class="bento-link">Guardian module docs →</a>
+      </div>
+
+      <!-- MIXED LANGUAGE -->
+      <div class="bento-cell bento-mixed">
+        <div class="bento-eyebrow">Mixed Language — .tr-scale-up .tr-baseline</div>
+        <div class="bento-mixed-wrap">
+          <p class="bento-mixed-line">
+            The syllable <span class="tr-jomolhari tr-scale-up tr-baseline tr-guard tr-text-saffron" lang="bo">བཀྲ་ཤིས་</span> means auspicious.
+          </p>
+          <p class="bento-mixed-line">
+            Recite <span class="tr-jomolhari tr-scale-up tr-baseline tr-guard tr-text-rainbow" lang="bo">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span> three times.
+          </p>
+          <p class="bento-mixed-line">
+            The text <span class="tr-jomolhari tr-scale-up tr-baseline tr-guard" lang="bo" style="color:#e2e8f0;">བདེ་ལེགས།</span> means peace.
+          </p>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1208,5 +1335,153 @@ const effects = [
   }
   @media (max-width: 640px) {
     .code-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ====== STATS STRIP ====== */
+  .stats-strip {
+    border-top: 1px solid rgba(148,163,184,0.08);
+    border-bottom: 1px solid rgba(148,163,184,0.08);
+    background: rgba(15,23,42,0.7);
+    backdrop-filter: blur(8px);
+    padding: 2rem 2rem;
+  }
+  .stats-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    flex: 1; min-width: 140px;
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 3rem; font-weight: 800; line-height: 1;
+    background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.78rem; color: #475569; margin-top: 0.35rem;
+    text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500;
+  }
+  .stat-sep {
+    width: 1px; height: 3rem;
+    background: rgba(148,163,184,0.12);
+    flex-shrink: 0;
+  }
+  @media (max-width: 640px) {
+    .stat-sep { display: none; }
+    .stats-inner { gap: 0; }
+    .stat-item { min-width: 50%; padding: 0.75rem 0.5rem; }
+  }
+
+  /* ====== BENTO GRID ====== */
+  .bento-section { padding-top: 3rem; }
+  .bento-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1px;
+    background: rgba(148,163,184,0.07);
+    border: 1px solid rgba(148,163,184,0.07);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 3rem;
+  }
+  .bento-cell {
+    background: #0f172a;
+    padding: 1.75rem 1.75rem 1.5rem;
+    display: flex; flex-direction: column;
+    position: relative;
+    transition: background 0.2s;
+  }
+  .bento-cell:hover { background: #111827; }
+  .bento-fonts {
+    grid-column: 1 / span 2;
+  }
+  .bento-eyebrow {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #38bdf8;
+    margin-bottom: 1.25rem;
+  }
+  .bento-font-rows {
+    display: flex; flex-direction: column; gap: 0.5rem; flex: 1;
+  }
+  .bento-font-row {
+    display: flex; align-items: baseline;
+    justify-content: space-between; gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(148,163,184,0.06);
+  }
+  .bento-font-row:last-child { border-bottom: none; }
+  .bento-font-cls {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; color: #475569; flex-shrink: 0;
+  }
+  .bento-tibetan {
+    font-size: 1.4rem; color: #e2e8f0;
+    text-align: right;
+  }
+  .bento-link {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-size: 0.75rem; color: #38bdf8;
+    text-decoration: none; font-weight: 600;
+    margin-top: 1.25rem;
+    opacity: 0.8; transition: opacity 0.15s;
+  }
+  .bento-link:hover { opacity: 1; }
+  .bento-effect-stack {
+    display: flex; flex-direction: column;
+    gap: 0.35rem; flex: 1;
+    justify-content: center;
+  }
+  .bento-effect-text {
+    font-size: 2rem; line-height: 1.3;
+  }
+  .bento-pecha-wrap {
+    flex: 1; display: flex; align-items: flex-start;
+    overflow: hidden;
+    transform: scale(0.85); transform-origin: top left;
+    width: 118%;
+  }
+  .bento-pecha-wrap .tr-pecha { width: 100%; }
+  .bento-guard-wrap {
+    flex: 1; display: flex; flex-direction: column; gap: 0.75rem;
+    justify-content: center;
+  }
+  .bento-guard-block {
+    padding: 0.75rem;
+    border-radius: 8px;
+  }
+  .bento-guard-bad  { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.15); }
+  .bento-guard-good { background: rgba(34,197,94,0.07);  border: 1px solid rgba(34,197,94,0.15);  }
+  .bento-guard-label {
+    display: block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 0.35rem;
+  }
+  .bento-guard-label-bad  { color: #ef4444; }
+  .bento-guard-label-good { color: #22c55e; }
+  .bento-guard-text { font-size: 1.25rem; color: #e2e8f0; }
+  .bento-mixed-wrap {
+    flex: 1; display: flex; flex-direction: column; gap: 0.35rem;
+    justify-content: center;
+  }
+  .bento-mixed-line {
+    font-size: 0.88rem;
+    color: #64748b;
+    line-height: 2.2;
+  }
+  @media (max-width: 900px) {
+    .bento-grid { grid-template-columns: 1fr 1fr; }
+    .bento-fonts { grid-column: 1 / span 2; }
+  }
+  @media (max-width: 600px) {
+    .bento-grid { grid-template-columns: 1fr; }
+    .bento-fonts { grid-column: 1; }
   }
 </style>
