@@ -33,11 +33,8 @@ const { title, description = 'Documentation — termaUI CSS Framework for Tibeta
       </div>
       <div class="sidebar-section">
         <div class="sidebar-heading">Fonts</div>
-        <a href="#tr-jomolhari" class="sidebar-link"><code>.tr-jomolhari</code></a>
-        <a href="#tr-noto" class="sidebar-link"><code>.tr-noto</code></a>
-        <a href="#tr-machine-uni" class="sidebar-link"><code>.tr-machine-uni</code></a>
-        <a href="#tr-drutsa" class="sidebar-link"><code>.tr-drutsa</code></a>
-        <a href="#tr-monlam" class="sidebar-link"><code>.tr-monlam</code></a>
+        <a href="#tr-jomolhari" class="sidebar-link">36 font classes</a>
+        <a href="/fonts/library" class="sidebar-link sidebar-link-ext">Live preview →</a>
       </div>
       <div class="sidebar-section">
         <div class="sidebar-heading">Effects</div>
@@ -219,6 +216,7 @@ const { title, description = 'Documentation — termaUI CSS Framework for Tibeta
     background: rgba(56,189,248,0.06);
   }
   .sidebar-link code { font-family: 'JetBrains Mono', monospace; font-size: .78rem; }
+  .sidebar-link-ext { color: #38bdf8; font-size: .78rem; }
 
   /* ── Docs main ── */
   .docs-main {
@@ -326,6 +324,34 @@ const { title, description = 'Documentation — termaUI CSS Framework for Tibeta
   .class-ref-demo { padding: 2rem 1.5rem; min-height: 4rem; display: flex; align-items: center; }
   .class-ref-demo-light { background: #faf5ee; }
   .class-ref-demo-glass { background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 50%, #1e1b4b 100%); }
+
+  /* ── Font reference grid ── */
+  .font-cat-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: #475569;
+    padding-bottom: 0.5rem; margin-bottom: 0.25rem;
+    border-bottom: 1px solid rgba(148,163,184,0.08);
+  }
+  .font-ref-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2px; background: rgba(148,163,184,0.05);
+    border: 1px solid rgba(148,163,184,0.07); border-radius: 10px; overflow: hidden;
+    margin-bottom: 0.25rem;
+  }
+  .font-ref-row {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.55rem 0.85rem; background: #0f172a;
+    transition: background 0.15s;
+  }
+  .font-ref-row:hover { background: #1e293b; }
+  .font-ref-cls {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+    color: #38bdf8; flex-shrink: 0; min-width: 0;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .font-ref-name { font-size: 0.72rem; color: #475569; flex-shrink: 0; white-space: nowrap; }
+  .font-ref-preview { font-size: 1.15rem; color: #e2e8f0; flex: 1; text-align: right; white-space: nowrap; }
+  @media (max-width: 640px) { .font-ref-grid { grid-template-columns: 1fr; } }
 
   /* ── Code blocks ── */
   .code-block { position: relative; background: #0f172a; border-top: 1px solid rgba(148,163,184,0.06); }

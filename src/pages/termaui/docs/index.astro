@@ -295,108 +295,79 @@ onMounted(() =&gt; &#123;
   <section class="doc-section" id="tr-jomolhari">
     <h2>Fonts</h2>
     <p>
-      Six font-stack classes for different Tibetan typographic styles. Each class sets <code>font-family</code> with appropriate fallbacks. All fonts are bundled as WOFF2.
+      36 Tibetan typefaces — each available via a single <code>tr-*</code> class. Each class sets <code>font-family</code> with correct WOFF2 fallback chains. All fonts are loaded on demand using <code>unicode-range: U+0F00-0FFF</code>, so Latin text is never affected.
     </p>
 
-    <!-- .tr-jomolhari -->
-    <h3><code>.tr-jomolhari</code></h3>
-    <p>Traditional Uchen script — the most widely used Tibetan typeface for body text, religious texts, and formal writing. Powered by Jomolhari.</p>
-    <div class="class-ref">
-      <div class="class-ref-header">
-        <span class="class-ref-name">.tr-jomolhari</span>
-        <span class="class-ref-meta">Jomolhari → Noto Serif Tibetan → serif</span>
+    <div class="code-block" style="margin-bottom:1.5rem;">
+      <div class="code-block-header">
+        <span class="code-block-title">HTML — basic usage</span>
+        <button class="copy-btn">Copy</button>
       </div>
-      <div class="class-ref-demo">
-        <p class="tr-jomolhari tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
-      </div>
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-block-title">HTML</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-jomolhari</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
-      </div>
+      <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-jomolhari</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-monlam</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-drutsa</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
     </div>
 
-    <!-- .tr-noto -->
-    <h3><code>.tr-noto</code></h3>
-    <p>Clean and even — Noto Serif Tibetan for modern digital use. Great for UI text and long-form reading on screens.</p>
-    <div class="class-ref">
-      <div class="class-ref-header">
-        <span class="class-ref-name">.tr-noto</span>
-        <span class="class-ref-meta">Noto Serif Tibetan → Jomolhari → serif</span>
-      </div>
-      <div class="class-ref-demo">
-        <p class="tr-noto tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
-      </div>
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-block-title">HTML</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-noto</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
-      </div>
+    <!-- UCHEN -->
+    <div class="font-cat-label">Uchen — 24 fonts</div>
+    <div class="font-ref-grid">
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-jomolhari</span><span class="font-ref-name">Jomolhari</span><span class="tr-jomolhari tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-ddc-uchen</span><span class="font-ref-name">DDC Uchen</span><span class="tr-ddc-uchen tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-noto</span><span class="font-ref-name">Noto Serif Tibetan</span><span class="tr-noto tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-machine-uni</span><span class="font-ref-name">Tibetan Machine Uni</span><span class="tr-machine-uni tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam</span><span class="font-ref-name">Monlam Bodyig</span><span class="tr-monlam tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-babelstone</span><span class="font-ref-name">BabelStone Tibetan</span><span class="tr-babelstone tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-babelstone-slim</span><span class="font-ref-name">BabelStone Slim</span><span class="tr-babelstone-slim tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-gangjie</span><span class="font-ref-name">GangJie Uchen</span><span class="tr-gangjie tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-jamyang</span><span class="font-ref-name">Jamyang Monlam Uchen</span><span class="tr-jamyang tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-panchen</span><span class="font-ref-name">Panchen Tsukring</span><span class="tr-panchen tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-riwoche</span><span class="font-ref-name">Riwoche Dhodri</span><span class="tr-riwoche tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-sadri</span><span class="font-ref-name">Sadri Yigchen</span><span class="tr-sadri tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-ddc-rinzin</span><span class="font-ref-name">DDC Rinzin</span><span class="tr-ddc-rinzin tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-ouchan1</span><span class="font-ref-name">Monlam OuChan 1</span><span class="tr-monlam-ouchan1 tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-ouchan2</span><span class="font-ref-name">Monlam OuChan 2</span><span class="tr-monlam-ouchan2 tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-ouchan3</span><span class="font-ref-name">Monlam OuChan 3</span><span class="tr-monlam-ouchan3 tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-ouchan4</span><span class="font-ref-name">Monlam OuChan 4</span><span class="tr-monlam-ouchan4 tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-ouchan5</span><span class="font-ref-name">Monlam OuChan 5</span><span class="tr-monlam-ouchan5 tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-paytsik</span><span class="font-ref-name">Monlam PayTsik</span><span class="tr-monlam-paytsik tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-tikrang</span><span class="font-ref-name">Monlam Tikrang</span><span class="tr-monlam-tikrang tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-tiktong</span><span class="font-ref-name">Monlam TikTong</span><span class="tr-monlam-tiktong tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-qomolangma-sarchen</span><span class="font-ref-name">Qomolangma Sarchen</span><span class="tr-qomolangma-sarchen tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-qomolangma-betsu</span><span class="font-ref-name">Qomolangma Betsu</span><span class="tr-qomolangma-betsu tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-qomolangma-tsutong</span><span class="font-ref-name">Qomolangma Tsutong</span><span class="tr-qomolangma-tsutong tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
     </div>
 
-    <!-- .tr-machine-uni -->
-    <h3><code>.tr-machine-uni</code></h3>
-    <p>Bold display face — Tibetan Machine Uni for headings, titles, and banners. Heavier strokes for visual impact.</p>
-    <div class="class-ref">
-      <div class="class-ref-header">
-        <span class="class-ref-name">.tr-machine-uni</span>
-        <span class="class-ref-meta">Tibetan Machine Uni → Jomolhari → serif</span>
-      </div>
-      <div class="class-ref-demo">
-        <p class="tr-machine-uni tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
-      </div>
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-block-title">HTML</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-machine-uni</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
-      </div>
+    <!-- DRUTSA -->
+    <div class="font-cat-label" style="margin-top:1.5rem;">Drutsa (Cursive) — 6 fonts</div>
+    <div class="font-ref-grid">
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-drutsa</span><span class="font-ref-name">Qomolangma-Drutsa</span><span class="tr-drutsa tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-gangjie-drutsa</span><span class="font-ref-name">GangJie Drutsa</span><span class="tr-gangjie-drutsa tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-khampa-drutsa</span><span class="font-ref-name">Khampa Dedri Drutsa</span><span class="tr-khampa-drutsa tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-sadri-drutsa</span><span class="font-ref-name">Sadri Drutsa</span><span class="tr-sadri-drutsa tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-dutsa1</span><span class="font-ref-name">Monlam Dutsa 1</span><span class="tr-monlam-dutsa1 tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-dutsa2</span><span class="font-ref-name">Monlam Dutsa 2</span><span class="tr-monlam-dutsa2 tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
     </div>
 
-    <!-- .tr-drutsa -->
-    <h3><code>.tr-drutsa</code></h3>
-    <p>Flowing Drutsa hand — Qomolangma-Drutsa for decorative and artistic use. The Tibetan equivalent of cursive/calligraphy.</p>
-    <div class="class-ref">
-      <div class="class-ref-header">
-        <span class="class-ref-name">.tr-drutsa</span>
-        <span class="class-ref-meta">Qomolangma-Drutsa → Jomolhari → serif</span>
-      </div>
-      <div class="class-ref-demo">
-        <p class="tr-drutsa tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
-      </div>
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-block-title">HTML</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-drutsa</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
-      </div>
+    <!-- MODERN SANS -->
+    <div class="font-cat-label" style="margin-top:1.5rem;">Modern / Sans — 3 fonts</div>
+    <div class="font-ref-grid">
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-noto-sans</span><span class="font-ref-name">Noto Sans Tibetan</span><span class="tr-noto-sans tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-misans</span><span class="font-ref-name">MiSans Tibetan</span><span class="tr-misans tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-monlam-sans</span><span class="font-ref-name">Monlam Uni Sans</span><span class="tr-monlam-sans tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
     </div>
 
-    <!-- .tr-monlam -->
-    <h3><code>.tr-monlam</code></h3>
-    <p>Refined Monlam Bodyig for scholarly and literary contexts. Clean proportions with subtle elegance.</p>
-    <div class="class-ref">
-      <div class="class-ref-header">
-        <span class="class-ref-name">.tr-monlam</span>
-        <span class="class-ref-meta">Monlam Bodyig → Noto Serif Tibetan → serif</span>
-      </div>
-      <div class="class-ref-demo">
-        <p class="tr-monlam tr-guard" lang="bo" style="font-size:1.4rem; color:#e2e8f0;">བཀྲ་ཤིས་བདེ་ལེགས། བོད་ཀྱི་སྐད་ཡིག་དཔེ་མཚོན།</p>
-      </div>
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-block-title">HTML</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-monlam</span> tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
-      </div>
+    <!-- SEMI-CURSIVE -->
+    <div class="font-cat-label" style="margin-top:1.5rem;">Semi-cursive — 3 fonts</div>
+    <div class="font-ref-grid">
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-joyig</span><span class="font-ref-name">Joyig</span><span class="tr-joyig tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-chuyig</span><span class="font-ref-name">Khampa Dedri Chuyig</span><span class="tr-chuyig tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
+      <div class="font-ref-row"><span class="font-ref-cls">.tr-bechu</span><span class="font-ref-name">Khampa Dedri Bechu</span><span class="tr-bechu tr-guard font-ref-preview" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span></div>
     </div>
+
+    <p style="margin-top:1.25rem; font-size:0.85rem; color:#64748b;">
+      Noto Serif Tibetan also ships a full weight axis: <code>.tr-noto-thin</code>, <code>.tr-noto-light</code>, <code>.tr-noto-medium</code>, <code>.tr-noto-semibold</code>, <code>.tr-noto-bold</code>, <code>.tr-noto-extrabold</code>, <code>.tr-noto-black</code>.
+      &nbsp;·&nbsp; <a href="/fonts/library" style="color:#38bdf8; text-decoration:none;">Preview all 36 fonts with live text →</a>
+    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
