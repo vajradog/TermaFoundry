@@ -314,11 +314,17 @@ const effects = [
 
   <!-- GET STARTED -->
   <section class="section" id="start">
-    <div class="section-eyebrow reveal">Get Started</div>
-    <h2 class="section-heading reveal">Two lines of code.<br>That's it.</h2>
+    <div class="section-eyebrow reveal">The API</div>
+    <h2 class="section-heading reveal">Simple by design.<br>When it ships.</h2>
     <p class="section-sub reveal">
-      No build tools. No config. Drop in the stylesheet and start writing.
+      termaUI is a working prototype — this entire site runs on it. When funded, it will be released as an npm package and CDN-hosted stylesheet. No build tools. No config. Here's exactly what the API will look like:
     </p>
+
+    <div class="start-status-notice reveal">
+      <span class="start-status-dot"></span>
+      <span>termaUI powers termafoundry.com right now. A public release requires dedicated engineering time. We are actively seeking funding.</span>
+      <a href="/contact" class="start-status-link">Get in touch →</a>
+    </div>
 
     <div class="code-examples reveal">
       <div class="code-block">
@@ -733,6 +739,40 @@ const effects = [
     line-height: 1.6;
     font-style: italic;
   }
+  .start-status-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    margin: 1.75rem auto 0;
+    max-width: 640px;
+    background: rgba(248,189,40,0.06);
+    border: 1px solid rgba(248,189,40,0.18);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    font-size: 0.82rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+  .start-status-dot {
+    flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f8bd28;
+    margin-top: 0.35rem;
+    box-shadow: 0 0 6px rgba(248,189,40,0.5);
+  }
+  .start-status-link {
+    margin-left: auto;
+    flex-shrink: 0;
+    color: #f8bd28;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+    padding-left: 0.5rem;
+  }
+  .start-status-link:hover { text-decoration: underline; }
+
   .btn-primary {
     display: inline-flex;
     align-items: center;
