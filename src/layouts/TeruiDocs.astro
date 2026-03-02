@@ -238,6 +238,59 @@ const { title, description = 'Documentation — termaUI CSS Framework for Tibeta
     border-radius: 0 6px 6px 0;
     line-height: 1.6;
   }
+
+  /* ── Installation: live proof banner ── */
+  .install-live-proof {
+    display: flex; align-items: flex-start; gap: 1rem;
+    background: rgba(56,189,248,0.06); border: 1px solid rgba(56,189,248,0.15);
+    border-radius: 10px; padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+  }
+  .install-proof-icon { font-size: 1.5rem; margin-top: .1rem; flex-shrink: 0; }
+  .install-proof-title { font-size: .95rem; font-weight: 700; color: #e2e8f0; margin-bottom: .35rem; }
+  .install-proof-desc { font-size: .84rem; color: #94a3b8; line-height: 1.65; margin: 0; }
+
+  /* ── Installation: funding gate ── */
+  .install-funding-gate {
+    position: relative; border-radius: 12px;
+    border: 1px solid rgba(148,163,184,0.12);
+    overflow: hidden;
+  }
+  .install-gate-blur {
+    padding: 1.5rem; display: flex; flex-direction: column; gap: .75rem;
+    filter: blur(4px); opacity: .35; pointer-events: none; user-select: none;
+  }
+  .gate-blur-line {
+    height: 12px; border-radius: 4px;
+    background: linear-gradient(90deg, rgba(148,163,184,.4) 0%, rgba(56,189,248,.3) 60%, transparent 100%);
+    width: 80%;
+  }
+  .gate-blur-line-2 { width: 65%; }
+  .gate-blur-line-3 { width: 90%; }
+  .gate-blur-line-4 { width: 50%; }
+  .install-gate-message {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 2.5rem 2rem;
+    background: rgba(10,15,28,0.85); backdrop-filter: blur(4px);
+  }
+  .install-gate-icon { font-size: 1.75rem; margin-bottom: .75rem; }
+  .install-gate-heading {
+    font-size: 1.05rem; font-weight: 700; color: #f1f5f9;
+    margin-bottom: .75rem; letter-spacing: -.01em;
+  }
+  .install-gate-body {
+    font-size: .84rem; color: #94a3b8; line-height: 1.7;
+    max-width: 520px; margin-bottom: .5rem;
+  }
+  .install-gate-cta {
+    display: inline-block; margin-top: 1.25rem;
+    font-size: .82rem; font-weight: 600; color: #38bdf8;
+    border: 1px solid rgba(56,189,248,0.3); border-radius: 6px;
+    padding: .45rem 1.1rem; text-decoration: none;
+    transition: background .15s, border-color .15s;
+  }
+  .install-gate-cta:hover { background: rgba(56,189,248,0.08); border-color: rgba(56,189,248,0.5); }
+
   .doc-section {
     margin-bottom: 4rem;
     scroll-margin-top: 120px; /* accounts for both navs */

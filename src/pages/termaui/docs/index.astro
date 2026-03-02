@@ -11,50 +11,34 @@ import Docs from '../../../layouts/TeruiDocs.astro';
        ═══════════════════════════════════════════════════════════════════════ -->
   <section class="doc-section" id="installation">
     <h2>Installation</h2>
-    <p>
-      Add termaUI to your project in one line. Fonts are bundled — no extra config needed.
-    </p>
 
-    <h3>CDN (fastest)</h3>
-    <p>Drop this into your <code>&lt;head&gt;</code>:</p>
-    <div class="code-standalone">
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-block-title">HTML</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code><span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/termaui.min.css"</span><span class="tag">&gt;</span>
-<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"</span><span class="tag">&gt;&lt;/script&gt;</span></code></pre>
+    <div class="install-live-proof">
+      <div class="install-proof-icon">◈</div>
+      <div>
+        <div class="install-proof-title">This entire website is built with termaUI</div>
+        <p class="install-proof-desc">Every font stack, guardian fix, text effect, and pecha layout you see on termafoundry.com is rendered using termaUI's prototype stylesheet. The framework works — this site is the proof of concept.</p>
       </div>
     </div>
 
-    <h3>npm</h3>
-    <div class="code-standalone">
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-block-title">Terminal</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code>npm install termaui</code></pre>
+    <div class="install-funding-gate">
+      <div class="install-gate-blur" aria-hidden="true">
+        <div class="gate-blur-line"></div>
+        <div class="gate-blur-line gate-blur-line-2"></div>
+        <div class="gate-blur-line gate-blur-line-3"></div>
+        <div class="gate-blur-line gate-blur-line-4"></div>
+      </div>
+      <div class="install-gate-message">
+        <div class="install-gate-icon">🔒</div>
+        <h3 class="install-gate-heading">Production release is a significant undertaking</h3>
+        <p class="install-gate-body">
+          Building termaUI to a publishable standard — NPM package, CDN distribution, bundled WOFF2 fonts, versioned releases, and long-term maintenance — requires dedicated engineering time and resources we don't yet have. We are actively applying for grants and seeking funding to make this happen.
+        </p>
+        <p class="install-gate-body">
+          When funded, termaUI will be released as a fully open-source, MIT-licensed package: one line to install, fonts bundled, zero configuration. Until then, these docs describe what the framework will do.
+        </p>
+        <a href="/contact" class="install-gate-cta">Get in touch if you can help →</a>
       </div>
     </div>
-    <p>Then import in your CSS or JS entry point:</p>
-    <div class="code-standalone">
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-block-title">CSS</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code><span class="cmt">/* In your main CSS file */</span>
-@import 'termaui/dist/termaui.css';</code></pre>
-      </div>
-    </div>
-
-    <h3>Download</h3>
-    <p>
-      Grab <code>termaui.css</code> directly and include it in your project.
-      The file is self-contained — fonts are loaded via <code>@font-face</code> from bundled WOFF2 files.
-    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
