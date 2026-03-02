@@ -24,6 +24,34 @@ import collabImage from '../assets/collab.png';
         <p>Rendering inconsistencies, vowel mark clipping, line-height collisions, and a near-total absence of display, children's, or UI typefaces have left Tibetan-speaking communities building with tools that were never designed for their script. While Japanese, Korean, and Arabic type ecosystems offer hundreds of high-quality fonts across every register, Tibetan developers navigate a handful of legacy faces and a CSS stack that has no concept of the script's unique requirements.</p>
         <p>This is not a minor inconvenience. It shapes what gets built, what gets published, and who can participate in the digital life of their language. <em>A script that can't render beautifully doesn't get used — and a language that disappears from screens disappears from children.</em></p>
 
+        <!-- TIBETAN TRANSLATION PANEL -->
+        <div class="bo-panel" id="bo-panel">
+          <button class="bo-toggle" id="bo-toggle" aria-expanded="false">
+            <span class="bo-toggle-script tr-jomolhari tr-guard" lang="bo">བར་སནང།</span>
+            <span class="bo-toggle-label">Read in Tibetan</span>
+            <span class="bo-toggle-chevron" aria-hidden="true">›</span>
+          </button>
+          <div class="bo-body" id="bo-body" hidden>
+            <div class="bo-toolbar">
+              <label class="bo-font-label" for="bo-font-select">Font</label>
+              <select class="bo-font-select" id="bo-font-select">
+                <option value="tr-jomolhari">Jomolhari</option>
+                <option value="tr-noto">Noto Serif Tibetan</option>
+                <option value="tr-machine-uni">Tibetan Machine Uni</option>
+                <option value="tr-drutsa">Qomolangma Drutsa</option>
+                <option value="tr-monlam">Monlam Bodyig</option>
+              </select>
+              <span class="bo-powered">rendered by <a href="/termaui" class="bo-powered-link">termaUI</a></span>
+            </div>
+            <div class="bo-text" id="bo-text">
+              <h3 class="bo-heading tr-jomolhari tr-guard" lang="bo">བར་སྣང་།</h3>
+              <p class="bo-para tr-jomolhari tr-guard" lang="bo">བོད་སྐད་ནི་བོད་དང་རྒྱ་གར། བལ་ཡུལ། འབྲུག་ཡུལ། དེ་བཞིན་འཇིག་རྟེན་ཡོངས་ཀྱི་རྒྱལ་གཞིས་སྤྱི་ཚོགས་ཁྲོད་ཀྱི་མི་ས་ཡ་དྲུག་ལྷག་གིས་བེད་སྤྱོད་བྱེད་བཞིན་ཡོད། འཛམ་གླིང་སྟེང་གི་རྒྱུན་མི་ཆད་པའི་རྩོམ་རིག་གི་སྲོལ་རྒྱུན་རྙིང་ཤོས་ཀྱི་གཅིག་ཡིན། འོན་ཀྱང་དེང་རབས་དྲ་རྒྱ་སྟེང་དུ་བོད་ཡིག་ནི་མཐོང་ཐབས་མེད་པ་ལྟ་བུ་ཆགས་ཡོད། ལས་རིགས་པས་བརྟེན་བཞིན་པའི་ལག་ཆ་དེ་དག་གིས་བོད་ཡིག་ཆག་བཅོས་བྱས་ཡོད།</p>
+              <p class="bo-para tr-jomolhari tr-guard" lang="bo">མངོན་པར་སྣང་བའི་མི་མཐུན་པ། དབྱངས་ཀྱི་རྟགས་ཀྱི་གཅོད་པ། ཡིག་ཕྲེང་གི་མཐོ་དམའི་འཕྲད་པ། མངོན་པ་དང་བྱིས་པའི་མཐོང་ཚུལ་དང་ UI ཡི་གེའི་རིགས་མེད་པ་བཅས་ཀྱིས་བོད་སྐད་སྤྱོད་མཁན་གྱི་སྤྱི་ཚོགས་ཀྱིས་རང་ཉིད་ཀྱི་ཡི་གེའི་དོན་དུ་ཐོག་མར་བཟོས་མེད་པའི་ལག་ཆ་དག་བེད་སྤྱོད་བྱེད་དགོས་པར་བཅུག་ཡོད། ཉི་ཧོང་དང་ཀོ་རི་ཡ། ཨ་རབ་ཀྱི་ཡི་གེའི་མ་ལག་ལ་གནས་རིམ་ཀུན་གྱི་སྟེང་གི་ཡི་གེའི་རིགས་བརྒྱ་ཕྲག་མང་པོ་ཡོད་པའི་སྐབས། བོད་ཀྱི་ལས་རིགས་པས་རྙིང་པའི་ཡི་གེ་འགའ་ཙམ་དང་བོད་ཡིག་གི་དམིགས་བསལ་དགོས་མཁོ་རྟོགས་ཐབས་མེད་པའི་ CSS མ་ལག་བེད་སྤྱོད་བྱེད་དགོས་ཀྱི་ཡོད།</p>
+              <p class="bo-para tr-jomolhari tr-guard" lang="bo">འདི་ནི་དཀའ་ངལ་ཆུང་ཆུང་ཞིག་མིན། འདིས་གང་བཟོས་པ། གང་དཔར་བསྐྲུན་པ། སུས་རང་སྐད་ཀྱི་གློག་བརྙན་ཚེ་སྲོག་ལ་ཞུགས་ཐུབ་པ་བཅས་ལ་དབང་སྒྱུར་བཏང་གི་ཡོད། མཛེས་པོའི་སྒོ་ནས་མངོན་པར་སྣང་མི་ཐུབ་པའི་ཡི་གེ་ནི་བེད་སྤྱོད་བྱེད་ཀྱི་མེད། བརྙན་ཡོལ་སྟེང་ནས་མེད་པར་འགྲོ་བའི་སྐད་ནི་བྱིས་པ་ནས་མེད་པར་འགྲོ་གི་ཡོད།</p>
+            </div>
+          </div>
+        </div>
+
         <div class="story-divider"></div>
 
         <h2>What We're Building</h2>
@@ -106,6 +134,68 @@ import collabImage from '../assets/collab.png';
   .story-text li { font-size: .95rem; color: var(--text2); line-height: 1.8; margin-bottom: .3rem; }
   .story-divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 
+  /* Tibetan panel */
+  .bo-panel { margin: 1.75rem 0 0; }
+  .bo-toggle {
+    display: flex; align-items: center; gap: .6rem;
+    width: 100%;
+    padding: .65rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    transition: background .15s, border-color .15s;
+    color: var(--text2);
+  }
+  .bo-toggle:hover { background: var(--surface2); border-color: var(--accent); }
+  .bo-toggle[aria-expanded="true"] {
+    border-radius: 10px 10px 0 0;
+    border-bottom-color: transparent;
+    background: var(--surface2);
+  }
+  .bo-toggle-script { font-size: 1rem; color: var(--accent); line-height: 1.8; }
+  .bo-toggle-label { font-size: .8rem; color: var(--text2); flex: 1; }
+  .bo-toggle-chevron {
+    font-size: 1rem; color: var(--muted);
+    transition: transform .25s;
+    display: inline-block;
+  }
+  .bo-toggle[aria-expanded="true"] .bo-toggle-chevron { transform: rotate(90deg); }
+  .bo-body {
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 10px 10px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .bo-toolbar {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .bo-font-label { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+  .bo-font-select {
+    font-size: .78rem;
+    background: var(--bg);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+    cursor: pointer;
+    outline: none;
+  }
+  .bo-font-select:focus { border-color: var(--accent); }
+  .bo-powered { margin-left: auto; font-size: .68rem; color: var(--muted); }
+  .bo-powered-link { color: var(--accent); text-decoration: none; }
+  .bo-powered-link:hover { text-decoration: underline; }
+  .bo-text { padding: 1.25rem 1.25rem 1rem; }
+  .bo-heading { font-size: 1.15rem; color: var(--accent); line-height: 2; margin: 0 0 .5rem; }
+  .bo-para { font-size: 1rem; color: var(--text2); line-height: 2.4; margin: 0 0 1rem; }
+
   .story-mission-card {
     position: sticky; top: 80px;
     background: var(--surface); border: 1px solid var(--border);
@@ -135,3 +225,27 @@ import collabImage from '../assets/collab.png';
     .team-photo { height: 220px; }
   }
 </style>
+
+<script>
+  const toggle = document.getElementById('bo-toggle');
+  const body   = document.getElementById('bo-body');
+  const select = document.getElementById('bo-font-select');
+  const paras  = document.querySelectorAll('#bo-text .bo-para, #bo-text .bo-heading');
+
+  const FONTS = ['tr-jomolhari','tr-noto','tr-machine-uni','tr-drutsa','tr-monlam'];
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    if (open) { body?.setAttribute('hidden', ''); }
+    else       { body?.removeAttribute('hidden'); }
+  });
+
+  select?.addEventListener('change', () => {
+    const chosen = (select as HTMLSelectElement).value;
+    paras.forEach(el => {
+      FONTS.forEach(f => el.classList.remove(f));
+      el.classList.add(chosen);
+    });
+  });
+</script>
