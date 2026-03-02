@@ -192,9 +192,17 @@ import collabImage from '../assets/collab.png';
   .bo-powered { margin-left: auto; font-size: .68rem; color: var(--muted); }
   .bo-powered-link { color: var(--accent); text-decoration: none; }
   .bo-powered-link:hover { text-decoration: underline; }
-  .bo-text { padding: 1.25rem 1.25rem 1rem; }
-  .bo-heading { color: var(--accent); margin: 0 0 .5rem; }
-  .bo-para { color: var(--text2); margin: 0 0 1rem; }
+  .bo-text { padding: 1.75rem 2rem 1.75rem; }
+  .bo-heading { color: var(--accent); margin: 0 0 1.25rem; }
+  .bo-para { color: var(--text2); margin: 0 0 2.25rem; }
+  .bo-para:last-child { margin-bottom: 0; }
+
+  /* Drutsa stacking is taller — needs extra breathing room */
+  .bo-text[data-font="tr-drutsa"] .bo-para,
+  .bo-text[data-font="tr-drutsa"] .bo-heading { line-height: 3.4; }
+  /* Monlam also benefits from slightly more leading */
+  .bo-text[data-font="tr-monlam"] .bo-para,
+  .bo-text[data-font="tr-monlam"] .bo-heading { line-height: 2.8; }
 
   .story-mission-card {
     position: sticky; top: 80px;
@@ -247,5 +255,6 @@ import collabImage from '../assets/collab.png';
       FONTS.forEach(f => el.classList.remove(f));
       el.classList.add(chosen);
     });
+    document.getElementById('bo-text')?.setAttribute('data-font', chosen);
   });
 </script>
