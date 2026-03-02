@@ -554,23 +554,6 @@ const effects = [
     </div>
   </section>
 
-  <!-- QUOTE / CONTEXT -->
-  <div class="quote-section reveal" id="context">
-    <div class="quote-inner">
-      <div class="quote-mark">&#8220;</div>
-      <blockquote class="quote-text">
-        Tibetan communities shouldn&rsquo;t need a Silicon Valley sponsor to render their script beautifully on the web. termaUI exists because that wait is over.
-      </blockquote>
-      <div class="quote-mantra-wrap">
-        <span class="tr-jomolhari tr-shimmer tr-guard quote-mantra" lang="bo">༄༅། །བཀྲ་ཤིས་བདེ་ལེགས་ཤོག།</span>
-      </div>
-      <div class="quote-attr">
-        <div class="quote-attr-name">Terma Foundry</div>
-        <div class="quote-attr-role">New Paltz, NY &mdash; 2026</div>
-      </div>
-    </div>
-  </div>
-
   <!-- GET STARTED -->
   <section class="section" id="start">
     <div class="section-eyebrow reveal">The API</div>
@@ -2011,62 +1994,4 @@ const effects = [
     .feat-card-tall { grid-column: 1; }
   }
 
-  /* ─── QUOTE / CONTEXT SECTION ──────────────────────────────── */
-  .quote-section {
-    padding: 6rem 1.5rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .quote-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(99,102,241,0.07) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .quote-inner {
-    max-width: 760px;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-  }
-  .quote-mark {
-    font-size: 6rem;
-    line-height: 0.6;
-    color: #312e81;
-    font-family: Georgia, serif;
-    margin-bottom: 1.5rem;
-    display: block;
-    opacity: 0.7;
-  }
-  .quote-text {
-    font-size: 1.35rem;
-    font-weight: 500;
-    color: #cbd5e1;
-    line-height: 1.75;
-    margin: 0 0 2.5rem;
-    font-style: italic;
-  }
-  .quote-mantra-wrap {
-    margin-bottom: 2.5rem;
-  }
-  .quote-mantra {
-    font-size: 2.2rem;
-    line-height: 3;
-    display: inline-block;
-  }
-  .quote-attr {
-    font-size: 0.85rem;
-    color: #475569;
-  }
-  .quote-attr-name {
-    color: #94a3b8;
-    font-weight: 600;
-  }
-  .quote-attr-role { margin-top: 0.25rem; }
-  @media (max-width: 640px) {
-    .quote-text { font-size: 1.05rem; }
-    .quote-mantra { font-size: 1.6rem; }
-  }
 </style>
