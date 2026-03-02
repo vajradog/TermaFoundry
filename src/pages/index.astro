@@ -43,7 +43,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
           <span class="hero-tibetan-word">Modern World.</span>
         </h1>
         <div class="hero-phase-tib tr-guard" lang="bo" id="hero-phase-tib" aria-hidden="true">
-          <span id="hero-tib-text"></span>
+          <span id="hero-tib-text" class="tr-leading-loose tr-guard-lg tr-ligatures"></span>
         </div>
       </div>
 
@@ -250,10 +250,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   }
   #hero-tib-text {
     display: block;
-    font-size: clamp(1.4rem, 3.6vw, 2.5rem);
-    line-height: 2.2;
-    letter-spacing: 0.01em;
-    font-weight: 400;
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
     text-align: center;
   }
 
@@ -364,7 +361,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     {
       type: 'tib',
       html: 'བོད་ཡིག་སྦྱོང་བ་ནི་སེམས་ཉིད་སྦྱོང་བ་ཡིན།',
-      font: 'tr-monlam-paytsik',
+      font: 'tr-monlam',
       effect: 'tr-text-saffron',
       color: '',
       duration: 4400
@@ -380,7 +377,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   ];
 
   // All possible font/effect classes — for cleanup before each Tibetan phase
-  var tibFonts   = ['tr-drutsa', 'tr-monlam-paytsik', 'tr-babelstone-slim'];
+  var tibFonts   = ['tr-drutsa', 'tr-monlam', 'tr-babelstone-slim'];
   var tibEffects = ['tr-text-rainbow', 'tr-text-saffron', 'tr-glow-aurora', 'tr-outline-gold'];
 
   var idx  = 0;
