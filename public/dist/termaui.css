@@ -1,0 +1,1347 @@
+/* ==========================================================================
+   termaUI v0.1.0
+   Utility-first CSS framework for Tibetan language rendering.
+   https://termafoundry.com
+   License: MIT
+   ========================================================================== */
+
+/* ==========================================================================
+   termaUI — @font-face declarations
+   All fonts self-hosted as WOFF2. Paths relative to dist/termaui.css.
+   unicode-range ensures browsers only download when Tibetan text is present.
+   ========================================================================== */
+
+/* ── JOMOLHARI ─────────────────────────────────────────────────────────────
+   Traditional Uchen manuscript style. Christopher J. Fynn. SIL OFL.        */
+
+@font-face {
+  font-family: 'Jomolhari';
+  src: url('../fonts/jomolhari-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── NOTO SERIF TIBETAN ────────────────────────────────────────────────────
+   Modern screen-optimised serif. Google Fonts. SIL OFL.
+   Full weight axis: 100–900.                                                 */
+
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-extralight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── TIBETAN MACHINE UNI ───────────────────────────────────────────────────
+   Bold high-contrast display/headline font. THDL. GPL v2.                  */
+
+@font-face {
+  font-family: 'Tibetan Machine Uni';
+  src: url('../fonts/tibetan-machine-uni.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── QOMOLANGMA-DRUTSA ─────────────────────────────────────────────────────
+   Flowing drutsa cursive hand. THDL / Qomolangma Project. Open license.    */
+
+@font-face {
+  font-family: 'Qomolangma-Drutsa';
+  src: url('../fonts/qomolangma-drutsa.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM BODYIG ─────────────────────────────────────────────────────────
+   Elegant thin-stroke Uchen. Monlam AI. Open license.                      */
+
+@font-face {
+  font-family: 'Monlam Bodyig';
+  src: url('../fonts/monlam-bodyig.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── BABELSTONE TIBETAN ────────────────────────────────────────────────────
+   Extensive Unicode coverage Uchen. Andrew West / BabelStone. SIL OFL.     */
+
+@font-face {
+  font-family: 'BabelStone Tibetan';
+  src: url('../fonts/babelstone-tibetan.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── BABELSTONE TIBETAN SLIM ───────────────────────────────────────────────
+   Reduced line-height variant of BabelStone Tibetan. Andrew West. SIL OFL. */
+
+@font-face {
+  font-family: 'BabelStone Tibetan Slim';
+  src: url('../fonts/babelstone-tibetan-slim.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── DDC UCHEN ─────────────────────────────────────────────────────────────
+   Official Bhutanese Uchen. Christopher J. Fynn / Dzongkha Development
+   Commission. SIL OFL.                                                      */
+
+@font-face {
+  font-family: 'DDC Uchen';
+  src: url('../fonts/ddc-uchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── DDC RINZIN ────────────────────────────────────────────────────────────
+   Decorative calligraphic Uchen. Christopher J. Fynn / DDC. SIL OFL.       */
+
+@font-face {
+  font-family: 'DDC Rinzin';
+  src: url('../fonts/ddc-rinzin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── GANGJIE UCHEN ─────────────────────────────────────────────────────────
+   Clean modern Uchen. Gangjie Project. Open license.                       */
+
+@font-face {
+  font-family: 'GangJie Uchen';
+  src: url('../fonts/gangjie-uchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── GANGJIE DRUTSA ────────────────────────────────────────────────────────
+   Cursive drutsa hand. Gangjie Project. Open license.                      */
+
+@font-face {
+  font-family: 'GangJie Drutsa';
+  src: url('../fonts/gangjie-drutsa.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── JAMYANG MONLAM UCHEN ──────────────────────────────────────────────────
+   Uchen with calligraphic character. Monlam AI. Open license.              */
+
+@font-face {
+  font-family: 'Jamyang Monlam Uchen';
+  src: url('../fonts/jamyang-monlam-uchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── JOYIG ─────────────────────────────────────────────────────────────────
+   Semi-formal Joyig script. Open license.                                  */
+
+@font-face {
+  font-family: 'Joyig';
+  src: url('../fonts/joyig.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── KHAMPA DEDRI BECHU ────────────────────────────────────────────────────
+   Informal bechu (simplified) hand. Khampa Dedri Project. Open license.   */
+
+@font-face {
+  font-family: 'Khampa Dedri Bechu';
+  src: url('../fonts/khampa-dedri-bechu.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── KHAMPA DEDRI CHUYIG ───────────────────────────────────────────────────
+   Flowing chuyig (correspondence) script. Khampa Dedri Project. Open.     */
+
+@font-face {
+  font-family: 'Khampa Dedri Chuyig';
+  src: url('../fonts/khampa-dedri-chuyig.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── KHAMPA DEDRI DRUTSA ───────────────────────────────────────────────────
+   Drutsa cursive hand. Khampa Dedri Project. Open license.                */
+
+@font-face {
+  font-family: 'Khampa Dedri Drutsa';
+  src: url('../fonts/khampa-dedri-drutsa.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── PANCHEN TSUKRING ──────────────────────────────────────────────────────
+   Traditional Uchen with extended ascenders. Open license.                */
+
+@font-face {
+  font-family: 'Panchen Tsukring';
+  src: url('../fonts/panchen-tsukring.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── RIWOCHE DHODRI ────────────────────────────────────────────────────────
+   Woodblock-inspired Uchen yigchen style. Open license.                   */
+
+@font-face {
+  font-family: 'Riwoche Dhodri';
+  src: url('../fonts/riwoche-dhodri-yigchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── SADRI YIGCHEN ─────────────────────────────────────────────────────────
+   Clean formal Uchen yigchen. Sadri Project. Open license.                */
+
+@font-face {
+  font-family: 'Sadri Yigchen';
+  src: url('../fonts/sadri-yigchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── SADRI DRUTSA ──────────────────────────────────────────────────────────
+   Drutsa cursive hand. Sadri Project. Open license.                       */
+
+@font-face {
+  font-family: 'Sadri Drutsa';
+  src: url('../fonts/sadri-drutsa.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── NOTO SANS TIBETAN ─────────────────────────────────────────────────────
+   Modern sans-serif. Google Fonts. SIL OFL.                               */
+
+@font-face {
+  font-family: 'Noto Sans Tibetan';
+  src: url('../fonts/noto-sans-tibetan.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MISANS TIBETAN ────────────────────────────────────────────────────────
+   Modern geometric sans. Xiaomi / MiSans. Open license.                  */
+
+@font-face {
+  font-family: 'MiSans Tibetan';
+  src: url('../fonts/misans-tibetan.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI OUCHAN ─────────────────────────────────────────────────────
+   Monlam AI's Uchen family — five stylistic variants. Open license.      */
+
+@font-face {
+  font-family: 'Monlam Uni OuChan1';
+  src: url('../fonts/monlam-uni-ouchan1.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Monlam Uni OuChan2';
+  src: url('../fonts/monlam-uni-ouchan2.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Monlam Uni OuChan3';
+  src: url('../fonts/monlam-uni-ouchan3.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Monlam Uni OuChan4';
+  src: url('../fonts/monlam-uni-ouchan4.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Monlam Uni OuChan5';
+  src: url('../fonts/monlam-uni-ouchan5.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI SANS SERIF ─────────────────────────────────────────────────
+   Monlam AI's sans-serif Uchen. Open license.                            */
+
+@font-face {
+  font-family: 'Monlam Uni Sans';
+  src: url('../fonts/monlam-uni-sans.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI PAYTSIK ────────────────────────────────────────────────────
+   Monlam AI's PayTsik display Uchen. Open license.                       */
+
+@font-face {
+  font-family: 'Monlam Uni PayTsik';
+  src: url('../fonts/monlam-uni-paytsik.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI TIKRANG ────────────────────────────────────────────────────
+   Monlam AI's Tikrang ornamental Uchen. Open license.                    */
+
+@font-face {
+  font-family: 'Monlam Uni Tikrang';
+  src: url('../fonts/monlam-uni-tikrang.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI TIKTONG ────────────────────────────────────────────────────
+   Monlam AI's TikTong ornamental Uchen. Open license.                    */
+
+@font-face {
+  font-family: 'Monlam Uni TikTong';
+  src: url('../fonts/monlam-uni-tiktong.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI DUTSA ──────────────────────────────────────────────────────
+   Monlam AI's drutsa cursive family — two variants. Open license.        */
+
+@font-face {
+  font-family: 'Monlam Uni Dutsa1';
+  src: url('../fonts/monlam-uni-dutsa1.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+@font-face {
+  font-family: 'Monlam Uni Dutsa2';
+  src: url('../fonts/monlam-uni-dutsa2.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── QOMOLANGMA UCHEN SARCHEN ──────────────────────────────────────────────
+   THDL Qomolangma project — large formal Uchen. Open license.            */
+
+@font-face {
+  font-family: 'Qomolangma-UchenSarchen';
+  src: url('../fonts/qomolangma-uchen-sarchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── QOMOLANGMA BETSU ──────────────────────────────────────────────────────
+   THDL Qomolangma project — betsu (compact abbreviated) style. Open.    */
+
+@font-face {
+  font-family: 'Qomolangma-Betsu';
+  src: url('../fonts/qomolangma-betsu.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── QOMOLANGMA TSUTONG ────────────────────────────────────────────────────
+   THDL Qomolangma project — tsutong (short-headed) display Uchen. Open. */
+
+@font-face {
+  font-family: 'Qomolangma-Tsutong';
+  src: url('../fonts/qomolangma-tsutong.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ==========================================================================
+   termaUI — Base reset for Tibetan language content
+   :lang(bo) for inherited properties, [lang="bo"] for container-level.
+   ========================================================================== */
+
+:lang(bo) {
+  font-family: 'Jomolhari', 'Noto Serif Tibetan', 'Tibetan Machine Uni', serif;
+  line-height: 1.8;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+  /* font-size intentionally NOT set here — 1.1em compounded in nested elements
+     and conflicted with tr-text-* utilities. Use .tr-text-base for sizing. */
+}
+
+[lang="bo"] {
+  direction: ltr;
+  text-align: left;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   termaUI — Font stack utility classes
+   Each class selects a specific Tibetan font family with fallbacks.
+   ========================================================================== */
+
+/* ── UCHEN — FORMAL UPRIGHT SCRIPT ───────────────────────────────────────── */
+
+/* Jomolhari — warm classical Uchen manuscript style */
+
+.tr-jomolhari {
+  font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
+}
+
+/* Noto Serif Tibetan — modern screen-optimised serif (full weight axis) */
+
+.tr-noto {
+  font-family: 'Noto Serif Tibetan', 'Jomolhari', serif;
+}
+
+.tr-noto-thin      { font-family: 'Noto Serif Tibetan', serif; font-weight: 100; }
+
+.tr-noto-light     { font-family: 'Noto Serif Tibetan', serif; font-weight: 300; }
+
+.tr-noto-medium    { font-family: 'Noto Serif Tibetan', serif; font-weight: 500; }
+
+.tr-noto-semibold  { font-family: 'Noto Serif Tibetan', serif; font-weight: 600; }
+
+.tr-noto-bold      { font-family: 'Noto Serif Tibetan', serif; font-weight: 700; }
+
+.tr-noto-extrabold { font-family: 'Noto Serif Tibetan', serif; font-weight: 800; }
+
+.tr-noto-black     { font-family: 'Noto Serif Tibetan', serif; font-weight: 900; }
+
+/* Tibetan Machine Uni — bold high-contrast display/headline */
+
+.tr-machine-uni {
+  font-family: 'Tibetan Machine Uni', 'Jomolhari', serif;
+}
+
+/* BabelStone Tibetan — broadest Unicode coverage Uchen */
+
+.tr-babelstone {
+  font-family: 'BabelStone Tibetan', 'Noto Serif Tibetan', serif;
+}
+
+/* BabelStone Tibetan Slim — reduced line-height variant */
+
+.tr-babelstone-slim {
+  font-family: 'BabelStone Tibetan Slim', 'BabelStone Tibetan', 'Noto Serif Tibetan', serif;
+}
+
+/* DDC Uchen — official Bhutanese government Uchen */
+
+.tr-ddc-uchen {
+  font-family: 'DDC Uchen', 'Jomolhari', serif;
+}
+
+/* DDC Rinzin — decorative calligraphic Uchen */
+
+.tr-ddc-rinzin {
+  font-family: 'DDC Rinzin', 'DDC Uchen', 'Jomolhari', serif;
+}
+
+/* GangJie Uchen — clean modern Uchen */
+
+.tr-gangjie {
+  font-family: 'GangJie Uchen', 'Noto Serif Tibetan', serif;
+}
+
+/* Jamyang Monlam Uchen — calligraphic Uchen with strong stroke character */
+
+.tr-jamyang {
+  font-family: 'Jamyang Monlam Uchen', 'Jomolhari', serif;
+}
+
+/* Monlam Bodyig — refined thin-stroke elegant Uchen */
+
+.tr-monlam {
+  font-family: 'Monlam Bodyig', 'Noto Serif Tibetan', serif;
+}
+
+/* Panchen Tsukring — traditional Uchen with extended ascenders */
+
+.tr-panchen {
+  font-family: 'Panchen Tsukring', 'Jomolhari', serif;
+}
+
+/* Riwoche Dhodri — woodblock-inspired Uchen yigchen */
+
+.tr-riwoche {
+  font-family: 'Riwoche Dhodri', 'Tibetan Machine Uni', serif;
+}
+
+/* Sadri Yigchen — clean formal Uchen */
+
+.tr-sadri {
+  font-family: 'Sadri Yigchen', 'Noto Serif Tibetan', serif;
+}
+
+/* ── MODERN SANS-SERIF ────────────────────────────────────────────────────── */
+
+/* Noto Sans Tibetan — Google's sans-serif; clean screen-optimised */
+
+.tr-noto-sans {
+  font-family: 'Noto Sans Tibetan', 'Noto Serif Tibetan', sans-serif;
+}
+
+/* MiSans Tibetan — Xiaomi geometric modern sans */
+
+.tr-misans {
+  font-family: 'MiSans Tibetan', 'Noto Sans Tibetan', sans-serif;
+}
+
+/* Monlam Uni Sans — Monlam AI's sans-serif Uchen */
+
+.tr-monlam-sans {
+  font-family: 'Monlam Uni Sans', 'Noto Sans Tibetan', sans-serif;
+}
+
+/* ── MONLAM UNI UCHEN FAMILY ──────────────────────────────────────────────── */
+
+/* Monlam Uni OuChan1 — variant 1 (reference weight) */
+
+.tr-monlam-ouchan1 {
+  font-family: 'Monlam Uni OuChan1', 'Jomolhari', serif;
+}
+
+/* Monlam Uni OuChan2 — variant 2 */
+
+.tr-monlam-ouchan2 {
+  font-family: 'Monlam Uni OuChan2', 'Monlam Uni OuChan1', 'Jomolhari', serif;
+}
+
+/* Monlam Uni OuChan3 — variant 3 */
+
+.tr-monlam-ouchan3 {
+  font-family: 'Monlam Uni OuChan3', 'Monlam Uni OuChan1', 'Jomolhari', serif;
+}
+
+/* Monlam Uni OuChan4 — variant 4 */
+
+.tr-monlam-ouchan4 {
+  font-family: 'Monlam Uni OuChan4', 'Monlam Uni OuChan1', 'Jomolhari', serif;
+}
+
+/* Monlam Uni OuChan5 — variant 5 */
+
+.tr-monlam-ouchan5 {
+  font-family: 'Monlam Uni OuChan5', 'Monlam Uni OuChan1', 'Jomolhari', serif;
+}
+
+/* Monlam Uni PayTsik — display Uchen with seal/stamp character */
+
+.tr-monlam-paytsik {
+  font-family: 'Monlam Uni PayTsik', 'Jomolhari', serif;
+}
+
+/* Monlam Uni Tikrang — ornamental long-stroke decorative */
+
+.tr-monlam-tikrang {
+  font-family: 'Monlam Uni Tikrang', 'Jomolhari', serif;
+}
+
+/* Monlam Uni TikTong — ornamental short-stroke decorative */
+
+.tr-monlam-tiktong {
+  font-family: 'Monlam Uni TikTong', 'Jomolhari', serif;
+}
+
+/* ── QOMOLANGMA UCHEN FAMILY ──────────────────────────────────────────────── */
+
+/* Qomolangma-UchenSarchen — large formal Uchen (sarchen = large) */
+
+.tr-qomolangma-sarchen {
+  font-family: 'Qomolangma-UchenSarchen', 'Jomolhari', serif;
+}
+
+/* Qomolangma-Betsu — compact betsu (abbreviated) Uchen style */
+
+.tr-qomolangma-betsu {
+  font-family: 'Qomolangma-Betsu', 'Jomolhari', serif;
+}
+
+/* Qomolangma-Tsutong — tsutong (short-headed) display Uchen */
+
+.tr-qomolangma-tsutong {
+  font-family: 'Qomolangma-Tsutong', 'Jomolhari', serif;
+}
+
+/* ── DRUTSA — CURSIVE HAND SCRIPT ────────────────────────────────────────── */
+
+/* Qomolangma-Drutsa — flowing drutsa cursive */
+
+.tr-drutsa {
+  font-family: 'Qomolangma-Drutsa', 'Jomolhari', serif;
+}
+
+/* GangJie Drutsa — cursive drutsa hand */
+
+.tr-gangjie-drutsa {
+  font-family: 'GangJie Drutsa', 'Qomolangma-Drutsa', serif;
+}
+
+/* Khampa Dedri Drutsa — expressive drutsa hand */
+
+.tr-khampa-drutsa {
+  font-family: 'Khampa Dedri Drutsa', 'Qomolangma-Drutsa', serif;
+}
+
+/* Sadri Drutsa — drutsa cursive */
+
+.tr-sadri-drutsa {
+  font-family: 'Sadri Drutsa', 'Qomolangma-Drutsa', serif;
+}
+
+/* Monlam Uni Dutsa1 — Monlam AI drutsa cursive, variant 1 */
+
+.tr-monlam-dutsa1 {
+  font-family: 'Monlam Uni Dutsa1', 'Qomolangma-Drutsa', serif;
+}
+
+/* Monlam Uni Dutsa2 — Monlam AI drutsa cursive, variant 2 */
+
+.tr-monlam-dutsa2 {
+  font-family: 'Monlam Uni Dutsa2', 'Monlam Uni Dutsa1', 'Qomolangma-Drutsa', serif;
+}
+
+/* ── SEMI-CURSIVE — CORRESPONDENCE & INFORMAL SCRIPTS ────────────────────── */
+
+/* Joyig — semi-formal joyig (intermediate between Uchen and Drutsa) */
+
+.tr-joyig {
+  font-family: 'Joyig', 'Qomolangma-Drutsa', serif;
+}
+
+/* Khampa Dedri Chuyig — flowing chuyig correspondence script */
+
+.tr-chuyig {
+  font-family: 'Khampa Dedri Chuyig', 'Joyig', serif;
+}
+
+/* Khampa Dedri Bechu — informal bechu simplified hand */
+
+.tr-bechu {
+  font-family: 'Khampa Dedri Bechu', 'Khampa Dedri Chuyig', serif;
+}
+
+/* ==========================================================================
+   termaUI -- Visual effect utilities
+   Gradient text, glows, outlines, and glass effects for Tibetan script.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   GRADIENT TEXT EFFECTS
+   Uses background-clip: text. Note: text-shadow does NOT work with
+   background-clip: text -- use the pseudo-element workaround (see glow).
+   --------------------------------------------------------------------------- */
+
+.tr-text-rainbow {
+  background: linear-gradient(
+    90deg,
+    #e63946 0%,
+    #f4a261 16%,
+    #e9c46a 32%,
+    #2a9d8f 48%,
+    #264653 64%,
+    #6a4c93 80%,
+    #e63946 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.tr-text-saffron {
+  background: linear-gradient(
+    90deg,
+    #e65100 0%,
+    #ff8f00 40%,
+    #ffd54f 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.tr-text-ink {
+  background: linear-gradient(
+    180deg,
+    #4a4a4a 0%,
+    #1a1a1a 60%,
+    #000000 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------------------------
+   GLOW EFFECTS
+   Pulsing aurora glow with @keyframes.
+   When combining with gradient text, add data-text="..." to the HTML element
+   so the pseudo-element can render the shadow behind the gradient.
+   --------------------------------------------------------------------------- */
+
+.tr-glow-aurora {
+  position: relative;
+  text-shadow:
+    0 0 10px rgba(42, 157, 143, 0.6),
+    0 0 20px rgba(42, 157, 143, 0.4),
+    0 0 40px rgba(42, 157, 143, 0.2);
+  animation: tr-aurora-pulse 3s ease-in-out infinite;
+}
+
+@keyframes tr-aurora-pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(42, 157, 143, 0.6),
+      0 0 20px rgba(42, 157, 143, 0.4),
+      0 0 40px rgba(42, 157, 143, 0.2);
+  }
+  50% {
+    text-shadow:
+      0 0 15px rgba(42, 157, 143, 0.8),
+      0 0 30px rgba(42, 157, 143, 0.5),
+      0 0 60px rgba(42, 157, 143, 0.3),
+      0 0 80px rgba(106, 76, 147, 0.2);
+  }
+}
+
+/* Pseudo-element workaround for gradient + glow combo.
+   Usage: <h1 class="tr-text-rainbow tr-glow-aurora" data-text="...">...</h1> */
+
+.tr-glow-aurora[data-text]::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  text-shadow:
+    0 0 10px rgba(42, 157, 143, 0.6),
+    0 0 20px rgba(42, 157, 143, 0.4),
+    0 0 40px rgba(42, 157, 143, 0.2);
+  animation: tr-aurora-pulse 3s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------------------
+   OUTLINE EFFECTS
+   --------------------------------------------------------------------------- */
+
+.tr-outline-gold {
+  -webkit-text-stroke: 1px #c9a84c;
+  color: transparent;
+}
+
+.tr-outline-gold-fill {
+  -webkit-text-stroke: 1px #c9a84c;
+  color: #1a1a1a;
+}
+
+/* ---------------------------------------------------------------------------
+   GLASS / FROSTED EFFECTS
+   --------------------------------------------------------------------------- */
+
+.tr-glass {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  padding: 1em 1.5em;
+}
+
+.tr-glass-dark {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1em 1.5em;
+}
+
+/* ---------------------------------------------------------------------------
+   SHIMMER EFFECT
+   Animated metallic gold sweep. Bright highlight travels left to right.
+   --------------------------------------------------------------------------- */
+
+.tr-shimmer {
+  background: linear-gradient(
+    90deg,
+    #92700a 0%,
+    #c9a84c 20%,
+    #fef9c3 42%,
+    #ffd700 50%,
+    #fef9c3 58%,
+    #c9a84c 80%,
+    #92700a 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: tr-shimmer-sweep 3s ease-in-out infinite alternate;
+}
+
+@keyframes tr-shimmer-sweep {
+  from { background-position: 0% center; }
+  to   { background-position: 100% center; }
+}
+
+/* ---------------------------------------------------------------------------
+   FIRE TEXT
+   Bottom-to-top flame gradient from deep ember to bright gold tip.
+   --------------------------------------------------------------------------- */
+
+.tr-text-fire {
+  background: linear-gradient(
+    0deg,
+    #7f1d1d 0%,
+    #dc2626 28%,
+    #ea580c 52%,
+    #f97316 72%,
+    #fbbf24 88%,
+    #fef08a 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: tr-fire-flicker 2.2s ease-in-out infinite;
+}
+
+@keyframes tr-fire-flicker {
+  0%, 100% { filter: brightness(1); }
+  28%      { filter: brightness(1.13); }
+  55%      { filter: brightness(0.95); }
+  80%      { filter: brightness(1.09); }
+}
+
+/* ---------------------------------------------------------------------------
+   LAPIS LAZULI TEXT
+   Deep ultramarine gradient echoing the sacred pigment of Tibetan thangka.
+   --------------------------------------------------------------------------- */
+
+.tr-text-lapis {
+  background: linear-gradient(
+    135deg,
+    #1e3a8a 0%,
+    #1d4ed8 35%,
+    #3b82f6 65%,
+    #93c5fd 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------------------------
+   EMBOSS / CARVED STONE
+   Multi-layer text-shadow simulating script carved from above by directional light.
+   Does not use background-clip -- text-shadow works fully here.
+   --------------------------------------------------------------------------- */
+
+.tr-emboss {
+  color: #c2a46e;
+  text-shadow:
+    0 -1px 0 rgba(255, 245, 200, 0.55),
+    0  1px 2px rgba(0, 0, 0, 0.85),
+    1px 1px 3px rgba(0, 0, 0, 0.60),
+    0 0 10px rgba(200, 175, 120, 0.10);
+}
+
+/* ==========================================================================
+   termaUI — Guardian utilities
+   Fixes Tibetan-specific rendering: clipping, line-breaking, scaling.
+   ========================================================================== */
+
+/* Prevent clipping of Tibetan vowel marks and stacked consonants */
+
+.tr-guard {
+  padding-block: 0.25em;
+}
+
+.tr-guard-lg {
+  padding-block: 0.5em;
+}
+
+/* ---------------------------------------------------------------------------
+   OVERFLOW SAFE
+   Last-resort overflow protection for Tibetan text in constrained containers.
+   Prevents horizontal overflow when text cannot wrap (e.g. no tsheg present,
+   or terma.js has not been run yet).
+
+   NOTE: This does NOT fix tsheg-aware line breaking — that requires
+   terma.prepare() from terma.js. This is purely a container protection guard.
+   --------------------------------------------------------------------------- */
+
+.tr-overflow-safe {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Scale Tibetan to match English visual weight */
+
+.tr-scale-up {
+  font-size: 120%;
+}
+
+.tr-scale-match {
+  font-size: 150%;
+}
+
+/* Vertical alignment fix for mixed Tibetan/English inline text */
+
+.tr-baseline {
+  vertical-align: middle;
+  line-height: 1.8;
+}
+
+/* ---------------------------------------------------------------------------
+   PUNCTUATION PROTECTION
+   Tibetan punctuation sequences that must never split across lines.
+   Wrap the sequence in a <span> with the appropriate class.
+   --------------------------------------------------------------------------- */
+
+/* Prevent double-shad ། ། from splitting across lines */
+
+.tr-shad-pair {
+  white-space: nowrap;
+}
+
+/* Protect non-breaking tsheg + shad (e.g. ང་།) from splitting */
+
+.tr-nobr-tsheg {
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   termaUI — Typography utilities
+   Font sizes, line heights, letter spacing, alignment, and indent
+   tuned for Tibetan script metrics.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   FONT SIZES
+   T-shirt scale with paired line-heights optimized for Tibetan vowel marks
+   and stacked consonants. Base is 1.1rem from the :lang(bo) reset.
+   --------------------------------------------------------------------------- */
+
+.tr-text-sm {
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.tr-text-base {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.tr-text-lg {
+  font-size: 1.4rem;
+  line-height: 1.8;
+}
+
+.tr-text-xl {
+  font-size: 1.75rem;
+  line-height: 1.7;
+}
+
+.tr-text-2xl {
+  font-size: 2.25rem;
+  line-height: 1.6;
+}
+
+.tr-text-3xl {
+  font-size: 3rem;
+  line-height: 1.5;
+}
+
+.tr-text-4xl {
+  font-size: 4rem;
+  line-height: 1.4;
+}
+
+.tr-text-5xl {
+  font-size: 5rem;
+  line-height: 1.3;
+}
+
+/* ---------------------------------------------------------------------------
+   LINE HEIGHTS
+   Standalone overrides for verse, prose, and meditation text spacing.
+   --------------------------------------------------------------------------- */
+
+.tr-leading-tight {
+  line-height: 1.4;
+}
+
+.tr-leading-normal {
+  line-height: 1.8;
+}
+
+.tr-leading-relaxed {
+  line-height: 2.2;
+}
+
+.tr-leading-loose {
+  line-height: 2.6;
+}
+
+/* ---------------------------------------------------------------------------
+   TEXT ALIGNMENT
+   --------------------------------------------------------------------------- */
+
+.tr-text-left {
+  text-align: left;
+}
+
+.tr-text-center {
+  text-align: center;
+}
+
+.tr-text-right {
+  text-align: right;
+}
+
+.tr-text-justify {
+  text-align: justify;
+}
+
+/* ---------------------------------------------------------------------------
+   TEXT INDENT
+   Traditional Tibetan prose and verse often use indentation.
+   --------------------------------------------------------------------------- */
+
+.tr-indent {
+  text-indent: 2em;
+}
+
+/* ---------------------------------------------------------------------------
+   TIBETAN JUSTIFICATION
+   text-align: justify alone does nothing useful for Tibetan — browsers treat
+   the entire string as one "word" with no break points.
+   This class REQUIRES terma.prepare() from terma.js, which injects zero-width
+   spaces after each tsheg to give the browser break opportunities.
+   Together they produce correct justified Tibetan text.
+   --------------------------------------------------------------------------- */
+
+.tr-justify-bo {
+  text-align: justify;
+}
+
+/* ==========================================================================
+   termaUI — Stacking & complex script support
+   Utilities for Tibetan consonant stacking, Sanskrit mantra rendering,
+   and traditional commentary (yig chung) formatting.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   STACK-SAFE
+   Extra vertical room for text containing complex consonant stacks —
+   Sanskrit mantras, dharani, multi-level subjoined consonants that extend
+   well below the baseline. Prevents clipping.
+   --------------------------------------------------------------------------- */
+
+.tr-stack-safe {
+  line-height: 2.4;
+  padding-block: 0.3em;
+}
+
+/* ---------------------------------------------------------------------------
+   LIGATURES
+   Explicitly enable OpenType features required for correct Tibetan
+   consonant stacking. Fonts use blws (Below Base Substitution) and
+   abvs (Above Base Substitution) lookups to compose vertical stacks.
+   Without these, complex stacks may render as separate glyphs on
+   the baseline instead of vertically composed.
+   --------------------------------------------------------------------------- */
+
+.tr-ligatures {
+  font-variant-ligatures: common-ligatures;
+  font-feature-settings: "liga" 1, "blws" 1, "abvs" 1;
+}
+
+/* ---------------------------------------------------------------------------
+   YIG CHUNG — Commentary text
+   Traditional Tibetan typography uses 25-30% smaller text for
+   commentarial annotations. The letter-heads (tops of the characters)
+   must align at the same height as the root text.
+   Use inline within root-text containers.
+   --------------------------------------------------------------------------- */
+
+.tr-yig-chung {
+  font-size: 75%;
+  vertical-align: top;
+  line-height: inherit;
+}
+
+/* ==========================================================================
+   termaUI — Pecha manuscript styling
+   Traditional Tibetan loose-leaf manuscript format (དཔེ་ཆ།).
+   Authentic three-column layout: title margin | main text | folio number,
+   separated by vertical red rules. Wide landscape ~6:1 ratio.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   PECHA CONTAINER
+   Authentic pecha proportions: ~6:1 landscape.
+   Three-column grid: [left margin] [main text] [right folio].
+   Double red border: outer border + inset box-shadow.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha {
+  aspect-ratio: 6 / 1;
+  background: #faf0dc;
+  color: #1a1a1a;
+  border: 2px solid #b91c1c;
+  box-shadow: inset 0 0 0 4px #faf0dc, inset 0 0 0 6px #b91c1c;
+  border-radius: 2px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 9% 1fr 9%;
+  align-items: stretch;
+}
+
+/* ---------------------------------------------------------------------------
+   DARK VARIANT
+   Gold text on dark indigo — for sacred texts (གསེར་ཡིག).
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-dark {
+  background: #1e1b4b;
+  color: #d4a843;
+  border-color: #92400e;
+  box-shadow: inset 0 0 0 4px #1e1b4b, inset 0 0 0 6px #92400e;
+}
+
+.tr-pecha-dark .tr-pecha-title,
+.tr-pecha-dark .tr-pecha-folio {
+  border-color: #92400e;
+}
+
+/* ---------------------------------------------------------------------------
+   TITLE MARGIN (left column)
+   Abbreviated text title (ཆིང་) or section name.
+   Separated from the body by a vertical red rule.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.3rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-align: center;
+  border-right: 1px solid #b91c1c;
+}
+
+/* ---------------------------------------------------------------------------
+   PECHA BODY TEXT
+   Main text block: justified, 6-line density, traditional spacing.
+   Bordered on right by vertical red rule separating the folio column.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-body {
+  padding: 0.55rem 1rem;
+  line-height: 1.85;
+  font-size: 1.1rem;
+  text-align: justify;
+  border-right: 1px solid #b91c1c;
+  overflow-x: hidden; /* clip horizontal overflow only; allow tall stacks to breathe vertically */
+}
+
+/* ---------------------------------------------------------------------------
+   FOLIO NUMBER (right column)
+   Page number in the right margin. Horizontal text, centered.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-folio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem 0.3rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  text-align: center;
+}
+
+/* ---------------------------------------------------------------------------
+   TITLE ROTATED MODIFIER
+   Rotates only the text label 90° counter-clockwise (reads bottom→top).
+   Apply to a <span> INSIDE .tr-pecha-title so the border-right stays vertical:
+     <div class="tr-pecha-title">
+       <span class="tr-pecha-title-rotated">ཤེས་རབ།</span>
+     </div>
+   Uses transform rather than writing-mode for reliable Tibetan glyph rendering.
+   --------------------------------------------------------------------------- */
+
+.tr-pecha-title-rotated {
+  display: inline-block;
+  transform: rotate(-90deg);
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------------
+   YIG MGO — page/section opening mark
+   The traditional ༄༅། mark that begins pecha pages and headlines.
+   Apply to a <span> at the start of the body text.
+   --------------------------------------------------------------------------- */
+
+.tr-yig-mgo::before {
+  content: "༄༅། ";
+}
