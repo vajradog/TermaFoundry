@@ -397,7 +397,8 @@ import SiteLayout from '@layouts/SiteLayout.astro';
       tibEffects.forEach(function(c) { tibText.classList.remove(c); });
       tibText.style.color = '';
       tibText.innerHTML = p.html;
-      tibText.classList.add(p.font, p.effect);
+      tibText.classList.add(p.font);
+      if (p.effect) tibText.classList.add(p.effect);
       if (p.color) tibText.style.color = p.color;
       // Show Tibetan overlay, hide English
       phaseEn.style.opacity      = '0';
