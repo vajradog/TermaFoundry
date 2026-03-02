@@ -1,4 +1,4 @@
-﻿---
+---
 import SiteLayout from '@layouts/SiteLayout.astro';
 ---
 
@@ -43,7 +43,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
           <span class="hero-tibetan-word">Modern World.</span>
         </h1>
         <div class="hero-phase-tib tr-guard" lang="bo" id="hero-phase-tib" aria-hidden="true">
-          <span id="hero-tib-text" class="tr-leading-relaxed tr-guard-lg tr-ligatures"></span>
+          <span id="hero-tib-text" class="tr-leading-normal tr-guard-lg tr-ligatures"></span>
         </div>
       </div>
 
@@ -354,7 +354,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
       type: 'tib',
       html: 'བོད་ཡིག་ནི་བོད་ཀྱི་བླ་སྲོག་ཡིན།',
       font: 'tr-drutsa',
-      effect: '',
+      effect: 'tr-text-rainbow',
       color: '',
       duration: 4400
     },
@@ -362,7 +362,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
       type: 'tib',
       html: 'བོད་ཡིག་སྦྱོང་བ་ནི་སེམས་ཉིད་སྦྱོང་བ་ཡིན།',
       font: 'tr-jomolhari',
-      effect: '',
+      effect: 'tr-text-fire',
       color: '',
       duration: 4400
     },
@@ -371,14 +371,14 @@ import SiteLayout from '@layouts/SiteLayout.astro';
       html: 'གངས་ཅན་བོད་ཀྱི་ཡི་གེ་འདི། །<br>བོད་ཀྱི་རིག་གནས་ཀུན་གྱི་གཞི། །',
       font: 'tr-riwoche',
       effect: '',
-      color: '',
+      color: 'var(--text)',
       duration: 5000
     }
   ];
 
   // All possible font/effect classes — for cleanup before each Tibetan phase
   var tibFonts   = ['tr-drutsa', 'tr-jomolhari', 'tr-riwoche'];
-  var tibEffects = ['tr-text-rainbow', 'tr-text-saffron', 'tr-glow-aurora', 'tr-outline-gold'];
+  var tibEffects = ['tr-text-rainbow', 'tr-text-fire', 'tr-text-saffron', 'tr-glow-aurora', 'tr-outline-gold'];
 
   var idx  = 0;
   var busy = false;
