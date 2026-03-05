@@ -138,5 +138,5 @@ MIT — free to use, modify, and distribute. All fonts retain their original lic
 
 ---
 
-*Founded by [Thupten Chakrishar](https://termafoundry.com/about)*
+*Founded by [Thupten Chakrishar](https://chakrishar.com)*
 

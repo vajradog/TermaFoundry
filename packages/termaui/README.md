@@ -335,4 +335,4 @@ Fonts are bundled under their respective open licenses (SIL OFL, GPL v2, open li
 
 ---
 
-*Created by [Thupten Chakrishar](https://termafoundry.com/about) · [Terma Foundry](https://termafoundry.com)*
+*Created by [Thupten Chakrishar](https://chakrishar.com) · [Terma Foundry](https://termafoundry.com)*
