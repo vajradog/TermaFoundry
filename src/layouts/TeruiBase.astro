@@ -17,6 +17,7 @@ const currentPath = Astro.url.pathname;
       <div class="termaui-subnav-links">
         <a href="/termaui/" class={`termaui-subnav-link ${currentPath === '/termaui/' ? 'tsn-active' : ''}`}>Overview</a>
         <a href="/termaui/docs/" class={`termaui-subnav-link ${currentPath.startsWith('/termaui/docs') ? 'tsn-active' : ''}`}>Documentation</a>
+        <a href="/termaui/playground/" class={`termaui-subnav-link ${currentPath.startsWith('/termaui/playground') ? 'tsn-active' : ''}`}>Playground</a>
       </div>
       <a href="https://github.com/vajradog/TermaFoundry" target="_blank" rel="noopener" class="termaui-subnav-gh">GitHub ↗</a>
     </div>
