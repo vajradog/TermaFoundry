@@ -128,7 +128,7 @@ Beyond the library of existing fonts, we are creating three original typefaces w
 
 ## Tech Stack
 
-The termafoundry.com website is built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com), using termaUI itself for all Tibetan rendering. Deployed on Vercel. MIT licensed.
+Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com), using termaUI itself for all Tibetan rendering. Deployed on GitHub Pages. MIT licensed.
 
 ---
 
