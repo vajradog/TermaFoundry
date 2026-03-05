@@ -11,9 +11,22 @@ We design and build the infrastructure Tibetan script needs in the digital world
 ## The Tools
 
 ### ◈ termaUI — Tibetan CSS Framework
-*Available now · Seeking funding for full production*
+*Available now · [npm](https://www.npmjs.com/package/termaui)*
 
 The world's first utility-first CSS framework built specifically for Tibetan script rendering. One stylesheet that solves every problem Tibetan developers hit when building for the web.
+
+**Install:**
+
+```bash
+npm install termaui
+```
+
+Or via CDN — no build step needed:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/termaui/dist/termaui.min.css">
+<script src="https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"></script>
+```
 
 **What it solves:**
 - Vowel marks and stacked consonants clipping out of their line boxes
@@ -37,14 +50,11 @@ The world's first utility-first CSS framework built specifically for Tibetan scr
 **Companion: terma.js** — JavaScript utilities for problems CSS alone can't fix: correct Tibetan line breaking, Unicode NFC normalization, and protection of double-shad and tsheg-before-shad punctuation.
 
 ```html
-<!-- One line to start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/termaui/dist/termaui.min.css">
-
 <!-- Then compose classes on any element -->
 <p class="tr-jomolhari tr-guard tr-text-xl" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</p>
 ```
 
-→ [termafoundry.com/termaui](https://termafoundry.com/termaui) · [Documentation](https://termafoundry.com/termaui/docs)
+→ [termafoundry.com/termaui](https://termafoundry.com/termaui) · [Documentation](https://termafoundry.com/termaui/docs) · [npm](https://www.npmjs.com/package/termaui) · [GitHub](https://github.com/vajradog/TermaFoundry/tree/main/packages/termaui)
 
 ---
 
@@ -108,21 +118,9 @@ Structured keyboard training using the Monlam phonetic IME — the most widely u
 
 Six million Tibetan speakers. Fifteen centuries of literary tradition. A diaspora scattered across forty countries.
 
-And fewer than a dozen usable digital typefaces — none designed for children, language learners, or the modern web. No CSS framework. No browser-based manuscript tools. Developers building Tibetan websites manually patch vowel clipping bugs, hand-write line-height hacks, and reinvent layout systems project by project.
+No CSS framework. No browser-based manuscript tools. Developers building Tibetan websites manually patch vowel clipping bugs, hand-write line-height hacks, and reinvent layout systems project by project.
 
 We are building the infrastructure that should already exist.
-
----
-
-## The Fonts We're Designing
-
-Beyond the library of existing fonts, we are creating three original typefaces with master calligrapher **Jamyang Dorjee**:
-
-**Terma Serif** — A refined scholarly serif for print and long-form reading. Consistent weight, precise hinting, full Unicode coverage. The font Tibetan publishing has needed for a generation.
-
-**Terma Sans** — A clean screen-optimised sans-serif that works at every scale, from navigation labels to display headings, and sits naturally alongside Latin and CJK in multilingual layouts.
-
-**Terma Lotsawa** — Simplified letterforms with generous spacing for children, heritage learners, and the diaspora. The font nobody has built yet — designed with educators who told us: *"I gave up because the writing looked too hard."*
 
 ---
 
@@ -138,5 +136,4 @@ MIT — free to use, modify, and distribute. All fonts retain their original lic
 
 ---
 
-*Founded by [Thupten Chakrishar](https://chakrishar.com)*
-
+*Created by [Thupten Chakrishar](https://chakrishar.com)*
