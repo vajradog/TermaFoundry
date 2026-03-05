@@ -126,13 +126,15 @@ We are building the infrastructure that should already exist.
 
 ## Tech Stack
 
-Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com), using termaUI itself for all Tibetan rendering. Deployed on GitHub Pages. MIT licensed.
+Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com), using termaUI itself for all Tibetan rendering. Deployed on GitHub Pages.
 
 ---
 
 ## License
 
-MIT — free to use, modify, and distribute. All fonts retain their original licenses (SIL OFL unless noted).
+termaUI is dual-licensed — free for personal, educational, religious, and non-commercial use. Commercial use requires a license. Contact [buddhistapps@gmail.com](mailto:buddhistapps@gmail.com).
+
+All fonts retain their original open licenses (SIL OFL unless noted).
 
 ---
 

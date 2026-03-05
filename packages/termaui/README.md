@@ -329,9 +329,13 @@ termaui/
 
 ## License
 
-MIT — free for personal and commercial use.
+termaUI is dual-licensed:
 
-Fonts are bundled under their respective open licenses (SIL OFL, GPL v2, open license). See [termafoundry.com/termaui](https://termafoundry.com/termaui/) for per-font license details.
+**Free** for personal, educational, religious, and non-commercial open-source use.
+
+**Commercial use** (products, services, for-profit organizations, or revenue-generating applications) requires a commercial license — contact [buddhistapps@gmail.com](mailto:buddhistapps@gmail.com).
+
+Fonts bundled with termaUI retain their original open licenses (SIL OFL, GPL v2, or similar) and are not affected by this dual license. See [termafoundry.com/termaui](https://termafoundry.com/termaui/) for per-font details.
 
 ---
 
