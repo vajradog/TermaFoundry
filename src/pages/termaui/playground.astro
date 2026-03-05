@@ -1,0 +1,1094 @@
+---
+import Base from '../../layouts/TeruiBase.astro';
+---
+
+<Base title="Playground — termaUI" description="Interactive playground for termaUI — try all 44 Tibetan fonts, visual effects, and generate copy-paste code for your project.">
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE HERO
+══════════════════════════════════════════════════════════ -->
+<div class="section pg-hero reveal">
+  <div class="section-eyebrow">◈ termaUI</div>
+  <h1 class="section-heading">Playground</h1>
+  <p class="section-sub">
+    Type or paste Tibetan text. Pick a font, apply an effect, select specific words for mixed styling — then copy the generated code straight into your project.
+  </p>
+  <div class="pg-meta">
+    <span class="pg-badge" id="dotCSS-wrap"><span class="pg-dot" id="dotCSS"></span><span id="lblCSS">checking…</span></span>
+    <span class="pg-badge" id="dotJS-wrap"><span class="pg-dot" id="dotJS"></span><span id="lblJS">checking…</span></span>
+    <span class="pg-badge" id="dotFonts-wrap"><span class="pg-dot" id="dotFonts"></span><span id="lblFonts">checking…</span></span>
+  </div>
+</div>
+
+<hr class="divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     PLAYGROUND WRAPPER
+══════════════════════════════════════════════════════════ -->
+<div class="pg">
+
+<!-- ── STEP 1 · QUICK START ────────────────────────────── -->
+<section class="pg-section">
+  <details class="pg-qs-details pg-step-details" id="step1">
+    <summary class="pg-step-summary">
+      <span class="pg-step-badge">Step 1</span>
+      <span class="pg-step-title">Add termaUI to your project</span>
+      <svg class="pg-step-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </summary>
+
+    <div class="pg-step-body">
+      <p class="pg-intro" style="margin-top:0">
+        No build tools, no configuration, no fonts to download — everything comes from the CDN.
+      </p>
+
+      <div class="pg-tabs" id="startTabs">
+        <button class="pg-tab active" onclick="switchStartTab('html',this)">HTML / CDN</button>
+        <button class="pg-tab" onclick="switchStartTab('npm',this)">npm</button>
+        <button class="pg-tab" onclick="switchStartTab('next',this)">Next.js</button>
+        <button class="pg-tab" onclick="switchStartTab('astro',this)">Astro</button>
+      </div>
+      <div class="pg-code-wrap">
+        <button class="pg-copy-btn" onclick="copyCode(this,'startCode')">Copy</button>
+        <pre id="startCode"></pre>
+      </div>
+
+      <div class="pg-callout">
+        <strong>Safe to use alongside any framework.</strong>
+        termaUI only activates when you use <code>tr-</code> classes together with <code>lang="bo"</code>.
+        It will never touch Bootstrap, Tailwind, or any other CSS you already have.
+        All 44 fonts are bundled — no separate font installation needed.
+      </div>
+    </div>
+  </details>
+</section>
+
+
+<!-- ── STEP 2 · RICH TEXT EDITOR ───────────────────────── -->
+<section class="pg-section">
+  <div class="pg-step-header">
+    <span class="pg-step-badge">Step 2</span>
+    <span class="pg-step-title-inline">Type or style your Tibetan text</span>
+  </div>
+  <p class="pg-intro">
+    Press <strong>⌨ phonetic</strong> to type Tibetan from your keyboard. Select <strong>— system —</strong> font for English text.
+    Writing a mix of English and Tibetan? Press the <strong>mixed</strong> button so termaUI scales and aligns both scripts.
+    Use <strong>stack-safe</strong> for mantras or dharanis with complex stacked consonants.
+  </p>
+
+  <div class="pg-card">
+    <!-- Toolbar -->
+    <div class="pg-toolbar">
+      <div class="pg-tb-group">
+        <span class="pg-tb-label">Font</span>
+        <select id="fontSelect" class="pg-tb-select" onchange="applyFromToolbar('font', this.value)">
+          <option value="">— system (English) —</option>
+          <optgroup label="Uchen (Formal)">
+            <option value="tr-jomolhari" selected>Jomolhari</option>
+            <option value="tr-noto">Noto Serif Tibetan</option>
+            <option value="tr-machine-uni">Tibetan Machine Uni</option>
+            <option value="tr-babelstone">BabelStone Tibetan</option>
+            <option value="tr-babelstone-slim">BabelStone Slim</option>
+            <option value="tr-ddc-uchen">DDC Uchen</option>
+            <option value="tr-ddc-rinzin">DDC Rinzin</option>
+            <option value="tr-gangjie">GangJie Uchen</option>
+            <option value="tr-jamyang">Jamyang Monlam</option>
+            <option value="tr-monlam">Monlam Bodyig</option>
+            <option value="tr-panchen">Panchen Tsukring</option>
+            <option value="tr-riwoche">Riwoche Dhodri</option>
+            <option value="tr-sadri">Sadri Yigchen</option>
+          </optgroup>
+          <optgroup label="Monlam Uni Uchen">
+            <option value="tr-monlam-ouchan1">OuChan 1</option>
+            <option value="tr-monlam-ouchan2">OuChan 2</option>
+            <option value="tr-monlam-ouchan3">OuChan 3</option>
+            <option value="tr-monlam-ouchan4">OuChan 4</option>
+            <option value="tr-monlam-ouchan5">OuChan 5</option>
+            <option value="tr-monlam-paytsik">PayTsik</option>
+            <option value="tr-monlam-tikrang">Tikrang</option>
+            <option value="tr-monlam-tiktong">TikTong</option>
+          </optgroup>
+          <optgroup label="Qomolangma">
+            <option value="tr-qomolangma-sarchen">Sarchen</option>
+            <option value="tr-qomolangma-betsu">Betsu</option>
+            <option value="tr-qomolangma-tsutong">Tsutong</option>
+          </optgroup>
+          <optgroup label="Sans-serif">
+            <option value="tr-noto-sans">Noto Sans Tibetan</option>
+            <option value="tr-misans">MiSans Tibetan</option>
+            <option value="tr-monlam-sans">Monlam Uni Sans</option>
+          </optgroup>
+          <optgroup label="Drutsa (Cursive)">
+            <option value="tr-drutsa">Qomolangma-Drutsa</option>
+            <option value="tr-gangjie-drutsa">GangJie Drutsa</option>
+            <option value="tr-khampa-drutsa">Khampa Drutsa</option>
+            <option value="tr-sadri-drutsa">Sadri Drutsa</option>
+            <option value="tr-monlam-dutsa1">Monlam Dutsa 1</option>
+            <option value="tr-monlam-dutsa2">Monlam Dutsa 2</option>
+          </optgroup>
+          <optgroup label="Semi-cursive">
+            <option value="tr-joyig">Joyig</option>
+            <option value="tr-chuyig">Chuyig</option>
+            <option value="tr-bechu">Bechu</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="pg-tb-group">
+        <span class="pg-tb-label">Size</span>
+        <select id="sizeSelect" class="pg-tb-select" onchange="applyFromToolbar('size', this.value)">
+          <option value="tr-text-sm">sm</option>
+          <option value="tr-text-base">base</option>
+          <option value="tr-text-lg">lg</option>
+          <option value="tr-text-xl" selected>xl</option>
+          <option value="tr-text-2xl">2xl</option>
+          <option value="tr-text-3xl">3xl</option>
+          <option value="tr-text-4xl">4xl</option>
+        </select>
+      </div>
+      <span class="pg-tb-sep"></span>
+      <button class="pg-tb-toggle" id="imeBtn" onclick="toggleIME(this)" title="Type Tibetan phonetically — k=ཀ g=ག space=་ /=།">⌨ phonetic</button>
+      <span class="pg-tb-sep"></span>
+      <button class="pg-tb-toggle" id="stackSafeBtn" onclick="toggleStackSafe(this)" title="Extra line height for complex stacks — mantras, dharanis">stack-safe</button>
+      <button class="pg-tb-toggle" id="mixedBtn" onclick="toggleMixed(this)" title="Tibetan inline within English text">mixed</button>
+      <div class="pg-tb-right">
+        <span class="pg-tb-scope" id="toolbarScope">whole block</span>
+        <button class="pg-tb-clear" onclick="clearAllSpans()" title="Remove all per-word span formatting">✕ clear</button>
+      </div>
+    </div>
+
+    <!-- Editor -->
+    <div class="pg-editor-body">
+      <div id="editor" contenteditable="true" lang="bo"
+           class="tr-jomolhari tr-guard tr-ligatures tr-text-xl"
+           oninput="onEditorInput()"></div>
+    </div>
+
+    <!-- Effects row -->
+    <div class="pg-effects-row">
+      <span class="pg-effects-label">Effect</span>
+      <span class="pg-effect-chip" data-class="tr-text-rainbow" onclick="toggleEffect(this)">rainbow</span>
+      <span class="pg-effect-chip" data-class="tr-text-saffron" onclick="toggleEffect(this)">saffron</span>
+      <span class="pg-effect-chip" data-class="tr-text-fire"    onclick="toggleEffect(this)">fire</span>
+      <span class="pg-effect-chip" data-class="tr-shimmer"      onclick="toggleEffect(this)">shimmer</span>
+      <span class="pg-effect-chip" data-class="tr-glow-aurora"  onclick="toggleEffect(this)">aurora</span>
+      <span class="pg-effect-chip" data-class="tr-text-lapis"   onclick="toggleEffect(this)">lapis</span>
+      <span class="pg-effect-chip" data-class="tr-emboss"       onclick="toggleEffect(this)">emboss</span>
+      <span class="pg-effect-chip" data-class="tr-outline-gold" onclick="toggleEffect(this)">outline-gold</span>
+      <span class="pg-effect-chip" data-class="tr-text-ink"     onclick="toggleEffect(this)">ink</span>
+    </div>
+
+    <!-- Action bar -->
+    <div class="pg-action-bar">
+      <button class="pg-btn" onclick="resetEditor()">Reset</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 · COPY CODE -->
+  <div class="pg-step-header" style="margin-top:1.5rem">
+    <span class="pg-step-badge">Step 3</span>
+    <span class="pg-step-title-inline">Copy the generated code</span>
+  </div>
+  <p class="pg-intro">Paste this straight into your website. The code updates live as you type and style above.</p>
+  <div class="pg-code-output">
+    <div class="pg-tabs" id="codeTabs">
+      <button class="pg-tab active" onclick="switchCodeTab('html',this)">HTML</button>
+      <button class="pg-tab" onclick="switchCodeTab('react',this)">React / JSX</button>
+      <button class="pg-tab" onclick="switchCodeTab('vue',this)">Vue</button>
+      <button class="pg-tab" onclick="switchCodeTab('astro2',this)">Astro</button>
+    </div>
+    <div class="pg-code-wrap">
+      <button class="pg-copy-btn" onclick="copyCode(this,'codeOutput')">Copy</button>
+      <pre id="codeOutput"></pre>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 3 · TERMA.JS CHECKS ────────────────────────────── -->
+<section class="pg-section">
+  <div class="pg-stitle">terma.js Checks</div>
+  <div class="pg-run-bar">
+    <button class="pg-btn pg-btn-primary" onclick="runAllTests()">Run all 6 checks</button>
+    <p>Tests 1 &amp; 6 use your editor text. Tests 2–5 verify specific Unicode sequences.</p>
+  </div>
+
+  <div class="pg-test-grid">
+    <div class="pg-test-card">
+      <h3>ZWS after tsheg — enables line-breaking</h3>
+      <div class="pg-test-note">using: editor text</div>
+      <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample1"></div>
+      <div class="pg-test-result" id="tresult1">— click "Run all 6 checks" above</div>
+    </div>
+    <div class="pg-test-card">
+      <h3>Tsheg before shad → non-breaking (་། → ༌།)</h3>
+      <div class="pg-test-note">using: fixed sample</div>
+      <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample2">སངས་རྒྱས་ཆོས་དང་ཚོགས་ཀྱི་མཆོག་རྣམས་ལ་།</div>
+      <div class="pg-test-result" id="tresult2">— click "Run all 6 checks" above</div>
+    </div>
+    <div class="pg-test-card">
+      <h3>Tsheg before nyis-shad → non-breaking (་༎ → ༌༎)</h3>
+      <div class="pg-test-note">using: fixed sample</div>
+      <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample3">སངས་རྒྱས་ཆོས་དང་ཚོགས་ཀྱི་མཆོག་རྣམས་ལ་༎</div>
+      <div class="pg-test-result" id="tresult3">— click "Run all 6 checks" above</div>
+    </div>
+    <div class="pg-test-card">
+      <h3>Tsheg before gter-ma → non-breaking (་༔ → ༌༔)</h3>
+      <div class="pg-test-note">using: fixed sample</div>
+      <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample4">ཨོཾ་ཨཱཿཧཱུྃ་བཛྲ་གུ་རུ་པདྨ་སིདྡྷི་ཧཱུྃ་༔</div>
+      <div class="pg-test-result" id="tresult4">— click "Run all 6 checks" above</div>
+    </div>
+    <div class="pg-test-card">
+      <h3>Double-shad protected (། །)</h3>
+      <div class="pg-test-note">using: fixed sample</div>
+      <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample5">བཀྲ་ཤིས་བདེ་ལེགས། །</div>
+      <div class="pg-test-result" id="tresult5">— click "Run all 6 checks" above</div>
+    </div>
+    <div class="pg-test-card">
+      <h3>Editor content — terma.prepare() status</h3>
+      <div class="pg-test-note">using: editor text</div>
+      <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample6"></div>
+      <div class="pg-test-result" id="tresult6">— click "Run all 6 checks" above</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 4 · FONT GALLERY ─────────────────────────────── -->
+<section class="pg-section">
+  <details>
+    <summary class="pg-gallery-summary">Font Gallery — All 44 Fonts</summary>
+    <div class="pg-font-grid">
+      <div class="pg-font-section-label">Uchen — Formal Upright</div>
+      <div class="pg-font-card"><h4>.tr-jomolhari</h4><div class="pg-sample tr-jomolhari tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Jomolhari · Traditional manuscript</div></div>
+      <div class="pg-font-card"><h4>.tr-noto</h4><div class="pg-sample tr-noto tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Noto Serif Tibetan · Modern screen serif</div></div>
+      <div class="pg-font-card"><h4>.tr-machine-uni</h4><div class="pg-sample tr-machine-uni tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Tibetan Machine Uni · Bold headline</div></div>
+      <div class="pg-font-card"><h4>.tr-babelstone</h4><div class="pg-sample tr-babelstone tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">BabelStone · Max Unicode coverage</div></div>
+      <div class="pg-font-card"><h4>.tr-babelstone-slim</h4><div class="pg-sample tr-babelstone-slim tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">BabelStone Slim · Compact variant</div></div>
+      <div class="pg-font-card"><h4>.tr-ddc-uchen</h4><div class="pg-sample tr-ddc-uchen tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">DDC Uchen · Official Bhutanese</div></div>
+      <div class="pg-font-card"><h4>.tr-ddc-rinzin</h4><div class="pg-sample tr-ddc-rinzin tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">DDC Rinzin · Decorative calligraphic</div></div>
+      <div class="pg-font-card"><h4>.tr-gangjie</h4><div class="pg-sample tr-gangjie tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">GangJie Uchen · Clean modern</div></div>
+      <div class="pg-font-card"><h4>.tr-jamyang</h4><div class="pg-sample tr-jamyang tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Jamyang Monlam · Calligraphic stroke</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam</h4><div class="pg-sample tr-monlam tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Monlam Bodyig · Thin-stroke elegant</div></div>
+      <div class="pg-font-card"><h4>.tr-panchen</h4><div class="pg-sample tr-panchen tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Panchen Tsukring · Extended ascenders</div></div>
+      <div class="pg-font-card"><h4>.tr-riwoche</h4><div class="pg-sample tr-riwoche tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Riwoche Dhodri · Woodblock-inspired</div></div>
+      <div class="pg-font-card"><h4>.tr-sadri</h4><div class="pg-sample tr-sadri tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Sadri Yigchen · Clean formal</div></div>
+
+      <div class="pg-font-section-label">Monlam Uni Uchen Family</div>
+      <div class="pg-font-card"><h4>.tr-monlam-ouchan1</h4><div class="pg-sample tr-monlam-ouchan1 tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">OuChan 1 · Reference weight</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-ouchan2</h4><div class="pg-sample tr-monlam-ouchan2 tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-ouchan3</h4><div class="pg-sample tr-monlam-ouchan3 tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-ouchan4</h4><div class="pg-sample tr-monlam-ouchan4 tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-ouchan5</h4><div class="pg-sample tr-monlam-ouchan5 tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-paytsik</h4><div class="pg-sample tr-monlam-paytsik tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">PayTsik · Display / seal</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-tikrang</h4><div class="pg-sample tr-monlam-tikrang tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Tikrang · Ornamental long-stroke</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-tiktong</h4><div class="pg-sample tr-monlam-tiktong tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">TikTong · Ornamental short-stroke</div></div>
+
+      <div class="pg-font-section-label">Qomolangma Family</div>
+      <div class="pg-font-card"><h4>.tr-qomolangma-sarchen</h4><div class="pg-sample tr-qomolangma-sarchen tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Sarchen · Large formal</div></div>
+      <div class="pg-font-card"><h4>.tr-qomolangma-betsu</h4><div class="pg-sample tr-qomolangma-betsu tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Betsu · Compact abbreviated</div></div>
+      <div class="pg-font-card"><h4>.tr-qomolangma-tsutong</h4><div class="pg-sample tr-qomolangma-tsutong tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Tsutong · Short-headed display</div></div>
+
+      <div class="pg-font-section-label">Sans-serif</div>
+      <div class="pg-font-card"><h4>.tr-noto-sans</h4><div class="pg-sample tr-noto-sans tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Noto Sans Tibetan</div></div>
+      <div class="pg-font-card"><h4>.tr-misans</h4><div class="pg-sample tr-misans tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">MiSans Tibetan · Geometric</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-sans</h4><div class="pg-sample tr-monlam-sans tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Monlam Uni Sans</div></div>
+
+      <div class="pg-font-section-label">Drutsa — Cursive</div>
+      <div class="pg-font-card"><h4>.tr-drutsa</h4><div class="pg-sample tr-drutsa tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Qomolangma-Drutsa · Flowing cursive</div></div>
+      <div class="pg-font-card"><h4>.tr-gangjie-drutsa</h4><div class="pg-sample tr-gangjie-drutsa tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div></div>
+      <div class="pg-font-card"><h4>.tr-khampa-drutsa</h4><div class="pg-sample tr-khampa-drutsa tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Khampa Dedri Drutsa</div></div>
+      <div class="pg-font-card"><h4>.tr-sadri-drutsa</h4><div class="pg-sample tr-sadri-drutsa tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-dutsa1</h4><div class="pg-sample tr-monlam-dutsa1 tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div></div>
+      <div class="pg-font-card"><h4>.tr-monlam-dutsa2</h4><div class="pg-sample tr-monlam-dutsa2 tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div></div>
+
+      <div class="pg-font-section-label">Semi-cursive</div>
+      <div class="pg-font-card"><h4>.tr-joyig</h4><div class="pg-sample tr-joyig tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Joyig · Semi-formal</div></div>
+      <div class="pg-font-card"><h4>.tr-chuyig</h4><div class="pg-sample tr-chuyig tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Khampa Chuyig · Correspondence</div></div>
+      <div class="pg-font-card"><h4>.tr-bechu</h4><div class="pg-sample tr-bechu tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Khampa Bechu · Informal</div></div>
+
+      <div class="pg-font-section-label">Noto Serif Tibetan — Weight Range</div>
+      <div class="pg-font-card"><h4>.tr-noto-thin</h4><div class="pg-sample tr-noto-thin tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Thin 100</div></div>
+      <div class="pg-font-card"><h4>.tr-noto-extralight</h4><div class="pg-sample tr-noto-extralight tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">ExtraLight 200</div></div>
+      <div class="pg-font-card"><h4>.tr-noto-light</h4><div class="pg-sample tr-noto-light tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Light 300</div></div>
+      <div class="pg-font-card"><h4>.tr-noto</h4><div class="pg-sample tr-noto tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Regular 400</div></div>
+      <div class="pg-font-card"><h4>.tr-noto-medium</h4><div class="pg-sample tr-noto-medium tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Medium 500</div></div>
+      <div class="pg-font-card"><h4>.tr-noto-semibold</h4><div class="pg-sample tr-noto-semibold tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">SemiBold 600</div></div>
+      <div class="pg-font-card"><h4>.tr-noto-bold</h4><div class="pg-sample tr-noto-bold tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Bold 700</div></div>
+      <div class="pg-font-card"><h4>.tr-noto-extrabold</h4><div class="pg-sample tr-noto-extrabold tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">ExtraBold 800</div></div>
+      <div class="pg-font-card"><h4>.tr-noto-black</h4><div class="pg-sample tr-noto-black tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Black 900</div></div>
+    </div>
+  </details>
+</section>
+
+
+<!-- ── 5 · EFFECTS GALLERY ────────────────────────────── -->
+<section class="pg-section">
+  <details>
+    <summary class="pg-gallery-summary">Visual Effects Gallery</summary>
+    <div class="pg-effects-grid">
+      <div class="pg-effect-card"><h4>.tr-text-rainbow</h4><div class="pg-esample tr-jomolhari tr-guard tr-text-rainbow">བཀྲ་ཤིས།</div></div>
+      <div class="pg-effect-card"><h4>.tr-text-saffron</h4><div class="pg-esample tr-jomolhari tr-guard tr-text-saffron">བཀྲ་ཤིས།</div></div>
+      <div class="pg-effect-card"><h4>.tr-text-fire</h4><div class="pg-esample tr-jomolhari tr-guard tr-text-fire">བཀྲ་ཤིས།</div></div>
+      <div class="pg-effect-card"><h4>.tr-shimmer</h4><div class="pg-esample tr-jomolhari tr-guard tr-shimmer">བཀྲ་ཤིས།</div></div>
+      <div class="pg-effect-card" style="background:#18182a"><h4>.tr-glow-aurora</h4><div class="pg-esample tr-jomolhari tr-guard tr-glow-aurora" style="color:#7efff5">བཀྲ་ཤིས།</div></div>
+      <div class="pg-effect-card"><h4>.tr-text-lapis</h4><div class="pg-esample tr-jomolhari tr-guard tr-text-lapis">བཀྲ་ཤིས།</div></div>
+      <div class="pg-effect-card" style="background:#2a1f0e"><h4>.tr-emboss</h4><div class="pg-esample tr-jomolhari tr-guard tr-emboss">བཀྲ་ཤིས།</div></div>
+      <div class="pg-effect-card" style="background:#18182a"><h4>.tr-outline-gold</h4><div class="pg-esample tr-jomolhari tr-guard tr-outline-gold">བཀྲ་ཤིས།</div></div>
+      <div class="pg-effect-card"><h4>.tr-text-ink</h4><div class="pg-esample tr-jomolhari tr-guard tr-text-ink">བཀྲ་ཤིས།</div></div>
+    </div>
+  </details>
+</section>
+
+</div><!-- /.pg -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════════════════ -->
+<script is:inline src="https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"></script>
+<script is:inline>
+// ─── Phonetic IME ──────────────────────────────────────────
+const IME_MAP = {
+  'k':'\u0F40','[':'\u0F41','g':'\u0F42',',':'\u0F44',
+  'c':'\u0F45','x':'\u0F46','j':'\u0F47','.':'\u0F49',
+  't':'\u0F4F',']':'\u0F50','d':'\u0F51','n':'\u0F53',
+  'p':'\u0F54','f':'\u0F55','b':'\u0F56','m':'\u0F58',
+  ';':'\u0F59',':':'\u0F5A','\\':'\u0F5B','v':'\u0F5D',
+  'w':'\u0F5E','z':'\u0F5F',"'":'\u0F60','y':'\u0F61',
+  'r':'\u0F62','l':'\u0F63','q':'\u0F64','s':'\u0F66',
+  'h':'\u0F67','a':'\u0F68',
+  'i':'\u0F72','u':'\u0F74','e':'\u0F7A','o':'\u0F7C',
+  ' ':'\u0F0B','/':'\u0F0D','-':'\u0F0C',
+  '0':'\u0F20','1':'\u0F21','2':'\u0F22','3':'\u0F23',
+  '4':'\u0F24','5':'\u0F25','6':'\u0F26','7':'\u0F27',
+  '8':'\u0F28','9':'\u0F29',
+  'K':'\u0F90','G':'\u0F92','C':'\u0F95','X':'\u0F96',
+  'J':'\u0F97','T':'\u0F9F','D':'\u0FA1','N':'\u0FA3',
+  'P':'\u0FA4','B':'\u0FA6','M':'\u0FA8','V':'\u0FAD',
+  'W':'\u0FAE','Z':'\u0FAF','Y':'\u0FB1','R':'\u0FB2',
+  'L':'\u0FB3','Q':'\u0FB4','S':'\u0FB6','H':'\u0FB7','A':'\u0FB8',
+};
+const IME_PASSTHROUGH = new Set([
+  'Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp','ArrowDown',
+  'Home','End','PageUp','PageDown','Tab','Enter','Escape',
+  'F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12',
+  'CapsLock','Shift','Control','Alt','Meta','AltGraph',
+]);
+let imeActive = false;
+
+// ─── Constants ─────────────────────────────────────────────
+const FONT_CLASSES = [
+  'tr-jomolhari','tr-noto','tr-machine-uni','tr-babelstone','tr-babelstone-slim',
+  'tr-ddc-uchen','tr-ddc-rinzin','tr-gangjie','tr-jamyang','tr-monlam','tr-panchen',
+  'tr-riwoche','tr-sadri',
+  'tr-monlam-ouchan1','tr-monlam-ouchan2','tr-monlam-ouchan3','tr-monlam-ouchan4',
+  'tr-monlam-ouchan5','tr-monlam-paytsik','tr-monlam-tikrang','tr-monlam-tiktong',
+  'tr-qomolangma-sarchen','tr-qomolangma-betsu','tr-qomolangma-tsutong',
+  'tr-noto-sans','tr-misans','tr-monlam-sans',
+  'tr-drutsa','tr-gangjie-drutsa','tr-khampa-drutsa','tr-sadri-drutsa',
+  'tr-monlam-dutsa1','tr-monlam-dutsa2',
+  'tr-joyig','tr-chuyig','tr-bechu',
+  'tr-noto-thin','tr-noto-extralight','tr-noto-light','tr-noto-medium',
+  'tr-noto-semibold','tr-noto-bold','tr-noto-extrabold','tr-noto-black',
+];
+const SIZE_CLASSES = [
+  'tr-text-sm','tr-text-base','tr-text-lg','tr-text-xl',
+  'tr-text-2xl','tr-text-3xl','tr-text-4xl','tr-text-5xl'
+];
+const EFFECT_CLASSES = [
+  'tr-text-rainbow','tr-text-saffron','tr-text-fire','tr-shimmer',
+  'tr-glow-aurora','tr-text-lapis','tr-emboss','tr-outline-gold','tr-text-ink'
+];
+
+const editor = document.getElementById('editor');
+
+// ─── Status checks ─────────────────────────────────────────
+function setDot(id, ok, msg) {
+  const dot = document.getElementById('dot' + id);
+  if (dot) { dot.style.background = ok ? '#4caf50' : '#f44336'; }
+  const lbl = document.getElementById('lbl' + id);
+  if (lbl) lbl.textContent = msg;
+}
+function checkCSS() {
+  const el = document.createElement('div');
+  el.className = 'tr-jomolhari';
+  el.style.cssText = 'position:absolute;visibility:hidden';
+  document.body.appendChild(el);
+  const ok = getComputedStyle(el).fontFamily.toLowerCase().includes('jomolhari');
+  document.body.removeChild(el);
+  setDot('CSS', ok, ok ? 'termaui.css loaded ✓' : 'termaui.css NOT loaded ✗');
+}
+function checkJS() {
+  const ok = typeof terma !== 'undefined';
+  setDot('JS', ok, ok ? 'terma.js loaded ✓' : 'terma.js NOT loaded ✗');
+}
+async function checkFonts() {
+  await document.fonts.ready;
+  const all = [...document.fonts];
+  const loaded = all.filter(f => f.status === 'loaded').length;
+  setDot('Fonts', loaded > 0, loaded + '/' + all.length + ' fonts loaded');
+}
+
+// ─── Quick-start snippets ──────────────────────────────────
+const START_SNIPPETS = {
+  html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <!-- Step 1: Add termaUI CSS in <head> (all 44 fonts included) -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/termaui/dist/termaui.min.css">
+</head>
+<body>
+
+  <!-- Step 2: Use tr- classes on any element with lang="bo" -->
+  <h1 class="tr-riwoche tr-text-3xl" lang="bo">ས་བཅད།</h1>
+  <p class="tr-jomolhari tr-guard tr-text-xl" lang="bo">
+    བཀྲ་ཤིས་བདེ་ལེགས།
+  </p>
+
+  <!-- Step 3: Add terma.js before </body> for correct line-breaking -->
+  <script src="https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"><\/script>
+  <script>
+    terma.prepareAll(); // fixes Tibetan line-breaking on all lang="bo" elements
+  <\/script>
+</body>
+</html>`,
+
+  npm: `# Install (all 44 fonts are bundled — no separate download needed)
+npm install termaui
+
+# Step 1: Import CSS in your entry file or layout
+import 'termaui/dist/termaui.min.css';
+
+# Step 2: Use tr- classes in your HTML/JSX/templates
+# <p class="tr-jomolhari tr-guard tr-text-xl" lang="bo">
+#   བཀྲ་ཤིས་བདེ་ལེགས།
+# </p>
+
+# Step 3: Call prepareAll() once after DOM is ready
+import terma from 'termaui';
+terma.prepareAll();`,
+
+  next: `// Step 1: Import CSS in app/layout.tsx
+import 'termaui/dist/termaui.min.css';
+
+// Step 2: Create a client component to call prepareAll()
+// app/components/TibetanInit.tsx
+'use client';
+import { useEffect } from 'react';
+import terma from 'termaui';
+
+export function TibetanInit() {
+  useEffect(() => { terma.prepareAll(); }, []);
+  return null;
+}
+
+// Step 3: Add <TibetanInit /> in app/layout.tsx, then use tr- classes:
+// <p className="tr-jomolhari tr-guard tr-text-xl" lang="bo">
+//   བཀྲ་ཤིས་བདེ་ལེགས།
+// </p>`,
+
+  astro: `---
+// Step 1: Import CSS in src/layouts/BaseLayout.astro
+import 'termaui/dist/termaui.min.css';
+---
+<html><body>
+  <slot />
+
+  <!-- Step 2: Call prepareAll() on every page load -->
+  <script>
+    import terma from 'termaui';
+    document.addEventListener('astro:page-load', () => terma.prepareAll());
+  <\/script>
+</body></html>
+
+<!-- Step 3: Use tr- classes in any .astro or component file -->
+<!-- <p class="tr-jomolhari tr-guard tr-text-xl" lang="bo">   -->
+<!--   བཀྲ་ཤིས་བདེ་ལེགས།                                      -->
+<!-- </p>                                                     -->`
+};
+
+let activeStartTab = 'html';
+function switchStartTab(tab, btn) {
+  activeStartTab = tab;
+  document.querySelectorAll('#startTabs .pg-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('startCode').textContent = START_SNIPPETS[tab];
+}
+
+// ─── Serialize editor ──────────────────────────────────────
+function serializeForCode() {
+  const clone = editor.cloneNode(true);
+  [clone, ...clone.querySelectorAll('[data-terma-prepared],[data-terma-normalized]')]
+    .forEach(el => {
+      el.removeAttribute('data-terma-prepared');
+      el.removeAttribute('data-terma-normalized');
+    });
+  const tw = document.createTreeWalker(clone, NodeFilter.SHOW_TEXT);
+  const textNodes = [];
+  let n;
+  while ((n = tw.nextNode())) textNodes.push(n);
+  textNodes.forEach(n => {
+    n.textContent = n.textContent
+      .replace(/\u200B/g, '')
+      .replace(/\u2060/g, '')
+      .replace(/\u0F0C/g, '\u0F0B');
+  });
+  const hasMixed = clone.querySelector('span') !== null;
+  return hasMixed
+    ? { isHTML: true,  content: clone.innerHTML.trim() }
+    : { isHTML: false, content: clone.textContent.trim() };
+}
+
+// ─── Code generation ───────────────────────────────────────
+let activeCodeTab = 'html';
+
+function getActiveClasses() {
+  return [...editor.classList].filter(c =>
+    FONT_CLASSES.includes(c) || SIZE_CLASSES.includes(c) ||
+    EFFECT_CLASSES.includes(c) || c === 'tr-guard' || c === 'tr-ligatures' ||
+    c === 'tr-stack-safe' || c === 'tr-baseline' || c === 'tr-scale-match'
+  );
+}
+
+function buildCode(tab) {
+  const classes = getActiveClasses().join(' ');
+  const { content } = serializeForCode();
+  const inner = '\n  ' + content.replace(/\n/g, '\n  ') + '\n';
+  if (tab === 'html')   return `<p class="${classes}" lang="bo">${inner}</p>`;
+  if (tab === 'react')  return `<p className="${classes}" lang="bo">${inner}</p>`;
+  if (tab === 'vue')    return `<p class="${classes}" lang="bo">${inner}</p>`;
+  if (tab === 'astro2') return `<p class="${classes}" lang="bo">${inner}</p>`;
+}
+
+function updateCode() {
+  document.getElementById('codeOutput').textContent = buildCode(activeCodeTab);
+}
+function switchCodeTab(tab, btn) {
+  activeCodeTab = tab;
+  document.querySelectorAll('#codeTabs .pg-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  updateCode();
+}
+
+// ─── Editor input ──────────────────────────────────────────
+let prepareTimer = null;
+function onEditorInput() {
+  updateCode();
+  clearTimeout(prepareTimer);
+  prepareTimer = setTimeout(() => {
+    delete editor.dataset.termaPrepared;
+    terma.prepare(editor);
+  }, 400);
+}
+
+// ─── IME handler ───────────────────────────────────────────
+editor.addEventListener('keydown', (ev) => {
+  if (!imeActive) return;
+  if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
+  if (IME_PASSTHROUGH.has(ev.key)) return;
+  const ch = IME_MAP[ev.key];
+  if (ch === undefined) return;
+  ev.preventDefault();
+  document.execCommand('insertText', false, ch);
+});
+function toggleIME(btn) {
+  imeActive = btn.classList.toggle('active');
+  editor.dataset.imeHint = imeActive ? 'on' : '';
+}
+
+// ─── Selection save ────────────────────────────────────────
+let savedRange = null;
+editor.addEventListener('mouseup', () => {
+  const sel = window.getSelection();
+  if (sel && !sel.isCollapsed && editor.contains(sel.anchorNode)) {
+    savedRange = sel.getRangeAt(0).cloneRange();
+  } else { savedRange = null; }
+});
+editor.addEventListener('keyup', () => {
+  const sel = window.getSelection();
+  if (sel && !sel.isCollapsed && editor.contains(sel.anchorNode)) {
+    savedRange = sel.getRangeAt(0).cloneRange();
+  } else { savedRange = null; }
+});
+
+// ─── Toolbar apply ─────────────────────────────────────────
+function applyFromToolbar(type, value) {
+  const sel = window.getSelection();
+  const liveHasSel = sel && !sel.isCollapsed && editor.contains(sel.anchorNode);
+  const rangeToUse = liveHasSel ? sel.getRangeAt(0) : savedRange;
+
+  if (rangeToUse && !rangeToUse.collapsed) {
+    sel.removeAllRanges();
+    sel.addRange(rangeToUse);
+    const span = document.createElement('span');
+    span.classList.add(value);
+    try {
+      rangeToUse.surroundContents(span);
+    } catch (e) {
+      const fragment = rangeToUse.extractContents();
+      span.appendChild(fragment);
+      rangeToUse.insertNode(span);
+    }
+    sel.removeAllRanges();
+    savedRange = null;
+    delete editor.dataset.termaPrepared;
+    terma.prepare(editor);
+  } else {
+    const pool = type === 'font' ? FONT_CLASSES : SIZE_CLASSES;
+    pool.forEach(c => editor.classList.remove(c));
+    if (value) editor.classList.add(value);
+  }
+  updateCode();
+}
+
+function clearAllSpans() {
+  [...editor.querySelectorAll('span')].forEach(span => {
+    const p = span.parentNode;
+    while (span.firstChild) p.insertBefore(span.firstChild, span);
+    p.removeChild(span);
+  });
+  editor.normalize();
+  delete editor.dataset.termaPrepared;
+  updateCode();
+}
+
+// ─── Effects ───────────────────────────────────────────────
+function toggleEffect(chip) {
+  const cls = chip.dataset.class;
+  const isActive = chip.classList.contains('active');
+  EFFECT_CLASSES.forEach(c => editor.classList.remove(c));
+  document.querySelectorAll('.pg-effect-chip').forEach(c => c.classList.remove('active'));
+  if (!isActive) { editor.classList.add(cls); chip.classList.add('active'); }
+  updateCode();
+}
+function clearEffects() {
+  EFFECT_CLASSES.forEach(c => editor.classList.remove(c));
+  document.querySelectorAll('.pg-effect-chip').forEach(c => c.classList.remove('active'));
+  updateCode();
+}
+function toggleStackSafe(btn) {
+  const on = btn.classList.toggle('active');
+  if (on) editor.classList.add('tr-stack-safe');
+  else editor.classList.remove('tr-stack-safe');
+  updateCode();
+}
+function toggleMixed(btn) {
+  const on = btn.classList.toggle('active');
+  if (on) { editor.classList.add('tr-baseline', 'tr-scale-match'); }
+  else { editor.classList.remove('tr-baseline', 'tr-scale-match'); }
+  updateCode();
+}
+
+// ─── Editor actions ────────────────────────────────────────
+function resetEditor() {
+  editor.innerHTML = '';
+  clearEffects();
+  editor.classList.remove('tr-stack-safe','tr-baseline','tr-scale-match');
+  ['stackSafeBtn','mixedBtn'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('active');
+  });
+  delete editor.dataset.termaPrepared;
+  terma.prepare(editor);
+  updateCode();
+}
+
+// ─── Copy button ───────────────────────────────────────────
+function copyCode(btn, targetId) {
+  const text = document.getElementById(targetId).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+  });
+}
+
+// ─── Selection scope label ─────────────────────────────────
+document.addEventListener('selectionchange', () => {
+  const sel = window.getSelection();
+  const hasSel = sel && !sel.isCollapsed && editor.contains(sel.anchorNode);
+  const scope = document.getElementById('toolbarScope');
+  if (!scope) return;
+  if (hasSel) {
+    const len = sel.toString().length;
+    scope.textContent = `${len} char${len !== 1 ? 's' : ''} selected`;
+    scope.className = 'pg-tb-scope active';
+  } else if (savedRange && !savedRange.collapsed) {
+    const len = savedRange.toString().length;
+    scope.textContent = `${len} char${len !== 1 ? 's' : ''} selected`;
+    scope.className = 'pg-tb-scope active';
+  } else {
+    scope.textContent = 'whole block';
+    scope.className = 'pg-tb-scope';
+  }
+});
+
+// ─── Tests ─────────────────────────────────────────────────
+function runAllTests() {
+  const clone = editor.cloneNode(true);
+  delete clone.dataset.termaPrepared;
+  terma.prepare(clone);
+  document.getElementById('tsample1').textContent = editor.textContent.trim().slice(0, 60);
+  const hasZWS = clone.textContent.includes('\u0F0B\u200B');
+  setTestResult('tresult1', hasZWS,
+    'PASS — ZWS inserted after tsheg (line-breaking enabled)',
+    'SKIP — no tsheg found (add Tibetan text in the playground first)');
+
+  [
+    { id: 2, el: 'tsample2', check: '\u0F0C\u0F0D', pass: 'PASS — ་། → ༌། (tsheg before shad protected)',      fail: 'FAIL — tsheg before shad not converted' },
+    { id: 3, el: 'tsample3', check: '\u0F0C\u0F0E', pass: 'PASS — ་༎ → ༌༎ (nyis-shad protected)',             fail: 'FAIL — tsheg before nyis-shad not converted' },
+    { id: 4, el: 'tsample4', check: '\u0F0C\u0F14', pass: 'PASS — ་༔ → ༌༔ (gter-ma protected)',               fail: 'FAIL — tsheg before gter-ma not converted' },
+    { id: 5, el: 'tsample5', check: '\u0F0D\u2060', pass: 'PASS — double-shad (། །) protected with word-joiners', fail: 'FAIL — double-shad not protected' },
+  ].forEach(({ id, el, check, pass, fail }) => {
+    const node = document.getElementById(el);
+    delete node.dataset.termaPrepared;
+    terma.prepare(node);
+    setTestResult('tresult' + id, node.textContent.includes(check), pass, fail);
+  });
+
+  const prepared = editor.dataset.termaPrepared === 'true';
+  document.getElementById('tsample6').textContent = editor.textContent.trim().slice(0, 60);
+  setTestResult('tresult6', prepared,
+    'PASS — terma.prepare() has been run on editor content',
+    'NOTE — type or paste in the playground to trigger terma.prepare() automatically');
+}
+
+function setTestResult(id, pass, passMsg, failMsg) {
+  const el = document.getElementById(id);
+  el.textContent = pass ? passMsg : failMsg;
+  el.className = 'pg-test-result ' + (pass ? 'pass' : 'fail');
+}
+
+// ─── Boot ──────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  checkCSS();
+  checkJS();
+  checkFonts();
+  document.getElementById('startCode').textContent = START_SNIPPETS.html;
+  terma.prepare(editor);
+  updateCode();
+});
+</script>
+
+
+<style is:global>
+
+/* ══ Page hero ════════════════════════════════════════════ */
+.pg-hero { padding-bottom: 3rem; }
+.pg-meta {
+  display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.25rem;
+}
+.pg-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: rgba(148,163,184,0.06); border: 1px solid rgba(148,163,184,0.1);
+  border-radius: 6px; padding: 0.3rem 0.75rem;
+  font-size: 0.78rem; color: var(--text2);
+}
+.pg-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #555; flex-shrink: 0; transition: background 0.3s;
+}
+
+/* ══ Playground wrapper ══════════════════════════════════ */
+.pg {
+  --pg-surface:  #16161b;
+  --pg-surface2: #1e1e25;
+  --pg-border:   #2a2a34;
+  --pg-text:     #e2e2e8;
+  --pg-muted:    #777;
+  --pg-gold:     #c9a84c;
+  --pg-blue:     #5a8fdf;
+  --pg-green:    #4caf50;
+  --pg-red:      #f44336;
+  --pg-pill:     #22222c;
+  --pg-code:     #13131a;
+  max-width: 1200px; margin: 0 auto; padding: 0 2rem 5rem;
+}
+
+.pg-section { margin-bottom: 3.5rem; }
+
+.pg-stitle {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--pg-muted);
+  margin-bottom: 0.7rem; padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--pg-border);
+}
+.pg-intro {
+  font-size: 0.85rem; color: var(--pg-muted);
+  margin-bottom: 1.25rem; line-height: 1.7;
+}
+
+/* ── Tabs ─────────────────────────────────────────────── */
+.pg-tabs {
+  display: flex; gap: 0; border-bottom: 1px solid var(--pg-border);
+}
+.pg-tab {
+  padding: 0.45rem 1rem; font-size: 0.78rem; cursor: pointer;
+  color: var(--pg-muted); border: 1px solid transparent;
+  border-bottom: none; border-radius: 6px 6px 0 0;
+  background: transparent; transition: color 0.15s;
+}
+.pg-tab:hover { color: var(--pg-text); }
+.pg-tab.active {
+  color: var(--pg-text); background: var(--pg-code);
+  border-color: var(--pg-border); border-bottom-color: var(--pg-code);
+  margin-bottom: -1px;
+}
+
+/* ── Code blocks ──────────────────────────────────────── */
+.pg-code-wrap {
+  position: relative; background: var(--pg-code);
+  border: 1px solid var(--pg-border);
+  border-radius: 0 6px 6px 6px;
+}
+.pg-code-wrap pre {
+  padding: 1rem 1.25rem;
+  font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", monospace;
+  font-size: 0.78rem; line-height: 1.7;
+  color: #c9d1d9; overflow-x: auto; white-space: pre;
+}
+.pg-copy-btn {
+  position: absolute; top: 0.5rem; right: 0.5rem;
+  background: var(--pg-pill); border: 1px solid var(--pg-border);
+  color: var(--pg-muted); border-radius: 5px;
+  padding: 0.25rem 0.6rem; font-size: 0.72rem; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s; font-family: inherit;
+}
+.pg-copy-btn:hover { color: var(--pg-text); border-color: var(--pg-gold); }
+.pg-copy-btn.copied { color: var(--pg-green); border-color: var(--pg-green); }
+
+/* ── Callout ──────────────────────────────────────────── */
+.pg-callout {
+  margin-top: 0.85rem; padding: 0.75rem 1rem;
+  background: #111820; border: 1px solid #2a3545;
+  border-left: 3px solid var(--pg-gold);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.82rem; color: #9ab; line-height: 1.7;
+}
+.pg-callout strong { color: var(--pg-text); }
+.pg-callout code {
+  background: #1e2838; padding: 1px 5px;
+  border-radius: 3px; color: #7ecfff; font-size: 0.75rem;
+}
+
+/* ── Step badges & headers ────────────────────────────── */
+.pg-step-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #c9a84c, #a88530);
+  color: #111; font-size: 0.65rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 0.2rem 0.6rem; border-radius: 4px;
+  flex-shrink: 0; white-space: nowrap;
+}
+.pg-step-title {
+  font-size: 0.88rem; font-weight: 600; color: var(--pg-text);
+}
+.pg-step-title-inline {
+  font-size: 0.88rem; font-weight: 600; color: var(--pg-text);
+}
+.pg-step-header {
+  display: flex; align-items: center; gap: 0.65rem;
+  margin-bottom: 0.7rem; padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--pg-border);
+}
+
+/* ── Step 1 expandable ───────────────────────────────── */
+.pg-step-details { border: 1px solid var(--pg-border); border-radius: 10px; overflow: hidden; }
+.pg-step-summary {
+  display: flex; align-items: center; gap: 0.65rem;
+  cursor: pointer; list-style: none;
+  padding: 0.65rem 1rem;
+  background: var(--pg-surface2);
+  transition: background 0.15s;
+}
+.pg-step-summary::-webkit-details-marker { display: none; }
+.pg-step-summary::marker { display: none; font-size: 0; }
+.pg-step-summary:hover { background: #252530; }
+.pg-step-arrow {
+  color: var(--pg-muted); margin-left: auto; flex-shrink: 0;
+  transition: transform 0.25s ease, color 0.15s;
+}
+.pg-step-details[open] .pg-step-arrow { transform: rotate(180deg); color: var(--pg-gold); }
+.pg-step-body { padding: 1rem 1.25rem 1.25rem; }
+
+/* ── Playground card ──────────────────────────────────── */
+.pg-card {
+  background: var(--pg-surface); border: 1px solid var(--pg-border);
+  border-radius: 10px; overflow: hidden; margin-bottom: 1rem;
+}
+.pg-toolbar {
+  display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+  padding: 0.5rem 0.75rem;
+  background: var(--pg-surface2); border-bottom: 1px solid var(--pg-border);
+}
+.pg-tb-group { display: flex; align-items: center; gap: 0.3rem; }
+.pg-tb-label {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--pg-muted); user-select: none;
+}
+.pg-tb-select {
+  background: transparent; color: var(--pg-text);
+  border: 1px solid transparent; border-radius: 5px;
+  padding: 0.22rem 0.4rem; font-size: 0.78rem; cursor: pointer;
+  transition: background 0.1s, border-color 0.1s;
+}
+.pg-tb-select:hover { background: var(--pg-pill); border-color: var(--pg-border); }
+.pg-tb-select:focus { outline: none; background: var(--pg-pill); border-color: var(--pg-gold); }
+#fontSelect { max-width: 160px; }
+.pg-tb-sep { width: 1px; height: 16px; background: var(--pg-border); flex-shrink: 0; margin: 0 0.1rem; }
+.pg-tb-toggle {
+  font-size: 0.7rem; padding: 0.18rem 0.65rem; border-radius: 20px;
+  border: 1px solid var(--pg-border); background: transparent;
+  color: var(--pg-muted); cursor: pointer; transition: all 0.15s; white-space: nowrap;
+}
+.pg-tb-toggle:hover { border-color: #555; color: var(--pg-text); }
+.pg-tb-toggle.active { border-color: var(--pg-gold); color: var(--pg-gold); background: #261e0a; }
+.pg-tb-right { display: flex; align-items: center; gap: 0.3rem; margin-left: auto; }
+.pg-tb-scope {
+  font-size: 0.68rem; padding: 0.15rem 0.6rem; border-radius: 20px;
+  border: 1px solid transparent; background: transparent;
+  color: var(--pg-muted); white-space: nowrap; transition: all 0.15s;
+}
+.pg-tb-scope.active { border-color: #3a5fa055; background: #1a2540; color: var(--pg-blue); }
+.pg-tb-clear {
+  font-size: 0.68rem; padding: 0.18rem 0.55rem; border-radius: 5px;
+  border: 1px solid transparent; background: transparent;
+  color: var(--pg-muted); cursor: pointer; transition: all 0.12s;
+}
+.pg-tb-clear:hover { color: #e06060; border-color: #f4433640; }
+
+/* ── Editor body ──────────────────────────────────────── */
+.pg-editor-body { padding: 1.25rem 1.5rem; }
+#editor {
+  min-height: 110px; outline: none;
+  word-break: keep-all; overflow-wrap: anywhere;
+  color: #fff; font-size: 1.75rem; line-height: 1.8;
+}
+#editor:empty::before {
+  content: 'Press ⌨ phonetic to type Tibetan.\A Select — system — font for English.\A Writing both? Press mixed.\A\A Or just paste Tibetan text here.';
+  white-space: pre-wrap;
+  color: var(--pg-muted); pointer-events: none;
+  font-size: 0.85rem;
+  font-family: 'Inter', -apple-system, sans-serif;
+  line-height: 1.8;
+}
+#editor[data-ime-hint="on"] { caret-color: var(--pg-blue); }
+#editor[data-ime-hint="on"]:empty::before {
+  content: '⌨ phonetic on — k=ཀ  g=ག  space=་  /=།  Shift+R=ྲ';
+}
+#editor span[class] { outline: 1px dashed #5a8fdf35; border-radius: 2px; }
+
+/* ── Effects row ──────────────────────────────────────── */
+.pg-effects-row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem;
+  padding: 0.55rem 0.75rem; border-top: 1px solid var(--pg-border);
+}
+.pg-effects-label {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--pg-muted); white-space: nowrap; margin-right: 0.15rem;
+}
+.pg-effect-chip {
+  font-size: 0.7rem; padding: 0.18rem 0.65rem; border-radius: 20px;
+  border: 1px solid var(--pg-border); background: transparent;
+  cursor: pointer; color: var(--pg-muted); transition: all 0.12s; user-select: none;
+}
+.pg-effect-chip:hover { color: var(--pg-text); border-color: #555; }
+.pg-effect-chip.active { border-color: var(--pg-gold); color: var(--pg-gold); background: #261e0a; }
+
+/* ── Action bar ───────────────────────────────────────── */
+.pg-action-bar {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  padding: 0.55rem 0.75rem; border-top: 1px solid var(--pg-border);
+  background: var(--pg-surface2);
+}
+.pg-btn {
+  background: transparent; color: var(--pg-muted);
+  border: 1px solid var(--pg-border); border-radius: 5px;
+  padding: 0.28rem 0.7rem; font-size: 0.78rem; cursor: pointer;
+  transition: all 0.1s; font-family: inherit;
+}
+.pg-btn:hover { border-color: #555; color: var(--pg-text); }
+.pg-btn.pg-btn-primary { border-color: var(--pg-gold); color: var(--pg-gold); background: #261e0a; }
+.pg-btn.pg-btn-primary:hover { background: #302510; }
+
+/* ── Code output ──────────────────────────────────────── */
+.pg-code-output { margin-top: 1rem; }
+.pg-code-output .pg-code-wrap { border-radius: 0 0 8px 8px; }
+
+/* ── terma.js tests ───────────────────────────────────── */
+.pg-run-bar {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1rem; flex-wrap: wrap;
+}
+.pg-run-bar p { font-size: 0.82rem; color: var(--pg-muted); }
+.pg-test-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1px; background: var(--pg-border);
+  border: 1px solid var(--pg-border); border-radius: 8px; overflow: hidden;
+}
+.pg-test-card { background: var(--pg-surface); padding: 0.85rem 1rem; }
+.pg-test-card h3 { font-size: 0.72rem; color: var(--pg-muted); margin-bottom: 0.25rem; }
+.pg-test-note { font-size: 0.65rem; color: #555; margin-bottom: 0.3rem; font-style: italic; }
+.pg-test-sample {
+  font-size: 1rem; line-height: 1.9; color: #fff;
+  margin-bottom: 0.3rem; min-height: 2rem;
+  overflow-wrap: anywhere; word-break: keep-all;
+}
+.pg-test-result { font-size: 0.72rem; font-family: monospace; color: var(--pg-muted); }
+.pg-test-result.pass { color: var(--pg-green); }
+.pg-test-result.fail { color: var(--pg-red); }
+
+/* ── Font gallery ─────────────────────────────────────── */
+.pg-gallery-summary {
+  cursor: pointer; user-select: none; list-style: none;
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--pg-muted);
+  padding-bottom: 0.5rem; border-bottom: 1px solid var(--pg-border);
+  margin-bottom: 1.25rem;
+}
+.pg-gallery-summary::-webkit-details-marker { display: none; }
+.pg-gallery-summary::before { content: '▶  '; font-size: 0.6rem; }
+details[open] .pg-gallery-summary::before { content: '▼  '; }
+
+.pg-font-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1px; background: var(--pg-border);
+  border: 1px solid var(--pg-border); border-radius: 8px; overflow: hidden;
+}
+.pg-font-card { background: var(--pg-surface); padding: 0.8rem 1rem; }
+.pg-font-card h4 { font-family: monospace; font-size: 0.68rem; color: var(--pg-gold); opacity: 0.8; margin-bottom: 0.4rem; }
+.pg-sample { font-size: 1.2rem; line-height: 2; color: #fff; }
+.pg-flabel { font-size: 0.65rem; color: var(--pg-muted); margin-top: 0.2rem; }
+.pg-font-section-label {
+  grid-column: 1 / -1;
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--pg-muted); padding: 0.4rem 1rem;
+  background: #12121a; border-bottom: 1px solid var(--pg-border);
+}
+
+/* ── Effects gallery ──────────────────────────────────── */
+.pg-effects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+.pg-effect-card {
+  background: var(--pg-surface); border: 1px solid var(--pg-border);
+  border-radius: 8px; padding: 1rem 1.2rem;
+}
+.pg-effect-card h4 { font-family: monospace; font-size: 0.68rem; color: var(--pg-muted); margin-bottom: 0.6rem; }
+.pg-esample { font-size: 1.8rem; line-height: 2; }
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .pg { padding: 0 1.25rem 3rem; }
+  .pg-toolbar { gap: 0.3rem; }
+  #fontSelect { max-width: 120px; }
+}
+</style>
+
+</Base>
