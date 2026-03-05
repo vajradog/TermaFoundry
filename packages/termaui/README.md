@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/v/termaui)](https://www.npmjs.com/package/termaui)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[Documentation](https://termafoundry.com/termaui/docs/) · [Demo](https://termafoundry.com/termaui/) · [GitHub](https://github.com/termafoundry/termafoundry)
+[Documentation](https://termafoundry.com/termaui/docs/) · [Demo](https://termafoundry.com/termaui/) · [GitHub](https://github.com/vajradog/TermaFoundry)
 
 ---
 
@@ -332,3 +332,7 @@ termaui/
 MIT — free for personal and commercial use.
 
 Fonts are bundled under their respective open licenses (SIL OFL, GPL v2, open license). See [termafoundry.com/termaui](https://termafoundry.com/termaui/) for per-font license details.
+
+---
+
+*Created by [Thupten Chakrishar](https://termafoundry.com/about) · [Terma Foundry](https://termafoundry.com)*

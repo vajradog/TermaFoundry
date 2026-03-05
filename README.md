@@ -128,7 +128,7 @@ Beyond the library of existing fonts, we are creating three original typefaces w
 
 ## Tech Stack
 
-Built with [Astro](https://astro.build), [Tailwind CSS](https://tailwindcss.com), and termaUI itself. Deployed on Vercel. MIT licensed.
+The termafoundry.com website is built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com), using termaUI itself for all Tibetan rendering. Deployed on Vercel. MIT licensed.
 
 ---
 
@@ -138,5 +138,5 @@ MIT — free to use, modify, and distribute. All fonts retain their original lic
 
 ---
 
-*Founded by [Thupten Chakrishar](https://termafoundry.com/about) · [termastudios@gmail.com](mailto:termastudios@gmail.com)*
+*Founded by [Thupten Chakrishar](https://termafoundry.com/about)*
 

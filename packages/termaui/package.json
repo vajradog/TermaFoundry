@@ -1,6 +1,6 @@
 {
   "name": "termaui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tibetan typography CSS framework — fonts, utility classes, and rendering fixes for Tibetan script on the web.",
   "keywords": [
     "tibetan",
@@ -16,15 +16,15 @@
   ],
   "homepage": "https://termafoundry.com/termaui",
   "bugs": {
-    "url": "https://github.com/termafoundry/termafoundry/issues"
+    "url": "https://github.com/vajradog/TermaFoundry/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/termafoundry/termafoundry.git",
+    "url": "git+https://github.com/vajradog/TermaFoundry.git",
     "directory": "packages/termaui"
   },
   "license": "MIT",
-  "author": "Terma Foundry <hello@termafoundry.com>",
+  "author": "Terma Foundry <buddhistapps@gmail.com>",
   "main": "dist/terma.js",
   "module": "dist/terma.esm.js",
   "style": "dist/termaui.css",
