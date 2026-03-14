@@ -467,7 +467,9 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 </style>
 
 <script>
-  const OCR_API = 'http://5.161.185.85:8080/ocr';
+  const OCR_API = 'https://api.termafoundry.com/ocr';
+  const REQUEST_TIMEOUT_MS = 90000;
+  const MIXED_CONTENT_RISK = false;
 
   const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('file-input') as HTMLInputElement;
@@ -692,17 +694,59 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   async function submitOCR(base64: string, mode: string, regs: typeof regions, filename: string) {
     statusText!.textContent = `Processing ${filename}...`;
     let resp: Response;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
     try {
       resp = await fetch(OCR_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({ image: base64, mode, regions: regs }),
       });
-    } catch {
+    } catch (err: any) {
+      if (err?.name === 'AbortError') throw new Error('REQUEST_TIMEOUT');
+      if (MIXED_CONTENT_RISK) throw new Error('MIXED_CONTENT_BLOCKED');
       throw new Error('REQUEST_FAILED');
+    } finally {
+      clearTimeout(timeoutId);
     }
-    const data = await resp.json();
-    if (!resp.ok || data.error) throw new Error(data.error || 'OCR failed');
+
+    const contentType = resp.headers.get('content-type') || '';
+    let data: any = null;
+    let textBody = '';
+
+    if (contentType.includes('application/json')) {
+      try {
+        data = await resp.json();
+      } catch {
+        data = null;
+      }
+    } else {
+      try {
+        textBody = await resp.text();
+      } catch {
+        textBody = '';
+      }
+    }
+
+    if (!resp.ok) {
+      if (resp.status === 413) throw new Error('HTTP_413');
+      if (resp.status === 429) throw new Error('HTTP_429');
+      if (resp.status === 503 || resp.status === 504) throw new Error('HTTP_5XX_OVERLOADED');
+
+      const serverMsg =
+        (data && typeof data.error === 'string' && data.error.trim()) ||
+        (typeof textBody === 'string' && textBody.trim()) ||
+        `HTTP_${resp.status}`;
+      throw new Error(serverMsg);
+    }
+
+    if (data?.error) throw new Error(data.error);
+
+    if (!data || typeof data !== 'object') {
+      throw new Error('Invalid OCR response from server.');
+    }
+
     return data;
   }
 
@@ -900,13 +944,19 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
   // ── Helpers ──
   function showError(msg: string) {
-    const isNetworkFail = msg === 'REQUEST_FAILED' || msg === 'Failed to fetch';
-    const isRateLimit = msg.toLowerCase().includes('rate') || msg.toLowerCase().includes('too many');
     let friendly: string;
-    if (isNetworkFail) {
+    if (msg === 'MIXED_CONTENT_BLOCKED') {
+      friendly = 'The OCR request was blocked by the browser because the site is HTTPS but the OCR API is HTTP.<br><span style="color:var(--muted);font-size:.82rem">Switch the OCR endpoint to HTTPS (or route through a same-origin API) to fix this.</span>';
+    } else if (msg === 'HTTP_413') {
+      friendly = 'The server rejected this file because it is too large (HTTP 413).<br><span style="color:var(--muted);font-size:.82rem">Reduce file size or increase upload limits in your Hetzner Docker/reverse-proxy setup.</span>';
+    } else if (msg === 'HTTP_429' || msg.toLowerCase().includes('rate') || msg.toLowerCase().includes('too many')) {
+      friendly = 'You\'ve hit the OCR rate limit (HTTP 429).<br><span style="color:var(--muted);font-size:.82rem">TermaOCR beta allows limited requests per minute.</span>';
+    } else if (msg === 'HTTP_5XX_OVERLOADED') {
+      friendly = 'The OCR server is temporarily overloaded (HTTP 503/504).<br><span style="color:var(--muted);font-size:.82rem">Please retry shortly or check Docker/container resource usage on Hetzner.</span>';
+    } else if (msg === 'REQUEST_TIMEOUT') {
+      friendly = 'The OCR request timed out while waiting for the server response.<br><span style="color:var(--muted);font-size:.82rem">This usually means a large file, slow OCR processing, or server load.</span>';
+    } else if (msg === 'REQUEST_FAILED' || msg === 'Failed to fetch') {
       friendly = 'This file may be too large to process.<br><span style="color:var(--muted);font-size:.82rem">TermaOCR is currently in beta with rate limits — for unlimited access, please contact the Terma Foundry team.</span>';
-    } else if (isRateLimit) {
-      friendly = 'You\'ve hit the rate limit.<br><span style="color:var(--muted);font-size:.82rem">TermaOCR beta allows 10 requests per minute — for unlimited access, please contact the Terma Foundry team.</span>';
     } else {
       friendly = msg;
     }

@@ -678,7 +678,7 @@ const START_SNIPPETS = {
 npm install termaui
 
 # Step 1: Import CSS in your entry file or layout
-import 'termaui/dist/termaui.min.css';
+\u0069mport 'termaui/dist/termaui.min.css';
 
 # Step 2: Use tr- classes in your HTML/JSX/templates
 # <p class="tr-jomolhari tr-guard tr-text-xl" lang="bo">
@@ -686,17 +686,17 @@ import 'termaui/dist/termaui.min.css';
 # </p>
 
 # Step 3: Call prepareAll() once after DOM is ready
-import terma from 'termaui';
+\u0069mport terma from 'termaui';
 terma.prepareAll();`,
 
   next: `// Step 1: Import CSS in app/layout.tsx
-import 'termaui/dist/termaui.min.css';
+\u0069mport 'termaui/dist/termaui.min.css';
 
 // Step 2: Create a client component to call prepareAll()
 // app/components/TibetanInit.tsx
 'use client';
-import { useEffect } from 'react';
-import terma from 'termaui';
+\u0069mport { useEffect } from 'react';
+\u0069mport terma from 'termaui';
 
 export function TibetanInit() {
   useEffect(() => { terma.prepareAll(); }, []);
@@ -710,14 +710,14 @@ export function TibetanInit() {
 
   astro: `---
 // Step 1: Import CSS in src/layouts/BaseLayout.astro
-import 'termaui/dist/termaui.min.css';
+\u0069mport 'termaui/dist/termaui.min.css';
 ---
 <html><body>
   <slot />
 
   <!-- Step 2: Call prepareAll() on every page load -->
   <script>
-    import terma from 'termaui';
+    \u0069mport terma from 'termaui';
     document.addEventListener('astro:page-load', () => terma.prepareAll());
   <\/script>
 </body></html>
