@@ -772,7 +772,35 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     }
   }
 
-  function fileToBase64(file: File): Promise<string> {
+  function resizeImage(file: File, maxDim = 2000): Promise<string | null> {
+    return new Promise((resolve, reject) => {
+      if (file.type === 'application/pdf') { resolve(null); return; }
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = reject;
+        img.onload = () => {
+          if (img.width <= maxDim && img.height <= maxDim && file.size < 2 * 1024 * 1024) {
+            resolve(null); return;
+          }
+          const scale = Math.min(maxDim / img.width, maxDim / img.height, 1);
+          const w = Math.round(img.width * scale);
+          const h = Math.round(img.height * scale);
+          const c = document.createElement('canvas');
+          c.width = w; c.height = h;
+          c.getContext('2d')!.drawImage(img, 0, 0, w, h);
+          resolve(c.toDataURL('image/jpeg', 0.85).split(',')[1]);
+        };
+        img.src = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function fileToBase64(file: File): Promise<string> {
+    const resized = await resizeImage(file);
+    if (resized) return resized;
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve((reader.result as string).split(',')[1]);
@@ -945,6 +973,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   // ── Helpers ──
   function showError(msg: string) {
     let friendly: string;
+    let isTrustedHtml = true;
     if (msg === 'MIXED_CONTENT_BLOCKED') {
       friendly = 'The OCR request was blocked by the browser because the site is HTTPS but the OCR API is HTTP.<br><span style="color:var(--muted);font-size:.82rem">Switch the OCR endpoint to HTTPS (or route through a same-origin API) to fix this.</span>';
     } else if (msg === 'HTTP_413') {
@@ -959,8 +988,13 @@ import SiteLayout from '@layouts/SiteLayout.astro';
       friendly = 'This file may be too large to process.<br><span style="color:var(--muted);font-size:.82rem">TermaOCR is currently in beta with rate limits — for unlimited access, please contact the Terma Foundry team.</span>';
     } else {
       friendly = msg;
+      isTrustedHtml = false;
     }
-    errorMsg!.innerHTML = friendly;
+    if (isTrustedHtml) {
+      errorMsg!.innerHTML = friendly;
+    } else {
+      errorMsg!.textContent = friendly;
+    }
     errorMsg!.classList.add('visible');
   }
   function hideError() { errorMsg!.classList.remove('visible'); }
