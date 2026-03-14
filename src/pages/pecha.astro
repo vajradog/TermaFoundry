@@ -4,12 +4,17 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
 <SiteLayout title="PechaForge — Free Tibetan Pecha Manuscript Creator Online" description="Create authentic Tibetan pecha manuscripts in your browser. PechaForge formats Tibetan text into traditional three-column pecha pages with yig mgo, Tibetan folios, and PDF export. Free, no account.">
 
+  <section class="page-section pf-hero-section">
+    <div class="section-eyebrow" style="text-align:center">Tibetan Manuscript Creator</div>
+    <h1 class="section-heading" style="text-align:center">PechaForge <span class="pf-beta">BETA</span></h1>
+    <p class="section-sub" style="text-align:center;margin-left:auto;margin-right:auto;margin-bottom:1.5rem">Paste Tibetan text, choose a font and theme, and export authentic three-column pecha manuscripts as PDF. Free, no account needed.</p>
+  </section>
+
   <section class="pf-page">
 
     <!-- ═══ TOOLBAR ═══════════════════════════════════════════════════════ -->
     <div class="pf-toolbar reveal">
       <div class="pf-toolbar-row">
-        <h1 class="pf-title">PechaForge</h1>
         <div class="pf-toolbar-actions">
           <button class="pf-btn pf-btn-primary" id="btn-generate">Generate Preview</button>
           <button class="pf-btn" id="btn-print" title="Export as PDF via browser print">Export PDF</button>
@@ -92,14 +97,10 @@ import SiteLayout from '@layouts/SiteLayout.astro';
           <label for="set-folio-start">Start Folio</label>
           <input type="number" id="set-folio-start" value="1" min="1" max="999">
         </div>
-        <div class="pf-setting">
-          <label for="set-lines">Lines / Page</label>
-          <input type="number" id="set-lines" value="7" min="2" max="12">
-        </div>
-        <div class="pf-setting pf-setting-toggle">
-          <label for="set-yigmgo">Yig mgo</label>
-          <button id="set-yigmgo" class="pf-toggle active" title="Add ༄༅། opening mark to first page">ON</button>
-        </div>
+        <!-- Lines per page fixed at 4 -->
+        <input type="hidden" id="set-lines" value="4">
+        <!-- Yig mgo disabled -->
+        <button id="set-yigmgo" class="pf-toggle" style="display:none">OFF</button>
         <div class="pf-setting pf-setting-toggle">
           <label for="set-ime">IME</label>
           <button id="set-ime" class="pf-toggle active" title="Toggle Tibetan IME keyboard">ON</button>
@@ -137,13 +138,30 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     </div>
 
   </section>
+
+  <!-- ═══ ROADMAP & SUPPORT ═══════════════════════════════════════════════ -->
+  <section class="page-section pf-roadmap-section">
+    <div class="pf-roadmap">
+      <p class="pf-roadmap-lead">PechaForge is an early-stage tool for creating authentic Tibetan pecha manuscripts. It currently supports basic text layout, multiple fonts, themes, yig mgo, folio numbering, and PDF export.</p>
+      <p class="pf-roadmap-body">As the project matures, PechaForge will either evolve into a <strong>standalone native app</strong> for Windows, Mac, and Linux — or be <strong>merged into TermaType</strong> as a dedicated pecha layout mode. Either path will bring:</p>
+      <ul class="pf-roadmap-list">
+        <li><strong>Full document setup</strong> — custom page sizes, margins, and column ratios</li>
+        <li><strong>Advanced page layout</strong> — headers, footers, page numbering styles, and section breaks</li>
+        <li><strong>Image & illustration support</strong> — embed thangka art, woodblock prints, and decorative borders</li>
+        <li><strong>Multi-script support</strong> — Uchen, Umey, Drutsa, and mixed Tibetan-English layouts</li>
+        <li><strong>Print-ready output</strong> — professional PDF export with bleed, crop marks, and duplex printing</li>
+      </ul>
+      <p class="pf-roadmap-cta">Your feedback and support help shape the future of PechaForge. Report bugs, request features, or contribute at <a href="https://github.com/vajradog/TermaFoundry" target="_blank" rel="noopener">github.com/vajradog/TermaFoundry</a>.</p>
+    </div>
+  </section>
+
 </SiteLayout>
 
 
 <!-- ═══════════════════════════════════════════════════════════════════════
      SCRIPT
      ═══════════════════════════════════════════════════════════════════════ -->
-<script>
+<script is:inline>
   // ─── IME keymap (from terma-ime.js) ─────────────────────────────────────
   const IME_MAP = {
     'k':'\u0F40','[':'\u0F41','g':'\u0F42',',':'\u0F44',
@@ -180,9 +198,9 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     theme: 'light',
     titleText: '',
     folioStart: 1,
-    linesPerPage: 7,
+    linesPerPage: 4,
     imeEnabled: true,
-    yigmgo: true,
+    yigmgo: false,
     pages: [],
   };
 
@@ -284,7 +302,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     if (state.theme === 'dark') themeClass = ' tr-pecha-dark';
     else if (state.theme === 'bw') themeClass = ' pf-theme-bw';
     else if (state.theme === 'maroon') themeClass = ' pf-theme-maroon';
-    var fontStyle = "font-family: '" + state.font + "', 'Noto Serif Tibetan', serif;";
+    var fontStyle = "font-family: 'PechaLatin', '" + state.font + "', 'Noto Serif Tibetan', serif;";
 
     var el = document.createElement('div');
     el.className = 'tr-pecha' + themeClass + ' pf-page-item';
@@ -292,14 +310,14 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     el.setAttribute('lang', 'bo');
     el.style.cssText = fontStyle;
 
-    // Title column (left margin)
+    // Title column (left margin) — shows short title on body pages
     var titleCol = document.createElement('div');
     titleCol.className = 'tr-pecha-title';
-    if (state.titleText && !opts.isTitlePage) {
-      var titleSpan = document.createElement('span');
-      titleSpan.className = 'pf-side-title';
-      titleSpan.textContent = state.titleText;
-      titleCol.appendChild(titleSpan);
+    if (!opts.isTitlePage && state.titleText) {
+      var sideSpan = document.createElement('span');
+      sideSpan.className = 'pf-side-title';
+      sideSpan.textContent = state.titleText;
+      titleCol.appendChild(sideSpan);
     }
 
     // Body column
@@ -307,14 +325,18 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     bodyCol.className = 'tr-pecha-body';
 
     if (opts.isTitlePage) {
-      // Title page: large centered title text
+      // Title page: centered rectangle with title
       bodyCol.classList.add('pf-title-body');
-      bodyCol.textContent = state.titleText || '';
+      bodyCol.innerHTML =
+        '<span class="pf-cover-center">' + (state.titleText || '') + '</span>';
     } else {
       if (opts.isFirstBody && state.yigmgo) {
         bodyCol.classList.add('tr-yig-mgo');
       }
-      bodyCol.textContent = opts.lines.join('\n');
+      var textWrap = document.createElement('div');
+      textWrap.className = 'pf-body-text';
+      textWrap.textContent = opts.lines.join('\n');
+      bodyCol.appendChild(textWrap);
     }
 
     // Folio column (right margin)
@@ -330,43 +352,119 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     return el;
   }
 
+  /**
+   * Visual-overflow pagination: renders text into fixed-height pages.
+   * Uses a hidden measurer to find exactly how much text fits in 4 lines,
+   * then splits at tsheg (་) boundaries for clean Tibetan word breaks.
+   */
   function renderPreview() {
-    var pages = paginate(state.text, state.linesPerPage, state.folioStart);
-    state.pages = pages;
     pagesContainer.innerHTML = '';
+    state.pages = [];
 
-    if (pages.length === 0 && !state.titleText) {
+    var text = (state.text || '').replace(/\n+$/g, '');
+    if (!text.trim() && !state.titleText) {
       previewHeader.style.display = 'none';
       return;
     }
 
-    // Preload the selected font so browser downloads it before painting
+    // Preload the selected font
     if (document.fonts && document.fonts.load) {
       document.fonts.load("1em '" + state.font + "'", "\u0F40");
     }
 
-    // Count: title page + body pages
-    var totalPages = pages.length + (state.titleText ? 1 : 0);
     previewHeader.style.display = 'flex';
-    previewLabel.textContent = totalPages + ' page' + (totalPages !== 1 ? 's' : '');
-
-    // Collect all page elements
     var allPages = [];
 
-    // 1. Title page (if title text is set)
+    // 1. Title page
     if (state.titleText) {
       allPages.push(buildPechaPage({ isTitlePage: true }));
     }
 
-    // 2. Body pages
-    pages.forEach(function (page, idx) {
-      allPages.push(buildPechaPage({
-        isTitlePage: false,
-        isFirstBody: idx === 0,
-        lines: page.lines,
-        folioNum: page.folioNum,
-      }));
-    });
+    // 2. Visual pagination using a hidden measurer
+    if (text.trim()) {
+      // Create a measurer that matches the pecha body dimensions exactly
+      var tempPage = buildPechaPage({ isTitlePage: false, isFirstBody: false, lines: ['x'], folioNum: 0 });
+      pagesContainer.appendChild(tempPage);
+      var tempBody = tempPage.querySelector('.tr-pecha-body');
+      var tempText = tempBody.querySelector('.pf-body-text');
+      var bodyW = tempBody.clientWidth;
+      var cs = getComputedStyle(tempText);
+      var lineH = parseFloat(cs.lineHeight);
+      var maxH = lineH * 4 + 1; // 4 lines + 1px rounding tolerance
+      tempPage.remove();
+
+      // Build measurer div
+      var measurer = document.createElement('div');
+      measurer.setAttribute('lang', 'bo');
+      measurer.style.cssText =
+        'position:absolute;top:-9999px;left:0;visibility:hidden;' +
+        'width:' + bodyW + 'px;' +
+        'font-family:' + cs.fontFamily + ';' +
+        'font-size:' + cs.fontSize + ';' +
+        'line-height:' + cs.lineHeight + ';' +
+        'white-space:pre-wrap;word-wrap:break-word;';
+      document.body.appendChild(measurer);
+
+      // Pre-process text with same ZWS insertion that prepareTibetan does,
+      // so the measurer sees the same wrapping as the final render.
+      var TSHEG = '\u0F0B', SHAD = '\u0F0D', ZWS = '\u200B',
+          TSHEG_NB = '\u0F0C', WJ = '\u2060';
+      function addZWS(s) {
+        s = s.replaceAll(TSHEG + SHAD, TSHEG_NB + SHAD);
+        s = s.replaceAll(SHAD + ' ' + SHAD, SHAD + WJ + ' ' + WJ + SHAD);
+        s = s.replace(new RegExp(TSHEG + '(?!' + ZWS + ')', 'g'), TSHEG + ZWS);
+        return s;
+      }
+
+      var remaining = addZWS(text);
+      var folioNum = state.folioStart;
+      var isFirstBody = true;
+      var safety = 0;
+
+      while (remaining.length > 0 && safety < 500) {
+        safety++;
+        measurer.textContent = remaining;
+
+        if (measurer.scrollHeight <= maxH) {
+          // Everything fits on this page
+          allPages.push(buildPechaPage({
+            isTitlePage: false, isFirstBody: isFirstBody,
+            lines: [remaining], folioNum: folioNum,
+          }));
+          state.pages.push({ lines: [remaining], folioNum: folioNum, isFirst: isFirstBody });
+          remaining = '';
+        } else {
+          // Binary search for how many characters fit
+          var lo = 1, hi = remaining.length;
+          while (lo < hi) {
+            var mid = Math.floor((lo + hi + 1) / 2);
+            measurer.textContent = remaining.substring(0, mid);
+            if (measurer.scrollHeight <= maxH) {
+              lo = mid;
+            } else {
+              hi = mid - 1;
+            }
+          }
+
+          // ZWS after tsheg already provides clean break points,
+          // so just cut at the binary-search boundary
+          var pageText = remaining.substring(0, lo).replace(/\n+$/g, '');
+          remaining = remaining.substring(lo).replace(/^\n+/, '');
+
+          allPages.push(buildPechaPage({
+            isTitlePage: false, isFirstBody: isFirstBody,
+            lines: [pageText], folioNum: folioNum,
+          }));
+          state.pages.push({ lines: [pageText], folioNum: folioNum, isFirst: isFirstBody });
+        }
+        folioNum++;
+        isFirstBody = false;
+      }
+      measurer.remove();
+    }
+
+    // Update page count
+    previewLabel.textContent = allPages.length + ' page' + (allPages.length !== 1 ? 's' : '');
 
     // Group into sheets of 3 for print layout
     for (var i = 0; i < allPages.length; i += 3) {
@@ -378,10 +476,8 @@ import SiteLayout from '@layouts/SiteLayout.astro';
       pagesContainer.appendChild(sheet);
     }
 
-    // Apply Tibetan line-breaking to all body pages
-    pagesContainer.querySelectorAll('.tr-pecha-body').forEach(function (body) {
-      if (!body.closest('.pf-title-page')) prepareTibetan(body);
-    });
+    // Text already has ZWS from addZWS() — no need for prepareTibetan
+    // which would cause additional reflow
   }
 
   // ─── IME Handler ────────────────────────────────────────────────────────
@@ -397,6 +493,16 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     const el = ev.target;
     const s = el.selectionStart != null ? el.selectionStart : el.value.length;
     const e = el.selectionEnd != null ? el.selectionEnd : el.value.length;
+
+    // Double-space → actual space: if last char is tsheg and user presses space again,
+    // replace the tsheg with a real space instead of adding another tsheg
+    if (ev.key === ' ' && s > 0 && el.value[s - 1] === '\u0F0B') {
+      el.value = el.value.slice(0, s - 1) + ' ' + el.value.slice(e);
+      el.setSelectionRange(s, s);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      return;
+    }
+
     el.value = el.value.slice(0, s) + mapped + el.value.slice(e);
     const pos = s + mapped.length;
     el.setSelectionRange(pos, pos);
@@ -426,7 +532,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     state.theme        = data.theme || 'light';
     state.titleText    = data.titleText || '';
     state.folioStart   = data.folioStart || 1;
-    state.linesPerPage = data.linesPerPage || 7;
+    state.linesPerPage = Math.min(data.linesPerPage || 4, 4);
     state.yigmgo       = data.yigmgo !== false;
 
     // Sync DOM controls
@@ -438,6 +544,11 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     inpLines.value      = String(state.linesPerPage);
     btnYigmgo.textContent = state.yigmgo ? 'ON' : 'OFF';
     btnYigmgo.classList.toggle('active', state.yigmgo);
+
+    // Sync font on textarea + title input
+    var ff = "'PechaLatin', '" + state.font + "', 'Noto Serif Tibetan', serif";
+    textarea.style.fontFamily = ff;
+    inpTitle.style.fontFamily = ff;
 
     updateCharCount();
     if (state.text.trim()) renderPreview();
@@ -571,8 +682,10 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   // Settings → state + re-render
   selFont.addEventListener('change', function (e) {
     state.font = e.target.value;
-    // Update title input font to match
-    inpTitle.style.fontFamily = "'" + state.font + "', 'Noto Serif Tibetan', serif";
+    var ff = "'PechaLatin', '" + state.font + "', 'Noto Serif Tibetan', serif";
+    // Update textarea + title input font to match
+    textarea.style.fontFamily = ff;
+    inpTitle.style.fontFamily = ff;
     scheduleAutosave();
     if (state.pages.length) renderPreview();
   });
@@ -596,7 +709,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   });
 
   inpLines.addEventListener('change', function (e) {
-    state.linesPerPage = parseInt(e.target.value) || 7;
+    state.linesPerPage = Math.min(parseInt(e.target.value) || 4, 4);
     scheduleAutosave();
     if (state.pages.length) renderPreview();
   });
@@ -633,80 +746,67 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
   document.getElementById('btn-print-duplex').addEventListener('click', function () {
     state.text = textarea.value;
-    var pages = paginate(state.text, state.linesPerPage, state.folioStart);
-    if (pages.length === 0 && !state.titleText) return;
+    // Ensure visual-overflow pages are current
+    if (!state.pages.length && (state.text.trim() || state.titleText)) {
+      renderPreview();
+    }
+    if (state.pages.length === 0 && !state.titleText) return;
 
-    // Build all body page elements
-    var bodyPages = pages.map(function (page, idx) {
-      return buildPechaPage({
+    // Build ALL pages in order: cover first, then body pages
+    var allDuplexPages = [];
+    if (state.titleText) {
+      allDuplexPages.push(buildPechaPage({ isTitlePage: true }));
+    }
+    state.pages.forEach(function (page) {
+      allDuplexPages.push(buildPechaPage({
         isTitlePage: false,
-        isFirstBody: idx === 0,
+        isFirstBody: page.isFirst,
         lines: page.lines,
         folioNum: page.folioNum,
-      });
+      }));
     });
+
+    // Pad to a multiple of 6 with invisible blank pages so strips pair cleanly
+    while (allDuplexPages.length % 6 !== 0) {
+      var blank = buildPechaPage({ isTitlePage: false, isFirstBody: false, lines: [''], folioNum: 0 });
+      blank.style.visibility = 'hidden';
+      allDuplexPages.push(blank);
+    }
 
     // Save current preview and replace with duplex layout
     var savedHTML = pagesContainer.innerHTML;
     pagesContainer.innerHTML = '';
 
-    // Sheet 1 (front): Title/cover page with instructions
-    var coverSheet = document.createElement('div');
-    coverSheet.className = 'pf-print-sheet pf-duplex-cover';
-    if (state.titleText) {
-      coverSheet.appendChild(buildPechaPage({ isTitlePage: true }));
-    }
-    var instr = document.createElement('div');
-    instr.className = 'pf-duplex-instructions';
-    instr.innerHTML =
-      '<strong>Double-Sided Printing Instructions</strong><br>' +
-      'Print with duplex enabled (flip on long edge).<br>' +
-      'After printing, cut each sheet into 3 horizontal strips.<br>' +
-      'Each strip becomes a double-sided pecha leaf.';
-    coverSheet.appendChild(instr);
-    pagesContainer.appendChild(coverSheet);
+    // Group pages into sheets of 6:
+    //   Front sheet: positions 0, 2, 4 → strips 1, 2, 3 of front side
+    //   Back sheet:  positions 1, 3, 5 → strips 1, 2, 3 of back side (SAME order)
+    //
+    // After cutting into 3 strips:
+    //   Strip 1: front=allPages[0] / back=allPages[1]
+    //   Strip 2: front=allPages[2] / back=allPages[3]
+    //   Strip 3: front=allPages[4] / back=allPages[5]
+    //
+    // Printer must use "flip on long edge" (landscape, bind along top).
+    // Top of front aligns with top of back — no reversal needed.
+    for (var i = 0; i < allDuplexPages.length; i += 6) {
+      var chunk = allDuplexPages.slice(i, i + 6);
 
-    // Sheet 2 (back of cover): blank
-    var blankSheet = document.createElement('div');
-    blankSheet.className = 'pf-print-sheet pf-duplex-blank';
-    pagesContainer.appendChild(blankSheet);
-
-    // Arrange body pages for duplex: groups of 6
-    // Front sheet: pages 0, 2, 4 (odd pecha pages: 1, 3, 5)
-    // Back sheet:  pages 1, 3, 5 (even pecha pages: 2, 4, 6)
-    for (var i = 0; i < bodyPages.length; i += 6) {
-      var chunk = bodyPages.slice(i, Math.min(i + 6, bodyPages.length));
-
-      // Front sheet (odd pages: positions 0, 2, 4)
+      // Front sheet: pages at even positions (0, 2, 4) — top to bottom
       var frontSheet = document.createElement('div');
       frontSheet.className = 'pf-print-sheet';
-      for (var f = 0; f < chunk.length; f += 2) {
-        frontSheet.appendChild(chunk[f]);
-      }
+      frontSheet.appendChild(chunk[0]);
+      if (chunk[2]) frontSheet.appendChild(chunk[2]);
+      if (chunk[4]) frontSheet.appendChild(chunk[4]);
       pagesContainer.appendChild(frontSheet);
 
-      // Back sheet (even pages in REVERSE order for long-edge flip)
-      // Front: 1,3,5 top→bottom. When flipped on long edge, top↔bottom.
-      // So back must be: 6,4,2 (top→bottom) to align 1↔2, 3↔4, 5↔6.
-      var backPages = [];
-      for (var b = 1; b < chunk.length; b += 2) {
-        backPages.push(chunk[b]);
-      }
-      backPages.reverse();
+      // Back sheet: pages at odd positions (1, 3, 5) — same top-to-bottom order
       var backSheet = document.createElement('div');
       backSheet.className = 'pf-print-sheet';
-      for (var bp = 0; bp < backPages.length; bp++) {
-        backSheet.appendChild(backPages[bp]);
-      }
-      if (backSheet.children.length > 0) {
-        pagesContainer.appendChild(backSheet);
-      }
+      backSheet.appendChild(chunk[1]);
+      if (chunk[3]) backSheet.appendChild(chunk[3]);
+      if (chunk[5]) backSheet.appendChild(chunk[5]);
+      pagesContainer.appendChild(backSheet);
     }
-
-    // Apply Tibetan line-breaking
-    pagesContainer.querySelectorAll('.tr-pecha-body').forEach(function (body) {
-      if (!body.closest('.pf-title-page')) prepareTibetan(body);
-    });
 
     // Add duplex class to body for print styling
     document.body.classList.add('pf-duplex-mode');
@@ -745,7 +845,28 @@ import SiteLayout from '@layouts/SiteLayout.astro';
      ═══════════════════════════════════════════════════════════════════════ -->
 <style is:global>
 
+  /* ─── Latin font fallback for pecha pages ─────────────────────────────
+     Tibetan fonts (Jomolhari, etc.) contain ugly Latin glyphs.
+     This @font-face maps a clean serif to 'PechaLatin' for Latin-only
+     unicode range, so English text renders cleanly while Tibetan
+     characters still use the selected Tibetan font. ──────────────────── */
+  @font-face {
+    font-family: 'PechaLatin';
+    src: local('Georgia'), local('Noto Serif'), local('Times New Roman'), local('serif');
+    unicode-range: U+0000-007F, U+0080-00FF, U+0100-024F, U+2000-206F, U+2070-209F, U+20A0-20CF, U+2100-214F;
+    font-display: swap;
+  }
+
   /* ─── Page shell ──────────────────────────────────────────────────────── */
+  /* ─── Beta badge ──────────────────────────────────────────────────────── */
+  .pf-beta {
+    font-size: .5em; font-weight: 700; vertical-align: super;
+    padding: .15em .5em; border-radius: 4px;
+    background: rgba(56,189,248,0.12); color: var(--accent);
+    border: 1px solid rgba(56,189,248,0.2);
+    letter-spacing: .06em;
+  }
+
   .pf-page {
     max-width: 1100px;
     margin: 0 auto;
@@ -813,7 +934,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     transition: border-color .15s;
   }
   .pf-title-input {
-    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif !important;
+    font-family: 'PechaLatin', 'Jomolhari', 'Noto Serif Tibetan', serif !important;
     font-size: 1rem !important;
     width: 140px;
     line-height: 1.6;
@@ -927,7 +1048,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     border-radius: 10px;
     padding: 1rem;
     color: var(--text);
-    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
+    font-family: 'PechaLatin', 'Jomolhari', 'Noto Serif Tibetan', serif;
     font-size: 1.3rem;
     line-height: 2.2;
     resize: vertical;
@@ -969,24 +1090,35 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   .pf-page-item {
     box-shadow: 0 4px 24px rgba(0,0,0,0.25);
   }
-  /* Override :lang(bo) font-family so children inherit from the inline style on .tr-pecha */
-  .pf-page-item .tr-pecha-body,
-  .pf-page-item .tr-pecha-title,
-  .pf-page-item .tr-pecha-folio,
-  .pf-page-item .pf-side-title {
+  /* Override :lang(bo) — termaUI's :lang(bo) rule hardcodes Jomolhari on
+     every descendant. Force ALL children to inherit the font set via
+     inline style on the outer .pf-page-item from buildPechaPage(). */
+  .pf-page-item * {
     font-family: inherit;
   }
-
-  /* ─── Title page ─────────────────────────────────────────────────────── */
-  .pf-title-body {
+  /* Fixed-height pecha pages — text overflows to next page, never grows */
+  .pf-page-item.tr-pecha,
+  .pf-page-item.tr-pecha-dark {
+    aspect-ratio: auto;
+    height: 11rem;
+    grid-template-columns: 5% 1fr 5%;
+  }
+  .pf-page-item .tr-pecha-body {
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 1.6rem;
-    line-height: 1.6;
-    font-weight: 400;
-    padding: 1rem 2rem;
+    overflow: hidden;
+    padding: 0.8rem 0.4rem;
+  }
+  /* Hard-clip text to exactly 4 visible lines — no 5th line ever.
+     line-height is ~2em for Tibetan; 4 lines × 2em = 8em max */
+  .pf-page-item .tr-pecha-body .pf-body-text {
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    flex: 1;
+    min-width: 0;
+    line-height: 2;
+    max-height: 8em;
   }
 
   /* ─── Double-line borders (traditional pecha style) ──────────────────── */
@@ -1009,21 +1141,10 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     border-color: #92400e;
   }
 
-  /* ─── Title page: single rectangle with inner border frame ──────────── */
-  .pf-title-page.tr-pecha {
-    grid-template-columns: 1fr;
-    box-shadow:
-      inset 0 0 0 28px #faf0dc,
-      inset 0 0 0 30px #b91c1c,
-      inset 0 0 0 33px #faf0dc,
-      inset 0 0 0 35px #b91c1c;
-  }
+  /* ─── Title page (cover): [rect][rect][ title ][rect][rect] ─────────── */
+  .pf-title-page.tr-pecha,
   .pf-title-page.tr-pecha-dark {
-    box-shadow:
-      inset 0 0 0 28px #1e1b4b,
-      inset 0 0 0 30px #92400e,
-      inset 0 0 0 33px #1e1b4b,
-      inset 0 0 0 35px #92400e;
+    grid-template-columns: 1fr;
   }
   .pf-title-page .tr-pecha-title,
   .pf-title-page .tr-pecha-folio {
@@ -1031,6 +1152,36 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   }
   .pf-title-page .tr-pecha-body {
     border-right: none !important;
+  }
+  .pf-title-page .pf-title-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 2rem;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  /* Center rectangle with title */
+  .pf-cover-center {
+    border: 2px solid #b91c1c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 2rem;
+    text-align: center;
+  }
+  /* Dark theme */
+  .pf-title-page.tr-pecha-dark .pf-cover-center {
+    border-color: #92400e;
+  }
+  /* B&W theme */
+  .pf-title-page.pf-theme-bw .pf-cover-center {
+    border-color: #000;
+  }
+  /* Maroon theme */
+  .pf-title-page.pf-theme-maroon .pf-cover-center {
+    border-color: #c9a84c;
   }
 
   /* ─── Theme: Black & White ─────────────────────────────────────────── */
@@ -1044,13 +1195,6 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   .pf-page-item.pf-theme-bw .tr-pecha-body {
     border-color: #000;
   }
-  .pf-title-page.pf-theme-bw {
-    box-shadow:
-      inset 0 0 0 28px #fff,
-      inset 0 0 0 30px #000,
-      inset 0 0 0 33px #fff,
-      inset 0 0 0 35px #000;
-  }
 
   /* ─── Theme: Maroon (Monastic) ─────────────────────────────────────── */
   .pf-page-item.pf-theme-maroon {
@@ -1062,13 +1206,6 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   .pf-page-item.pf-theme-maroon .tr-pecha-title,
   .pf-page-item.pf-theme-maroon .tr-pecha-body {
     border-color: #c9a84c;
-  }
-  .pf-title-page.pf-theme-maroon {
-    box-shadow:
-      inset 0 0 0 28px #2c0a0a,
-      inset 0 0 0 30px #c9a84c,
-      inset 0 0 0 33px #2c0a0a,
-      inset 0 0 0 35px #c9a84c;
   }
 
   /* ─── Side title (left column) — wraps multiline ─────────────────────── */
@@ -1121,73 +1258,79 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
     @page {
       size: landscape;
-      margin: 0.5cm;
+      margin: 0.6cm 0.8cm;
     }
 
     .pf-pages {
+      display: block !important;
       gap: 0 !important;
       padding: 0 !important;
     }
 
-    /* Each sheet = one printed page, 3 pechas spaced evenly */
+    /* Each sheet = one printed page, 3 pechas filling the page evenly */
     .pf-print-sheet {
       display: flex !important;
-      flex-direction: column;
-      justify-content: space-evenly;
-      align-items: center;
-      height: 100vh;
-      page-break-after: always;
-      break-after: page;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      align-items: stretch !important;
+      width: 100% !important;
+      height: 100vh !important;
+      gap: 0.3cm !important;
+      page-break-after: always !important;
+      break-after: page !important;
+      box-sizing: border-box !important;
     }
     .pf-print-sheet:last-child {
-      page-break-after: auto;
-      break-after: auto;
+      page-break-after: auto !important;
+      break-after: auto !important;
     }
 
-    .pf-page-item {
-      page-break-inside: avoid;
-      break-inside: avoid;
+    /* Each pecha stretches to fill its 1/3 of the sheet */
+    .pf-print-sheet > .pf-page-item {
+      flex: 1 1 0 !important;
+      height: auto !important;      /* override the fixed 11rem screen height */
+      min-height: 0 !important;
       width: 100% !important;
       border-radius: 0 !important;
+      break-inside: avoid !important;
+      page-break-inside: avoid !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    /* Body text inside pecha: fill available height, no max-height clip in print */
+    .pf-print-sheet > .pf-page-item .tr-pecha-body {
+      flex: 1 !important;
+      align-items: center !important;
+    }
+    .pf-print-sheet > .pf-page-item .pf-body-text {
+      max-height: none !important;   /* let text show fully — already paginated */
+      overflow: visible !important;
     }
 
     /* ── Duplex mode: CSS Grid for pixel-perfect front/back alignment ──── */
     /* Both front and back sheets use identical 3-row grid so strips align */
     .pf-duplex-mode .pf-print-sheet {
       display: grid !important;
-      grid-template-rows: 1fr 1fr 1fr;
-      align-items: center;
-      height: 100vh;
+      grid-template-rows: 1fr 1fr 1fr !important;
+      grid-template-columns: 1fr !important;
+      align-items: stretch !important;
+      height: 100vh !important;
+      gap: 0.3cm !important;
       padding: 0 !important;
     }
-    .pf-duplex-mode .pf-page-item {
+    .pf-duplex-mode .pf-print-sheet > .pf-page-item {
       width: 100% !important;
+      height: auto !important;
+      min-height: 0 !important;
     }
 
     /* Duplex cover: flex center for title + instructions */
-    .pf-duplex-mode .pf-duplex-cover {
-      display: flex !important;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    .pf-duplex-mode .pf-duplex-cover .pf-page-item {
-      width: 100% !important;
-    }
-    .pf-duplex-instructions {
-      display: block !important;
-      text-align: center;
-      font-size: 11pt;
-      line-height: 1.8;
-      color: black;
-      margin-top: 1.5cm;
-      font-family: sans-serif;
-    }
-
-    /* Blank back of cover */
-    .pf-duplex-blank {
-      display: block !important;
-      height: 100vh;
+    /* Blank filler pages (visibility:hidden) still take up space for alignment */
+    .pf-duplex-mode .pf-page-item[style*="visibility: hidden"],
+    .pf-duplex-mode .pf-page-item[style*="visibility:hidden"] {
+      border-color: transparent !important;
+      background: transparent !important;
     }
 
     /* ── Regular print: preserve on-screen colors ─────────────────────── */
@@ -1233,5 +1376,54 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     .pf-toolbar { padding: .75rem; border-radius: 10px; }
     .pf-input-section { border-radius: 10px; }
     .pf-textarea { font-size: 1.1rem; min-height: 150px; }
+  }
+
+  /* ─── Roadmap & Support ──────────────────────────────────────────────── */
+  .pf-roadmap-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+  .pf-roadmap {
+    padding: 2rem 2.25rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+  .pf-roadmap-lead {
+    font-size: .92rem; color: var(--text); line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .pf-roadmap-body {
+    font-size: .85rem; color: var(--text2); line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .pf-roadmap-body strong { color: var(--text); }
+  .pf-roadmap-list {
+    list-style: none; padding: 0; margin: 0 0 1.25rem 0;
+    display: flex; flex-direction: column; gap: .5rem;
+  }
+  .pf-roadmap-list li {
+    font-size: .85rem; color: var(--text2); line-height: 1.6;
+    padding-left: 1.25rem; position: relative;
+  }
+  .pf-roadmap-list li::before {
+    content: ''; position: absolute; left: 0; top: .55em;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(56,189,248,0.4);
+  }
+  .pf-roadmap-list li strong { color: var(--text); }
+  .pf-roadmap-cta {
+    font-size: .85rem; color: var(--muted); line-height: 1.7;
+    padding-top: 1rem; border-top: 1px solid var(--border);
+    font-style: italic;
+  }
+  .pf-roadmap-cta a {
+    color: var(--accent); text-decoration: none;
+  }
+  .pf-roadmap-cta a:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .pf-roadmap-section { padding: 0 .75rem 2rem; }
+    .pf-roadmap { padding: 1.25rem 1.25rem; }
   }
 </style>

@@ -1,0 +1,48 @@
+{
+  "name": "termaui-fonts",
+  "version": "0.3.0",
+  "description": "Extended Tibetan font library for termaUI — 40+ WOFF2 fonts with calibrated size-adjust for Tibetan script rendering.",
+  "keywords": [
+    "tibetan",
+    "fonts",
+    "typography",
+    "woff2",
+    "tibetan-fonts",
+    "tibetan-script",
+    "uchen",
+    "drutsa",
+    "buddhist"
+  ],
+  "homepage": "https://termafoundry.com/termaui",
+  "bugs": {
+    "url": "https://github.com/vajradog/TermaFoundry/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vajradog/TermaFoundry",
+    "directory": "packages/termaui-fonts"
+  },
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Terma Foundry <buddhistapps@gmail.com>",
+  "style": "dist/termaui-fonts.css",
+  "exports": {
+    "./dist/termaui-fonts.css": "./dist/termaui-fonts.css",
+    "./dist/termaui-fonts.min.css": "./dist/termaui-fonts.min.css"
+  },
+  "files": [
+    "dist/",
+    "fonts/",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "dist/termaui-fonts.css",
+    "dist/termaui-fonts.min.css"
+  ],
+  "peerDependencies": {
+    "termaui": ">=0.3.0"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "termaui",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Tibetan typography CSS framework — fonts, utility classes, and rendering fixes for Tibetan script on the web.",
   "keywords": [
     "tibetan",
@@ -34,14 +34,24 @@
       "require": "./dist/terma.js",
       "default": "./dist/terma.js"
     },
+    "./clusters": {
+      "import": "./dist/terma-clusters.esm.js",
+      "require": "./dist/terma-clusters.js",
+      "default": "./dist/terma-clusters.js"
+    },
     "./dist/termaui.css": "./dist/termaui.css",
     "./dist/termaui.min.css": "./dist/termaui.min.css",
     "./dist/terma.js": "./dist/terma.js",
-    "./dist/terma.esm.js": "./dist/terma.esm.js"
+    "./dist/terma.esm.js": "./dist/terma.esm.js",
+    "./dist/terma-clusters.js": "./dist/terma-clusters.js",
+    "./dist/terma-clusters.esm.js": "./dist/terma-clusters.esm.js"
   },
   "files": [
     "dist/",
-    "fonts/",
+    "fonts/jomolhari-regular.woff2",
+    "fonts/monlam-bodyig.woff2",
+    "fonts/qomolangma-uchen-sarchen.woff2",
+    "fonts/qomolangma-drutsa.woff2",
     "README.md",
     "LICENSE"
   ],

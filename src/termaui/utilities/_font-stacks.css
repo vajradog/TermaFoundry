@@ -1,13 +1,16 @@
 /* ==========================================================================
    termaUI — Font stack utility classes
    Each class selects a specific Tibetan font family with fallbacks.
+   Fallbacks use only fonts bundled with the npm package (Jomolhari,
+   Monlam Bodyig, Qomolangma-UchenSarchen, Qomolangma-Drutsa).
+   Extended fonts require termaui-fonts package or CDN.
    ========================================================================== */
 
 /* ── UCHEN — FORMAL UPRIGHT SCRIPT ───────────────────────────────────────── */
 
-/* Jomolhari — warm classical Uchen manuscript style */
+/* Jomolhari — warm classical Uchen manuscript style (bundled) */
 .tr-jomolhari {
-  font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
+  font-family: 'Jomolhari', serif;
 }
 
 /* Noto Serif Tibetan — modern screen-optimised serif (full weight axis) */
@@ -29,12 +32,12 @@
 
 /* BabelStone Tibetan — broadest Unicode coverage Uchen */
 .tr-babelstone {
-  font-family: 'BabelStone Tibetan', 'Noto Serif Tibetan', serif;
+  font-family: 'BabelStone Tibetan', 'Jomolhari', serif;
 }
 
 /* BabelStone Tibetan Slim — reduced line-height variant */
 .tr-babelstone-slim {
-  font-family: 'BabelStone Tibetan Slim', 'BabelStone Tibetan', 'Noto Serif Tibetan', serif;
+  font-family: 'BabelStone Tibetan Slim', 'BabelStone Tibetan', 'Jomolhari', serif;
 }
 
 /* DDC Uchen — official Bhutanese government Uchen */
@@ -49,7 +52,7 @@
 
 /* GangJie Uchen — clean modern Uchen */
 .tr-gangjie {
-  font-family: 'GangJie Uchen', 'Noto Serif Tibetan', serif;
+  font-family: 'GangJie Uchen', 'Jomolhari', serif;
 }
 
 /* Jamyang Monlam Uchen — calligraphic Uchen with strong stroke character */
@@ -57,9 +60,9 @@
   font-family: 'Jamyang Monlam Uchen', 'Jomolhari', serif;
 }
 
-/* Monlam Bodyig — refined thin-stroke elegant Uchen */
+/* Monlam Bodyig — refined thin-stroke elegant Uchen (bundled) */
 .tr-monlam {
-  font-family: 'Monlam Bodyig', 'Noto Serif Tibetan', serif;
+  font-family: 'Monlam Bodyig', serif;
 }
 
 /* Panchen Tsukring — traditional Uchen with extended ascenders */
@@ -69,29 +72,29 @@
 
 /* Riwoche Dhodri — woodblock-inspired Uchen yigchen */
 .tr-riwoche {
-  font-family: 'Riwoche Dhodri', 'Tibetan Machine Uni', serif;
+  font-family: 'Riwoche Dhodri', 'Jomolhari', serif;
 }
 
 /* Sadri Yigchen — clean formal Uchen */
 .tr-sadri {
-  font-family: 'Sadri Yigchen', 'Noto Serif Tibetan', serif;
+  font-family: 'Sadri Yigchen', 'Jomolhari', serif;
 }
 
 /* ── MODERN SANS-SERIF ────────────────────────────────────────────────────── */
 
 /* Noto Sans Tibetan — Google's sans-serif; clean screen-optimised */
 .tr-noto-sans {
-  font-family: 'Noto Sans Tibetan', 'Noto Serif Tibetan', sans-serif;
+  font-family: 'Noto Sans Tibetan', 'Jomolhari', sans-serif;
 }
 
 /* MiSans Tibetan — Xiaomi geometric modern sans */
 .tr-misans {
-  font-family: 'MiSans Tibetan', 'Noto Sans Tibetan', sans-serif;
+  font-family: 'MiSans Tibetan', 'Jomolhari', sans-serif;
 }
 
 /* Monlam Uni Sans — Monlam AI's sans-serif Uchen */
 .tr-monlam-sans {
-  font-family: 'Monlam Uni Sans', 'Noto Sans Tibetan', sans-serif;
+  font-family: 'Monlam Uni Sans', 'Jomolhari', sans-serif;
 }
 
 /* ── MONLAM UNI UCHEN FAMILY ──────────────────────────────────────────────── */
@@ -138,26 +141,26 @@
 
 /* ── QOMOLANGMA UCHEN FAMILY ──────────────────────────────────────────────── */
 
-/* Qomolangma-UchenSarchen — large formal Uchen (sarchen = large) */
+/* Qomolangma-UchenSarchen — large formal Uchen (bundled) */
 .tr-qomolangma-sarchen {
-  font-family: 'Qomolangma-UchenSarchen', 'Jomolhari', serif;
+  font-family: 'Qomolangma-UchenSarchen', serif;
 }
 
 /* Qomolangma-Betsu — compact betsu (abbreviated) Uchen style */
 .tr-qomolangma-betsu {
-  font-family: 'Qomolangma-Betsu', 'Jomolhari', serif;
+  font-family: 'Qomolangma-Betsu', 'Qomolangma-UchenSarchen', serif;
 }
 
 /* Qomolangma-Tsutong — tsutong (short-headed) display Uchen */
 .tr-qomolangma-tsutong {
-  font-family: 'Qomolangma-Tsutong', 'Jomolhari', serif;
+  font-family: 'Qomolangma-Tsutong', 'Qomolangma-UchenSarchen', serif;
 }
 
 /* ── DRUTSA — CURSIVE HAND SCRIPT ────────────────────────────────────────── */
 
-/* Qomolangma-Drutsa — flowing drutsa cursive */
+/* Qomolangma-Drutsa — flowing drutsa cursive (bundled) */
 .tr-drutsa {
-  font-family: 'Qomolangma-Drutsa', 'Jomolhari', serif;
+  font-family: 'Qomolangma-Drutsa', serif;
 }
 
 /* GangJie Drutsa — cursive drutsa hand */

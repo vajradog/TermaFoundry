@@ -1,0 +1,1033 @@
+---
+import Base from '../../layouts/TeruiBase.astro';
+---
+
+<Base title="Unicode Debugger — termaUI" description="Paste any Tibetan string. Inspect codepoints, compare 36 fonts, analyze syllable stacks, and generate copy-paste CSS.">
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE HERO
+══════════════════════════════════════════════════════════ -->
+<div class="section db-hero reveal">
+  <div class="section-eyebrow">◈ termaUI</div>
+  <h1 class="section-heading">Unicode Debugger</h1>
+  <p class="section-sub">
+    Paste any Tibetan string. Inspect codepoints, compare all 36 fonts, analyze syllable stacks, and generate copy-paste CSS.
+  </p>
+</div>
+
+<hr class="divider" />
+
+<!-- ══════════════════════════════════════════════════════════
+     DEBUGGER WRAPPER
+══════════════════════════════════════════════════════════ -->
+<div class="db">
+
+<!-- ── STICKY INPUT BAR ─────────────────────────────────── -->
+<div class="db-input-bar" id="inputBar">
+  <div class="db-input-inner">
+    <textarea id="dbInput" rows="2" spellcheck="false" lang="bo"
+      placeholder="Paste Tibetan text here…">འགྲོ་བ་མཐའ་དག་དང་།</textarea>
+    <div class="db-input-meta">
+      <span id="charCount">0 chars</span>
+      <span class="db-sep">|</span>
+      <span id="byteCount">0 bytes</span>
+      <span class="db-sep">|</span>
+      <select id="sampleSelect" class="db-sample-select">
+        <option value="">Sample strings…</option>
+        <option value="འགྲོ་བ་མཐའ་དག་དང་།">Stacked consonants</option>
+        <option value="སྐུ་གསུང་ཐུགས་རྡོ་རྗེ།">Ra-tags + subjoined</option>
+        <option value="ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།">Om Mani (vowel combos)</option>
+        <option value="ཨོཾ་ཨཱཿཧཱུྃ་བཛྲ་གུ་རུ་པདྨ་སིདྡྷི་ཧཱུྃ༔">Guru mantra (deep stacks)</option>
+        <option value="བཀྲ་ཤིས་བདེ་ལེགས། །ཕྱི་ལོ་༢༠༢༦">Mixed punctuation + digits</option>
+        <option value="རྒྱ་གར་སྐད་དུ།  བོད་སྐད་དུ།">Sanskrit/Tibetan prefix</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ── TAB NAV ──────────────────────────────────────────── -->
+<div class="db-tabs" id="dbTabs">
+  <button class="db-tab active" data-panel="inspector">Unicode Inspector</button>
+  <button class="db-tab" data-panel="fonts">Font Comparison</button>
+  <button class="db-tab" data-panel="stacks">Stack Analyzer</button>
+  <button class="db-tab" data-panel="css">CSS Generator</button>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANEL 1: UNICODE INSPECTOR
+══════════════════════════════════════════════════════════ -->
+<section class="db-panel active" id="panel-inspector">
+  <div class="db-stitle">Codepoint Table</div>
+  <div class="db-table-wrap">
+    <table class="db-table" id="cpTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Char</th>
+          <th>Hex</th>
+          <th>Name</th>
+          <th>Category</th>
+        </tr>
+      </thead>
+      <tbody id="cpBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANEL 2: FONT COMPARISON GRID
+══════════════════════════════════════════════════════════ -->
+<section class="db-panel" id="panel-fonts">
+  <div class="db-stitle">Font Comparison Grid</div>
+  <div class="db-font-filters" id="fontFilters">
+    <button class="db-filter-btn active" data-cat="all">All</button>
+    <button class="db-filter-btn" data-cat="uchen">Uchen</button>
+    <button class="db-filter-btn" data-cat="drutsa">Drutsa / Cursive</button>
+    <button class="db-filter-btn" data-cat="sans">Sans</button>
+    <button class="db-filter-btn" data-cat="experimental">Experimental</button>
+  </div>
+  <div class="db-font-status" id="fontLoadStatus">Fonts not loaded yet — switch to this tab to load all 36 fonts.</div>
+  <div class="db-font-grid" id="fontGrid"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANEL 3: STACK ANALYZER
+══════════════════════════════════════════════════════════ -->
+<section class="db-panel" id="panel-stacks">
+  <div class="db-stitle">Syllable Stack Analyzer</div>
+  <p class="db-intro">Click a syllable below to see its structural breakdown.</p>
+  <div class="db-syllable-bar" id="syllableBar" lang="bo"></div>
+  <div class="db-stack-detail" id="stackDetail">
+    <div class="db-stack-placeholder">Select a syllable above to analyze its stack structure.</div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     PANEL 4: CSS GENERATOR
+══════════════════════════════════════════════════════════ -->
+<section class="db-panel" id="panel-css">
+  <div class="db-stitle">CSS + HTML Generator</div>
+  <div class="db-css-controls">
+    <label class="db-css-label">Font</label>
+    <select id="cssFontSelect" class="db-css-select"></select>
+  </div>
+  <div class="db-css-block">
+    <div class="db-css-heading">CSS</div>
+    <div class="db-code-wrap">
+      <button class="db-copy-btn" onclick="dbCopy(this,'cssOutput')">Copy</button>
+      <pre id="cssOutput"></pre>
+    </div>
+  </div>
+  <div class="db-css-block" style="margin-top:1rem">
+    <div class="db-css-heading">HTML</div>
+    <div class="db-code-wrap">
+      <button class="db-copy-btn" onclick="dbCopy(this,'htmlOutput')">Copy</button>
+      <pre id="htmlOutput"></pre>
+    </div>
+  </div>
+  <div class="db-css-preview-label">Preview</div>
+  <div class="db-css-preview" id="cssPreview" lang="bo"></div>
+</section>
+
+</div><!-- .db -->
+</Base>
+
+<!-- ══════════════════════════════════════════════════════════
+     STYLES
+══════════════════════════════════════════════════════════ -->
+<style is:global>
+
+/* ══ Hero ═════════════════════════════════════════════════ */
+.db-hero { padding-bottom: 3rem; }
+
+/* ══ Debugger wrapper ════════════════════════════════════ */
+.db {
+  --db-surface:  #16161b;
+  --db-surface2: #1e1e25;
+  --db-border:   #2a2a34;
+  --db-text:     #e2e2e8;
+  --db-muted:    #777;
+  --db-gold:     #c9a84c;
+  --db-blue:     #5a8fdf;
+  --db-green:    #4caf50;
+  --db-red:      #f44336;
+  --db-amber:    #f59e0b;
+  --db-pill:     #22222c;
+  --db-code:     #13131a;
+  max-width: 1200px; margin: 0 auto; padding: 0 2rem 5rem;
+}
+
+/* ══ Sticky input bar ════════════════════════════════════ */
+.db-input-bar {
+  position: sticky; top: 104px; z-index: 100;
+  background: rgba(22,22,27,0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--db-border);
+  padding: 0.75rem 0; margin-bottom: 1.5rem;
+}
+.db-input-inner { max-width: 100%; }
+#dbInput {
+  width: 100%; resize: vertical;
+  background: var(--db-surface2); color: var(--db-text);
+  border: 1px solid var(--db-border); border-radius: 8px;
+  padding: 0.75rem 1rem; font-size: 1.35rem; line-height: 1.8;
+  font-family: "Jomolhari", "Noto Serif Tibetan", serif;
+  outline: none; transition: border-color 0.15s;
+}
+#dbInput:focus { border-color: var(--db-gold); }
+.db-input-meta {
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-top: 0.4rem; font-size: 0.75rem; color: var(--db-muted);
+}
+.db-sep { opacity: 0.3; }
+.db-sample-select {
+  background: var(--db-pill); color: var(--db-muted);
+  border: 1px solid var(--db-border); border-radius: 5px;
+  padding: 0.2rem 0.5rem; font-size: 0.72rem; cursor: pointer;
+  margin-left: auto;
+}
+
+/* ══ Tabs ════════════════════════════════════════════════ */
+.db-tabs {
+  display: flex; gap: 0; border-bottom: 1px solid var(--db-border);
+  margin-bottom: 1.5rem;
+}
+.db-tab {
+  padding: 0.55rem 1.1rem; font-size: 0.8rem; cursor: pointer;
+  color: var(--db-muted); border: 1px solid transparent;
+  border-bottom: none; border-radius: 6px 6px 0 0;
+  background: transparent; transition: color 0.15s;
+  font-family: inherit; font-weight: 500;
+}
+.db-tab:hover { color: var(--db-text); }
+.db-tab.active {
+  color: var(--db-text); background: var(--db-code);
+  border-color: var(--db-border); border-bottom-color: var(--db-code);
+  margin-bottom: -1px;
+}
+
+/* ══ Panels ══════════════════════════════════════════════ */
+.db-panel { display: none; }
+.db-panel.active { display: block; }
+
+.db-stitle {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--db-muted);
+  margin-bottom: 0.7rem; padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--db-border);
+}
+.db-intro {
+  font-size: 0.85rem; color: var(--db-muted);
+  margin-bottom: 1.25rem; line-height: 1.7;
+}
+
+/* ══ Panel 1: Unicode Inspector ══════════════════════════ */
+.db-table-wrap { overflow-x: auto; }
+.db-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.82rem;
+}
+.db-table th {
+  text-align: left; padding: 0.5rem 0.75rem;
+  font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--db-muted); border-bottom: 2px solid var(--db-border);
+  background: var(--db-surface);
+}
+.db-table td {
+  padding: 0.45rem 0.75rem; border-bottom: 1px solid var(--db-border);
+  color: var(--db-text); vertical-align: middle;
+}
+.db-table tbody tr:hover { background: rgba(148,163,184,0.04); }
+.db-char-cell {
+  font-size: 1.4rem; font-family: "Jomolhari", serif;
+  min-width: 2.5rem; text-align: center;
+}
+.db-hex { font-family: "Cascadia Code", "Fira Code", monospace; color: var(--db-blue); }
+.db-cat {
+  display: inline-block; font-size: 0.7rem; font-weight: 600;
+  padding: 1px 7px; border-radius: 10px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.db-cat-consonant   { background: #1a2a3a; color: #7ecfff; }
+.db-cat-vowel       { background: #1a3a2a; color: #7eff9e; }
+.db-cat-subjoined   { background: #2a1a3a; color: #c49eff; }
+.db-cat-mark        { background: #3a2a1a; color: #ffcf7e; }
+.db-cat-punctuation { background: #3a1a2a; color: #ff9eb0; }
+.db-cat-digit       { background: #1a3a3a; color: #7eeeee; }
+.db-cat-other       { background: #2a2a2a; color: #999; }
+.db-cat-space       { background: #2a2a2a; color: #999; }
+tr.db-problem td { background: rgba(245,158,11,0.06); }
+.db-problem-flag {
+  display: inline-block; width: 8px; height: 8px;
+  background: var(--db-amber); border-radius: 50%;
+  margin-left: 0.4rem; vertical-align: middle;
+}
+
+/* ══ Panel 2: Font Comparison ════════════════════════════ */
+.db-font-filters {
+  display: flex; gap: 0.35rem; flex-wrap: wrap; margin-bottom: 1rem;
+}
+.db-filter-btn {
+  background: var(--db-pill); border: 1px solid var(--db-border);
+  color: var(--db-muted); border-radius: 20px;
+  padding: 0.25rem 0.75rem; font-size: 0.72rem; cursor: pointer;
+  font-family: inherit; transition: all 0.15s;
+}
+.db-filter-btn:hover { color: var(--db-text); border-color: var(--db-gold); }
+.db-filter-btn.active { color: var(--db-text); background: #2a2a3a; border-color: var(--db-gold); }
+.db-font-status {
+  font-size: 0.78rem; color: var(--db-muted);
+  margin-bottom: 1rem; font-style: italic;
+}
+.db-font-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 0.75rem;
+}
+.db-font-card {
+  background: var(--db-surface2); border: 1px solid var(--db-border);
+  border-radius: 8px; padding: 0.85rem 1rem;
+  transition: border-color 0.15s;
+}
+.db-font-card:hover { border-color: rgba(148,163,184,0.2); }
+.db-font-card-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.4rem;
+}
+.db-font-name {
+  font-size: 0.75rem; font-weight: 600; color: var(--db-text);
+}
+.db-font-indicator {
+  font-size: 0.85rem; flex-shrink: 0;
+}
+.db-font-sample {
+  font-size: 28px; line-height: 1.8; color: var(--db-text);
+  word-break: break-all; min-height: 2.5rem;
+  padding: 0.25rem 0;
+}
+.db-font-copy {
+  display: inline-block; margin-top: 0.35rem;
+  font-size: 0.68rem; color: var(--db-muted);
+  cursor: pointer; transition: color 0.15s;
+  background: none; border: none; font-family: inherit;
+  padding: 0;
+}
+.db-font-copy:hover { color: var(--db-gold); }
+
+/* ══ Panel 3: Stack Analyzer ═════════════════════════════ */
+.db-syllable-bar {
+  display: flex; flex-wrap: wrap; gap: 0.5rem;
+  margin-bottom: 1.5rem; min-height: 2.5rem;
+}
+.db-syl-btn {
+  font-size: 1.5rem; font-family: "Jomolhari", serif;
+  background: var(--db-surface2); border: 1px solid var(--db-border);
+  color: var(--db-text); border-radius: 8px;
+  padding: 0.35rem 0.85rem; cursor: pointer;
+  transition: all 0.15s;
+}
+.db-syl-btn:hover { border-color: var(--db-gold); }
+.db-syl-btn.active { border-color: var(--db-gold); background: #2a2a1a; }
+
+.db-stack-detail {
+  background: var(--db-surface2); border: 1px solid var(--db-border);
+  border-radius: 8px; padding: 1.25rem;
+  min-height: 120px;
+}
+.db-stack-placeholder { color: var(--db-muted); font-size: 0.85rem; }
+
+.db-stack-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+.db-stack-item {
+  background: var(--db-code); border: 1px solid var(--db-border);
+  border-radius: 6px; padding: 0.65rem 0.85rem;
+}
+.db-stack-label {
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--db-muted);
+  margin-bottom: 0.3rem;
+}
+.db-stack-value {
+  font-size: 1.1rem; color: var(--db-text);
+  font-family: "Jomolhari", serif;
+}
+.db-stack-hex {
+  font-size: 0.7rem; color: var(--db-blue);
+  font-family: "Cascadia Code", monospace;
+  margin-top: 0.15rem;
+}
+
+.db-stack-warn {
+  margin-top: 1rem; padding: 0.65rem 0.85rem;
+  background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2);
+  border-left: 3px solid var(--db-amber);
+  border-radius: 0 6px 6px 0;
+  font-size: 0.8rem; color: #e0a040;
+}
+
+.db-stack-order {
+  margin-top: 1rem; padding: 0.65rem 0.85rem;
+  background: var(--db-code); border: 1px solid var(--db-border);
+  border-radius: 6px; font-size: 0.78rem;
+}
+.db-stack-order-label {
+  font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--db-muted);
+  margin-bottom: 0.25rem;
+}
+.db-stack-order-val {
+  font-family: "Cascadia Code", monospace; color: var(--db-blue);
+}
+.db-order-match { color: var(--db-green); }
+.db-order-mismatch { color: var(--db-red); }
+
+/* ══ Panel 4: CSS Generator ══════════════════════════════ */
+.db-css-controls {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.db-css-label {
+  font-size: 0.78rem; font-weight: 600; color: var(--db-muted);
+}
+.db-css-select {
+  background: var(--db-surface2); color: var(--db-text);
+  border: 1px solid var(--db-border); border-radius: 6px;
+  padding: 0.35rem 0.75rem; font-size: 0.82rem;
+  min-width: 220px;
+}
+.db-css-block {}
+.db-css-heading {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--db-muted);
+  margin-bottom: 0.4rem;
+}
+.db-code-wrap {
+  position: relative; background: var(--db-code);
+  border: 1px solid var(--db-border); border-radius: 6px;
+}
+.db-code-wrap pre {
+  padding: 1rem 1.25rem;
+  font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", monospace;
+  font-size: 0.78rem; line-height: 1.7;
+  color: #c9d1d9; overflow-x: auto; white-space: pre;
+}
+.db-copy-btn {
+  position: absolute; top: 0.5rem; right: 0.5rem;
+  background: var(--db-pill); border: 1px solid var(--db-border);
+  color: var(--db-muted); border-radius: 5px;
+  padding: 0.25rem 0.6rem; font-size: 0.72rem; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s; font-family: inherit;
+}
+.db-copy-btn:hover { color: var(--db-text); border-color: var(--db-gold); }
+.db-copy-btn.copied { color: var(--db-green); border-color: var(--db-green); }
+
+.db-css-preview-label {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--db-muted);
+  margin: 1.25rem 0 0.4rem;
+}
+.db-css-preview {
+  background: var(--db-surface2); border: 1px solid var(--db-border);
+  border-radius: 8px; padding: 1rem 1.25rem;
+  font-size: 1.5rem; line-height: 2; color: var(--db-text);
+  min-height: 3rem;
+}
+
+/* ══ Responsive ══════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .db { padding: 0 1.25rem 3rem; }
+  .db-input-bar { top: 60px; }
+  .db-tabs { overflow-x: auto; }
+  .db-font-grid { grid-template-columns: 1fr; }
+  #dbInput { font-size: 1.1rem; }
+}
+</style>
+
+<!-- ══════════════════════════════════════════════════════════
+     SCRIPT
+══════════════════════════════════════════════════════════ -->
+<script is:inline>
+(function () {
+  'use strict';
+
+  /* ═══════════════════════════════════════════════════════
+     FONT REGISTRY
+  ═══════════════════════════════════════════════════════ */
+  const FONTS = [
+    { file: 'babelstone-tibetan-slim', label: 'BabelStone Slim',          cat: 'uchen' },
+    { file: 'babelstone-tibetan',      label: 'BabelStone Tibetan',       cat: 'uchen' },
+    { file: 'ddc-rinzin',              label: 'DDC Rinzin',              cat: 'uchen' },
+    { file: 'ddc-uchen',              label: 'DDC Uchen',               cat: 'uchen' },
+    { file: 'gangjie-drutsa',          label: 'GangJie Drutsa',          cat: 'drutsa' },
+    { file: 'gangjie-uchen',          label: 'GangJie Uchen',           cat: 'uchen' },
+    { file: 'jamyang-monlam-uchen',   label: 'Jamyang Monlam',          cat: 'uchen' },
+    { file: 'jomolhari-id',           label: 'Jomolhari ID',            cat: 'uchen' },
+    { file: 'jomolhari-openpecha',    label: 'Jomolhari OpenPecha',     cat: 'uchen' },
+    { file: 'jomolhari-regular',      label: 'Jomolhari',               cat: 'uchen' },
+    { file: 'joyig',                  label: 'Joyig',                   cat: 'drutsa' },
+    { file: 'khampa-dedri-bechu',     label: 'Khampa Bechu',            cat: 'drutsa' },
+    { file: 'khampa-dedri-chuyig',    label: 'Khampa Chuyig',           cat: 'drutsa' },
+    { file: 'khampa-dedri-drutsa',    label: 'Khampa Drutsa',           cat: 'drutsa' },
+    { file: 'misans-tibetan',         label: 'MiSans Tibetan',          cat: 'sans' },
+    { file: 'monlam-bodyig',          label: 'Monlam Bodyig',           cat: 'uchen' },
+    { file: 'monlam-uni-dutsa1',      label: 'Monlam Dutsa 1',         cat: 'drutsa' },
+    { file: 'monlam-uni-dutsa2',      label: 'Monlam Dutsa 2',         cat: 'drutsa' },
+    { file: 'monlam-uni-ouchan1',     label: 'Monlam OuChan 1',        cat: 'uchen' },
+    { file: 'monlam-uni-ouchan2',     label: 'Monlam OuChan 2',        cat: 'uchen' },
+    { file: 'monlam-uni-ouchan3',     label: 'Monlam OuChan 3',        cat: 'uchen' },
+    { file: 'monlam-uni-ouchan4',     label: 'Monlam OuChan 4',        cat: 'uchen' },
+    { file: 'monlam-uni-ouchan5',     label: 'Monlam OuChan 5',        cat: 'uchen' },
+    { file: 'monlam-uni-paytsik',     label: 'Monlam PayTsik',         cat: 'experimental' },
+    { file: 'monlam-uni-sans',        label: 'Monlam Sans',            cat: 'sans' },
+    { file: 'monlam-uni-tikrang',     label: 'Monlam Tikrang',         cat: 'experimental' },
+    { file: 'monlam-uni-tiktong',     label: 'Monlam Tiktong',         cat: 'experimental' },
+    { file: 'noto-sans-tibetan',      label: 'Noto Sans Tibetan',      cat: 'sans' },
+    { file: 'noto-serif-tibetan-regular', label: 'Noto Serif Regular',  cat: 'uchen' },
+    { file: 'noto-serif-tibetan-bold',    label: 'Noto Serif Bold',     cat: 'uchen' },
+    { file: 'panchen-tsukring',       label: 'Panchen Tsukring',       cat: 'uchen' },
+    { file: 'qomolangma-uchen-sarchen', label: 'Qomolangma Sarchen',   cat: 'uchen' },
+    { file: 'riwoche-dhodri-yigchen', label: 'Riwoche Dhodri',         cat: 'uchen' },
+    { file: 'sadri-yigchen',          label: 'Sadri Yigchen',          cat: 'uchen' },
+    { file: 'tibetan-machine-uni',    label: 'Tibetan Machine Uni',    cat: 'uchen' },
+    { file: 'wangdi',                 label: 'Wangdi',                 cat: 'experimental' },
+  ];
+
+  let fontsLoaded = false;
+
+  /* ═══════════════════════════════════════════════════════
+     UNICODE DATABASE (Tibetan block U+0F00..U+0FFF)
+  ═══════════════════════════════════════════════════════ */
+  const TIBETAN_NAMES = {
+    0x0F00:'TIBETAN SYLLABLE OM',0x0F01:'TIBETAN MARK GTER YIG MGO TRUNCATED A',
+    0x0F02:'TIBETAN MARK GTER YIG MGO -UM RNAM BCAD MA',0x0F03:'TIBETAN MARK GTER YIG MGO -UM GTER TSHEG MA',
+    0x0F04:'TIBETAN MARK INITIAL YIG MGO MDUN MA',0x0F05:'TIBETAN MARK CLOSING YIG MGO SGAB MA',
+    0x0F06:'TIBETAN MARK CARET YIG MGO PHUR SHAD MA',0x0F07:'TIBETAN MARK YIG MGO TSHEG SHAD MA',
+    0x0F08:'TIBETAN MARK SBRUL SHAD',0x0F09:'TIBETAN MARK BSKUR YIG MGO',
+    0x0F0A:'TIBETAN MARK BKA- SHOG YIG MGO',0x0F0B:'TIBETAN MARK INTERSYLLABIC TSHEG',
+    0x0F0C:'TIBETAN MARK DELIMITER TSHEG BSTAR',0x0F0D:'TIBETAN MARK SHAD',
+    0x0F0E:'TIBETAN MARK NYIS SHAD',0x0F0F:'TIBETAN MARK TSHEG SHAD',
+    0x0F10:'TIBETAN MARK NYIS TSHEG SHAD',0x0F11:'TIBETAN MARK RIN CHEN SPUNGS SHAD',
+    0x0F12:'TIBETAN MARK RGYA GRAM SHAD',0x0F13:'TIBETAN MARK CARET -DZUD RTAGS ME LONG CAN',
+    0x0F14:'TIBETAN MARK GTER TSHEG',0x0F15:'TIBETAN LOGOTYPE SIGN CHAD RTAGS',
+    0x0F16:'TIBETAN LOGOTYPE SIGN LHAG RTAGS',0x0F17:'TIBETAN ASTROLOGICAL SIGN SGRA GCAN -CHAR RTAGS',
+    0x0F18:'TIBETAN ASTROLOGICAL SIGN -KHYUD PA',0x0F19:'TIBETAN ASTROLOGICAL SIGN SDONG TSHUGS',
+    0x0F1A:'TIBETAN SIGN RDEL DKAR GCIG',0x0F1B:'TIBETAN SIGN RDEL DKAR GNYIS',
+    0x0F1C:'TIBETAN SIGN RDEL DKAR GSUM',0x0F1D:'TIBETAN SIGN RDEL NAG GCIG',
+    0x0F1E:'TIBETAN SIGN RDEL NAG GNYIS',0x0F1F:'TIBETAN SIGN RDEL DKAR RDEL NAG',
+    0x0F20:'TIBETAN DIGIT ZERO',0x0F21:'TIBETAN DIGIT ONE',0x0F22:'TIBETAN DIGIT TWO',
+    0x0F23:'TIBETAN DIGIT THREE',0x0F24:'TIBETAN DIGIT FOUR',0x0F25:'TIBETAN DIGIT FIVE',
+    0x0F26:'TIBETAN DIGIT SIX',0x0F27:'TIBETAN DIGIT SEVEN',0x0F28:'TIBETAN DIGIT EIGHT',
+    0x0F29:'TIBETAN DIGIT NINE',
+    0x0F34:'TIBETAN MARK BSDUS RTAGS',0x0F35:'TIBETAN MARK NGAS BZUNG NYI ZLA',
+    0x0F36:'TIBETAN MARK CARET -DZUD RTAGS BZHI MIG CAN',
+    0x0F37:'TIBETAN MARK NGAS BZUNG SGOR RTAGS',0x0F38:'TIBETAN MARK CHE MGO',
+    0x0F39:'TIBETAN MARK TSA -PHRU',0x0F3A:'TIBETAN MARK GUG RTAGS GYON',
+    0x0F3B:'TIBETAN MARK GUG RTAGS GYAS',0x0F3C:'TIBETAN MARK ANG KHANG GYON',
+    0x0F3D:'TIBETAN MARK ANG KHANG GYAS',0x0F3E:'TIBETAN SIGN YAR TSHES',
+    0x0F3F:'TIBETAN SIGN MAR TSHES',
+    0x0F40:'TIBETAN LETTER KA',0x0F41:'TIBETAN LETTER KHA',0x0F42:'TIBETAN LETTER GA',
+    0x0F43:'TIBETAN LETTER GHA',0x0F44:'TIBETAN LETTER NGA',
+    0x0F45:'TIBETAN LETTER CA',0x0F46:'TIBETAN LETTER CHA',0x0F47:'TIBETAN LETTER JA',
+    0x0F49:'TIBETAN LETTER NYA',
+    0x0F4A:'TIBETAN LETTER TTA',0x0F4B:'TIBETAN LETTER TTHA',0x0F4C:'TIBETAN LETTER DDA',
+    0x0F4D:'TIBETAN LETTER DDHA',0x0F4E:'TIBETAN LETTER NNA',
+    0x0F4F:'TIBETAN LETTER TA',0x0F50:'TIBETAN LETTER THA',0x0F51:'TIBETAN LETTER DA',
+    0x0F52:'TIBETAN LETTER DHA',0x0F53:'TIBETAN LETTER NA',
+    0x0F54:'TIBETAN LETTER PA',0x0F55:'TIBETAN LETTER PHA',0x0F56:'TIBETAN LETTER BA',
+    0x0F57:'TIBETAN LETTER BHA',0x0F58:'TIBETAN LETTER MA',
+    0x0F59:'TIBETAN LETTER TSA',0x0F5A:'TIBETAN LETTER TSHA',0x0F5B:'TIBETAN LETTER DZA',
+    0x0F5C:'TIBETAN LETTER DZHA',
+    0x0F5D:'TIBETAN LETTER WA',0x0F5E:'TIBETAN LETTER ZHA',0x0F5F:'TIBETAN LETTER ZA',
+    0x0F60:'TIBETAN LETTER -A',0x0F61:'TIBETAN LETTER YA',0x0F62:'TIBETAN LETTER RA',
+    0x0F63:'TIBETAN LETTER LA',0x0F64:'TIBETAN LETTER SHA',0x0F65:'TIBETAN LETTER SSA',
+    0x0F66:'TIBETAN LETTER SA',0x0F67:'TIBETAN LETTER HA',0x0F68:'TIBETAN LETTER A',
+    0x0F69:'TIBETAN LETTER KSSA',0x0F6A:'TIBETAN LETTER FIXED-FORM RA',
+    0x0F6B:'TIBETAN LETTER KKA',0x0F6C:'TIBETAN LETTER RRA',
+    0x0F71:'TIBETAN VOWEL SIGN AA',0x0F72:'TIBETAN VOWEL SIGN I',
+    0x0F73:'TIBETAN VOWEL SIGN II',0x0F74:'TIBETAN VOWEL SIGN U',
+    0x0F75:'TIBETAN VOWEL SIGN UU',0x0F76:'TIBETAN VOWEL SIGN VOCALIC R',
+    0x0F77:'TIBETAN VOWEL SIGN VOCALIC RR',0x0F78:'TIBETAN VOWEL SIGN VOCALIC L',
+    0x0F79:'TIBETAN VOWEL SIGN VOCALIC LL',0x0F7A:'TIBETAN VOWEL SIGN E',
+    0x0F7B:'TIBETAN VOWEL SIGN EE',0x0F7C:'TIBETAN VOWEL SIGN O',
+    0x0F7D:'TIBETAN VOWEL SIGN OO',0x0F7E:'TIBETAN SIGN RJES SU NGA RO (ANUSVARA)',
+    0x0F7F:'TIBETAN SIGN RNAM BCAD (VISARGA)',
+    0x0F80:'TIBETAN VOWEL SIGN REVERSED I',0x0F81:'TIBETAN VOWEL SIGN REVERSED II',
+    0x0F82:'TIBETAN SIGN NYI ZLA NAA DA',0x0F83:'TIBETAN SIGN SNA LDAN',
+    0x0F84:'TIBETAN MARK HALANTA',0x0F85:'TIBETAN MARK PALUTA',
+    0x0F86:'TIBETAN SIGN LCI RTAGS',0x0F87:'TIBETAN SIGN YANG RTAGS',
+    0x0F88:'TIBETAN SIGN LCE TSA CAN',0x0F89:'TIBETAN SIGN MCHU CAN',
+    0x0F8A:'TIBETAN SIGN GRU CAN RGYINGS',0x0F8B:'TIBETAN SIGN GRU MED RGYINGS',
+    0x0F8C:'TIBETAN SIGN INVERTED MCHU CAN',0x0F8D:'TIBETAN SUBJOINED SIGN LCE TSA CAN',
+    0x0F8E:'TIBETAN SUBJOINED SIGN MCHU CAN',0x0F8F:'TIBETAN SUBJOINED SIGN INVERTED MCHU CAN',
+    0x0F90:'TIBETAN SUBJOINED LETTER KA',0x0F91:'TIBETAN SUBJOINED LETTER KHA',
+    0x0F92:'TIBETAN SUBJOINED LETTER GA',0x0F93:'TIBETAN SUBJOINED LETTER GHA',
+    0x0F94:'TIBETAN SUBJOINED LETTER NGA',0x0F95:'TIBETAN SUBJOINED LETTER CA',
+    0x0F96:'TIBETAN SUBJOINED LETTER CHA',0x0F97:'TIBETAN SUBJOINED LETTER JA',
+    0x0F99:'TIBETAN SUBJOINED LETTER NYA',
+    0x0F9A:'TIBETAN SUBJOINED LETTER TTA',0x0F9B:'TIBETAN SUBJOINED LETTER TTHA',
+    0x0F9C:'TIBETAN SUBJOINED LETTER DDA',0x0F9D:'TIBETAN SUBJOINED LETTER DDHA',
+    0x0F9E:'TIBETAN SUBJOINED LETTER NNA',
+    0x0F9F:'TIBETAN SUBJOINED LETTER TA',0x0FA0:'TIBETAN SUBJOINED LETTER THA',
+    0x0FA1:'TIBETAN SUBJOINED LETTER DA',0x0FA2:'TIBETAN SUBJOINED LETTER DHA',
+    0x0FA3:'TIBETAN SUBJOINED LETTER NA',
+    0x0FA4:'TIBETAN SUBJOINED LETTER PA',0x0FA5:'TIBETAN SUBJOINED LETTER PHA',
+    0x0FA6:'TIBETAN SUBJOINED LETTER BA',0x0FA7:'TIBETAN SUBJOINED LETTER BHA',
+    0x0FA8:'TIBETAN SUBJOINED LETTER MA',
+    0x0FA9:'TIBETAN SUBJOINED LETTER TSA',0x0FAA:'TIBETAN SUBJOINED LETTER TSHA',
+    0x0FAB:'TIBETAN SUBJOINED LETTER DZA',0x0FAC:'TIBETAN SUBJOINED LETTER DZHA',
+    0x0FAD:'TIBETAN SUBJOINED LETTER WA',0x0FAE:'TIBETAN SUBJOINED LETTER ZHA',
+    0x0FAF:'TIBETAN SUBJOINED LETTER ZA',0x0FB0:'TIBETAN SUBJOINED LETTER -A',
+    0x0FB1:'TIBETAN SUBJOINED LETTER YA',0x0FB2:'TIBETAN SUBJOINED LETTER RA',
+    0x0FB3:'TIBETAN SUBJOINED LETTER LA',0x0FB4:'TIBETAN SUBJOINED LETTER SHA',
+    0x0FB5:'TIBETAN SUBJOINED LETTER SSA',0x0FB6:'TIBETAN SUBJOINED LETTER SA',
+    0x0FB7:'TIBETAN SUBJOINED LETTER HA',0x0FB8:'TIBETAN SUBJOINED LETTER A',
+    0x0FB9:'TIBETAN SUBJOINED LETTER KSSA',0x0FBA:'TIBETAN SUBJOINED LETTER FIXED-FORM WA',
+    0x0FBB:'TIBETAN SUBJOINED LETTER FIXED-FORM YA',0x0FBC:'TIBETAN SUBJOINED LETTER FIXED-FORM RA',
+    0x0FBE:'TIBETAN KU RU KHA',0x0FBF:'TIBETAN KU RU KHA BZHI MIG CAN',
+    0x0FC0:'TIBETAN CANTILLATION SIGN HEAVY BEAT',0x0FC1:'TIBETAN CANTILLATION SIGN LIGHT BEAT',
+    0x0FC2:'TIBETAN CANTILLATION SIGN CANG TE-U',0x0FC3:'TIBETAN CANTILLATION SIGN SBUB -CHAL',
+    0x0FC4:'TIBETAN SYMBOL DRIL BU',0x0FC5:'TIBETAN SYMBOL RDO RJE',
+    0x0FC6:'TIBETAN SYMBOL PADMA GDAN',0x0FC7:'TIBETAN SYMBOL RDO RJE RGYA GRAM',
+    0x0FC8:'TIBETAN SYMBOL PHUR PA',0x0FC9:'TIBETAN SYMBOL NOR BU',
+    0x0FCA:'TIBETAN SYMBOL NOR BU NYIS -KHYIL',0x0FCB:'TIBETAN SYMBOL NOR BU GSUM -KHYIL',
+    0x0FCC:'TIBETAN SYMBOL NOR BU BZHI -KHYIL',0x0FCE:'TIBETAN SIGN RDEL NAG RDEL DKAR',
+    0x0FCF:'TIBETAN SIGN RDEL NAG GSUM',
+    0x0FD0:'TIBETAN MARK BSKA- SHOG GI MGO RGYAN',0x0FD1:'TIBETAN MARK MNYAM YIG GI MGO RGYAN',
+    0x0FD2:'TIBETAN MARK NYIS TSHEG',0x0FD3:'TIBETAN MARK INITIAL BRDA RNYING YIG MGO MDUN MA',
+    0x0FD4:'TIBETAN MARK CLOSING BRDA RNYING YIG MGO SGAB MA',
+    0x0FD5:'RIGHT-FACING SVASTI SIGN',0x0FD6:'LEFT-FACING SVASTI SIGN',
+    0x0FD7:'RIGHT-FACING SVASTI SIGN WITH DOTS',0x0FD8:'LEFT-FACING SVASTI SIGN WITH DOTS',
+    0x0FD9:'TIBETAN MARK LEADING MCHAN RTAGS',0x0FDA:'TIBETAN MARK TRAILING MCHAN RTAGS',
+  };
+
+  /* Problem codepoints — known rendering hazards */
+  const PROBLEM_CODEPOINTS = new Set([
+    0x0F0B, // tsheg — line-break issues
+    0x0F7E, // anusvara — stacking issues
+    0x0F39, // tsa-phru
+    0x0F35, // ngas bzung nyi zla
+    0x0F37, // ngas bzung sgor rtags
+    0x0F71, // vowel sign aa — complex stacking
+    0x0F73, // vowel sign ii — precomposed
+    0x0F75, // vowel sign uu — precomposed
+    0x0F77, // vocalic rr — deprecated
+    0x0F79, // vocalic ll — deprecated
+    0x0F81, // reversed ii — precomposed
+    0x0F84, // halanta — virama behavior
+  ]);
+
+  function getCategory(cp) {
+    if (cp >= 0x0F40 && cp <= 0x0F6C) return 'consonant';
+    if (cp >= 0x0F90 && cp <= 0x0FBC) return 'subjoined';
+    if ((cp >= 0x0F71 && cp <= 0x0F7D) || cp === 0x0F80 || cp === 0x0F81) return 'vowel';
+    if (cp === 0x0F7E || cp === 0x0F7F || (cp >= 0x0F82 && cp <= 0x0F87) ||
+        cp === 0x0F35 || cp === 0x0F37 || cp === 0x0F39 ||
+        cp === 0x0FC6) return 'mark';
+    if ((cp >= 0x0F04 && cp <= 0x0F14) || cp === 0x0F85 ||
+        (cp >= 0x0FD0 && cp <= 0x0FDA) || cp === 0x0F34) return 'punctuation';
+    if (cp >= 0x0F20 && cp <= 0x0F33) return 'digit';
+    if (cp === 0x0020 || cp === 0x00A0 || cp === 0x200B || cp === 0x200D) return 'space';
+    if (cp >= 0x0F00 && cp <= 0x0FFF) return 'other';
+    return 'other';
+  }
+
+  function getUnicodeName(cp) {
+    if (TIBETAN_NAMES[cp]) return TIBETAN_NAMES[cp];
+    if (cp === 0x0020) return 'SPACE';
+    if (cp === 0x000A) return 'LINE FEED';
+    if (cp === 0x000D) return 'CARRIAGE RETURN';
+    if (cp === 0x00A0) return 'NO-BREAK SPACE';
+    if (cp === 0x200B) return 'ZERO WIDTH SPACE';
+    if (cp === 0x200D) return 'ZERO WIDTH JOINER';
+    if (cp === 0x0F0C) return 'TIBETAN MARK DELIMITER TSHEG BSTAR';
+    if (cp >= 0x0041 && cp <= 0x005A) return 'LATIN CAPITAL LETTER ' + String.fromCodePoint(cp);
+    if (cp >= 0x0061 && cp <= 0x007A) return 'LATIN SMALL LETTER ' + String.fromCodePoint(cp);
+    return 'U+' + cp.toString(16).toUpperCase().padStart(4, '0');
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     DOM REFS
+  ═══════════════════════════════════════════════════════ */
+  const input      = document.getElementById('dbInput');
+  const charEl     = document.getElementById('charCount');
+  const byteEl     = document.getElementById('byteCount');
+  const cpBody     = document.getElementById('cpBody');
+  const sampleSel  = document.getElementById('sampleSelect');
+  const fontGrid   = document.getElementById('fontGrid');
+  const fontStatus = document.getElementById('fontLoadStatus');
+  const sylBar     = document.getElementById('syllableBar');
+  const stackDet   = document.getElementById('stackDetail');
+  const cssFontSel = document.getElementById('cssFontSelect');
+  const cssOut     = document.getElementById('cssOutput');
+  const htmlOut    = document.getElementById('htmlOutput');
+  const cssPreview = document.getElementById('cssPreview');
+
+  /* ═══════════════════════════════════════════════════════
+     TAB SWITCHING
+  ═══════════════════════════════════════════════════════ */
+  document.getElementById('dbTabs').addEventListener('click', function (e) {
+    const btn = e.target.closest('.db-tab');
+    if (!btn) return;
+    document.querySelectorAll('.db-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.db-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('panel-' + btn.dataset.panel);
+    if (panel) panel.classList.add('active');
+
+    // Lazy-load fonts when Font Comparison tab is first opened
+    if (btn.dataset.panel === 'fonts' && !fontsLoaded) loadAllFonts();
+  });
+
+  /* ═══════════════════════════════════════════════════════
+     SAMPLE SELECTOR
+  ═══════════════════════════════════════════════════════ */
+  sampleSel.addEventListener('change', function () {
+    if (this.value) { input.value = this.value; update(); }
+    this.selectedIndex = 0;
+  });
+
+  /* ═══════════════════════════════════════════════════════
+     MAIN UPDATE (fires on every input change)
+  ═══════════════════════════════════════════════════════ */
+  input.addEventListener('input', update);
+
+  function update() {
+    const text = input.value;
+    const chars = [...text];
+    const byteLen = new TextEncoder().encode(text).length;
+
+    charEl.textContent = chars.length + ' chars';
+    byteEl.textContent = byteLen + ' bytes';
+
+    updateInspector(chars);
+    if (fontsLoaded) updateFontGrid(text);
+    updateSyllableBar(text);
+    updateCSSGenerator(text);
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PANEL 1: UNICODE INSPECTOR
+  ═══════════════════════════════════════════════════════ */
+  function updateInspector(chars) {
+    let html = '';
+    chars.forEach(function (ch, i) {
+      const cp = ch.codePointAt(0);
+      const hex = 'U+' + cp.toString(16).toUpperCase().padStart(4, '0');
+      const name = getUnicodeName(cp);
+      const cat = getCategory(cp);
+      const isProblem = PROBLEM_CODEPOINTS.has(cp);
+      const rowClass = isProblem ? ' class="db-problem"' : '';
+      const flag = isProblem ? '<span class="db-problem-flag" title="Known rendering hazard"></span>' : '';
+
+      html += '<tr' + rowClass + '>' +
+        '<td>' + (i + 1) + '</td>' +
+        '<td class="db-char-cell">' + escHtml(ch) + '</td>' +
+        '<td class="db-hex">' + hex + flag + '</td>' +
+        '<td>' + escHtml(name) + '</td>' +
+        '<td><span class="db-cat db-cat-' + cat + '">' + cat + '</span></td>' +
+        '</tr>';
+    });
+    cpBody.innerHTML = html;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PANEL 2: FONT COMPARISON
+  ═══════════════════════════════════════════════════════ */
+  async function loadAllFonts() {
+    fontStatus.textContent = 'Loading 36 fonts…';
+    const promises = FONTS.map(function (f) {
+      const face = new FontFace('db-' + f.file, "url('/fonts/" + f.file + ".woff2') format('woff2')");
+      return face.load().then(function (loaded) {
+        document.fonts.add(loaded);
+        return { font: f, ok: true };
+      }).catch(function () {
+        return { font: f, ok: false };
+      });
+    });
+    await Promise.all(promises);
+    fontsLoaded = true;
+    const okCount = FONTS.length;
+    fontStatus.textContent = okCount + ' fonts loaded.';
+    buildFontGrid();
+    updateFontGrid(input.value);
+  }
+
+  function buildFontGrid() {
+    let html = '';
+    FONTS.forEach(function (f) {
+      html += '<div class="db-font-card" data-cat="' + f.cat + '">' +
+        '<div class="db-font-card-head">' +
+          '<span class="db-font-name">' + escHtml(f.label) + '</span>' +
+          '<span class="db-font-indicator" id="ind-' + f.file + '"></span>' +
+        '</div>' +
+        '<div class="db-font-sample" id="sample-' + f.file + '" lang="bo" ' +
+          'style="font-family:\'db-' + f.file + '\',serif"></div>' +
+        '<button class="db-font-copy" onclick="dbCopyFontCSS(\'' + f.file + '\',\'' +
+          escHtml(f.label) + '\',this)">Copy CSS</button>' +
+      '</div>';
+    });
+    fontGrid.innerHTML = html;
+  }
+
+  function updateFontGrid(text) {
+    if (!fontsLoaded) return;
+    FONTS.forEach(function (f) {
+      const sample = document.getElementById('sample-' + f.file);
+      const ind = document.getElementById('ind-' + f.file);
+      if (!sample || !ind) return;
+      sample.textContent = text;
+      // Detect tofu via canvas
+      const hasGlyph = checkGlyph('db-' + f.file, text);
+      ind.textContent = hasGlyph ? '\u2713' : '\u2717';
+      ind.style.color = hasGlyph ? 'var(--db-green)' : 'var(--db-red)';
+    });
+  }
+
+  function checkGlyph(fontFamily, text) {
+    if (!text) return true;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    // Compare rendered width of first Tibetan char vs fallback
+    const testChar = [...text].find(function (ch) {
+      const cp = ch.codePointAt(0);
+      return cp >= 0x0F00 && cp <= 0x0FFF && cp >= 0x0F40;
+    });
+    if (!testChar) return true;
+    ctx.font = '48px "' + fontFamily + '"';
+    const w1 = ctx.measureText(testChar).width;
+    ctx.font = '48px "LastResort", sans-serif';
+    const w2 = ctx.measureText(testChar).width;
+    // If widths are identical and very small, likely tofu
+    if (w1 === 0) return false;
+    return Math.abs(w1 - w2) > 0.5 || w1 > 5;
+  }
+
+  /* Font category filter */
+  document.getElementById('fontFilters').addEventListener('click', function (e) {
+    const btn = e.target.closest('.db-filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('.db-filter-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    document.querySelectorAll('.db-font-card').forEach(function (card) {
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+    });
+  });
+
+  /* ═══════════════════════════════════════════════════════
+     PANEL 3: STACK ANALYZER
+  ═══════════════════════════════════════════════════════ */
+  function splitSyllables(text) {
+    // Split on tsheg (U+0F0B), shad (U+0F0D/0E), and spaces
+    const syls = [];
+    let cur = '';
+    for (const ch of text) {
+      const cp = ch.codePointAt(0);
+      if (cp === 0x0F0B || cp === 0x0F0D || cp === 0x0F0E || cp === 0x0F14 ||
+          cp === 0x0020 || cp === 0x0F34) {
+        if (cur) { syls.push(cur); cur = ''; }
+        // Include punctuation as its own "syllable" only if it's a shad
+        if (cp === 0x0F0D || cp === 0x0F0E) syls.push(ch);
+      } else {
+        cur += ch;
+      }
+    }
+    if (cur) syls.push(cur);
+    return syls;
+  }
+
+  function updateSyllableBar(text) {
+    const syls = splitSyllables(text);
+    let html = '';
+    syls.forEach(function (syl, i) {
+      html += '<button class="db-syl-btn" data-idx="' + i + '" data-syl="' +
+        escAttr(syl) + '">' + escHtml(syl) + '</button>';
+    });
+    sylBar.innerHTML = html;
+    stackDet.innerHTML = '<div class="db-stack-placeholder">Select a syllable above to analyze its stack structure.</div>';
+  }
+
+  sylBar.addEventListener('click', function (e) {
+    const btn = e.target.closest('.db-syl-btn');
+    if (!btn) return;
+    document.querySelectorAll('.db-syl-btn').forEach(function (b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    analyzeSyllable(btn.dataset.syl);
+  });
+
+  function analyzeSyllable(syl) {
+    const chars = [...syl];
+    const parts = { root: [], superscribed: [], subjoined: [], vowel: [], suffix: [], marks: [] };
+    let foundRoot = false;
+
+    chars.forEach(function (ch) {
+      const cp = ch.codePointAt(0);
+      if (cp >= 0x0F90 && cp <= 0x0FBC) {
+        parts.subjoined.push(ch);
+      } else if ((cp >= 0x0F71 && cp <= 0x0F7D) || cp === 0x0F80 || cp === 0x0F81) {
+        parts.vowel.push(ch);
+      } else if (cp === 0x0F7E || cp === 0x0F7F || (cp >= 0x0F82 && cp <= 0x0F87) ||
+                 cp === 0x0F35 || cp === 0x0F37 || cp === 0x0F39 || cp === 0x0FC6) {
+        parts.marks.push(ch);
+      } else if (cp >= 0x0F40 && cp <= 0x0F6C) {
+        if (!foundRoot) {
+          parts.root.push(ch);
+          foundRoot = true;
+        } else {
+          parts.suffix.push(ch);
+        }
+      } else {
+        parts.root.push(ch);
+      }
+    });
+
+    // Build HTML
+    let html = '<div class="db-stack-grid">';
+
+    const sections = [
+      { key: 'root',         label: 'Root Consonant' },
+      { key: 'subjoined',    label: 'Subjoined' },
+      { key: 'vowel',        label: 'Vowel Sign' },
+      { key: 'marks',        label: 'Marks' },
+      { key: 'suffix',       label: 'Suffix' },
+    ];
+
+    sections.forEach(function (s) {
+      if (parts[s.key].length === 0) return;
+      const display = parts[s.key].join('');
+      const hexes = parts[s.key].map(function (ch) {
+        return 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+      }).join(' ');
+
+      html += '<div class="db-stack-item">' +
+        '<div class="db-stack-label">' + s.label + '</div>' +
+        '<div class="db-stack-value">' + escHtml(display) + '</div>' +
+        '<div class="db-stack-hex">' + hexes + '</div>' +
+      '</div>';
+    });
+    html += '</div>';
+
+    // Check for rendering hazards
+    const warnings = [];
+    if (parts.subjoined.length >= 3) {
+      warnings.push('Deep stack with ' + parts.subjoined.length + ' subjoined consonants — many fonts cannot render this correctly.');
+    }
+    const hasRa = parts.subjoined.some(function (ch) { return ch.codePointAt(0) === 0x0FB2; });
+    const hasYa = parts.subjoined.some(function (ch) { return ch.codePointAt(0) === 0x0FB1; });
+    const hasWa = parts.subjoined.some(function (ch) { return ch.codePointAt(0) === 0x0FAD || ch.codePointAt(0) === 0x0FBA; });
+    if (hasRa && hasYa) warnings.push('Contains both ra-tag and ya-tag — complex rendering.');
+    if (hasWa && parts.subjoined.length > 1) warnings.push('Wa-zur combined with other subjoined letters — rendering varies across fonts.');
+    if (parts.vowel.some(function (ch) { return [0x0F73,0x0F75,0x0F77,0x0F79,0x0F81].includes(ch.codePointAt(0)); })) {
+      warnings.push('Contains precomposed/deprecated vowel — consider decomposed form for better compatibility.');
+    }
+
+    if (warnings.length) {
+      html += '<div class="db-stack-warn">' + warnings.map(function (w) { return '&#9888; ' + escHtml(w); }).join('<br>') + '</div>';
+    }
+
+    // Canonical ordering check
+    const inputOrder = chars.map(function (ch) {
+      return 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+    }).join(' ');
+
+    // Canonical: root, subjoined, vowels, marks, suffix
+    const canonical = [].concat(parts.root, parts.subjoined, parts.vowel, parts.marks, parts.suffix);
+    const canonOrder = canonical.map(function (ch) {
+      return 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+    }).join(' ');
+
+    const match = inputOrder === canonOrder;
+    html += '<div class="db-stack-order">' +
+      '<div class="db-stack-order-label">Input Order</div>' +
+      '<div class="db-stack-order-val">' + inputOrder + '</div>' +
+      '<div class="db-stack-order-label" style="margin-top:0.5rem">Canonical Order</div>' +
+      '<div class="db-stack-order-val">' + canonOrder + '</div>' +
+      '<div style="margin-top:0.4rem;font-size:0.75rem" class="' +
+        (match ? 'db-order-match' : 'db-order-mismatch') + '">' +
+        (match ? '\u2713 Order matches canonical' : '\u2717 Order differs from canonical — may cause rendering issues') +
+      '</div>' +
+    '</div>';
+
+    stackDet.innerHTML = html;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PANEL 4: CSS GENERATOR
+  ═══════════════════════════════════════════════════════ */
+  // Populate font dropdown
+  (function () {
+    let opts = '';
+    FONTS.forEach(function (f) {
+      opts += '<option value="' + f.file + '">' + escHtml(f.label) + '</option>';
+    });
+    cssFontSel.innerHTML = opts;
+  })();
+
+  cssFontSel.addEventListener('change', function () { updateCSSGenerator(input.value); });
+
+  function updateCSSGenerator(text) {
+    const f = FONTS.find(function (x) { return x.file === cssFontSel.value; }) || FONTS[0];
+
+    const css = "@font-face {\n" +
+      "  font-family: '" + f.label + "';\n" +
+      "  src: url('/fonts/" + f.file + ".woff2') format('woff2');\n" +
+      "}\n\n" +
+      ".tibetan-text {\n" +
+      "  font-family: '" + f.label + "', serif;\n" +
+      "  font-size: 1.5rem;\n" +
+      "  line-height: 2;\n" +
+      "}";
+
+    const htmlCode = '<p class="tibetan-text" lang="bo">' + escHtml(text) + '</p>';
+
+    cssOut.textContent = css;
+    htmlOut.textContent = htmlCode;
+
+    // Live preview
+    cssPreview.textContent = text;
+    cssPreview.style.fontFamily = fontsLoaded ? "'db-" + f.file + "', serif" : 'serif';
+    cssPreview.style.fontSize = '1.5rem';
+    cssPreview.style.lineHeight = '2';
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     UTILITIES
+  ═══════════════════════════════════════════════════════ */
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escAttr(s) {
+    return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  /* Copy helpers — exposed globally */
+  window.dbCopy = function (btn, targetId) {
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    navigator.clipboard.writeText(el.textContent).then(function () {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  };
+
+  window.dbCopyFontCSS = function (file, label, btn) {
+    const css = "@font-face {\n  font-family: '" + label + "';\n  src: url('/fonts/" +
+      file + ".woff2') format('woff2');\n}";
+    navigator.clipboard.writeText(css).then(function () {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(function () { btn.textContent = orig; }, 2000);
+    });
+  };
+
+  /* ═══════════════════════════════════════════════════════
+     INIT
+  ═══════════════════════════════════════════════════════ */
+  update();
+
+})();
+</script>

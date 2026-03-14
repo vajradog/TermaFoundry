@@ -51,8 +51,8 @@ import SiteLayout from '@layouts/SiteLayout.astro';
         We design and build the tools Tibetan script needs in the digital world — an original CSS framework, typefaces we create with master calligraphers, layout systems, and learning utilities. Everything made from the ground up.
       </p>
       <div class="hub-hero-actions reveal reveal-delay-3">
-        <a href="/termaui/" class="btn btn-primary">Explore termaUI</a>
-        <a href="/fonts/library" class="btn btn-outline">Font Library</a>
+        <a href="/ocr" class="btn btn-primary">Try TermaOCR</a>
+        <a href="/termaui/" class="btn btn-outline">Explore termaUI</a>
       </div>
     </div>
   </section>
@@ -66,41 +66,38 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     <div class="cards-grid cards-grid-2 reveal">
       <!-- termaUI -->
       <a href="/termaui/" class="tool-card tool-card-featured">
-        <div class="tool-card-badges">
-          <div class="tool-card-badge">Available Now</div>
-          <div class="tool-card-badge tool-card-badge-funding">Seeking Funding</div>
-        </div>
+        <div class="tool-card-badge">Available Now</div>
         <div class="tool-card-icon">◈</div>
         <h3 class="tool-card-title">termaUI</h3>
         <p class="tool-card-desc">The world's first utility-first CSS framework for Tibetan language rendering. Guards, fonts, effects, pecha layouts — in one stylesheet.</p>
         <div class="tool-card-link">Explore termaUI →</div>
       </a>
 
-      <!-- Font Library -->
-      <a href="/fonts/library" class="tool-card tool-card-featured">
-        <div class="tool-card-badge">Available Now</div>
-        <div class="tool-card-icon">Ꞷ</div>
-        <h3 class="tool-card-title">Font Library</h3>
-        <p class="tool-card-desc">Open-source typefaces we host and optimize for the web, plus three original fonts we're designing from scratch with master calligrapher Jamyang Dorjee.</p>
-        <div class="tool-card-link">Browse Fonts →</div>
+      <!-- TermaOCR -->
+      <a href="/ocr" class="tool-card tool-card-featured">
+        <div class="tool-card-badge">Beta</div>
+        <div class="tool-card-icon">⊡</div>
+        <h3 class="tool-card-title">TermaOCR</h3>
+        <p class="tool-card-desc">Upload an image or PDF of Tibetan text, draw selection boxes around text areas, and get accurate Unicode output instantly. Supports batch processing with reusable templates.</p>
+        <div class="tool-card-link">Try TermaOCR →</div>
       </a>
 
-      <!-- Typing Helper -->
-      <a href="/type" class="tool-card tool-card-soon">
-        <div class="tool-card-badge tool-card-badge-soon">Coming Soon</div>
+      <!-- TermaType -->
+      <a href="/type" class="tool-card tool-card-featured">
+        <div class="tool-card-badge">Beta</div>
         <div class="tool-card-icon">⌨</div>
-        <h3 class="tool-card-title">Tibetan Typing Helper</h3>
-        <p class="tool-card-desc">Learn Tibetan keyboard layouts interactively. Full keyboard map, keystroke guides, and practice mode for beginners and advanced users alike.</p>
-        <div class="tool-card-link" style="color: var(--muted);">In Development</div>
+        <h3 class="tool-card-title">TermaType</h3>
+        <p class="tool-card-desc">A Tibetan word processor with built-in Monlam IME, live dictionary, rich formatting, and multi-format export. Works entirely in your browser.</p>
+        <div class="tool-card-link">Open TermaType →</div>
       </a>
 
       <!-- PechaForge -->
-      <a href="/pecha" class="tool-card tool-card-soon">
-        <div class="tool-card-badge tool-card-badge-soon">Coming Soon</div>
+      <a href="/pecha" class="tool-card tool-card-featured">
+        <div class="tool-card-badge">Beta</div>
         <div class="tool-card-icon">༺</div>
         <h3 class="tool-card-title">PechaForge</h3>
-        <p class="tool-card-desc">Create traditional Tibetan pecha layouts in the browser. Yig mgo, folio numbering, title columns, dzog thik — export as PDF. The first web-based pecha maker.</p>
-        <div class="tool-card-link" style="color: var(--muted);">In Development</div>
+        <p class="tool-card-desc">Create traditional Tibetan pecha manuscripts in the browser. Yig mgo, Tibetan folios, four themes, duplex printing, and PDF export. The first web-based pecha maker.</p>
+        <div class="tool-card-link">Open PechaForge →</div>
       </a>
     </div>
   </section>
@@ -186,21 +183,26 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     <div class="section-eyebrow reveal">Why It Matters</div>
     <h2 class="section-heading reveal">Tibetan as a first-class<br>citizen of the internet.</h2>
 
-    <div class="cards-grid cards-grid-3 reveal">
+    <div class="cards-grid cards-grid-2 reveal">
       <div class="card">
-        <div class="why-icon">🏔</div>
-        <div class="card-title">Digital Sovereignty</div>
-        <div class="card-desc">Most languages depend on big tech to define their script's digital look. termaUI lets Tibetans define their own aesthetic — gradients, glows, effects with cultural meaning.</div>
+        <div class="why-icon">◈</div>
+        <div class="card-title">Style Tibetan the Web Way</div>
+        <div class="card-desc">Every web project that displays Tibetan text re-solves the same bugs from scratch — clipped vowels, broken line wrapping, no standard font API. termaUI fixes all of it in one stylesheet, so developers and designers can build instead of patch.</div>
       </div>
       <div class="card">
-        <div class="why-icon">👴</div>
-        <div class="card-title">Accessible to All</div>
-        <div class="card-desc">Standard web fonts are too thin for elders. Complex traditional forms intimidate learners. Our tools close both gaps — beautiful for scholars, readable for beginners.</div>
+        <div class="why-icon">⊡</div>
+        <div class="card-title">Digitize the Canon</div>
+        <div class="card-desc">Centuries of Tibetan scholarship exist only as ink on paper. TermaOCR converts scanned pecha pages, manuscripts, and books into searchable Unicode text — making the written tradition accessible to everyone, instantly.</div>
       </div>
       <div class="card">
-        <div class="why-icon">🌍</div>
-        <div class="card-title">Diaspora Connection</div>
-        <div class="card-desc">Many diaspora Tibetans speak fluently but struggle with the script. Simplified, accessible fonts lower the barrier to written Tibetan — connecting a generation to their heritage.</div>
+        <div class="why-icon">⌨</div>
+        <div class="card-title">Write in Tibetan, Anywhere</div>
+        <div class="card-desc">Most people who want to write Tibetan hit the same wall: no keyboard, no font, wrong software. TermaType removes every barrier — built-in IME, live dictionary, rich formatting, and export — all in a browser tab.</div>
+      </div>
+      <div class="card">
+        <div class="why-icon">༺</div>
+        <div class="card-title">Keep Pecha Alive</div>
+        <div class="card-desc">The traditional three-column pecha format carries fifteen centuries of Tibetan literary culture. PechaForge is the first tool that lets anyone create, format, and print authentic pecha manuscripts — no monastery printing press required.</div>
       </div>
     </div>
   </section>

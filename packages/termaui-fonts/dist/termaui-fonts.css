@@ -1,0 +1,450 @@
+/* ==========================================================================
+   termaui-fonts v0.3.0
+   Extended Tibetan font library for termaUI — 40+ fonts.
+   Use alongside termaui: https://termafoundry.com/termaui
+   CDN: https://cdn.jsdelivr.net/npm/termaui-fonts/dist/termaui-fonts.min.css
+   License: SEE LICENSE IN LICENSE
+   Paths relative to dist/termaui-fonts.css.
+   unicode-range ensures browsers only download when Tibetan text is present.
+   ========================================================================== */
+
+/* ── NOTO SERIF TIBETAN ────────────────────────────────────────────────────
+   Modern screen-optimised serif. Google Fonts. SIL OFL.
+   Full weight axis: 100–900.                                                 */
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-thin.woff2') format('woff2');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-extralight.woff2') format('woff2');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-extrabold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Noto Serif Tibetan';
+  src: url('../fonts/noto-serif-tibetan-black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── TIBETAN MACHINE UNI ───────────────────────────────────────────────────
+   Bold high-contrast display/headline font. THDL. GPL v2.                  */
+@font-face {
+  font-family: 'Tibetan Machine Uni';
+  src: url('../fonts/tibetan-machine-uni.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── BABELSTONE TIBETAN ────────────────────────────────────────────────────
+   Extensive Unicode coverage Uchen. Andrew West / BabelStone. SIL OFL.     */
+@font-face {
+  font-family: 'BabelStone Tibetan';
+  src: url('../fonts/babelstone-tibetan.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 145.1%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── BABELSTONE TIBETAN SLIM ───────────────────────────────────────────────
+   Reduced line-height variant of BabelStone Tibetan. Andrew West. SIL OFL. */
+@font-face {
+  font-family: 'BabelStone Tibetan Slim';
+  src: url('../fonts/babelstone-tibetan-slim.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 145.1%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── DDC UCHEN ─────────────────────────────────────────────────────────────
+   Official Bhutanese Uchen. Christopher J. Fynn / Dzongkha Development
+   Commission. SIL OFL.                                                      */
+@font-face {
+  font-family: 'DDC Uchen';
+  src: url('../fonts/ddc-uchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 101.4%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── DDC RINZIN ────────────────────────────────────────────────────────────
+   Decorative calligraphic Uchen. Christopher J. Fynn / DDC. SIL OFL.       */
+@font-face {
+  font-family: 'DDC Rinzin';
+  src: url('../fonts/ddc-rinzin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 101.4%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── GANGJIE UCHEN ─────────────────────────────────────────────────────────
+   Clean modern Uchen. Gangjie Project. Open license.                       */
+@font-face {
+  font-family: 'GangJie Uchen';
+  src: url('../fonts/gangjie-uchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 125.4%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── GANGJIE DRUTSA ────────────────────────────────────────────────────────
+   Cursive drutsa hand. Gangjie Project. Open license.                      */
+@font-face {
+  font-family: 'GangJie Drutsa';
+  src: url('../fonts/gangjie-drutsa.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 134.5%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── JAMYANG MONLAM UCHEN ──────────────────────────────────────────────────
+   Uchen with calligraphic character. Monlam AI. Open license.              */
+@font-face {
+  font-family: 'Jamyang Monlam Uchen';
+  src: url('../fonts/jamyang-monlam-uchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 205.6%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── JOYIG ─────────────────────────────────────────────────────────────────
+   Semi-formal Joyig script. Open license.                                  */
+@font-face {
+  font-family: 'Joyig';
+  src: url('../fonts/joyig.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── KHAMPA DEDRI BECHU ────────────────────────────────────────────────────
+   Informal bechu (simplified) hand. Khampa Dedri Project. Open license.   */
+@font-face {
+  font-family: 'Khampa Dedri Bechu';
+  src: url('../fonts/khampa-dedri-bechu.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 138.1%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── KHAMPA DEDRI CHUYIG ───────────────────────────────────────────────────
+   Flowing chuyig (correspondence) script. Khampa Dedri Project. Open.     */
+@font-face {
+  font-family: 'Khampa Dedri Chuyig';
+  src: url('../fonts/khampa-dedri-chuyig.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 262.4%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── KHAMPA DEDRI DRUTSA ───────────────────────────────────────────────────
+   Drutsa cursive hand. Khampa Dedri Project. Open license.                */
+@font-face {
+  font-family: 'Khampa Dedri Drutsa';
+  src: url('../fonts/khampa-dedri-drutsa.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 132.1%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── PANCHEN TSUKRING ──────────────────────────────────────────────────────
+   Traditional Uchen with extended ascenders. Open license.                */
+@font-face {
+  font-family: 'Panchen Tsukring';
+  src: url('../fonts/panchen-tsukring.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 113.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── RIWOCHE DHODRI ────────────────────────────────────────────────────────
+   Woodblock-inspired Uchen yigchen style. Open license.                   */
+@font-face {
+  font-family: 'Riwoche Dhodri';
+  src: url('../fonts/riwoche-dhodri-yigchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 129.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── SADRI YIGCHEN ─────────────────────────────────────────────────────────
+   Clean formal Uchen yigchen. Sadri Project. Open license.                */
+@font-face {
+  font-family: 'Sadri Yigchen';
+  src: url('../fonts/sadri-yigchen.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 127.6%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── SADRI DRUTSA ──────────────────────────────────────────────────────────
+   Drutsa cursive hand. Sadri Project. Open license.                       */
+@font-face {
+  font-family: 'Sadri Drutsa';
+  src: url('../fonts/sadri-drutsa.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 127.6%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── NOTO SANS TIBETAN ─────────────────────────────────────────────────────
+   Modern sans-serif. Google Fonts. SIL OFL.                               */
+@font-face {
+  font-family: 'Noto Sans Tibetan';
+  src: url('../fonts/noto-sans-tibetan.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MISANS TIBETAN ────────────────────────────────────────────────────────
+   Modern geometric sans. Xiaomi / MiSans. Open license.                  */
+@font-face {
+  font-family: 'MiSans Tibetan';
+  src: url('../fonts/misans-tibetan.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 108.8%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI OUCHAN ─────────────────────────────────────────────────────
+   Monlam AI's Uchen family — five stylistic variants. Open license.      */
+@font-face {
+  font-family: 'Monlam Uni OuChan1';
+  src: url('../fonts/monlam-uni-ouchan1.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 224.2%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Monlam Uni OuChan2';
+  src: url('../fonts/monlam-uni-ouchan2.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 154.2%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Monlam Uni OuChan3';
+  src: url('../fonts/monlam-uni-ouchan3.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 157.4%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Monlam Uni OuChan4';
+  src: url('../fonts/monlam-uni-ouchan4.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 157.4%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Monlam Uni OuChan5';
+  src: url('../fonts/monlam-uni-ouchan5.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 157.4%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI SANS SERIF ─────────────────────────────────────────────────
+   Monlam AI's sans-serif Uchen. Open license.                            */
+@font-face {
+  font-family: 'Monlam Uni Sans';
+  src: url('../fonts/monlam-uni-sans.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 145.1%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI PAYTSIK ────────────────────────────────────────────────────
+   Monlam AI's PayTsik display Uchen. Open license.                       */
+@font-face {
+  font-family: 'Monlam Uni PayTsik';
+  src: url('../fonts/monlam-uni-paytsik.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 308.3%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI TIKRANG ────────────────────────────────────────────────────
+   Monlam AI's Tikrang ornamental Uchen. Open license.                    */
+@font-face {
+  font-family: 'Monlam Uni Tikrang';
+  src: url('../fonts/monlam-uni-tikrang.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 246.7%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI TIKTONG ────────────────────────────────────────────────────
+   Monlam AI's TikTong ornamental Uchen. Open license.                    */
+@font-face {
+  font-family: 'Monlam Uni TikTong';
+  src: url('../fonts/monlam-uni-tiktong.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 296.0%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── MONLAM UNI DUTSA ──────────────────────────────────────────────────────
+   Monlam AI's drutsa cursive family — two variants. Open license.        */
+@font-face {
+  font-family: 'Monlam Uni Dutsa1';
+  src: url('../fonts/monlam-uni-dutsa1.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 264.3%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+@font-face {
+  font-family: 'Monlam Uni Dutsa2';
+  src: url('../fonts/monlam-uni-dutsa2.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 284.6%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── QOMOLANGMA BETSU ──────────────────────────────────────────────────────
+   THDL Qomolangma project — betsu (compact abbreviated) style. Open.    */
+@font-face {
+  font-family: 'Qomolangma-Betsu';
+  src: url('../fonts/qomolangma-betsu.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 118.6%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}
+
+/* ── QOMOLANGMA TSUTONG ────────────────────────────────────────────────────
+   THDL Qomolangma project — tsutong (short-headed) display Uchen. Open. */
+@font-face {
+  font-family: 'Qomolangma-Tsutong';
+  src: url('../fonts/qomolangma-tsutong.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 125.4%;
+  unicode-range: U+0F00-0FFF, U+0020-007E;
+}

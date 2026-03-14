@@ -1,958 +1,468 @@
 ---
 import SiteLayout from '@layouts/SiteLayout.astro';
-
-const lessons = [
-  {
-    id: 'alphabet', label: 'Alphabet',
-    prompts: [
-      'ཀ་ཁ་ག་ང་','ཅ་ཆ་ཇ་ཉ་','ཏ་ཐ་ད་ན་','པ་ཕ་བ་མ་',
-      'ཙ་ཚ་ཛ་ཝ་','ཞ་ཟ་འ་ཡ་','ར་ལ་ཤ་ས་','ཧ་ཨ་',
-    ],
-  },
-  {
-    id: 'vowels', label: 'Vowels',
-    prompts: [
-      'ཀི་ཀུ་ཀེ་ཀོ་','གི་གུ་གེ་གོ་','ཏི་ཏུ་ཏེ་ཏོ་',
-      'པི་པུ་པེ་པོ་','མི་མུ་མེ་མོ་','རི་རུ་རེ་རོ་','སི་སུ་སེ་སོ་',
-    ],
-  },
-  {
-    id: 'stacks', label: 'Stacks',
-    prompts: [
-      'བྲ་གྲ་ཏྲ་དྲ་པྲ་','ཀྱ་གྱ་པྱ་བྱ་མྱ་','ཀླ་གླ་བླ་སླ་',
-      'རྐ་རྒ་རྔ་རྗ་རྟ་','སྐ་སྒ་སྔ་སྙ་སྟ་',
-    ],
-  },
-  {
-    id: 'words', label: 'Words',
-    prompts: [
-      'བོད་','བཀྲ་ཤིས་བདེ་ལེགས་','ཐུགས་རྗེ་ཆེ་','སེམས་ཅན་',
-      'སངས་རྒྱས་','ཆོས་','དགེ་འདུན་','བླ་མ་','ཡེ་ཤེས་','སྙིང་རྗེ་',
-    ],
-  },
-  {
-    id: 'sentences', label: 'Sentences',
-    prompts: [
-      'བཀྲ་ཤིས་བདེ་ལེགས།','ཐུགས་རྗེ་ཆེ།','ཁྱེད་རང་བདེ་མོ་ཡིན་པས།',
-      'ང་བོད་པ་ཡིན།','དེ་རིང་ནམ་མཁའ་སྔོན་པོ་རེད།',
-    ],
-  },
-];
 ---
 
-<SiteLayout title="Tibetan Typing Practice — Learn the Monlam Keyboard Free" description="Learn to type Tibetan with 5 structured lessons, a visual phonetic keyboard, real-time WPM and accuracy tracking. Built-in Monlam IME — no installation required.">
+<SiteLayout title="TermaType — A Tibetan Word Processor" description="A professional Tibetan word processor with built-in Monlam IME, bilingual dictionary, rich formatting, and export to HTML, EPUB, and PDF. Free, offline-first, no account needed.">
 
-  <section class="type-page">
-
-    <!-- Top bar: title + lessons + stats all compact -->
-    <div class="type-topbar reveal">
-      <div class="type-title-row">
-        <h1 class="type-title">Tibetan Typing</h1>
-        <div class="type-stats" id="type-stats">
-          <span class="ts" id="stat-wpm"><b>0</b> wpm</span>
-          <span class="ts" id="stat-accuracy"><b>100</b>%</span>
-          <span class="ts" id="stat-streak">🔥 <b>0</b></span>
-          <span class="ts ts-progress" id="stat-progress">1/8</span>
-          <button class="ts-reset" id="reset-btn" title="Reset">↻</button>
-        </div>
-      </div>
-      <div class="lesson-pills">
-        {lessons.map((lesson, i) => (
-          <button class={`lesson-pill ${i === 0 ? 'active' : ''}`} data-lesson={lesson.id} data-index={i}>
-            {lesson.label}
-          </button>
-        ))}
-        <button class="lesson-pill pill-free" data-lesson="free" data-index="-1">
-          Free Type ✍
-        </button>
-      </div>
+  <section class="tt-hero reveal">
+    <span class="tt-kicker">TIBETAN WORD PROCESSOR</span>
+    <h1 class="tt-title">TermaType <span class="tt-beta">BETA</span></h1>
+    <p class="tt-subtitle">Write, format, and publish Tibetan text — with a built-in keyboard, live dictionary, and beautiful typography. No installation, no account.</p>
+    <div class="tt-cta">
+      <a href="https://vajradog.github.io/termatype/" class="btn btn-primary btn-lg" target="_blank" rel="noopener">Try the Prototype <span class="tt-arrow">→</span></a>
+      <span class="tt-cta-note">Free prototype · Works in your browser · Desktop recommended</span>
     </div>
+  </section>
 
-    <!-- Typing zone: combined target + input -->
-    <div class="type-zone reveal" id="type-zone">
-      <div class="type-target" id="type-target">
-        <span class="type-placeholder">Click here and start typing…</span>
+  <!-- Screenshot / Preview -->
+  <section class="tt-preview reveal">
+    <div class="tt-preview-window">
+      <div class="tt-preview-bar">
+        <span class="tt-dot"></span><span class="tt-dot"></span><span class="tt-dot"></span>
+        <span class="tt-preview-title">TermaType</span>
       </div>
-      <textarea id="typing-input" class="typing-input-hidden" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-
-      <!-- Result overlay -->
-      <div class="type-result hidden" id="type-result">
-        <div class="type-result-inner">
-          <span class="result-emoji">🎉</span>
-          <span class="result-msg">Done!</span>
-          <span class="result-detail" id="result-detail"></span>
-          <button class="btn btn-primary btn-sm" id="next-btn">Next →</button>
+      <div class="tt-preview-body">
+        <div class="tt-preview-toolbar">
+          <span class="tt-tb-item">Jomolhari</span>
+          <span class="tt-tb-item">18px</span>
+          <span class="tt-tb-sep"></span>
+          <span class="tt-tb-item"><b>B</b></span>
+          <span class="tt-tb-item"><i>I</i></span>
+          <span class="tt-tb-item"><u>U</u></span>
+          <span class="tt-tb-sep"></span>
+          <span class="tt-tb-item">≡</span>
+          <span class="tt-tb-item">☰</span>
+        </div>
+        <div class="tt-preview-page" lang="bo">
+          <p class="tt-sample-text">བཀྲ་ཤིས་བདེ་ལེགས། སེམས་ཅན་ཐམས་ཅད་བདེ་བ་དང་བདེ་བའི་རྒྱུ་དང་ལྡན་པར་གྱུར་ཅིག །སེམས་ཅན་ཐམས་ཅད་སྡུག་བསྔལ་དང་སྡུག་བསྔལ་གྱི་རྒྱུ་དང་བྲལ་བར་གྱུར་ཅིག</p>
+        </div>
+        <div class="tt-preview-status">
+          <span>IME: བོད</span>
+          <span>42 words · 186 chars</span>
+          <span>Jomolhari 18px</span>
         </div>
       </div>
     </div>
+  </section>
 
-    <!-- Free Type zone (hidden by default) -->
-    <div class="free-zone hidden reveal" id="free-zone">
-      <textarea id="free-input" class="free-input" placeholder="Start typing Tibetan here…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-      <div class="free-actions">
-        <button class="free-copy-btn" id="free-copy-btn" title="Copy text">📋 Copy</button>
-        <button class="free-clear-btn" id="free-clear-btn" title="Clear">✕ Clear</button>
-        <span class="free-charcount" id="free-charcount">0 chars</span>
+  <!-- Features -->
+  <section class="tt-features reveal">
+    <h2 class="tt-section-title">Built for Tibetan</h2>
+    <p class="tt-section-desc">Every feature designed around the unique needs of Tibetan script — vertical stacking, tsheg segmentation, and ligature rendering.</p>
+
+    <div class="tt-feature-grid">
+      <div class="tt-feature">
+        <div class="tt-feature-icon">⌨</div>
+        <h3>Monlam Phonetic IME</h3>
+        <p>Type Tibetan with the standard Monlam keyboard layout. Ctrl+Space to toggle between Tibetan and English. Visual on-screen keyboard with real-time key highlighting.</p>
+      </div>
+      <div class="tt-feature">
+        <div class="tt-feature-icon">📖</div>
+        <h3>Live Dictionary</h3>
+        <p>Search across 64 Tibetan-English dictionaries with 316,000+ entries. Click any result to insert it at your cursor. Powered by the Tibetan Library API.</p>
+      </div>
+      <div class="tt-feature">
+        <div class="tt-feature-icon">✍</div>
+        <h3>Rich Text Editing</h3>
+        <p>Full formatting — headings, bold, italic, colors, alignment, lists, tables, and images. Choose from Jomolhari, Noto Serif Tibetan, Qomolangma, and more.</p>
+      </div>
+      <div class="tt-feature">
+        <div class="tt-feature-icon">📤</div>
+        <h3>Multi-Format Export</h3>
+        <p>Save as .terma (native), .html (standalone page), .txt (plain text), .epub (e-book), or .pdf (print). Your documents, your formats.</p>
+      </div>
+      <div class="tt-feature">
+        <div class="tt-feature-icon">🔒</div>
+        <h3>Offline & Private</h3>
+        <p>No cloud, no account, no tracking. Documents auto-save to your browser. Everything works offline except the dictionary lookup.</p>
+      </div>
+      <div class="tt-feature">
+        <div class="tt-feature-icon">🎓</div>
+        <h3>Typing Tutor</h3>
+        <p>Built-in lessons from alphabet basics to full sentences. Real-time WPM and accuracy tracking. Learn the Monlam keyboard from scratch.</p>
       </div>
     </div>
+  </section>
 
-    <!-- Hint -->
-    <div class="type-hint reveal" id="type-hint">
-      <span class="hint-icon">💡</span>
-      <span id="hint-text">Press <kbd>k</kbd> for ཀ (ka)</span>
-    </div>
-
-    <!-- Keyboard -->
-    <div class="type-keyboard reveal" id="type-keyboard"></div>
-
-    <!-- Collapsible reference -->
-    <details class="type-ref reveal">
-      <summary>Quick Reference — vowels, stacking, punctuation</summary>
-      <div class="ref-grid">
-        <div class="ref-col">
-          <h4>Vowels</h4>
-          <span><kbd>i</kbd> <b class="tib">ི</b> gigu</span>
-          <span><kbd>u</kbd> <b class="tib">ུ</b> zhabo</span>
-          <span><kbd>e</kbd> <b class="tib">ེ</b> drenbu</span>
-          <span><kbd>o</kbd> <b class="tib">ོ</b> naro</span>
-        </div>
-        <div class="ref-col">
-          <h4>Stacking (Shift+key)</h4>
-          <span><kbd>⇧R</kbd> <b class="tib">ྲ</b> sub ra</span>
-          <span><kbd>⇧Y</kbd> <b class="tib">ྱ</b> sub ya</span>
-          <span><kbd>⇧L</kbd> <b class="tib">ླ</b> sub la</span>
-          <span><kbd>⇧V</kbd> <b class="tib">ྭ</b> sub wa</span>
-        </div>
-        <div class="ref-col">
-          <h4>Punctuation</h4>
-          <span><kbd>Space</kbd> <b class="tib">་</b> tsheg</span>
-          <span><kbd>/</kbd> <b class="tib">།</b> shad</span>
-          <span><kbd>-</kbd> <b class="tib">༌</b> nb-tsheg</span>
-        </div>
-        <div class="ref-col">
-          <h4>Common Stacks</h4>
-          <span><kbd>g</kbd><kbd>⇧R</kbd> <b class="tib">གྲ</b> gra</span>
-          <span><kbd>b</kbd><kbd>⇧R</kbd> <b class="tib">བྲ</b> bra</span>
-          <span><kbd>s</kbd><kbd>⇧K</kbd> <b class="tib">སྐ</b> ska</span>
-          <span><kbd>r</kbd><kbd>⇧G</kbd> <b class="tib">རྒ</b> rga</span>
-        </div>
+  <!-- Scripts section -->
+  <section class="tt-scripts reveal">
+    <h2 class="tt-section-title">Scripts & Fonts</h2>
+    <p class="tt-section-desc">TermaType ships with curated Tibetan fonts covering formal, cursive, and modern styles.</p>
+    <div class="tt-script-list">
+      <div class="tt-script-item">
+        <span class="tt-script-sample" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span>
+        <span class="tt-script-label">Jomolhari — Uchen (formal)</span>
       </div>
-    </details>
+      <div class="tt-script-item">
+        <span class="tt-script-sample tt-font-noto" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span>
+        <span class="tt-script-label">Noto Sans Tibetan — Sans-serif</span>
+      </div>
+      <div class="tt-script-item">
+        <span class="tt-script-sample tt-font-drutsa" lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span>
+        <span class="tt-script-label">Qomolangma Drutsa — Cursive</span>
+      </div>
+    </div>
+  </section>
 
+  <!-- Roadmap & Support -->
+  <section class="tt-roadmap reveal">
+    <div class="tt-roadmap-inner">
+      <p class="tt-roadmap-lead">TermaType is in active development. Building a professional word processor for Tibetan requires solving unique challenges — vertical consonant stacking, tsheg-based word segmentation, and mixed-script rendering that no mainstream editor handles well.</p>
+      <p class="tt-roadmap-body">The current beta includes a full rich text editor, Monlam IME, live dictionary, and multi-format export. With your support, we're working to deliver:</p>
+      <ul class="tt-roadmap-list">
+        <li><strong>Native desktop apps</strong> — macOS, Windows, and Linux via Tauri</li>
+        <li><strong>Offline dictionary</strong> — full 316K-entry dictionary without internet</li>
+        <li><strong>Spell check</strong> — Tibetan-aware spell checking with Botok integration</li>
+        <li><strong>Find & replace</strong> — tsheg-aware search across documents</li>
+        <li><strong>Dark mode</strong> — full theme support for low-light writing</li>
+        <li><strong>Mobile support</strong> — responsive editor for tablets and phones</li>
+      </ul>
+      <p class="tt-roadmap-cta">Your support helps fix bugs, polish the interface, and bring TermaType to every platform. Every contribution directly advances the tools available for Tibetan writers worldwide.</p>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="tt-final-cta reveal">
+    <h2>Start Writing Tibetan</h2>
+    <p>No download, no signup. Just open TermaType and start typing.</p>
+    <a href="https://vajradog.github.io/termatype/" class="btn btn-primary btn-lg" target="_blank" rel="noopener">Try the Prototype →</a>
   </section>
 
 </SiteLayout>
 
-<script define:vars={{ lessons }}>
-  window.__LESSONS__ = lessons;
-</script>
-
-<script>
-  // ─── IME map ───────────────────────────────────────────────────────────────
-  const MAP = {
-    'k':'\u0F40','[':'\u0F41','g':'\u0F42',',':'\u0F44',
-    'c':'\u0F45','x':'\u0F46','j':'\u0F47','.':'\u0F49',
-    't':'\u0F4F',']':'\u0F50','d':'\u0F51','n':'\u0F53',
-    'p':'\u0F54','f':'\u0F55','b':'\u0F56','m':'\u0F58',
-    ';':'\u0F59',':':'\u0F5A','\\':'\u0F5B','v':'\u0F5D',
-    'w':'\u0F5E','z':'\u0F5F',"'":'\u0F60','y':'\u0F61',
-    'r':'\u0F62','l':'\u0F63','q':'\u0F64','s':'\u0F66',
-    'h':'\u0F67','a':'\u0F68',
-    'i':'\u0F72','u':'\u0F74','e':'\u0F7A','o':'\u0F7C',
-    ' ':'\u0F0B','/':'\u0F0D','-':'\u0F0C',
-    '0':'\u0F20','1':'\u0F21','2':'\u0F22','3':'\u0F23',
-    '4':'\u0F24','5':'\u0F25','6':'\u0F26','7':'\u0F27',
-    '8':'\u0F28','9':'\u0F29',
-    'K':'\u0F90','G':'\u0F92','C':'\u0F95','X':'\u0F96',
-    'J':'\u0F97','T':'\u0F9F','D':'\u0FA1','N':'\u0FA3',
-    'P':'\u0FA4','B':'\u0FA6','M':'\u0FA8','V':'\u0FAD',
-    'W':'\u0FAE','Z':'\u0FAF','Y':'\u0FB1','R':'\u0FB2',
-    'L':'\u0FB3','Q':'\u0FB4','S':'\u0FB6','H':'\u0FB7','A':'\u0FB8',
-  };
-  const REVERSE = {};
-  for (const [k, v] of Object.entries(MAP)) { if (!REVERSE[v]) REVERSE[v] = k; }
-
-  const KEY_LABELS = {
-    'k':'ka','[':'kha','g':'ga',',':'nga','c':'ca','x':'cha','j':'ja','.':'nya',
-    't':'ta',']':'tha','d':'da','n':'na','p':'pa','f':'pha','b':'ba','m':'ma',
-    ';':'tsa',':':'tsha','\\':'dza','v':'wa','w':'zha','z':'za',"'":'a','y':'ya',
-    'r':'ra','l':'la','q':'sha','s':'sa','h':'ha','a':'a',
-    'i':'i (gigu)','u':'u (zhabo)','e':'e (drenbu)','o':'o (naro)',
-    ' ':'tsheg','/':'shad','-':'nb-tsheg',
-  };
-
-  const PASSTHROUGH = new Set([
-    'Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp','ArrowDown',
-    'Home','End','PageUp','PageDown','Tab','Enter','Escape',
-    'F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12',
-    'CapsLock','Shift','Control','Alt','Meta','AltGraph',
-  ]);
-
-  // ─── Physical keyboard layout ─────────────────────────────────────────────
-  // Each row: array of { key, w? (width multiplier, default 1) }
-  const KB_ROWS = [
-    // Number row
-    { offset: 0, keys: ['1','2','3','4','5','6','7','8','9','0','-'].map(k => ({key:k})) },
-    // QWERTY row
-    { offset: 0.5, keys: ['q','w','e','r','t','y','u','i','o','p','[',']'].map(k => ({key:k})) },
-    // Home row
-    { offset: 0.8, keys: ['a','s','d','f','g','h','j','k','l',';',"'"].map(k => ({key:k})) },
-    // Bottom row — with backspace at end
-    { offset: 1.3, keys: [
-      ...['z','x','c','v','b','n','m',',','.','/'].map(k => ({key:k})),
-      {key:'Backspace', label:'⌫', w:1.6, noTib:true},
-    ]},
-    // Spacebar row
-    { offset: 0, isSpaceRow: true, keys: [
-      {key:'shift-l', label:'⇧ Shift', w: 2.5, noTib: true, cls: 'kb-shift'},
-      {key:' ', w: 7, label: 'tsheg ་'},
-      {key:'shift-r', label:'⇧ Shift', w: 2.5, noTib: true, cls: 'kb-shift'},
-    ]},
-  ];
-
-  // ─── State ─────────────────────────────────────────────────────────────────
-  const lessons = window.__LESSONS__;
-  let currentLesson = 0, currentPrompt = 0;
-  let typed = '', target = '';
-  let startTime = null, totalChars = 0, correctChars = 0;
-  let streak = 0, bestStreak = 0, isComplete = false;
-  let isFreeMode = false;
-
-  // ─── DOM ───────────────────────────────────────────────────────────────────
-  const typeZone    = document.getElementById('type-zone');
-  const typeTarget  = document.getElementById('type-target');
-  const typingInput = document.getElementById('typing-input');
-  const hintText    = document.getElementById('hint-text');
-  const resultEl    = document.getElementById('type-result');
-  const resultDetail= document.getElementById('result-detail');
-  const nextBtn     = document.getElementById('next-btn');
-  const resetBtn    = document.getElementById('reset-btn');
-  const kbEl        = document.getElementById('type-keyboard');
-  const statWpm     = document.querySelector('#stat-wpm b');
-  const statAcc     = document.querySelector('#stat-accuracy b');
-  const statStreak  = document.querySelector('#stat-streak b');
-  const statProgress= document.getElementById('stat-progress');
-  const freeZone    = document.getElementById('free-zone');
-  const freeInput   = document.getElementById('free-input');
-  const freeCopyBtn = document.getElementById('free-copy-btn');
-  const freeClearBtn= document.getElementById('free-clear-btn');
-  const freeCharCnt = document.getElementById('free-charcount');
-  const typeStats   = document.getElementById('type-stats');
-  const typeHint    = document.getElementById('type-hint');
-
-  // ─── Build keyboard ────────────────────────────────────────────────────────
-  function buildKeyboard() {
-    kbEl.innerHTML = '';
-    const KW = 48; // base key width px
-    const GAP = 4;
-
-    KB_ROWS.forEach(row => {
-      const rowEl = document.createElement('div');
-      rowEl.className = 'kb-row';
-
-      // Left offset for staggering
-      if (row.offset && !row.isSpaceRow) {
-        rowEl.style.paddingLeft = (row.offset * (KW + GAP)) + 'px';
-      }
-      if (row.isSpaceRow) {
-        rowEl.classList.add('kb-row-space');
-      }
-
-      row.keys.forEach(kd => {
-        const el = document.createElement('div');
-        const w = kd.w || 1;
-        el.className = 'kb-key' + (kd.cls ? ' ' + kd.cls : '');
-        el.style.width = (w * KW + (w - 1) * GAP) + 'px';
-        el.dataset.key = kd.key;
-
-        if (kd.noTib) {
-          el.innerHTML = `<span class="kb-label">${kd.label}</span>`;
-        } else {
-          const tib = MAP[kd.key] || '';
-          const sub = MAP[kd.key.toUpperCase()] || '';
-          const eng = kd.key === ' ' ? '' : kd.key;
-          el.innerHTML =
-            `<span class="kb-tib">${tib}</span>` +
-            (sub && kd.key !== kd.key.toUpperCase() ? `<span class="kb-sub">⇧${sub}</span>` : '') +
-            `<span class="kb-eng">${eng}</span>`;
-        }
-        rowEl.appendChild(el);
-      });
-      kbEl.appendChild(rowEl);
-    });
-  }
-  buildKeyboard();
-
-  // ─── Keyboard helpers ──────────────────────────────────────────────────────
-  function clearKeyStates() {
-    kbEl.querySelectorAll('.kb-key').forEach(k => k.classList.remove('active','hint-next'));
-  }
-  function hintNextKey(key) {
-    if (!key) return;
-    // For shift keys, highlight both shift indicators
-    const isShift = key === key.toUpperCase() && key !== key.toLowerCase();
-    if (isShift) {
-      kbEl.querySelectorAll('.kb-shift').forEach(k => k.classList.add('hint-next'));
-      const lower = kbEl.querySelector(`[data-key="${CSS.escape(key.toLowerCase())}"]`);
-      if (lower) lower.classList.add('hint-next');
-    } else {
-      const el = kbEl.querySelector(`[data-key="${CSS.escape(key)}"]`);
-      if (el) el.classList.add('hint-next');
-    }
-  }
-
-  // ─── Load prompt ───────────────────────────────────────────────────────────
-  function loadPrompt() {
-    const lesson = lessons[currentLesson];
-    if (!lesson) return;
-    target = lesson.prompts[currentPrompt] || '';
-    typed = ''; isComplete = false; startTime = null;
-    resultEl.classList.add('hidden');
-    statProgress.textContent = `${currentPrompt + 1}/${lesson.prompts.length}`;
-    render();
-    updateHint();
-    typingInput.value = '';
-    typingInput.focus();
-  }
-
-  function render() {
-    const tChars = [...target];
-    const uChars = [...typed];
-    let html = '';
-    for (let i = 0; i < tChars.length; i++) {
-      let cls = 'tc';
-      if (i < uChars.length) cls += uChars[i] === tChars[i] ? ' ok' : ' err';
-      else if (i === uChars.length) cls += ' cur';
-      html += `<span class="${cls}">${tChars[i]}</span>`;
-    }
-    // Cursor at end
-    if (uChars.length < tChars.length) {
-      // cursor is embedded in .cur class
-    }
-    typeTarget.innerHTML = html;
-  }
-
-  function updateHint() {
-    if (isComplete || !target) { hintText.textContent = 'Done! Press Next →'; return; }
-    const tChars = [...target];
-    const idx = [...typed].length;
-    if (idx >= tChars.length) return;
-    const next = tChars[idx];
-    const key = REVERSE[next];
-    clearKeyStates();
-
-    if (key) {
-      const isShift = key === key.toUpperCase() && key !== key.toLowerCase();
-      const label = KEY_LABELS[key.toLowerCase()] || key;
-      if (isShift) {
-        hintText.innerHTML = `<b class="th">${next}</b> press <kbd>Shift+${key.toLowerCase()}</kbd> <span class="hd">(subjoined ${label})</span>`;
-      } else if (key === ' ') {
-        hintText.innerHTML = `<b class="th">་</b> press <kbd>Space</kbd> <span class="hd">(tsheg)</span>`;
-      } else if (key === '/') {
-        hintText.innerHTML = `<b class="th">།</b> press <kbd>/</kbd> <span class="hd">(shad)</span>`;
-      } else {
-        hintText.innerHTML = `<b class="th">${next}</b> press <kbd>${key}</kbd> <span class="hd">(${label})</span>`;
-      }
-      hintNextKey(key);
-    }
-  }
-
-  function updateStats() {
-    if (startTime && correctChars > 0) {
-      const mins = (Date.now() - startTime) / 60000;
-      statWpm.textContent = Math.min(Math.round((correctChars / 5) / Math.max(mins, 0.01)), 999);
-    }
-    if (totalChars > 0) statAcc.textContent = Math.round((correctChars / totalChars) * 100);
-    statStreak.textContent = streak;
-  }
-
-  // ─── Typing ────────────────────────────────────────────────────────────────
-  function handleKey(ev) {
-    if (isComplete) return;
-    if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
-    if (PASSTHROUGH.has(ev.key)) {
-      if (ev.key === 'Backspace') {
-        ev.preventDefault();
-        if (typed.length > 0) {
-          typed = [...typed].slice(0, -1).join('');
-          render(); updateHint();
-        }
-      }
-      return;
-    }
-    const mapped = MAP[ev.key];
-    if (mapped === undefined) return;
-    ev.preventDefault();
-    if (!startTime) startTime = Date.now();
-
-    const tChars = [...target];
-    const idx = [...typed].length;
-    typed += mapped;
-    totalChars++;
-
-    if (mapped === tChars[idx]) {
-      correctChars++; streak++;
-      if (streak > bestStreak) bestStreak = streak;
-    } else { streak = 0; }
-
-    render(); updateStats();
-    if ([...typed].length >= tChars.length) { isComplete = true; showResult(); }
-    else updateHint();
-  }
-
-  function showResult() {
-    const secs = startTime ? (Date.now() - startTime) / 1000 : 0;
-    resultDetail.textContent = `${statWpm.textContent} wpm · ${statAcc.textContent}% · ${secs.toFixed(1)}s · streak ${bestStreak}`;
-    resultEl.classList.remove('hidden');
-    clearKeyStates();
-    hintText.textContent = 'Nice! Press Next →';
-  }
-
-  // ─── Nav ───────────────────────────────────────────────────────────────────
-  nextBtn.addEventListener('click', () => {
-    const lesson = lessons[currentLesson];
-    if (currentPrompt < lesson.prompts.length - 1) { currentPrompt++; }
-    else if (currentLesson < lessons.length - 1) {
-      currentLesson++; currentPrompt = 0;
-      document.querySelectorAll('.lesson-pill').forEach(b => b.classList.remove('active'));
-      document.querySelector(`[data-index="${currentLesson}"]`)?.classList.add('active');
-    } else { currentPrompt = 0; }
-    loadPrompt();
-  });
-
-  resetBtn.addEventListener('click', () => {
-    currentPrompt = 0; totalChars = 0; correctChars = 0;
-    streak = 0; bestStreak = 0;
-    statWpm.textContent = '0'; statAcc.textContent = '100'; statStreak.textContent = '0';
-    loadPrompt();
-  });
-
-  document.querySelectorAll('.lesson-pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.lesson-pill').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      if (btn.dataset.lesson === 'free') {
-        enterFreeMode();
-        return;
-      }
-
-      if (isFreeMode) exitFreeMode();
-      currentLesson = parseInt(btn.dataset.index);
-      currentPrompt = 0; totalChars = 0; correctChars = 0;
-      streak = 0; bestStreak = 0;
-      statWpm.textContent = '0'; statAcc.textContent = '100'; statStreak.textContent = '0';
-      loadPrompt();
-    });
-  });
-
-  // ─── Focus ─────────────────────────────────────────────────────────────────
-  typeZone.addEventListener('click', () => typingInput.focus());
-  typingInput.addEventListener('keydown', handleKey);
-  typingInput.addEventListener('focus', () => typeZone.classList.add('focused'));
-  typingInput.addEventListener('blur', () => typeZone.classList.remove('focused'));
-
-  // Flash keys
-  typingInput.addEventListener('keydown', (ev) => {
-    if (PASSTHROUGH.has(ev.key)) {
-      if (ev.key === 'Backspace') {
-        const bk = kbEl.querySelector('[data-key="Backspace"]');
-        if (bk) { bk.classList.add('pressed'); setTimeout(() => bk.classList.remove('pressed'), 120); }
-      }
-      return;
-    }
-    const k = ev.key.length === 1 ? ev.key.toLowerCase() : ev.key;
-    const el = kbEl.querySelector(`[data-key="${CSS.escape(k)}"]`);
-    if (el) { el.classList.add('pressed'); setTimeout(() => el.classList.remove('pressed'), 120); }
-    // Flash shift if uppercase
-    if (ev.shiftKey) {
-      kbEl.querySelectorAll('.kb-shift').forEach(s => {
-        s.classList.add('pressed'); setTimeout(() => s.classList.remove('pressed'), 120);
-      });
-    }
-  });
-
-  // ─── Shift key visual feedback (global) ─────────────────────────────────
-  document.addEventListener('keydown', (ev) => {
-    if (ev.key === 'Shift') {
-      kbEl.querySelectorAll('.kb-shift').forEach(s => s.classList.add('pressed'));
-    }
-  });
-  document.addEventListener('keyup', (ev) => {
-    if (ev.key === 'Shift') {
-      kbEl.querySelectorAll('.kb-shift').forEach(s => s.classList.remove('pressed'));
-    }
-  });
-
-  // ─── Free Type mode ────────────────────────────────────────────────────────
-  function freeIMEHandler(ev) {
-    if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
-    if (PASSTHROUGH.has(ev.key)) return; // let backspace/delete/arrows work natively
-    const mapped = MAP[ev.key];
-    if (mapped === undefined) return;
-    ev.preventDefault();
-    const el = freeInput;
-    const s = el.selectionStart ?? el.value.length;
-    const e = el.selectionEnd ?? el.value.length;
-    el.value = el.value.slice(0, s) + mapped + el.value.slice(e);
-    const pos = s + mapped.length;
-    el.setSelectionRange(pos, pos);
-    freeCharCnt.textContent = [...el.value].length + ' chars';
-  }
-
-  function enterFreeMode() {
-    isFreeMode = true;
-    typeZone.classList.add('hidden');
-    typeHint.classList.add('hidden');
-    freeZone.classList.remove('hidden');
-    typeStats.classList.add('hidden');
-    clearKeyStates();
-    freeInput.focus();
-  }
-
-  function exitFreeMode() {
-    isFreeMode = false;
-    typeZone.classList.remove('hidden');
-    typeHint.classList.remove('hidden');
-    freeZone.classList.add('hidden');
-    typeStats.classList.remove('hidden');
-  }
-
-  freeInput.addEventListener('keydown', freeIMEHandler);
-  freeInput.addEventListener('keydown', (ev) => {
-    // Flash keys on keyboard for free mode too
-    if (PASSTHROUGH.has(ev.key)) {
-      if (ev.key === 'Backspace') {
-        const bk = kbEl.querySelector('[data-key="Backspace"]');
-        if (bk) { bk.classList.add('pressed'); setTimeout(() => bk.classList.remove('pressed'), 120); }
-      }
-      return;
-    }
-    const k = ev.key.length === 1 ? ev.key.toLowerCase() : ev.key;
-    const el = kbEl.querySelector(`[data-key="${CSS.escape(k)}"]`);
-    if (el) { el.classList.add('pressed'); setTimeout(() => el.classList.remove('pressed'), 120); }
-  });
-  freeInput.addEventListener('input', () => {
-    freeCharCnt.textContent = [...freeInput.value].length + ' chars';
-  });
-
-  freeCopyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(freeInput.value).then(() => {
-      freeCopyBtn.textContent = '✓ Copied!';
-      setTimeout(() => { freeCopyBtn.textContent = '📋 Copy'; }, 1500);
-    });
-  });
-  freeClearBtn.addEventListener('click', () => {
-    freeInput.value = '';
-    freeCharCnt.textContent = '0 chars';
-    freeInput.focus();
-  });
-
-  // Init
-  loadPrompt();
-
-  // Reveal
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
-  }, { threshold: 0.05 });
-  document.querySelectorAll('.type-page .reveal').forEach(el => obs.observe(el));
-</script>
-
 <style is:global>
-  /* ─── Page shell ─────────────────────────────────────────────────────── */
-  .type-page {
-    max-width: 860px;
+  /* ─── Hero ──────────────────────────────────────────────────────────────── */
+  .tt-hero {
+    text-align: center;
+    padding: 4rem 1.5rem 2rem;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 1rem 1.5rem 2rem;
   }
-
-  /* ─── Top bar ────────────────────────────────────────────────────────── */
-  .type-topbar { margin-bottom: .75rem; }
-  .type-title-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: .5rem;
-  }
-  .type-title {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -.02em;
-  }
-  .type-stats {
-    display: flex;
-    align-items: center;
-    gap: .6rem;
-  }
-  .ts {
-    font-size: .75rem;
-    color: var(--text2);
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .ts b { color: var(--text); font-weight: 700; }
-  .ts-progress {
-    background: var(--surface);
-    padding: .15rem .4rem;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-  }
-  .ts-reset {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    width: 26px; height: 26px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: .85rem;
-    transition: all .12s;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .ts-reset:hover { color: var(--text); border-color: var(--border2); background: var(--surface); }
-
-  /* Lesson pills */
-  .lesson-pills {
-    display: flex;
-    gap: 4px;
-  }
-  .lesson-pill {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: .3rem .7rem;
-    font-size: .72rem;
-    font-weight: 600;
-    color: var(--text2);
-    cursor: pointer;
-    transition: all .12s;
-  }
-  .lesson-pill:hover { color: var(--text); border-color: var(--border2); }
-  .lesson-pill.active {
-    background: rgba(56,189,248,0.1);
-    border-color: rgba(56,189,248,0.3);
+  .tt-kicker {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .15em;
     color: var(--accent);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: .75rem;
   }
-
-  /* ─── Typing zone ────────────────────────────────────────────────────── */
-  .type-zone {
-    position: relative;
-    background: var(--surface);
-    border: 2px solid var(--border);
-    border-radius: 14px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: .5rem;
-    cursor: text;
-    transition: border-color .15s, box-shadow .15s;
-    min-height: 70px;
-  }
-  .type-zone.focused {
-    border-color: rgba(56,189,248,0.35);
-    box-shadow: 0 0 0 3px rgba(56,189,248,0.08);
-  }
-  .typing-input-hidden {
-    position: absolute; opacity: 0; width: 0; height: 0; pointer-events: none;
-  }
-  .type-target {
-    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
-    font-size: 1.85rem;
-    line-height: 2.2;
-    user-select: none;
-    min-height: 2.6rem;
-  }
-  .type-placeholder {
-    color: var(--muted); font-family: 'Inter', sans-serif; font-size: .9rem;
-  }
-  /* Target characters */
-  .tc {
-    color: rgba(148,163,184,0.3);
-    transition: color .08s;
-    position: relative;
-  }
-  .tc.ok { color: var(--green); }
-  .tc.err {
-    color: var(--red);
-    background: rgba(239,68,68,0.1);
-    border-radius: 3px;
-  }
-  .tc.cur {
+  .tt-title {
+    font-size: 3rem;
+    font-weight: 900;
     color: var(--text);
+    letter-spacing: -.03em;
+    line-height: 1.1;
+    margin-bottom: 1rem;
   }
-  .tc.cur::after {
-    content: '';
-    position: absolute;
-    left: 0; bottom: 0;
-    width: 100%; height: 3px;
-    background: var(--accent);
-    border-radius: 2px;
-    animation: pulse-bar .9s ease-in-out infinite;
+  .tt-beta {
+    font-size: .45em;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--gold);
+    background: rgba(251,191,36,0.1);
+    border: 1px solid rgba(251,191,36,0.25);
+    border-radius: 6px;
+    padding: .2em .55em;
+    vertical-align: middle;
+    position: relative;
+    top: -.15em;
   }
-  @keyframes pulse-bar { 0%,100%{opacity:1} 50%{opacity:.25} }
-
-  /* Result overlay */
-  .type-result {
-    position: absolute; inset: 0;
-    background: rgba(15,23,42,0.88);
-    backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 14px; z-index: 10;
-    transition: opacity .2s;
+  .tt-subtitle {
+    font-size: 1.1rem;
+    color: var(--text2);
+    line-height: 1.7;
+    max-width: 560px;
+    margin: 0 auto 2rem;
   }
-  .type-result.hidden { opacity: 0; pointer-events: none; }
-  .type-result-inner {
-    display: flex; align-items: center; gap: .75rem;
+  .tt-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .75rem;
   }
-  .result-emoji { font-size: 1.5rem; }
-  .result-msg { font-weight: 700; color: var(--text); font-size: 1rem; }
-  .result-detail {
-    font-size: .75rem; color: var(--text2);
-    font-family: 'JetBrains Mono', monospace;
+  .tt-cta .btn-lg {
+    padding: .75rem 2rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 10px;
   }
-  .btn-sm { padding: .35rem .9rem; font-size: .8rem; }
-
-  /* ─── Free Type ─────────────────────────────────────────────────────── */
-  .free-zone {
-    background: var(--surface);
-    border: 2px solid var(--border);
-    border-radius: 14px;
-    padding: 1rem 1.25rem;
-    margin-bottom: .5rem;
-    transition: border-color .15s, box-shadow .15s;
-  }
-  .free-zone:focus-within {
-    border-color: rgba(56,189,248,0.35);
-    box-shadow: 0 0 0 3px rgba(56,189,248,0.08);
-  }
-  .free-input {
-    width: 100%;
-    min-height: 80px;
-    background: transparent;
-    border: none;
-    outline: none;
-    resize: vertical;
-    color: var(--text);
-    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
-    font-size: 1.6rem;
-    line-height: 2.2;
-    caret-color: var(--accent);
-  }
-  .free-input::placeholder {
+  .tt-arrow { transition: transform .15s; display: inline-block; }
+  .tt-cta .btn:hover .tt-arrow { transform: translateX(3px); }
+  .tt-cta-note {
+    font-size: .75rem;
     color: var(--muted);
-    font-family: 'Inter', sans-serif;
-    font-size: .9rem;
   }
-  .free-actions {
+
+  /* ─── Preview window ────────────────────────────────────────────────────── */
+  .tt-preview {
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    padding: 0 1.5rem;
+  }
+  .tt-preview-window {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  }
+  .tt-preview-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: .5rem .85rem;
+    background: rgba(15,23,42,0.6);
+    border-bottom: 1px solid var(--border);
+  }
+  .tt-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(100,116,139,0.3);
+  }
+  .tt-dot:nth-child(1) { background: rgba(239,68,68,0.6); }
+  .tt-dot:nth-child(2) { background: rgba(250,204,21,0.6); }
+  .tt-dot:nth-child(3) { background: rgba(34,197,94,0.6); }
+  .tt-preview-title {
+    margin-left: .5rem;
+    font-size: .72rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .tt-preview-body {
+    padding: 0;
+  }
+  .tt-preview-toolbar {
     display: flex;
     align-items: center;
     gap: .5rem;
-    margin-top: .5rem;
-    padding-top: .5rem;
-    border-top: 1px solid var(--border);
+    padding: .5rem .85rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(15,23,42,0.3);
   }
-  .free-copy-btn, .free-clear-btn {
-    background: rgba(56,189,248,0.08);
-    border: 1px solid rgba(56,189,248,0.2);
-    color: var(--accent);
-    font-size: .72rem;
-    font-weight: 600;
-    padding: .3rem .65rem;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all .12s;
-  }
-  .free-copy-btn:hover { background: rgba(56,189,248,0.15); }
-  .free-clear-btn {
-    background: rgba(148,163,184,0.06);
-    border-color: var(--border);
-    color: var(--text2);
-  }
-  .free-clear-btn:hover { background: rgba(148,163,184,0.12); color: var(--text); }
-  .free-charcount {
-    margin-left: auto;
-    font-size: .68rem;
+  .tt-tb-item {
+    font-size: .7rem;
     color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-  }
-
-  /* Utility */
-  .hidden { display: none !important; }
-
-  /* Free Type pill accent */
-  .pill-free { border-style: dashed; }
-  .pill-free.active {
-    border-style: solid;
-    background: rgba(251,191,36,0.08);
-    border-color: rgba(251,191,36,0.3);
-    color: var(--gold);
-  }
-
-  /* ─── Hint ───────────────────────────────────────────────────────────── */
-  .type-hint {
-    display: flex; align-items: center; gap: .4rem;
-    padding: .4rem .75rem;
-    font-size: .78rem; color: var(--text2);
-    margin-bottom: .6rem;
-    min-height: 30px;
-  }
-  .hint-icon { font-size: .85rem; }
-  .th {
-    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
-    font-size: 1.4em; color: var(--accent); vertical-align: middle;
-  }
-  .hd { color: var(--muted); }
-  .type-hint kbd {
-    display: inline-block;
-    background: var(--surface);
-    border: 1px solid var(--border2);
+    padding: .15rem .4rem;
     border-radius: 4px;
-    padding: .05rem .3rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .85em; color: var(--text);
-    min-width: 1.3em; text-align: center;
+    background: rgba(100,116,139,0.08);
+    border: 1px solid rgba(100,116,139,0.1);
+  }
+  .tt-tb-sep {
+    width: 1px;
+    height: 14px;
+    background: var(--border);
+  }
+  .tt-preview-page {
+    padding: 2.5rem 3rem;
+    min-height: 180px;
+    background: rgba(253,251,248,0.03);
+  }
+  .tt-sample-text {
+    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
+    font-size: 1.35rem;
+    line-height: 2.4;
+    color: var(--text);
+  }
+  .tt-preview-status {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: .35rem .85rem;
+    border-top: 1px solid var(--border);
+    font-size: .65rem;
+    color: var(--muted);
+    background: rgba(15,23,42,0.3);
   }
 
-  /* ─── Keyboard — realistic physical layout ────────────────────────── */
-  .type-keyboard {
+  /* ─── Features ──────────────────────────────────────────────────────────── */
+  .tt-features, .tt-scripts, .tt-roadmap, .tt-final-cta {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+  }
+  .tt-section-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+  }
+  .tt-section-desc {
+    font-size: .95rem;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    max-width: 600px;
+  }
+  .tt-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .tt-feature {
+    background: var(--surface);
+    padding: 1.75rem;
+  }
+  .tt-feature-icon {
+    font-size: 1.5rem;
+    margin-bottom: .75rem;
+  }
+  .tt-feature h3 {
+    font-size: .9rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: .5rem;
+  }
+  .tt-feature p {
+    font-size: .82rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  /* ─── Scripts & Fonts ───────────────────────────────────────────────────── */
+  .tt-script-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .tt-script-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.75rem;
+    background: var(--surface);
+  }
+  .tt-script-sample {
+    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
+    font-size: 1.5rem;
+    color: var(--text);
+  }
+  .tt-font-noto {
+    font-family: 'Noto Sans Tibetan', sans-serif;
+  }
+  .tt-font-drutsa {
+    font-family: 'Qomolangma-Drutsa', 'Jomolhari', serif;
+  }
+  .tt-script-label {
+    font-size: .82rem;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* ─── Roadmap & Support ──────────────────────────────────────────────────── */
+  .tt-roadmap-inner {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 14px;
-    padding: .75rem .75rem .6rem;
-    margin-bottom: .75rem;
+    padding: 2rem 2.25rem;
   }
-  .kb-row {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 4px;
+  .tt-roadmap-lead {
+    font-size: .92rem;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 1rem;
   }
-  .kb-row:last-child { margin-bottom: 0; }
-  .kb-row-space {
-    justify-content: center;
-    padding-left: 0 !important;
+  .tt-roadmap-body {
+    font-size: .85rem;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 1rem;
   }
-  .kb-key {
-    height: 44px;
-    background: var(--bg);
-    border: 1px solid var(--border2);
-    border-bottom: 3px solid rgba(100,116,139,0.2);
-    border-radius: 6px;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 0;
-    cursor: default;
-    transition: all .08s;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-  .kb-tib {
-    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
-    font-size: .95rem; color: var(--text); line-height: 1.1;
-  }
-  .kb-sub {
-    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
-    font-size: .5rem; color: var(--muted); line-height: 1;
-    margin-top: -1px;
-  }
-  .kb-eng {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .5rem; color: var(--muted);
-    letter-spacing: .02em; line-height: 1;
-  }
-  .kb-label {
-    font-family: 'Inter', sans-serif;
-    font-size: .55rem; color: var(--muted); font-weight: 600;
-    letter-spacing: .02em;
-  }
-
-  /* Shift keys */
-  .kb-shift {
-    background: rgba(30,41,59,0.8);
-  }
-
-  /* Key states */
-  .kb-key.pressed {
-    background: rgba(56,189,248,0.18);
-    border-color: rgba(56,189,248,0.35);
-    border-bottom-width: 1px;
-    transform: translateY(2px);
-  }
-  .kb-key.active {
-    background: rgba(34,197,94,0.12);
-    border-color: rgba(34,197,94,0.3);
-  }
-  .kb-key.active .kb-tib { color: var(--green); }
-  .kb-key.hint-next {
-    background: rgba(56,189,248,0.1);
-    border-color: rgba(56,189,248,0.3);
-    box-shadow: 0 0 10px rgba(56,189,248,0.12);
-  }
-  .kb-key.hint-next .kb-tib { color: var(--accent); }
-  .kb-key.hint-next .kb-eng { color: var(--accent); }
-  .kb-key.hint-next .kb-label { color: var(--accent); }
-
-  /* ─── Reference (collapsible) ─────────────────────────────────────── */
-  .type-ref {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    margin-bottom: 2rem;
-  }
-  .type-ref summary {
-    padding: .65rem 1rem;
-    font-size: .78rem; font-weight: 600;
-    color: var(--text2); cursor: pointer;
+  .tt-roadmap-list {
     list-style: none;
-    display: flex; align-items: center; gap: .5rem;
+    padding: 0;
+    margin: 0 0 1.25rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
   }
-  .type-ref summary::before {
-    content: '▸'; transition: transform .15s; display: inline-block;
+  .tt-roadmap-list li {
+    font-size: .85rem;
+    color: var(--text2);
+    line-height: 1.6;
+    padding-left: 1.25rem;
+    position: relative;
   }
-  .type-ref[open] summary::before { transform: rotate(90deg); }
-  .type-ref summary::-webkit-details-marker { display: none; }
-  .ref-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
-    padding: 0 1rem 1rem;
+  .tt-roadmap-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(56,189,248,0.4);
   }
-  .ref-col { display: flex; flex-direction: column; gap: .25rem; }
-  .ref-col h4 {
-    font-size: .62rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: .08em; color: var(--accent); margin-bottom: .15rem;
+  .tt-roadmap-list li strong {
+    color: var(--text);
   }
-  .ref-col span {
-    font-size: .72rem; color: var(--text2);
-    display: flex; align-items: center; gap: .3rem;
-  }
-  .ref-col kbd {
-    display: inline-block; background: var(--bg);
-    border: 1px solid var(--border2); border-radius: 3px;
-    padding: .05rem .25rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .75em; color: var(--text); text-align: center;
-  }
-  .ref-col .tib {
-    font-family: 'Jomolhari', 'Noto Serif Tibetan', serif;
-    font-size: 1.3em; color: var(--accent);
+  .tt-roadmap-cta {
+    font-size: .85rem;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-style: italic;
   }
 
-  /* ─── Responsive ──────────────────────────────────────────────────── */
-  @media (max-width: 900px) {
-    .type-page { padding: .75rem 1rem 2rem; }
-    .kb-key { height: 38px; }
-    .kb-tib { font-size: .85rem; }
-    .kb-sub { display: none; }
-    .type-target { font-size: 1.5rem; }
-    .ref-grid { grid-template-columns: repeat(2, 1fr); }
-    .type-title-row { flex-wrap: wrap; gap: .5rem; }
-    .type-stats { flex-wrap: wrap; }
-    .type-result-inner { flex-wrap: wrap; justify-content: center; text-align: center; }
+  /* ─── Final CTA ─────────────────────────────────────────────────────────── */
+  .tt-final-cta {
+    text-align: center;
+    padding-bottom: 5rem;
   }
-  @media (max-width: 600px) {
-    .type-page { padding: .5rem .75rem 2rem; }
-    .kb-key { height: 34px; }
-    .kb-tib { font-size: .75rem; }
-    .kb-eng { font-size: .4rem; }
-    .type-target { font-size: 1.2rem; }
-    .type-keyboard { padding: .5rem; }
-    .type-zone { padding: .85rem 1rem; }
-    .ref-grid { grid-template-columns: 1fr 1fr; }
-    .lesson-pills { flex-wrap: wrap; }
+  .tt-final-cta h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: .5rem;
+  }
+  .tt-final-cta p {
+    font-size: .95rem;
+    color: var(--text2);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ─── Reveal animation ──────────────────────────────────────────────────── */
+  .tt-hero.reveal, .tt-preview.reveal, .tt-features.reveal,
+  .tt-scripts.reveal, .tt-roadmap.reveal, .tt-final-cta.reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity .5s, transform .5s;
+  }
+  .tt-hero.in-view, .tt-preview.in-view, .tt-features.in-view,
+  .tt-scripts.in-view, .tt-roadmap.in-view, .tt-final-cta.in-view {
+    opacity: 1; transform: none;
+  }
+
+  /* ─── Responsive ────────────────────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .tt-title { font-size: 2.2rem; }
+    .tt-feature-grid { grid-template-columns: 1fr; }
+    .tt-preview-page { padding: 1.5rem; }
+    .tt-sample-text { font-size: 1.1rem; }
+    .tt-script-item { flex-direction: column; align-items: flex-start; gap: .5rem; }
+    .tt-script-label { text-align: left; }
+    .tt-native-inner { padding: 1.75rem; }
+  }
+  @media (max-width: 480px) {
+    .tt-hero { padding: 2.5rem 1rem 1.5rem; }
+    .tt-title { font-size: 1.8rem; }
+    .tt-subtitle { font-size: .95rem; }
+    .tt-preview-toolbar { overflow-x: auto; }
   }
 </style>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in-view'); });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>

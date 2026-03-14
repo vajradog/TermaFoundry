@@ -7,9 +7,30 @@ const publishedBlogEntries = await getCollection("blog", ({ data }) => {
 });
 
 publishedBlogEntries.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+
+const ogImage = publishedBlogEntries.length > 0 ? publishedBlogEntries[0].data.image.src : '/images/placeholder.jpg';
+
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Terma Foundry Blog",
+  "description": "In-depth articles on Tibetan typography, pecha manuscripts, CSS frameworks, fonts, and digital tools for preserving and advancing the Tibetan script.",
+  "url": "https://termafoundry.com/blog",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Terma Type Foundry",
+    "url": "https://termafoundry.com"
+  },
+  "hasPart": publishedBlogEntries.map(post => ({
+    "@type": "Article",
+    "headline": post.data.title,
+    "url": `https://termafoundry.com/blog/${post.slug}/`,
+    "datePublished": post.data.publishDate.toISOString(),
+  })),
+};
 ---
 
-<SiteLayout title="Blog — Tibetan Typography, Tools & Digital Preservation" description="In-depth articles on Tibetan typography, pecha manuscripts, CSS frameworks, fonts, and digital tools for preserving and advancing the Tibetan script.">
+<SiteLayout title="Blog — Tibetan Typography, Tools & Digital Preservation" description="In-depth articles on Tibetan typography, pecha manuscripts, CSS frameworks, fonts, and digital tools for preserving and advancing the Tibetan script." ogImage={ogImage} schema={collectionSchema}>
 
   <!-- HEADER -->
   <section class="page-section" style="padding-bottom:2rem;">

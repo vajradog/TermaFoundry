@@ -3,14 +3,26 @@ import { getCollection } from "astro:content";
 import SiteLayout from '@layouts/SiteLayout.astro';
 
 export async function getStaticPaths() {
-  const blogEntries = await getCollection("blog");
-  return blogEntries.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+  const blogEntries = await getCollection("blog", ({ data }) => !data.draft);
+  return blogEntries.map((entry) => {
+    // Find related posts: prefer tag overlap, fall back to most recent
+    const others = blogEntries
+      .filter(e => e.slug !== entry.slug)
+      .map(e => ({
+        entry: e,
+        score: e.data.tags.filter((t: string) => entry.data.tags.includes(t)).length,
+      }))
+      .sort((a, b) => b.score - a.score || b.entry.data.publishDate.valueOf() - a.entry.data.publishDate.valueOf());
+    const related = others.slice(0, 3).map(e => e.entry);
+
+    return {
+      params: { slug: entry.slug },
+      props: { entry, relatedPosts: related },
+    };
+  });
 }
 
-const { entry } = Astro.props;
+const { entry, relatedPosts } = Astro.props;
 const { Content } = await entry.render();
 
 const articleSchema = {
@@ -80,9 +92,26 @@ const articleSchema = {
     </div>
 
     <div class="back-link reveal">
-      <a href="/blog" class="btn btn-outline">← Back to Blog</a>
+      <a href="/blog" class="btn btn-outline">&larr; Back to Blog</a>
     </div>
   </section>
+
+  {relatedPosts.length > 0 && (
+    <section class="page-section" style="padding-top:0;">
+      <h3 class="related-heading reveal">Related Articles</h3>
+      <div class="related-grid">
+        {relatedPosts.map((post: any) => (
+          <a href={`/blog/${post.slug}`} class="related-card reveal">
+            <img src={post.data.image.src} alt={post.data.image.alt} width="400" height="250" loading="lazy" />
+            <div class="related-info">
+              <span class="related-category">{post.data.category}</span>
+              <h4>{post.data.title}</h4>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
 
 </SiteLayout>
 
@@ -138,5 +167,65 @@ const articleSchema = {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid var(--border);
+  }
+
+  .related-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .related-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    background: var(--surface);
+    transition: background .2s;
+  }
+  .related-card:hover { background: var(--surface2); }
+
+  .related-card img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+    display: block;
+  }
+
+  .related-info {
+    padding: 1rem 1.25rem 1.25rem;
+  }
+
+  .related-category {
+    font-size: .65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent);
+    display: block;
+    margin-bottom: .35rem;
+  }
+
+  .related-info h4 {
+    font-size: .88rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  @media (max-width: 768px) {
+    .related-grid { grid-template-columns: 1fr; }
   }
 </style>

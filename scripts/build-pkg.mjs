@@ -10,8 +10,8 @@
  * (which first runs css:dist, then this script)
  */
 
-import { copyFile, mkdir, readdir, stat } from 'node:fs/promises';
-import { join, extname } from 'node:path';
+import { copyFile, mkdir, stat } from 'node:fs/promises';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 // Resolve paths relative to repo root (works regardless of cwd)
@@ -51,19 +51,25 @@ async function build() {
   await copy(join(SRC_DIST, 'terma.js'),     join(DIST, 'terma.js'),     'dist/terma.js (UMD/CJS)');
   await copy(join(SRC_DIST, 'terma.esm.js'), join(DIST, 'terma.esm.js'), 'dist/terma.esm.js (ESM)');
 
-  // ── Fonts (WOFF2 only) ───────────────────────────────────────────────────
-  console.log('\nFonts:');
-  const allFiles = await readdir(SRC_FONTS);
-  const woff2Files = allFiles.filter(f => extname(f).toLowerCase() === '.woff2');
+  // ── Fonts (4 bundled only) ───────────────────────────────────────────────
+  // Only the 4 core fonts ship with the npm package (~560 KB total).
+  // Extended fonts (40+) are in the separate termaui-fonts package.
+  console.log('\nFonts (bundled):');
+  const BUNDLED_FONTS = [
+    'jomolhari-regular.woff2',
+    'monlam-bodyig.woff2',
+    'qomolangma-uchen-sarchen.woff2',
+    'qomolangma-drutsa.woff2',
+  ];
 
   let totalFontBytes = 0;
-  for (const f of woff2Files) {
-    await copyFile(join(SRC_FONTS, f), join(FONTS, f));
+  for (const f of BUNDLED_FONTS) {
+    await copy(join(SRC_FONTS, f), join(FONTS, f), `fonts/${f}`);
     const bytes = (await stat(join(FONTS, f))).size;
     totalFontBytes += bytes;
   }
   const totalKb = (totalFontBytes / 1024).toFixed(0);
-  console.log(`  ✓ ${'fonts/ (' + woff2Files.length + ' .woff2 files)'.padEnd(30)} ${totalKb} KB total`);
+  console.log(`  → ${totalKb} KB total (4 bundled fonts)`);
 
   // ── Summary ──────────────────────────────────────────────────────────────
   console.log(`

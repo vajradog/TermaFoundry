@@ -56,7 +56,7 @@ import Base from '../../layouts/TeruiBase.astro';
         <strong>Safe to use alongside any framework.</strong>
         termaUI only activates when you use <code>tr-</code> classes together with <code>lang="bo"</code>.
         It will never touch Bootstrap, Tailwind, or any other CSS you already have.
-        All 44 fonts are bundled — no separate font installation needed.
+        4 fonts are bundled with the npm package. For all 44 fonts, also load <code>termaui-fonts</code> from CDN — see the fonts library for details.
       </div>
     </div>
   </details>
@@ -82,8 +82,15 @@ import Base from '../../layouts/TeruiBase.astro';
         <span class="pg-tb-label">Font</span>
         <select id="fontSelect" class="pg-tb-select" onchange="applyFromToolbar('font', this.value)">
           <option value="">— system (English) —</option>
+          <optgroup label="── Bundled with npm ──">
+            <option value="tr-jomolhari" selected>Jomolhari ★</option>
+            <option value="tr-monlam">Monlam Bodyig ★</option>
+            <option value="tr-qomolangma-sarchen">Qomolangma Sarchen ★</option>
+            <option value="tr-drutsa">Qomolangma Drutsa ★</option>
+          </optgroup>
+          <optgroup label="── CDN only ──">
+          </optgroup>
           <optgroup label="Uchen (Formal)">
-            <option value="tr-jomolhari" selected>Jomolhari</option>
             <option value="tr-noto">Noto Serif Tibetan</option>
             <option value="tr-machine-uni">Tibetan Machine Uni</option>
             <option value="tr-babelstone">BabelStone Tibetan</option>
@@ -92,7 +99,6 @@ import Base from '../../layouts/TeruiBase.astro';
             <option value="tr-ddc-rinzin">DDC Rinzin</option>
             <option value="tr-gangjie">GangJie Uchen</option>
             <option value="tr-jamyang">Jamyang Monlam</option>
-            <option value="tr-monlam">Monlam Bodyig</option>
             <option value="tr-panchen">Panchen Tsukring</option>
             <option value="tr-riwoche">Riwoche Dhodri</option>
             <option value="tr-sadri">Sadri Yigchen</option>
@@ -108,7 +114,6 @@ import Base from '../../layouts/TeruiBase.astro';
             <option value="tr-monlam-tiktong">TikTong</option>
           </optgroup>
           <optgroup label="Qomolangma">
-            <option value="tr-qomolangma-sarchen">Sarchen</option>
             <option value="tr-qomolangma-betsu">Betsu</option>
             <option value="tr-qomolangma-tsutong">Tsutong</option>
           </optgroup>
@@ -118,7 +123,6 @@ import Base from '../../layouts/TeruiBase.astro';
             <option value="tr-monlam-sans">Monlam Uni Sans</option>
           </optgroup>
           <optgroup label="Drutsa (Cursive)">
-            <option value="tr-drutsa">Qomolangma-Drutsa</option>
             <option value="tr-gangjie-drutsa">GangJie Drutsa</option>
             <option value="tr-khampa-drutsa">Khampa Drutsa</option>
             <option value="tr-sadri-drutsa">Sadri Drutsa</option>
@@ -158,7 +162,7 @@ import Base from '../../layouts/TeruiBase.astro';
     <!-- Editor -->
     <div class="pg-editor-body">
       <div id="editor" contenteditable="true" lang="bo"
-           class="tr-jomolhari tr-guard tr-ligatures tr-text-xl"
+           class="tr-jomolhari tr-text-xl"
            oninput="onEditorInput()"></div>
     </div>
 
@@ -207,8 +211,8 @@ import Base from '../../layouts/TeruiBase.astro';
 <section class="pg-section">
   <div class="pg-stitle">terma.js Checks</div>
   <div class="pg-run-bar">
-    <button class="pg-btn pg-btn-primary" onclick="runAllTests()">Run all 6 checks</button>
-    <p>Tests 1 &amp; 6 use your editor text. Tests 2–5 verify specific Unicode sequences.</p>
+    <button class="pg-btn pg-btn-primary" onclick="runAllTests()">Run all 7 checks</button>
+    <p>Tests 1 &amp; 6 use your editor text. Tests 2–5 verify punctuation fixes. Test 7 verifies auto-clustering (requires terma-clusters.js).</p>
   </div>
 
   <div class="pg-test-grid">
@@ -216,38 +220,143 @@ import Base from '../../layouts/TeruiBase.astro';
       <h3>ZWS after tsheg — enables line-breaking</h3>
       <div class="pg-test-note">using: editor text</div>
       <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample1"></div>
-      <div class="pg-test-result" id="tresult1">— click "Run all 6 checks" above</div>
+      <div class="pg-test-result" id="tresult1">— click "Run all 7 checks" above</div>
     </div>
     <div class="pg-test-card">
       <h3>Tsheg before shad → non-breaking (་། → ༌།)</h3>
       <div class="pg-test-note">using: fixed sample</div>
       <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample2">སངས་རྒྱས་ཆོས་དང་ཚོགས་ཀྱི་མཆོག་རྣམས་ལ་།</div>
-      <div class="pg-test-result" id="tresult2">— click "Run all 6 checks" above</div>
+      <div class="pg-test-result" id="tresult2">— click "Run all 7 checks" above</div>
     </div>
     <div class="pg-test-card">
       <h3>Tsheg before nyis-shad → non-breaking (་༎ → ༌༎)</h3>
       <div class="pg-test-note">using: fixed sample</div>
       <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample3">སངས་རྒྱས་ཆོས་དང་ཚོགས་ཀྱི་མཆོག་རྣམས་ལ་༎</div>
-      <div class="pg-test-result" id="tresult3">— click "Run all 6 checks" above</div>
+      <div class="pg-test-result" id="tresult3">— click "Run all 7 checks" above</div>
     </div>
     <div class="pg-test-card">
       <h3>Tsheg before gter-ma → non-breaking (་༔ → ༌༔)</h3>
       <div class="pg-test-note">using: fixed sample</div>
       <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample4">ཨོཾ་ཨཱཿཧཱུྃ་བཛྲ་གུ་རུ་པདྨ་སིདྡྷི་ཧཱུྃ་༔</div>
-      <div class="pg-test-result" id="tresult4">— click "Run all 6 checks" above</div>
+      <div class="pg-test-result" id="tresult4">— click "Run all 7 checks" above</div>
     </div>
     <div class="pg-test-card">
       <h3>Double-shad protected (། །)</h3>
       <div class="pg-test-note">using: fixed sample</div>
       <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample5">བཀྲ་ཤིས་བདེ་ལེགས། །</div>
-      <div class="pg-test-result" id="tresult5">— click "Run all 6 checks" above</div>
+      <div class="pg-test-result" id="tresult5">— click "Run all 7 checks" above</div>
     </div>
     <div class="pg-test-card">
       <h3>Editor content — terma.prepare() status</h3>
       <div class="pg-test-note">using: editor text</div>
       <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample6"></div>
-      <div class="pg-test-result" id="tresult6">— click "Run all 6 checks" above</div>
+      <div class="pg-test-result" id="tresult6">— click "Run all 7 checks" above</div>
     </div>
+    <div class="pg-test-card">
+      <h3>Ghost circles — combining marks auto-clustered</h3>
+      <div class="pg-test-note">using: test element · requires terma-clusters.js</div>
+      <div class="pg-test-sample tr-jomolhari tr-guard" lang="bo" id="tsample7">བོད་</div>
+      <div class="pg-test-result" id="tresult7">— click "Run all 7 checks" above</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── 3b · FONT SIZE CHECK ──────────────────────────── -->
+<section class="pg-section">
+  <div class="pg-stitle">Font Size Check</div>
+  <div class="pg-run-bar">
+    <button class="pg-btn pg-btn-primary" onclick="runFontSizeCheck()">Check font sizes</button>
+    <p>Canvas API measures each font's cap-height at 100px. All fonts should render within ±12% of Jomolhari's reference ascent.</p>
+  </div>
+  <div id="fontSizeResults"></div>
+</section>
+
+
+<!-- ── 3b2 · HEAD-MARK ALIGNMENT ──────────────────────── -->
+<section class="pg-section">
+  <div class="pg-stitle">Head-Mark Alignment</div>
+  <div class="pg-run-bar">
+    <button class="pg-btn pg-btn-primary" onclick="runAlignmentDemo()">Run alignment</button>
+    <button class="pg-btn" onclick="resetAlignmentDemo()">Reset</button>
+    <p>Mixed font-sizes scatter Tibetan head marks (མགོ་ཅན). Layer 1 (CSS) gets ~95% there instantly; Layer 2 (JS) snaps to 0.04px accuracy via Canvas measurement.</p>
+  </div>
+
+  <div class="pg-align-demo">
+    <div class="pg-align-col">
+      <div class="pg-cluster-badge" style="color:var(--pg-muted);background:rgba(100,100,100,0.15);border-color:rgba(100,100,100,0.3)">Without alignment (baseline)</div>
+      <div id="alignWithout" lang="bo" class="pg-align-sample tr-jomolhari" style="font-size:28px; line-height:2.4;">བཀྲ་<span style="font-size:14px">ཤིས་བདེ་</span>ལེགས། <span style="font-size:42px">སངས་རྒྱས།</span></div>
+      <div class="pg-cluster-sub">vertical-align: baseline — head marks scattered vertically</div>
+    </div>
+    <div class="pg-align-col">
+      <div class="pg-cluster-badge pg-cluster-good">With head-mark alignment</div>
+      <div id="alignWith" lang="bo" class="pg-align-sample pg-align-active tr-jomolhari" style="font-size:28px; line-height:2.4;">བཀྲ་<span style="font-size:14px">ཤིས་བདེ་</span>ལེགས། <span style="font-size:42px">སངས་རྒྱས།</span></div>
+      <div class="pg-cluster-sub" id="alignResult">CSS fallback active — click "Run alignment" for pixel-perfect JS layer</div>
+    </div>
+  </div>
+
+  <h4 style="font-size:0.78rem; color:var(--pg-muted); margin:1.5rem 0 0.5rem;">Layer 1 — CSS fallback (instant, ~95% accurate)</h4>
+  <div class="pg-code-wrap">
+    <button class="pg-copy-btn" onclick="copyCode(this,'alignCSSCode')">Copy</button>
+    <pre id="alignCSSCode"></pre>
+  </div>
+
+  <h4 style="font-size:0.78rem; color:var(--pg-muted); margin:1.25rem 0 0.5rem;">Layer 2 — JS pixel-perfect (Canvas TextMetrics, 0.04px accuracy)</h4>
+  <div class="pg-code-wrap">
+    <button class="pg-copy-btn" onclick="copyCode(this,'alignJSCode')">Copy</button>
+    <pre id="alignJSCode"></pre>
+  </div>
+
+  <div class="pg-callout" style="margin-top:1rem">
+    <strong>The math:</strong>
+    <code>vertical-align = parentRatio &times; parentSize &minus; spanRatio &times; spanSize</code><br>
+    Each span's head mark ends up at <code>parentBaseline + parentRatio &times; parentSize</code> — constant
+    for all spans, regardless of their individual font-size.
+    Ratio is measured via Canvas <code>TextMetrics.actualBoundingBoxAscent / fontSize</code>.
+    Jomolhari ratio &asymp; 0.740 (head mark sits 74% of font-size above the baseline).
+  </div>
+</section>
+
+
+<!-- ── 3c · CHANGELOG ───────────────────────────────── -->
+<section class="pg-section pg-changelog-section">
+  <div class="pg-stitle">What's New</div>
+  <div class="pg-cl-list">
+
+    <div class="pg-cl-entry">
+      <div class="pg-cl-ver">v0.2.0 <span class="pg-cl-badge">current</span></div>
+      <ul>
+        <li><strong>CSS:</strong> <code>[lang="bo"]</code> now includes ligatures + padding-block by default — <code>.tr-guard</code> and <code>.tr-ligatures</code> no longer required on every element</li>
+        <li><strong>CSS:</strong> <code>size-adjust</code> added to all 44 <code>@font-face</code> declarations — fonts now render at comparable visual sizes out of the box; no manual font-size fiddling needed</li>
+        <li><strong>CSS:</strong> <code>.tr-mixed</code> — inline Tibetan inside English text: scales up 1.15× and adjusts baseline alignment automatically</li>
+        <li><strong>CSS:</strong> <code>[contenteditable][lang="bo"]</code> gets <code>white-space: pre-wrap</code> automatically — prevents ZWS from collapsing as users type</li>
+        <li><strong>JS:</strong> <code>terma.prepareEditable(el)</code> / <code>terma.prepareAllEditables()</code> — live ZWS maintenance for contenteditable Tibetan inputs; re-applies on each keystroke (debounced 150 ms)</li>
+        <li><strong>JS:</strong> <code>terma-clusters.js</code> module — <code>isTibetanCombining(code)</code> and <code>tibetanClusters(str)</code> grapheme clustering utilities</li>
+        <li><strong>JS:</strong> <code>terma.prepare()</code> auto-clusters combining marks into <code>.tr-cluster</code> spans when <code>terma-clusters.js</code> is loaded — prevents dotted-circle artifacts with no extra code</li>
+        <li><strong>JS:</strong> <code>terma.cluster(el)</code> / <code>terma.clusterAll()</code> — explicit clustering API</li>
+        <li><strong>CSS:</strong> <code>.tr-cluster</code> — inline-block cluster container; <code>.tr-render-safe</code> — full rendering checklist for JS-generated containers</li>
+        <li><strong>CSS:</strong> Head-mark alignment (Layer 1) — sized spans inside <code>[lang="bo"]</code> get <code>vertical-align: text-top</code> automatically; Latin spans classified as <code>.tt-latin</code> revert to baseline</li>
+        <li><strong>JS:</strong> Head-mark alignment (Layer 2) — <code>terma.prepare()</code> now auto-aligns head marks (མགོ་ཅན) across mixed font-sizes using Canvas <code>TextMetrics</code>; pixel-perfect to 0.04px</li>
+        <li><strong>JS:</strong> <code>terma.alignHeadMarks(el)</code> / <code>terma.alignHeadMarksAll()</code> — explicit alignment API for dynamic size changes after <code>prepare()</code></li>
+        <li><strong>JS:</strong> <code>terma.measureAscentRatio(fontFamily)</code> — exposed Canvas ascent measurement for advanced use; cached per font family</li>
+        <li><strong>JS:</strong> Automatic re-alignment on <code>document.fonts.ready</code> — ascent cache clears and all aligned containers re-measure after webfont swap</li>
+      </ul>
+    </div>
+
+    <div class="pg-cl-entry">
+      <div class="pg-cl-ver">v0.1.1</div>
+      <ul>
+        <li><strong>Fix:</strong> corrected GitHub repository URL in package.json</li>
+      </ul>
+    </div>
+
+    <div class="pg-cl-entry">
+      <div class="pg-cl-ver">v0.1.0</div>
+      <ul>
+        <li><strong>Initial release</strong> — CSS framework with 44 Tibetan fonts, utility classes (<code>.tr-guard</code>, <code>.tr-ligatures</code>, size, effects), and <code>terma.js</code> line-breaking utilities (<code>prepare()</code>, <code>prepareAll()</code>, <code>normalize()</code>)</li>
+      </ul>
+    </div>
+
   </div>
 </section>
 
@@ -255,7 +364,7 @@ import Base from '../../layouts/TeruiBase.astro';
 <!-- ── 4 · FONT GALLERY ─────────────────────────────── -->
 <section class="pg-section">
   <details>
-    <summary class="pg-gallery-summary">Font Gallery — All 44 Fonts</summary>
+    <summary class="pg-gallery-summary">Font Gallery — 44 Fonts</summary>
     <div class="pg-font-grid">
       <div class="pg-font-section-label">Uchen — Formal Upright</div>
       <div class="pg-font-card"><h4>.tr-jomolhari</h4><div class="pg-sample tr-jomolhari tr-guard">བཀྲ་ཤིས་བདེ་ལེགས།</div><div class="pg-flabel">Jomolhari · Traditional manuscript</div></div>
@@ -338,13 +447,123 @@ import Base from '../../layouts/TeruiBase.astro';
   </details>
 </section>
 
+<!-- ── 6 · DOM UTILITIES ─────────────────────────────── -->
+<section class="pg-section">
+  <details>
+    <summary class="pg-gallery-summary">DOM Utilities — Dynamic Content</summary>
+
+    <!-- tr-render-safe -->
+    <div class="pg-util-block" style="margin-top:2.5rem">
+      <h3 class="pg-util-title">Dynamic Content Container — <code>.tr-render-safe</code></h3>
+      <p class="pg-intro" style="margin-top:0">
+        A single class that applies the complete Tibetan rendering checklist to any container
+        whose text is inserted via JavaScript. Consolidates
+        <code>.tr-ligatures</code> + <code>.tr-guard</code> + <code>.tr-overflow-safe</code>
+        + font stack — no more missing one property and wondering why stacks are broken.
+      </p>
+
+      <div class="pg-rs-demo">
+        <div class="pg-rs-col">
+          <div class="pg-cluster-badge" style="color:var(--pg-muted);background:rgba(100,100,100,0.15);border-color:rgba(100,100,100,0.3)">Without .tr-render-safe</div>
+          <div id="rsWithout" lang="bo" style="padding:0.75em;background:var(--pg-surface2);border-radius:4px;min-height:3rem;margin-top:0.5rem;font-family:serif;font-size:1.1rem;"></div>
+        </div>
+        <div class="pg-rs-col">
+          <div class="pg-cluster-badge pg-cluster-good">With .tr-render-safe</div>
+          <div id="rsWith" class="tr-render-safe" lang="bo" style="padding:0.75em;background:var(--pg-surface2);border-radius:4px;min-height:3rem;margin-top:0.5rem;"></div>
+        </div>
+      </div>
+
+      <div class="pg-code-wrap" style="margin-top:1.25rem">
+        <button class="pg-copy-btn" onclick="copyCode(this,'rsCode')">Copy</button>
+        <pre id="rsCode">&lt;!-- Any container with JS-generated Tibetan text --&gt;
+&lt;div class="tr-render-safe" lang="bo" id="output"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  document.getElementById('output').textContent = myTibetanString;
+&lt;/script&gt;</pre>
+      </div>
+
+      <div class="pg-callout" style="margin-top:1rem">
+        <strong>Properties applied:</strong>
+        Tibetan font stack · <code>"blws" "abvs"</code> consonant stacking ·
+        <code>padding-block: 0.25em</code> clipping guard ·
+        <code>word-break: keep-all</code> · <code>overflow-wrap: anywhere</code> ·
+        <code>line-height: 1.8</code> · antialiased rendering
+      </div>
+    </div>
+
+    <!-- prepareEditable -->
+    <div class="pg-util-block" style="margin-top:3rem; border-top:1px solid var(--pg-border); padding-top:2rem">
+      <h3 class="pg-util-title">Live Editing — <code>terma.prepareEditable(el)</code></h3>
+      <p class="pg-intro" style="margin-top:0">
+        Keeps ZWS (zero-width spaces) and non-breaking tshegs up to date as the user types.
+        Without it, ZWS inserted by <code>prepare()</code> can be overwritten and line-breaking reverts.
+        Pair with <code>lang="bo"</code> — termaUI automatically adds <code>white-space: pre-wrap</code>
+        so ZWS characters are never collapsed.
+      </p>
+      <div class="pg-editable-demo">
+        <div>
+          <div class="pg-cluster-badge pg-cluster-good" style="margin-bottom:0.5rem">Live editor — type Tibetan here</div>
+          <div id="editableDemo" contenteditable="true" lang="bo" class="tr-jomolhari pg-editable-el"
+               style="min-height:4rem; padding:0.75rem; background:var(--pg-surface2); border-radius:6px; font-size:1.5rem; outline:none;">བཀྲ་ཤིས་བདེ་ལེགས།</div>
+          <p class="pg-cluster-sub" style="margin-top:0.5rem">ZWS re-applied 150 ms after each keystroke. Line-breaking stays correct.</p>
+        </div>
+      </div>
+      <div class="pg-code-wrap" style="margin-top:1.25rem">
+        <button class="pg-copy-btn" onclick="copyCode(this,'editableCode')">Copy</button>
+        <pre id="editableCode">&lt;div contenteditable="true" lang="bo" class="tr-jomolhari" id="myEditor"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  // One call handles everything — no input listener needed
+  terma.prepareEditable(document.getElementById('myEditor'));
+&lt;/script&gt;</pre>
+      </div>
+    </div>
+
+    <!-- .tr-mixed -->
+    <div class="pg-util-block" style="margin-top:3rem; border-top:1px solid var(--pg-border); padding-top:2rem">
+      <h3 class="pg-util-title">Mixed Content — <code>.tr-mixed</code></h3>
+      <p class="pg-intro" style="margin-top:0">
+        Tibetan script is taller than Latin at the same <code>font-size</code>.
+        Wrapping inline Tibetan in <code>.tr-mixed</code> scales it to <code>1.15em</code>
+        and shifts the baseline by <code>-0.15em</code> so both scripts sit on the same visual line
+        without extra line-height or manual adjustments.
+      </p>
+      <div class="pg-mixed-demo">
+        <div class="pg-mixed-row" style="margin-bottom:1.25rem">
+          <div class="pg-cluster-badge" style="color:var(--pg-muted);background:rgba(100,100,100,0.15);border-color:rgba(100,100,100,0.3);margin-bottom:0.5rem">Without .tr-mixed</div>
+          <p style="font-size:1.1rem;line-height:2">The Tibetan word for enlightenment is <span lang="bo" class="tr-jomolhari">བྱང་ཆུབ།</span> which is profound.</p>
+        </div>
+        <div class="pg-mixed-row">
+          <div class="pg-cluster-badge pg-cluster-good" style="margin-bottom:0.5rem">With .tr-mixed</div>
+          <p style="font-size:1.1rem;line-height:2">The Tibetan word for enlightenment is <span lang="bo" class="tr-jomolhari tr-mixed">བྱང་ཆུབ།</span> which is profound.</p>
+        </div>
+      </div>
+      <div class="pg-code-wrap" style="margin-top:1.25rem">
+        <button class="pg-copy-btn" onclick="copyCode(this,'mixedCode')">Copy</button>
+        <pre id="mixedCode">&lt;p&gt;The Tibetan word for enlightenment is
+  &lt;span lang="bo" class="tr-jomolhari tr-mixed"&gt;བྱང་ཆུབ།&lt;/span&gt;
+  which is profound.
+&lt;/p&gt;</pre>
+      </div>
+      <div class="pg-callout" style="margin-top:1rem">
+        <strong>Properties applied by .tr-mixed:</strong>
+        <code>font-size: 1.15em</code> · <code>vertical-align: -0.15em</code> ·
+        <code>line-height: 1</code> · <code>padding-block: 0</code> (overrides the container guard)
+      </div>
+    </div>
+
+  </details>
+</section>
+
 </div><!-- /.pg -->
 
 
 <!-- ══════════════════════════════════════════════════════════
      SCRIPTS
 ══════════════════════════════════════════════════════════ -->
-<script is:inline src="https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"></script>
+<script is:inline src="/dist/terma.js"></script>
+<script is:inline src="/dist/terma-clusters.js"></script>
 <script is:inline>
 // ─── Phonetic IME ──────────────────────────────────────────
 const IME_MAP = {
@@ -435,7 +654,7 @@ const START_SNIPPETS = {
 <head>
   <meta charset="UTF-8">
 
-  <!-- Step 1: Add termaUI CSS in <head> (all 44 fonts included) -->
+  <!-- Step 1: Add termaUI CSS in <head> -->
   <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/termaui/dist/termaui.min.css">
 </head>
@@ -455,7 +674,7 @@ const START_SNIPPETS = {
 </body>
 </html>`,
 
-  npm: `# Install (all 44 fonts are bundled — no separate download needed)
+  npm: `# Install (4 fonts bundled; load termaui-fonts CDN for all 44)
 npm install termaui
 
 # Step 1: Import CSS in your entry file or layout
@@ -547,8 +766,8 @@ let activeCodeTab = 'html';
 function getActiveClasses() {
   return [...editor.classList].filter(c =>
     FONT_CLASSES.includes(c) || SIZE_CLASSES.includes(c) ||
-    EFFECT_CLASSES.includes(c) || c === 'tr-guard' || c === 'tr-ligatures' ||
-    c === 'tr-stack-safe' || c === 'tr-baseline' || c === 'tr-scale-match'
+    EFFECT_CLASSES.includes(c) || c === 'tr-stack-safe' ||
+    c === 'tr-baseline' || c === 'tr-scale-match'
   );
 }
 
@@ -572,15 +791,74 @@ function switchCodeTab(tab, btn) {
   updateCode();
 }
 
+// ─── Cursor save/restore around prepare() ──────────────────
+// prepare() inserts ZWS and wraps spans, which resets the caret.
+// We track offset in terms of non-ZWS characters so it maps
+// correctly even after ZWS are added or removed.
+function saveOffset(el) {
+  const sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0 || !el.contains(sel.anchorNode)) return null;
+  const range = sel.getRangeAt(0);
+  const pre = range.cloneRange();
+  pre.selectNodeContents(el);
+  pre.setEnd(range.startContainer, range.startOffset);
+  return pre.toString().replace(/\u200B/g, '').length;
+}
+function restoreOffset(el, offset) {
+  if (offset === null) return;
+  const sel = window.getSelection();
+  const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  let remaining = offset;
+  let node;
+  while ((node = walker.nextNode())) {
+    const text = node.textContent;
+    let nonZWS = 0;
+    for (let i = 0; i < text.length; i++) {
+      if (text[i] !== '\u200B') nonZWS++;
+    }
+    if (remaining <= nonZWS) {
+      let count = 0;
+      for (let i = 0; i <= text.length; i++) {
+        if (count === remaining) {
+          try {
+            const r = document.createRange();
+            r.setStart(node, i);
+            r.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(r);
+          } catch (e) {}
+          return;
+        }
+        if (i < text.length && text[i] !== '\u200B') count++;
+      }
+      return;
+    }
+    remaining -= nonZWS;
+  }
+  // Fallback: end of editor
+  try {
+    const r = document.createRange();
+    r.selectNodeContents(el);
+    r.collapse(false);
+    sel.removeAllRanges();
+    sel.addRange(r);
+  } catch (e) {}
+}
+function prepareWithCursor(el) {
+  const offset = saveOffset(el);
+  delete el.dataset.termaPrepared;
+  terma.prepare(el);
+  restoreOffset(el, offset);
+}
+
 // ─── Editor input ──────────────────────────────────────────
 let prepareTimer = null;
 function onEditorInput() {
   updateCode();
   clearTimeout(prepareTimer);
   prepareTimer = setTimeout(() => {
-    delete editor.dataset.termaPrepared;
-    terma.prepare(editor);
-  }, 400);
+    prepareWithCursor(editor);
+  }, 120);
 }
 
 // ─── IME handler ───────────────────────────────────────────
@@ -588,10 +866,46 @@ editor.addEventListener('keydown', (ev) => {
   if (!imeActive) return;
   if (ev.ctrlKey || ev.metaKey || ev.altKey) return;
   if (IME_PASSTHROUGH.has(ev.key)) return;
-  const ch = IME_MAP[ev.key];
+  let ch = IME_MAP[ev.key];
   if (ch === undefined) return;
   ev.preventDefault();
-  document.execCommand('insertText', false, ch);
+
+  // Double-space: if the non-ZWS character immediately before cursor is
+  // already a tsheg (་ U+0F0B), pressing space inserts a real space
+  // instead of another tsheg — so the user can separate Tibetan from
+  // following Latin text without switching phonetic mode off.
+  if (ev.key === ' ') {
+    const sel0 = window.getSelection();
+    if (sel0 && sel0.rangeCount > 0) {
+      const r0 = sel0.getRangeAt(0);
+      const node0 = r0.startContainer;
+      if (node0.nodeType === Node.TEXT_NODE && r0.startOffset > 0) {
+        // Walk back through the text node ignoring ZWS
+        let prevChar = '';
+        for (let i = r0.startOffset - 1; i >= 0; i--) {
+          if (node0.textContent[i] !== '\u200B') { prevChar = node0.textContent[i]; break; }
+        }
+        if (prevChar === '\u0F0B') ch = ' '; // real space after tsheg
+      }
+    }
+  }
+
+  // Insert via Selection API (execCommand is deprecated and unreliable)
+  const sel = window.getSelection();
+  if (!sel || sel.rangeCount === 0) return;
+  const range = sel.getRangeAt(0);
+  range.deleteContents();
+  const textNode = document.createTextNode(ch);
+  range.insertNode(textNode);
+  // Keep cursor INSIDE the new text node (not setStartAfter which puts
+  // it in the parent element and breaks the double-space detection)
+  range.setStart(textNode, textNode.length);
+  range.collapse(true);
+  sel.removeAllRanges();
+  sel.addRange(range);
+
+  // Notify listeners (updateCode, prepare debounce)
+  editor.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: ch }));
 });
 function toggleIME(btn) {
   imeActive = btn.classList.toggle('active');
@@ -753,12 +1067,87 @@ function runAllTests() {
   setTestResult('tresult6', prepared,
     'PASS — terma.prepare() has been run on editor content',
     'NOTE — type or paste in the playground to trigger terma.prepare() automatically');
+
+  // Check 7: ghost circles — auto-clustering via terma.prepare()
+  if (typeof termaClusters === 'undefined') {
+    setTestResult('tresult7', false, '', 'SKIP — terma-clusters.js not loaded');
+  } else {
+    const tmp = document.createElement('div');
+    tmp.textContent = 'བོད་';  // ba + naro vowel, da, tsheg — 2 clusters have combining marks
+    terma.prepare(tmp);
+    const clusterSpans = tmp.querySelectorAll('.tr-cluster');
+    const ok = clusterSpans.length >= 2;
+    setTestResult('tresult7', ok,
+      'PASS — combining marks auto-clustered into ' + clusterSpans.length + ' .tr-cluster spans',
+      'FAIL — no .tr-cluster spans produced by terma.prepare()');
+  }
 }
 
 function setTestResult(id, pass, passMsg, failMsg) {
   const el = document.getElementById(id);
   el.textContent = pass ? passMsg : failMsg;
   el.className = 'pg-test-result ' + (pass ? 'pass' : 'fail');
+}
+
+// ─── Head-mark alignment (uses terma.alignHeadMarks from terma.js) ──
+function runAlignmentDemo() {
+  const container = document.getElementById('alignWith');
+  if (!container) return;
+  terma.alignHeadMarks(container);
+  const parentFont = getComputedStyle(container).fontFamily;
+  const ratio = terma.measureAscentRatio(parentFont);
+  const resultEl = document.getElementById('alignResult');
+  if (resultEl) {
+    resultEl.textContent = 'PASS — ascent ratio: ' + (ratio ? ratio.toFixed(3) : 'n/a') + ' · head marks pixel-aligned';
+    resultEl.className = 'pg-cluster-sub pg-align-pass';
+  }
+}
+
+const ALIGN_CSS_SNIPPET = `/* Included in termaui.css by default — no extra CSS needed.
+   These rules activate automatically on [lang="bo"] containers: */
+
+[lang="bo"] span[class*="tr-text-"] {
+  vertical-align: text-top;   /* CSS Layer 1: ~95% accurate */
+  line-height: 1;
+}
+[lang="bo"] span[style*="font-size"] {
+  vertical-align: text-top;
+  line-height: 1;
+}
+[lang="bo"] span.tt-latin {
+  vertical-align: baseline;   /* Latin keeps standard alignment */
+  line-height: inherit;
+}`;
+
+const ALIGN_JS_SNIPPET = `// terma.prepare() auto-aligns head marks (Step 5).
+// No extra code needed — just call prepareAll():
+terma.prepareAll();
+
+// For dynamic size changes after prepare(), re-align explicitly:
+terma.alignHeadMarks(myContainer);
+
+// Under the hood, terma.js uses Canvas TextMetrics:
+// ratio = ctx.measureText('\\u0F42').actualBoundingBoxAscent / 100
+// offset = parentRatio * parentSize - spanRatio * spanSize
+// Jomolhari ratio \\u2248 0.740
+
+// terma.js also handles webfont swap automatically via
+// document.fonts.ready — no user code needed.`;
+
+function resetAlignmentDemo() {
+  const container = document.getElementById('alignWith');
+  if (!container) return;
+  container.querySelectorAll('span[style*="font-size"]').forEach(span => {
+    span.style.verticalAlign = '';
+    span.style.lineHeight = '';
+    span.classList.remove('tt-latin');
+  });
+  delete container.dataset.termaAligned;
+  const resultEl = document.getElementById('alignResult');
+  if (resultEl) {
+    resultEl.textContent = 'CSS fallback active — click "Run alignment" for pixel-perfect JS layer';
+    resultEl.className = 'pg-cluster-sub';
+  }
 }
 
 // ─── Boot ──────────────────────────────────────────────────
@@ -769,7 +1158,130 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('startCode').textContent = START_SNIPPETS.html;
   terma.prepare(editor);
   updateCode();
+  initRenderSafeDemo();
+  initEditableDemo();
+  document.getElementById('alignCSSCode').textContent = ALIGN_CSS_SNIPPET;
+  document.getElementById('alignJSCode').textContent = ALIGN_JS_SNIPPET;
+  runAlignmentDemo();
 });
+
+// terma.js re-aligns containers on fonts.ready, but we also need
+// to refresh the demo display text (ratio number) after fonts load.
+document.fonts.ready.then(() => runAlignmentDemo());
+
+// ─── Render-safe demo ───────────────────────────────────
+function initRenderSafeDemo() {
+  const sample = 'རྒྱལ་བ་བཀྲ་ཤིས་བདེ་ལེགས།';
+  const rsWithout = document.getElementById('rsWithout');
+  const rsWith    = document.getElementById('rsWith');
+  if (rsWithout) rsWithout.textContent = sample;
+  if (rsWith)    rsWith.textContent    = sample;
+}
+
+// ─── Editable demo ──────────────────────────────────────
+function initEditableDemo() {
+  const el = document.getElementById('editableDemo');
+  if (!el) return;
+  terma.prepareEditable(el);
+}
+
+// ─── Font size check ────────────────────────────────────
+function runFontSizeCheck() {
+  const FONTS = [
+    { name: 'Jomolhari',                  cls: 'tr-jomolhari',           ref: true  },
+    { name: 'Noto Serif Tibetan',         cls: 'tr-noto'                            },
+    { name: 'Tibetan Machine Uni',        cls: 'tr-machine-uni'                     },
+    { name: 'BabelStone Tibetan',         cls: 'tr-babelstone'                      },
+    { name: 'BabelStone Tibetan Slim',    cls: 'tr-babelstone-slim'                 },
+    { name: 'DDC Uchen',                  cls: 'tr-ddc-uchen'                       },
+    { name: 'DDC Rinzin',                 cls: 'tr-ddc-rinzin'                      },
+    { name: 'GangJie Uchen',              cls: 'tr-gangjie'                         },
+    { name: 'Jamyang Monlam',             cls: 'tr-jamyang'                         },
+    { name: 'Monlam Bodyig',              cls: 'tr-monlam'                          },
+    { name: 'Panchen Tsukring',           cls: 'tr-panchen'                         },
+    { name: 'Riwoche Dhodri',             cls: 'tr-riwoche'                         },
+    { name: 'Sadri Yigchen',              cls: 'tr-sadri'                           },
+    { name: 'OuChan 1',                   cls: 'tr-monlam-ouchan1'                  },
+    { name: 'OuChan 2',                   cls: 'tr-monlam-ouchan2'                  },
+    { name: 'OuChan 3',                   cls: 'tr-monlam-ouchan3'                  },
+    { name: 'OuChan 4',                   cls: 'tr-monlam-ouchan4'                  },
+    { name: 'OuChan 5',                   cls: 'tr-monlam-ouchan5'                  },
+    { name: 'PayTsik',                    cls: 'tr-monlam-paytsik'                  },
+    { name: 'Tikrang',                    cls: 'tr-monlam-tikrang'                  },
+    { name: 'TikTong',                    cls: 'tr-monlam-tiktong'                  },
+    { name: 'Qomolangma Sarchen',         cls: 'tr-qomolangma-sarchen'              },
+    { name: 'Qomolangma Betsu',           cls: 'tr-qomolangma-betsu'                },
+    { name: 'Qomolangma Tsutong',         cls: 'tr-qomolangma-tsutong'              },
+    { name: 'Noto Sans Tibetan',          cls: 'tr-noto-sans'                       },
+    { name: 'MiSans Tibetan',             cls: 'tr-misans'                          },
+    { name: 'Monlam Uni Sans',            cls: 'tr-monlam-sans'                     },
+    { name: 'Qomolangma-Drutsa',          cls: 'tr-drutsa'                          },
+    { name: 'GangJie Drutsa',             cls: 'tr-gangjie-drutsa'                  },
+    { name: 'Khampa Drutsa',              cls: 'tr-khampa-drutsa'                   },
+    { name: 'Sadri Drutsa',               cls: 'tr-sadri-drutsa'                    },
+    { name: 'Monlam Dutsa1',              cls: 'tr-monlam-dutsa1'                   },
+    { name: 'Monlam Dutsa2',              cls: 'tr-monlam-dutsa2'                   },
+    { name: 'Joyig',                      cls: 'tr-joyig'                           },
+    { name: 'Khampa Chuyig',              cls: 'tr-chuyig'                          },
+    { name: 'Khampa Bechu',               cls: 'tr-bechu'                           },
+  ];
+
+  const TOLERANCE = 0.12; // ±12%
+  const TEST_CHAR = 'བཀྲ';
+  const FS = 100;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 400; canvas.height = 200;
+  const ctx = canvas.getContext('2d');
+
+  // Measure reference (Jomolhari)
+  ctx.font = FS + 'px Jomolhari, serif';
+  const refAscent = ctx.measureText(TEST_CHAR).actualBoundingBoxAscent;
+
+  // Get font-family for each class from a temp element
+  const probe = document.createElement('span');
+  probe.style.visibility = 'hidden';
+  probe.style.position = 'absolute';
+  document.body.appendChild(probe);
+
+  const results = FONTS.map(f => {
+    if (f.ref) { probe.className = ''; probe.classList.add(f.cls); }
+    else        { probe.className = ''; probe.classList.add(f.cls); }
+    const ff = getComputedStyle(probe).fontFamily;
+    ctx.font = FS + 'px ' + ff;
+    const ascent = ctx.measureText(TEST_CHAR).actualBoundingBoxAscent;
+    const ratio = ascent / refAscent;
+    const devPct = Math.round((ratio - 1) * 100);
+    const pass = f.ref || Math.abs(ratio - 1) <= TOLERANCE;
+    return { ...f, ascent: Math.round(ascent * 10) / 10, devPct, pass };
+  });
+
+  document.body.removeChild(probe);
+
+  const allPass = results.every(r => r.pass);
+  const failCount = results.filter(r => !r.pass).length;
+
+  const container = document.getElementById('fontSizeResults');
+  const refAsc = Math.round(refAscent);
+
+  const rows = results.map(r => {
+    const icon = r.ref ? '◆' : (r.pass ? '✓' : '✗');
+    const cls  = r.ref ? 'fsc-ref' : (r.pass ? 'fsc-pass' : 'fsc-fail');
+    const dev  = r.ref ? 'reference' : (r.devPct > 0 ? '+' + r.devPct + '%' : r.devPct + '%');
+    return `<tr class="${cls}"><td>${icon}</td><td>${r.name}</td><td>${r.ascent}px</td><td>${dev}</td></tr>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="fsc-summary ${allPass ? 'fsc-all-pass' : 'fsc-has-fail'}">
+      ${allPass
+        ? `✓ All ${results.length} fonts within ±${TOLERANCE*100}% of Jomolhari (${refAsc}px)`
+        : `✗ ${failCount} font${failCount > 1 ? 's' : ''} outside ±${TOLERANCE*100}% tolerance — check size-adjust values`}
+    </div>
+    <table class="fsc-table">
+      <thead><tr><th></th><th>Font</th><th>Ascent @100px</th><th>vs Jomolhari</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+}
 </script>
 
 
@@ -860,6 +1372,32 @@ window.addEventListener('DOMContentLoaded', () => {
 .pg-copy-btn.copied { color: var(--pg-green); border-color: var(--pg-green); }
 
 /* ── Callout ──────────────────────────────────────────── */
+/* ── Changelog ────────────────────────────────────────── */
+.pg-changelog-section { padding-bottom: 0.5rem; }
+.pg-cl-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem; }
+.pg-cl-entry { padding: 1.1rem 1.25rem; background: var(--pg-surface2); border-radius: 8px; border: 1px solid #2a3545; }
+.pg-cl-ver {
+  font-size: 0.95rem; font-weight: 700; color: var(--pg-gold);
+  margin-bottom: 0.6rem; letter-spacing: 0.02em;
+}
+.pg-cl-badge {
+  display: inline-block; font-size: 0.65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  background: #1a3a1a; color: #4caf50; border: 1px solid #2d5a2d;
+  padding: 1px 7px; border-radius: 20px; vertical-align: middle;
+  margin-left: 0.4rem;
+}
+.pg-cl-entry ul {
+  margin: 0; padding-left: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.35rem;
+}
+.pg-cl-entry li { font-size: 0.82rem; color: var(--pg-muted); line-height: 1.6; }
+.pg-cl-entry li strong { color: var(--pg-text); }
+.pg-cl-entry li code {
+  background: #1e2838; padding: 1px 5px; border-radius: 3px;
+  color: #7ecfff; font-size: 0.75rem;
+}
+
 .pg-callout {
   margin-top: 0.85rem; padding: 0.75rem 1rem;
   background: #111820; border: 1px solid #2a3545;
@@ -964,7 +1502,7 @@ window.addEventListener('DOMContentLoaded', () => {
 #editor {
   min-height: 110px; outline: none;
   word-break: keep-all; overflow-wrap: anywhere;
-  color: #fff; font-size: 1.75rem; line-height: 1.8;
+  color: #fff; font-size: 1.75rem; line-height: 2.5;
 }
 #editor:empty::before {
   content: 'Press ⌨ phonetic to type Tibetan.\A Select — system — font for English.\A Writing both? Press mixed.\A\A Or just paste Tibetan text here.';
@@ -978,7 +1516,13 @@ window.addEventListener('DOMContentLoaded', () => {
 #editor[data-ime-hint="on"]:empty::before {
   content: '⌨ phonetic on — k=ཀ  g=ག  space=་  /=།  Shift+R=ྲ';
 }
-#editor span[class] { outline: 1px dashed #5a8fdf35; border-radius: 2px; }
+/* Base: all editor spans at baseline (prevents tr-cluster gaps with text nodes).
+   Sized spans override to text-top (CSS Layer 1 fallback for head-mark alignment).
+   JS Layer 2 (terma.alignHeadMarks) then sets inline vertical-align for pixel-perfect. */
+#editor span { vertical-align: baseline; }
+#editor span[class*="tr-text-"] { vertical-align: text-top; line-height: 1; }
+#editor .tr-cluster { display: inline; padding-block: 0; }
+#editor .tr-yig-chung { vertical-align: top; }
 
 /* ── Effects row ──────────────────────────────────────── */
 .pg-effects-row {
@@ -1041,6 +1585,32 @@ window.addEventListener('DOMContentLoaded', () => {
 .pg-test-result.pass { color: var(--pg-green); }
 .pg-test-result.fail { color: var(--pg-red); }
 
+/* ── Font size check ──────────────────────────────────── */
+.fsc-summary {
+  font-size: 0.82rem; font-family: monospace;
+  padding: 0.6rem 1rem; border-radius: 6px; margin-bottom: 0.75rem;
+}
+.fsc-all-pass { background: #0d2b1a; color: var(--pg-green); border: 1px solid #1a4a2a; }
+.fsc-has-fail { background: #2b0d0d; color: var(--pg-red);   border: 1px solid #4a1a1a; }
+.fsc-table {
+  width: 100%; border-collapse: collapse; font-size: 0.72rem; font-family: monospace;
+  border: 1px solid var(--pg-border); border-radius: 6px; overflow: hidden;
+}
+.fsc-table thead th {
+  background: #12121a; color: var(--pg-muted); text-align: left;
+  padding: 0.4rem 0.75rem; font-weight: 600; font-size: 0.65rem;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.fsc-table tbody tr { border-top: 1px solid var(--pg-border); }
+.fsc-table tbody td { padding: 0.3rem 0.75rem; }
+.fsc-ref  td:first-child { color: var(--pg-gold); }
+.fsc-ref  td:last-child  { color: var(--pg-muted); font-style: italic; }
+.fsc-pass td:first-child { color: var(--pg-green); }
+.fsc-pass td:last-child  { color: var(--pg-green); }
+.fsc-fail td:first-child { color: var(--pg-red); }
+.fsc-fail td:last-child  { color: var(--pg-red); font-weight: 600; }
+.fsc-table tbody tr:nth-child(even) { background: #0d0d14; }
+
 /* ── Font gallery ─────────────────────────────────────── */
 .pg-gallery-summary {
   cursor: pointer; user-select: none; list-style: none;
@@ -1062,6 +1632,10 @@ details[open] .pg-gallery-summary::before { content: '▼  '; }
 .pg-font-card { background: var(--pg-surface); padding: 0.8rem 1rem; }
 .pg-font-card h4 { font-family: monospace; font-size: 0.68rem; color: var(--pg-gold); opacity: 0.8; margin-bottom: 0.4rem; }
 .pg-sample { font-size: 1.2rem; line-height: 2; color: #fff; }
+/* Display fonts with heavy descenders: largest size that fits line-height, padded to card height */
+.pg-sample.tr-monlam-paytsik,
+.pg-sample.tr-monlam-tiktong,
+.pg-sample.tr-monlam-dutsa2 { font-size: 0.94rem; min-height: 3rem; }
 .pg-flabel { font-size: 0.65rem; color: var(--pg-muted); margin-top: 0.2rem; }
 .pg-font-section-label {
   grid-column: 1 / -1;
@@ -1088,6 +1662,93 @@ details[open] .pg-gallery-summary::before { content: '▼  '; }
   .pg { padding: 0 1.25rem 3rem; }
   .pg-toolbar { gap: 0.3rem; }
   #fontSelect { max-width: 120px; }
+}
+
+/* ── DOM Utilities section ────────────────────────────── */
+.pg-util-block { padding: 0.5rem 0 0; }
+.pg-util-title {
+  font-size: 0.95rem; font-weight: 600; color: var(--pg-text);
+  margin-bottom: 0.75rem;
+}
+.pg-util-title code {
+  font-size: 0.85rem; color: var(--pg-accent);
+  background: var(--pg-surface2); padding: 0.1em 0.35em; border-radius: 3px;
+}
+.pg-cluster-demo {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  margin: 1.25rem 0 1rem;
+}
+.pg-cluster-col { display: flex; flex-direction: column; gap: 0.3rem; }
+.pg-cluster-badge {
+  display: inline-block; font-size: 0.72rem; font-weight: 600;
+  padding: 0.2em 0.6em; border-radius: 3px; border: 1px solid;
+  width: fit-content; letter-spacing: 0.02em;
+}
+.pg-cluster-bad  { color: #f87171; background: rgba(248,113,113,0.1); border-color: rgba(248,113,113,0.3); }
+.pg-cluster-good { color: #4ade80; background: rgba(74,222,128,0.1); border-color: rgba(74,222,128,0.3); }
+.pg-cluster-sub  { font-size: 0.72rem; color: var(--pg-muted); font-family: monospace; }
+.pg-cluster-output {
+  min-height: 3rem; padding: 0.5rem 0.75rem;
+  background: var(--pg-surface2); border-radius: 6px; margin-top: 0.25rem;
+}
+.pg-cluster-input-row {
+  display: flex; align-items: center; gap: 0.75rem; margin-top: 0.75rem;
+}
+.pg-cluster-input-label { font-size: 0.8rem; color: var(--pg-muted); white-space: nowrap; }
+.pg-cluster-input {
+  flex: 1; background: var(--pg-surface2); border: 1px solid var(--pg-border);
+  border-radius: 6px; padding: 0.4rem 0.7rem; color: var(--pg-text);
+  font-family: 'Jomolhari', serif; font-size: 1.1rem; outline: none;
+}
+.pg-cluster-input:focus { border-color: var(--pg-accent); }
+.pg-rs-demo {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  margin: 1.25rem 0 1rem;
+}
+.pg-rs-col { display: flex; flex-direction: column; }
+
+/* ── Editable demo ────────────────────────────────────── */
+.pg-editable-demo { margin: 1.25rem 0 1rem; }
+.pg-editable-el {
+  cursor: text; border: 1px solid var(--pg-border);
+  transition: border-color 0.15s;
+}
+.pg-editable-el:focus { border-color: var(--pg-accent); }
+
+/* ── Mixed content demo ───────────────────────────────── */
+.pg-mixed-demo { margin: 1.25rem 0 1rem; }
+.pg-mixed-row { padding: 0.75rem; background: var(--pg-surface2); border-radius: 6px; }
+.pg-mixed-row + .pg-mixed-row { margin-top: 0.75rem; }
+
+/* ── Head-mark alignment demo ────────────────────────── */
+.pg-align-demo {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  margin: 1.25rem 0 1rem;
+}
+.pg-align-col { display: flex; flex-direction: column; gap: 0.3rem; }
+.pg-align-sample {
+  min-height: 3.5rem; padding: 0.75em;
+  background: var(--pg-surface2); border-radius: 6px;
+  margin-top: 0.5rem; color: #fff;
+}
+/* "Without" container — force baseline to show the problem */
+#alignWithout span[style*="font-size"] {
+  vertical-align: baseline !important;
+  line-height: inherit !important;
+}
+/* CSS fallback Layer 1 — active on the "With" container immediately */
+.pg-align-active span[style*="font-size"] {
+  vertical-align: text-top;
+  line-height: 1;
+}
+.pg-align-active span[style*="font-size"].tt-latin {
+  vertical-align: baseline;
+  line-height: inherit;
+}
+.pg-align-pass { color: var(--pg-green) !important; }
+
+@media (max-width: 600px) {
+  .pg-cluster-demo, .pg-rs-demo, .pg-align-demo { grid-template-columns: 1fr; }
 }
 </style>
 

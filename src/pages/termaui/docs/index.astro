@@ -649,7 +649,7 @@ onMounted(() =&gt; &#123;
 
     <!-- .tr-guard -->
     <h3><code>.tr-guard</code></h3>
-    <p>Adds vertical padding (<code>padding-block: 0.25em</code>) to prevent clipping of vowel marks and stacked consonants. Use on every Tibetan text element. For extra-large text, use <code>.tr-guard-lg</code> (<code>0.5em</code>).</p>
+    <p>Adds vertical padding (<code>padding-block: 0.25em</code>) to prevent clipping of vowel marks and stacked consonants. <strong>Since v0.2.0</strong>, this is included in <code>[lang="bo"]</code> defaults — you no longer need to add <code>.tr-guard</code> to every element. It remains useful when you need the guard on a non-Tibetan container, or use <code>.tr-guard-lg</code> (<code>0.5em</code>) for extra-large headings.</p>
     <div class="compare-row">
       <div class="compare-col">
         <div class="compare-label bad">Without .tr-guard</div>
@@ -971,7 +971,7 @@ onMounted(() =&gt; &#123;
 
   <section class="doc-section" id="tr-ligatures">
     <h3><code>.tr-ligatures</code></h3>
-    <p>Explicitly enables OpenType ligature features (<code>blws</code> — Below Base Substitution, <code>abvs</code> — Above Base Substitution) that fonts use to compose vertical consonant stacks. Without these, some browsers may render stacked consonants as separate glyphs on the baseline.</p>
+    <p>Explicitly enables OpenType ligature features (<code>blws</code> — Below Base Substitution, <code>abvs</code> — Above Base Substitution) that fonts use to compose vertical consonant stacks. Without these, some browsers may render stacked consonants as separate glyphs on the baseline. <strong>Since v0.2.0</strong>, these features are included in <code>[lang="bo"]</code> defaults — <code>.tr-ligatures</code> is now optional for standard Tibetan elements.</p>
     <div class="class-ref">
       <div class="class-ref-header">
         <span class="class-ref-name">.tr-ligatures</span>
@@ -1185,6 +1185,9 @@ onMounted(() =&gt; &#123;
           <div class="requires-row"><code>.tr-nobr-tsheg</code> — CSS partial fix only; terma.js automates correctly</div>
           <div class="requires-row">Double-shad auto-protection (terma.js wraps them automatically)</div>
           <div class="requires-row">Unicode NFC normalization for search &amp; storage</div>
+          <div class="requires-row">Live ZWS maintenance in <code>contenteditable</code> editors</div>
+          <div class="requires-row">Dotted-circle artifact prevention (with <code>terma-clusters.js</code>)</div>
+          <div class="requires-row">Pixel-perfect head-mark alignment across mixed font sizes</div>
         </div>
       </div>
     </div>
@@ -1218,6 +1221,46 @@ onMounted(() =&gt; &#123;
     </div>
     <p>Combine with <code>.tr-justify-bo</code> for the best Tibetan justification: <code>terma.prepare()</code> gives browsers break points, and the CSS class handles the alignment.</p>
 
+    <h3 style="margin-top:2rem;"><code>terma.prepareEditable(element)</code></h3>
+    <p>Prepares a <code>contenteditable</code> element for live Tibetan text entry. Calls <code>prepare()</code> immediately, then re-applies it on every <code>input</code> event (debounced 150 ms) so zero-width spaces survive further typing. Use instead of <code>prepare()</code> for any live-edit Tibetan surface — note-taking UIs, typing tutors, rich text editors.</p>
+    <p>termaUI automatically adds <code>white-space: pre-wrap</code> to <code>[contenteditable][lang="bo"]</code> elements to prevent ZWS from being collapsed by the browser.</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">JS</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- HTML --&gt;</span>
+<span class="tag">&lt;div</span> <span class="attr">contenteditable</span>=<span class="str">"true"</span> <span class="attr">lang</span>=<span class="str">"bo"</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari"</span> <span class="attr">id</span>=<span class="str">"editor"</span><span class="tag">&gt;&lt;/div&gt;</span>
+
+<span class="cmt">// JS — one call, no listener boilerplate</span>
+<span class="hl">terma.prepareEditable</span>(document.getElementById('editor'));
+
+<span class="cmt">// Or target all [contenteditable][lang="bo"] at once</span>
+<span class="hl">terma.prepareAllEditables</span>();</code></pre>
+      </div>
+    </div>
+
+    <h3 style="margin-top:2rem;"><code>terma.cluster(element)</code></h3>
+    <p>Prevents <em>dotted-circle artifacts</em> (◌) — phantom characters that appear when a browser tries to display a combining mark (vowel sign, subjoined consonant) with no base character before it. This happens when Tibetan text is built character-by-character via JavaScript DOM operations (e.g. <code>textContent += char</code>).</p>
+    <p>Requires <code>terma-clusters.js</code> to be loaded alongside <code>terma.js</code>. When both are present, <code>terma.prepare()</code> calls clustering automatically — you only need <code>cluster()</code> when you want clustering without the full prepare pipeline.</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- Load both scripts --&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/terma-clusters.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+<span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/termaui/dist/terma.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+
+<span class="cmt">&lt;!-- terma.prepare() now auto-clusters on every call --&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  <span class="hl">terma.prepareAll</span>(); <span class="cmt">// clusters + line-break fixes in one call</span>
+<span class="tag">&lt;/script&gt;</span></code></pre>
+      </div>
+    </div>
+
     <h3 style="margin-top:2rem;"><code>terma.normalize(element)</code></h3>
     <p>Applies Unicode NFC normalization to all text inside the element. Solves the "invisible search failure" problem: the same Tibetan syllable can be encoded as different Unicode sequences that look identical but compare as unequal strings. Normalizing to NFC before storing or searching ensures consistent matching.</p>
     <ul style="color:#94a3b8; font-size:0.92rem; margin-bottom:1.25rem; padding-left:1.5rem;">
@@ -1241,6 +1284,33 @@ onMounted(() =&gt; &#123;
 const query = userInput.<span class="hl">normalize</span>('NFC');</code></pre>
       </div>
     </div>
+
+    <h3 style="margin-top:2rem;"><code>terma.alignHeadMarks(element)</code></h3>
+    <p>Pixel-perfect head-mark alignment for mixed font sizes. Tibetan script aligns from the head mark (<span class="tr-jomolhari tr-guard" lang="bo" style="color:#e2e8f0;">མགོ་ཅན།</span>) at the top of each letter, but CSS uses baseline (bottom) alignment. When differently-sized Tibetan spans appear inline, head marks scatter vertically. This function fixes that.</p>
+    <p><code>prepare()</code> calls this automatically as its final step — you only need <code>alignHeadMarks()</code> when you change font sizes dynamically <em>after</em> <code>prepare()</code> has already run.</p>
+    <ul style="color:#94a3b8; font-size:0.92rem; margin-bottom:1.25rem; padding-left:1.5rem;">
+      <li style="margin-bottom:0.4rem;"><strong>CSS Layer 1</strong> (instant, ~95%): termaui.css applies <code>vertical-align: text-top</code> to sized spans inside <code>[lang="bo"]</code> — works without JavaScript</li>
+      <li style="margin-bottom:0.4rem;"><strong>JS Layer 2</strong> (pixel-perfect): Measures each font's ascent ratio via Canvas <code>TextMetrics</code> and computes a per-span <code>vertical-align</code> offset to within 0.04 px</li>
+      <li style="margin-bottom:0.4rem;">Latin-only spans are detected and classified as <code>.tt-latin</code> — reverted to baseline so English text is unaffected</li>
+      <li style="margin-bottom:0.4rem;">Automatically re-runs on <code>document.fonts.ready</code> to correct measurements after webfont swap</li>
+    </ul>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">JS</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">// Re-align after dynamically changing a span's font-size</span>
+<span class="hl">terma.alignHeadMarks</span>(document.querySelector('[lang="bo"]'));
+
+<span class="cmt">// Or re-align all Tibetan containers on the page</span>
+<span class="hl">terma.alignHeadMarksAll</span>();
+
+<span class="cmt">// Measure a font's ascent ratio (advanced use)</span>
+const ratio = <span class="hl">terma.measureAscentRatio</span>('Jomolhari');
+<span class="cmt">// → 0.740 (Jomolhari's head-mark height as fraction of font-size)</span></code></pre>
+      </div>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════════════════════
@@ -1252,8 +1322,8 @@ const query = userInput.<span class="hl">normalize</span>('NFC');</code></pre>
       Real-world apps mix Tibetan and English. Here are the recommended patterns.
     </p>
 
-    <h3>Inline Tibetan in English text</h3>
-    <p>Wrap Tibetan in a <code>&lt;span&gt;</code> with the full utility stack: <code>tr-jomolhari tr-guard tr-scale-up tr-baseline</code>.</p>
+    <h3>Inline Tibetan in English text — <code>.tr-mixed</code></h3>
+    <p>Add <code>.tr-mixed</code> to any inline Tibetan <code>&lt;span&gt;</code>. It scales the Tibetan text to <code>1.15em</code> and shifts the baseline by <code>-0.15em</code> so both scripts sit on the same visual line — no manual <code>font-size</code> or <code>vertical-align</code> needed.</p>
     <div class="class-ref">
       <div class="class-ref-header">
         <span class="class-ref-name">Inline pattern</span>
@@ -1270,7 +1340,7 @@ const query = userInput.<span class="hl">normalize</span>('NFC');</code></pre>
           <button class="copy-btn">Copy</button>
         </div>
         <pre><code><span class="tag">&lt;p&gt;</span>The Heart Sutra
-  (<span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-jomolhari tr-guard tr-scale-up tr-baseline</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
+  (<span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"<span class="hl">tr-jomolhari tr-mixed</span>"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
     ཤེས་རབ་སྙིང་པོ།
   <span class="tag">&lt;/span&gt;</span>) is one of the most
   important texts in Mahayana Buddhism.
@@ -1327,8 +1397,23 @@ const query = userInput.<span class="hl">normalize</span>('NFC');</code></pre>
       </div>
     </div>
 
-    <h3>Cheat sheet</h3>
-    <p>Quick reference for the most common class combinations:</p>
+    <h3>Font size normalization</h3>
+    <p>Since v0.2.0, all 44 <code>@font-face</code> declarations include a <code>size-adjust</code> descriptor measured against Jomolhari as the reference. Fonts that naturally render large (e.g. Qomolangma-Drutsa) are scaled down; fonts that render small (e.g. Monlam Uni OuChan variants) are scaled up. The result: you can swap fonts with a single class change and body text stays the same visual size — no per-font <code>font-size</code> overrides needed.</p>
+    <div class="code-standalone">
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-title">HTML</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code><span class="cmt">&lt;!-- All three render at the same visual size — no font-size override --&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-text-lg"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-noto tr-text-lg"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span>
+<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-babelstone tr-text-lg"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>བཀྲ་ཤིས་བདེ་ལེགས།<span class="tag">&lt;/p&gt;</span></code></pre>
+      </div>
+    </div>
+
+    <h3>Cheat sheet — v0.2.0</h3>
+    <p>Quick reference for the most common class combinations. Since v0.2.0, <code>.tr-guard</code> and <code>.tr-ligatures</code> are included in <code>[lang="bo"]</code> defaults and no longer need to be listed explicitly.</p>
     <div class="code-standalone">
       <div class="code-block">
         <div class="code-block-header">
@@ -1336,21 +1421,61 @@ const query = userInput.<span class="hl">normalize</span>('NFC');</code></pre>
           <button class="copy-btn">Copy</button>
         </div>
         <pre><code><span class="cmt">/* Body text */</span>
-<span class="hl">tr-jomolhari tr-guard</span>
+<span class="hl">tr-jomolhari</span>
 
-<span class="cmt">/* Inline Tibetan in English */</span>
-<span class="hl">tr-jomolhari tr-guard tr-scale-up tr-baseline</span>
+<span class="cmt">/* Inline Tibetan in English — auto-scales &amp; aligns */</span>
+<span class="hl">tr-jomolhari tr-mixed</span>
 
 <span class="cmt">/* Decorative heading */</span>
 <span class="hl">tr-drutsa tr-guard-lg tr-text-saffron</span>
 
 <span class="cmt">/* Modern UI text */</span>
-<span class="hl">tr-noto tr-guard tr-overflow-safe</span>
+<span class="hl">tr-noto tr-overflow-safe</span>
 
 <span class="cmt">/* Verse in a glass card */</span>
-<span class="hl">tr-glass</span> &gt; <span class="hl">tr-jomolhari tr-guard tr-overflow-safe</span></code></pre>
+<span class="hl">tr-glass</span> &gt; <span class="hl">tr-jomolhari tr-overflow-safe</span>
+
+<span class="cmt">/* Live contenteditable editor */</span>
+<span class="hl">tr-jomolhari</span> + <span class="hl">contenteditable lang="bo"</span> + <span class="hl">terma.prepareEditable(el)</span></code></pre>
       </div>
     </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       WHAT'S NEW
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="doc-section" id="whats-new">
+    <h2>What's New</h2>
+
+    <!-- v0.3.0 ─────────────────────────────────────────────────────────── -->
+    <h3 style="margin-top:1.5rem;">v0.3.0 — Lean package, extended font library</h3>
+    <ul style="color:#94a3b8; font-size:0.92rem; margin-bottom:1.5rem; padding-left:1.5rem;">
+      <li style="margin-bottom:0.5rem;"><strong>npm package reduced from 12.9 MB → ~600 KB</strong> — only 4 curated fonts now ship with the npm package: <strong>Jomolhari</strong>, <strong>Monlam Bodyig</strong>, <strong>Qomolangma-UchenSarchen</strong>, and <strong>Qomolangma-Drutsa</strong>. These cover traditional Uchen, modern digital Uchen, scholarly Uchen, and cursive (drutsa) — the essential four.</li>
+      <li style="margin-bottom:0.5rem;"><strong>Extended font library (<code>termaui-fonts</code>)</strong> — the remaining 40+ fonts are available as a separate CDN-only package. Browsers only download fonts that are actually used on the page, so there is no performance penalty for having a large font list in the stylesheet.</li>
+      <li style="margin-bottom:0.5rem;"><strong>Fallbacks updated</strong> — all <code>font-family</code> fallbacks in utility classes now reference only bundled fonts. If an extended font fails to load, Jomolhari or Qomolangma-Drutsa takes over gracefully.</li>
+      <li style="margin-bottom:0.5rem;"><strong><code>:lang(bo)</code> default stack updated</strong> — base font stack is now <code>Jomolhari, Qomolangma-UchenSarchen, Monlam Bodyig, serif</code>.</li>
+    </ul>
+
+    <!-- v0.2.0 ─────────────────────────────────────────────────────────── -->
+    <h3 style="margin-top:1.5rem;">v0.2.0</h3>
+    <h4 style="margin-top:1rem; color:#cbd5e1; font-size:0.85rem; font-weight:600;">CSS</h4>
+    <ul style="color:#94a3b8; font-size:0.92rem; margin-bottom:1.5rem; padding-left:1.5rem;">
+      <li style="margin-bottom:0.5rem;"><strong><code>size-adjust</code> on all 44 <code>@font-face</code> declarations</strong> — every Tibetan font is normalized against Jomolhari (ascent = 74 px reference) so swapping fonts with a single class change keeps body text at the same visual size</li>
+      <li style="margin-bottom:0.5rem;"><strong><code>[lang="bo"]</code> defaults now include <code>.tr-guard</code> and <code>.tr-ligatures</code></strong> — padding-block and OpenType ligatures are applied automatically; these classes are no longer required on every element</li>
+      <li style="margin-bottom:0.5rem;"><strong><code>.tr-mixed</code></strong> — new utility for inline Tibetan inside English text; auto-scales to <code>1.15em</code> and shifts baseline by <code>-0.15em</code></li>
+      <li style="margin-bottom:0.5rem;"><strong>Head-mark alignment (Layer 1)</strong> — sized spans inside <code>[lang="bo"]</code> get <code>vertical-align: text-top</code> automatically; Latin-only spans classified as <code>.tt-latin</code> revert to baseline</li>
+    </ul>
+
+    <h4 style="margin-top:1rem; color:#cbd5e1; font-size:0.85rem; font-weight:600;">terma.js</h4>
+    <ul style="color:#94a3b8; font-size:0.92rem; margin-bottom:1.5rem; padding-left:1.5rem;">
+      <li style="margin-bottom:0.5rem;"><strong><code>terma.prepareEditable(element)</code></strong> — prepares a <code>contenteditable</code> element for live Tibetan text entry with debounced re-processing on every input event</li>
+      <li style="margin-bottom:0.5rem;"><strong><code>terma.prepareAllEditables()</code></strong> — convenience wrapper that targets all <code>[contenteditable][lang="bo"]</code> elements</li>
+      <li style="margin-bottom:0.5rem;"><strong>Auto-clustering in <code>prepare()</code></strong> — when <code>terma-clusters.js</code> is loaded, <code>prepare()</code> automatically wraps combining marks into <code>.tr-cluster</code> spans to prevent dotted-circle artifacts</li>
+      <li style="margin-bottom:0.5rem;"><strong>Head-mark alignment (Layer 2)</strong> — <code>terma.prepare()</code> now auto-aligns head marks across mixed font sizes using Canvas <code>TextMetrics</code>; pixel-perfect to 0.04 px</li>
+      <li style="margin-bottom:0.5rem;"><strong><code>terma.alignHeadMarks(el)</code> / <code>terma.alignHeadMarksAll()</code></strong> — explicit alignment API for dynamic size changes after <code>prepare()</code> has already run</li>
+      <li style="margin-bottom:0.5rem;"><strong><code>terma.measureAscentRatio(fontFamily)</code></strong> — exposed Canvas ascent measurement for advanced use; cached per font family</li>
+      <li style="margin-bottom:0.5rem;"><strong>Automatic re-alignment on <code>document.fonts.ready</code></strong> — ascent cache clears and all aligned containers re-measure after webfont swap</li>
+    </ul>
   </section>
 
 </Docs>
