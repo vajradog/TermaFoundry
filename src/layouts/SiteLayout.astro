@@ -20,9 +20,9 @@ const navItems = [
   { label: 'termaUI', href: '/termaui/', badge: 'CSS' },
   { label: 'TermaType', href: '/type' },
   { label: 'PechaForge', href: '/pecha' },
+  { label: 'Dictionary', href: '/dictionary' },
   { label: 'Fonts', href: '/fonts/library' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'About', href: '/about' },
+
 ];
 
 const currentPath = Astro.url.pathname;
@@ -112,12 +112,12 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
         <a href="/termaui/">termaUI CSS</a>
         <a href="/type">TermaType</a>
         <a href="/pecha">PechaForge</a>
+        <a href="/dictionary">Dictionary</a>
         <a href="/fonts/library">Font Library</a>
       </div>
       <div class="footer-col">
         <h4>Foundry</h4>
-        <a href="/about">About Us</a>
-        <a href="/blog">Blog</a>
+
         <a href="/contact">Contact</a>
       </div>
       <div class="footer-col">
