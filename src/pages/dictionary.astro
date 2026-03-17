@@ -563,7 +563,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 </style>
 
 <script>
-  const DICT_API = 'https://api.termafoundry.com/dictionary';
+  const DICT_API = 'https://dictionary-api.tibetanlibrary.com';
 
   // ── Dictionary source colours ──
   const SOURCE_COLORS = {
@@ -593,7 +593,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     const el    = document.getElementById('dict-server-status') as HTMLElement;
     const label = el.querySelector('.dict-server-label') as HTMLElement;
     try {
-      const res = await fetch(`${DICT_API}?health=1`, { signal: AbortSignal.timeout(5000) });
+      const res = await fetch(`${DICT_API}/health`, { signal: AbortSignal.timeout(5000) });
       if (res.ok) {
         el.className = 'dict-server-status dict-server-online';
         label.textContent = 'Server Online';
@@ -717,7 +717,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
     try {
       const res = await fetch(
-        `${DICT_API}?query=${encodeURIComponent(query.trim())}`,
+        `${DICT_API}/search-bilingual?query=${encodeURIComponent(query.trim())}`,
         { signal: abortController.signal }
       );
 
