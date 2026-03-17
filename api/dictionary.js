@@ -1,4 +1,4 @@
-const UPSTREAM = 'https://www.tibetanlibrary.com/api/dictionary';
+const UPSTREAM = 'https://dictionary-api.tibetanlibrary.com';
 const TIMEOUT_MS = 15000;
 
 export default async function handler(req, res) {
@@ -14,12 +14,27 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
+  // Health check passthrough
+  if (req.url === '/api/dictionary/health' || req.query?.health === '1') {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    try {
+      const r = await fetch(`${UPSTREAM}/health`, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      const data = await r.json().catch(() => ({}));
+      return res.status(r.status).json(data);
+    } catch {
+      clearTimeout(timeoutId);
+      return res.status(502).json({ error: 'Upstream unreachable' });
+    }
+  }
+
   const query = req.query?.query;
   if (!query || typeof query !== 'string' || query.trim().length === 0) {
     return res.status(400).json({ error: 'Missing query parameter' });
   }
 
-  const url = `${UPSTREAM}?query=${encodeURIComponent(query.trim())}`;
+  const url = `${UPSTREAM}/search-bilingual?query=${encodeURIComponent(query.trim())}`;
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
