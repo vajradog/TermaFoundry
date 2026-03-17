@@ -48,9 +48,11 @@ const effects = [
         <a href="#start" class="btn-primary">Get started</a>
         <a href="/termaui/docs" class="btn-secondary">Read the docs</a>
       </div>
-      <p class="funding-notice reveal reveal-delay-3">
-        termaUI is currently a working prototype. We are actively seeking funding to bring it to full production.
-      </p>
+      <a href="https://www.npmjs.com/package/termaui" target="_blank" rel="noopener" class="hero-npm reveal reveal-delay-3">
+        <span class="hero-npm-prompt">$</span>
+        <code class="hero-npm-cmd">npm i termaui</code>
+        <span class="hero-npm-badge">v0.3.0</span>
+      </a>
     </div>
   </section>
 
@@ -556,14 +558,29 @@ const effects = [
 
   <!-- GET STARTED -->
   <section class="section" id="start">
-    <div class="section-eyebrow reveal">The API</div>
-    <h2 class="section-heading reveal">Simple by design.<br>When it ships.</h2>
+    <div class="section-eyebrow reveal">Get Started</div>
+    <h2 class="section-heading reveal">One install.<br>Beautiful Tibetan.</h2>
     <p class="section-sub reveal">
-      termaUI is a working prototype — this entire site runs on it. When funded, it ships as a single npm install: drop in the stylesheet, add <code style="color:#38bdf8;font-family:'JetBrains Mono',monospace;font-size:0.88em;">lang="bo"</code>, and write. Here's exactly what the API looks like:
+      termaUI is live on npm — drop in the stylesheet, add <code style="color:#38bdf8;font-family:'JetBrains Mono',monospace;font-size:0.88em;">lang="bo"</code>, and write. No config, no build step required.
     </p>
-    <p class="section-sub reveal" style="margin-top:0.75rem; font-size:0.85rem; color:#64748b;">
-      We are actively seeking funding to make this happen. <a href="/contact" style="color:#f8bd28; text-decoration:none; font-weight:600;">Get in touch if you can help →</a>
-    </p>
+
+    <!-- npm install callout -->
+    <div class="npm-callout reveal">
+      <div class="npm-callout-inner">
+        <div class="npm-callout-left">
+          <span class="npm-badge">npm</span>
+          <code class="npm-cmd">npm i termaui</code>
+        </div>
+        <a href="https://www.npmjs.com/package/termaui" target="_blank" rel="noopener" class="npm-callout-link">View on npm →</a>
+      </div>
+      <div class="npm-callout-alts">
+        <span class="npm-alt"><span class="npm-alt-pm">pnpm</span> add termaui</span>
+        <span class="npm-alt-sep">·</span>
+        <span class="npm-alt"><span class="npm-alt-pm">yarn</span> add termaui</span>
+        <span class="npm-alt-sep">·</span>
+        <span class="npm-alt"><span class="npm-alt-pm">CDN</span> unpkg.com/termaui/dist/termaui.css</span>
+      </div>
+    </div>
 
     <div class="code-examples reveal">
       <div class="code-block">
@@ -965,19 +982,48 @@ const effects = [
     align-items: center;
     flex-wrap: wrap;
   }
-  .funding-notice {
-    margin-top: 1.5rem;
-    font-size: 0.8rem;
-    color: #94a3b8;
-    text-align: center;
-    border-top: 1px solid rgba(148,163,184,0.12);
-    padding-top: 1.25rem;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-    font-style: italic;
+  .hero-npm {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.75rem;
+    background: rgba(15,23,42,0.85);
+    border: 1px solid #334155;
+    border-left: 3px solid #f8bd28;
+    border-radius: 8px;
+    padding: 0.55rem 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
   }
+  .hero-npm:hover {
+    border-color: #f8bd28;
+    background: rgba(248,189,40,0.06);
+  }
+  .hero-npm-prompt {
+    color: #475569;
+    font-size: 0.9rem;
+    user-select: none;
+  }
+  .hero-npm-cmd {
+    color: #f1f5f9;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+  }
+  .hero-npm-badge {
+    margin-left: 0.5rem;
+    background: #cb3837;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .hero-npm-badge:hover { opacity: 0.85; }
   .start-status-notice {
     display: flex;
     align-items: flex-start;
@@ -1442,6 +1488,82 @@ const effects = [
     background: rgba(56,189,248,0.08);
     padding: 0.1em 0.35em;
     border-radius: 3px;
+  }
+
+  /* ====== NPM CALLOUT ====== */
+  .npm-callout {
+    max-width: 680px;
+    background: #0f172a;
+    border: 1px solid #334155;
+    border-left: 4px solid #f8bd28;
+    border-radius: 10px;
+    padding: 1.1rem 1.4rem;
+    margin: 2rem 0 2.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .npm-callout-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .npm-callout-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .npm-badge {
+    background: #cb3837;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .npm-cmd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.1rem;
+    color: #f1f5f9;
+    letter-spacing: 0.02em;
+  }
+  .npm-callout-link {
+    font-size: 0.82rem;
+    color: #f8bd28;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .npm-callout-link:hover { text-decoration: underline; }
+  .npm-callout-alts {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .npm-alt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: #94a3b8;
+    white-space: nowrap;
+  }
+  .npm-alt-pm {
+    color: #64748b;
+    margin-right: 0.25em;
+  }
+  .npm-alt-sep {
+    color: #334155;
+    font-size: 0.75rem;
+  }
+  @media (max-width: 540px) {
+    .npm-callout-inner { flex-direction: column; align-items: flex-start; }
+    .npm-cmd { font-size: 0.95rem; }
   }
 
   /* ====== CODE EXAMPLES ====== */
