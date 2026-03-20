@@ -158,18 +158,18 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #0f172a;
-    --surface: #1e293b;
-    --surface2: #253449;
-    --border: rgba(148,163,184,0.08);
-    --border2: rgba(148,163,184,0.14);
-    --text: #e2e8f0;
-    --text2: #94a3b8;
-    --muted: #64748b;
-    --accent: #38bdf8;
-    --gold: #fbbf24;
-    --red: #ef4444;
-    --green: #22c55e;
+    --bg: #e8e6dc;
+    --surface: #f5f4ed;
+    --surface2: #eceade;
+    --border: rgba(20,20,19,0.08);
+    --border2: rgba(20,20,19,0.14);
+    --text: #141413;
+    --text2: #30302e;
+    --muted: #87867f;
+    --accent: #d97757;
+    --gold: #eda100;
+    --red: #c4391a;
+    --green: #2d7a4f;
   }
 
   body {
@@ -203,7 +203,7 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
     position: fixed; top: 0; left: 0; right: 0; z-index: 200;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 2rem; height: 60px;
-    background: rgba(15,23,42,0.9);
+    background: rgba(232,230,220,0.92);
     backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
   }
@@ -220,24 +220,24 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
     padding: .35rem .65rem; border-radius: 6px;
     transition: color .15s, background .15s;
   }
-  .site-nav-link:hover { color: var(--text); background: rgba(148,163,184,0.06); }
+  .site-nav-link:hover { color: var(--text); background: rgba(20,20,19,0.05); }
   .site-nav-link.active { color: var(--text); }
 
   .nav-badge {
     font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em;
     padding: .1rem .35rem; border-radius: 3px;
-    background: rgba(56,189,248,0.12); color: var(--accent);
-    border: 1px solid rgba(56,189,248,0.2);
+    background: rgba(217,119,87,0.12); color: var(--accent);
+    border: 1px solid rgba(217,119,87,0.2);
   }
 
   .site-nav-cta {
     margin-left: .5rem;
     padding: .35rem 1rem; border-radius: 6px; font-size: .82rem; font-weight: 600;
-    background: rgba(56,189,248,0.1); color: var(--accent);
-    border: 1px solid rgba(56,189,248,0.2);
+    background: rgba(217,119,87,0.1); color: var(--accent);
+    border: 1px solid rgba(217,119,87,0.2);
     transition: all .15s;
   }
-  .site-nav-cta:hover { background: rgba(56,189,248,0.18); }
+  .site-nav-cta:hover { background: rgba(217,119,87,0.18); }
 
   /* Mobile menu button */
   .mobile-menu-btn {
@@ -256,7 +256,7 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
   .mobile-nav {
     display: none; flex-direction: column; gap: .25rem;
     position: fixed; top: 60px; left: 0; right: 0; z-index: 199;
-    background: rgba(15,23,42,0.97); backdrop-filter: blur(16px);
+    background: rgba(232,230,220,0.97); backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
     padding: 1rem 1.5rem 1.5rem;
     transform: translateY(-8px); opacity: 0; pointer-events: none;
@@ -268,7 +268,7 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
     color: var(--text2); font-size: .9rem; font-weight: 500;
     transition: all .15s;
   }
-  .mobile-nav-link:hover { color: var(--text); background: rgba(148,163,184,0.06); }
+  .mobile-nav-link:hover { color: var(--text); background: rgba(20,20,19,0.05); }
   .mobile-nav-cta {
     display: block; margin-top: .5rem; padding: .65rem .75rem;
     color: var(--accent); font-size: .9rem; font-weight: 600;
@@ -327,15 +327,15 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
     padding: .6rem 1.4rem; border-radius: 8px; font-size: .88rem;
     font-weight: 600; text-decoration: none; transition: all .15s; border: none; cursor: pointer;
   }
-  .btn-primary { background: var(--accent); color: #0f172a; }
-  .btn-primary:hover { background: #7dd3fc; transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #c4623e; transform: translateY(-1px); }
   .btn-outline {
     background: transparent; color: var(--accent);
-    border: 1px solid rgba(56,189,248,0.3);
+    border: 1px solid rgba(217,119,87,0.35);
   }
-  .btn-outline:hover { background: rgba(56,189,248,0.08); }
-  .btn-ghost { background: rgba(148,163,184,0.08); color: var(--text2); }
-  .btn-ghost:hover { background: rgba(148,163,184,0.14); color: var(--text); }
+  .btn-outline:hover { background: rgba(217,119,87,0.08); }
+  .btn-ghost { background: rgba(20,20,19,0.05); color: var(--text2); }
+  .btn-ghost:hover { background: rgba(20,20,19,0.1); color: var(--text); }
 
   /* ── Divider ── */
   .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
@@ -343,7 +343,7 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
   /* ── Inline code ── */
   .inline-code {
     font-family: 'JetBrains Mono', monospace; font-size: .82em;
-    color: var(--accent); background: rgba(56,189,248,0.08);
+    color: var(--accent); background: rgba(217,119,87,0.08);
     padding: .1em .35em; border-radius: 3px;
   }
 
@@ -363,11 +363,11 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
   .prose ul, .prose ol { padding-left: 1.5rem; margin-bottom: 1.25rem; }
   .prose li { margin-bottom: .4rem; }
   .prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
-  .prose a:hover { color: #7dd3fc; }
+  .prose a:hover { color: #c4623e; }
   .prose strong { color: var(--text); font-weight: 600; }
   .prose code {
     font-family: 'JetBrains Mono', monospace; font-size: .82em;
-    color: var(--accent); background: rgba(56,189,248,0.08);
+    color: var(--accent); background: rgba(217,119,87,0.08);
     padding: .1em .35em; border-radius: 3px;
   }
   .prose pre {
@@ -379,7 +379,7 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
   .prose blockquote {
     border-left: 3px solid var(--accent); margin: 1.5rem 0;
     padding: .75rem 1.25rem; color: var(--text2);
-    background: rgba(56,189,248,0.04); border-radius: 0 6px 6px 0;
+    background: rgba(217,119,87,0.04); border-radius: 0 6px 6px 0;
   }
   .prose img {
     border-radius: 10px; border: 1px solid var(--border);
@@ -400,7 +400,7 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
     border-bottom: 1px solid var(--border);
     color: var(--text2);
   }
-  .prose tr:hover td { background: rgba(148,163,184,0.03); }
+  .prose tr:hover td { background: rgba(20,20,19,0.03); }
 
   /* ── Footer ── */
   .site-footer {
@@ -418,9 +418,9 @@ const ogImageURL = new URL(ogImage, Astro.site ?? 'https://termafoundry.com');
     font-family: 'Jomolhari', serif;
   }
   .footer-col h4 { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .85rem; }
-  .footer-col a { display: block; font-size: .82rem; color: #475569; line-height: 2.2; transition: color .15s; }
+  .footer-col a { display: block; font-size: .82rem; color: var(--muted); line-height: 2.2; transition: color .15s; }
   .footer-col a:hover { color: var(--text2); }
-  .footer-bottom { font-size: .75rem; color: #334155; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+  .footer-bottom { font-size: .75rem; color: var(--muted); padding-top: 1.5rem; border-top: 1px solid var(--border); }
 
   /* ── Responsive ── */
   @media (max-width: 900px) {

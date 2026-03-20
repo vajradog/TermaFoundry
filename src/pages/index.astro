@@ -32,11 +32,13 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   }}
 >
 
-  <!-- HERO -->
+  <!-- ═══════════════════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="hub-hero">
     <div class="hub-hero-glow" aria-hidden="true"></div>
     <div class="hub-hero-content">
-      <div class="hub-hero-eyebrow reveal">Open tools for Tibetan text</div>
+      <div class="hub-hero-eyebrow reveal">Open-source ecosystem for Tibetan script</div>
       <div class="hero-display-zone reveal reveal-delay-1">
         <h1 class="hub-hero-heading" id="hero-phase-en">
           Ensuring Tibetan Script<br>Thrives in the
@@ -48,20 +50,54 @@ import SiteLayout from '@layouts/SiteLayout.astro';
       </div>
 
       <p class="hub-hero-sub reveal reveal-delay-2">
-        We design and build the tools Tibetan script needs in the digital world — an original CSS framework, typefaces we create with master calligraphers, layout systems, and learning utilities. Everything made from the ground up.
+        No word processor. No CSS framework. No manuscript tool. OCR tools exist but struggle with Tibetan's stacked consonants. We're building every missing piece — from scratch, in the open, for everyone.
       </p>
       <div class="hub-hero-actions reveal reveal-delay-3">
-        <a href="/ocr" class="btn btn-primary">Try TermaOCR</a>
-        <a href="/termaui/" class="btn btn-outline">Explore termaUI</a>
+        <a href="#ecosystem" class="btn btn-primary">See the Ecosystem</a>
+        <a href="/ocr" class="btn btn-outline">Try TermaOCR</a>
       </div>
     </div>
   </section>
 
-  <!-- TOOLS -->
-  <section class="page-section">
-    <div class="section-eyebrow reveal">Our Tools</div>
-    <h2 class="section-heading reveal">Everything Tibetan needs<br>on the modern web.</h2>
-    <p class="section-sub reveal">Six tools built on the same mission — making Tibetan script thrive in digital spaces.</p>
+  <!-- ═══════════════════════════════════════════════════════════════
+       THE GAP — why this matters (moved up, before tools)
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="page-section gap-section">
+    <div class="section-eyebrow reveal">The Problem</div>
+    <h2 class="section-heading reveal">A language spoken by millions.<br>Almost invisible online.</h2>
+    <p class="section-sub reveal" style="max-width:640px; margin-left:auto; margin-right:auto;">
+      Tibetan script powers one of the world's great literary traditions — yet the digital tools it needs barely exist. Letters get clipped on websites. Fonts don't load. There's no word processor, no way to create traditional manuscripts digitally, and OCR can't reliably read Tibetan's stacked consonants. Terma Foundry exists to change that.
+    </p>
+
+    <div class="gap-stats reveal">
+      <div class="gap-stat">
+        <div class="gap-stat-num">0</div>
+        <div class="gap-stat-label">Dedicated Tibetan<br>word processors</div>
+      </div>
+      <div class="gap-stat">
+        <div class="gap-stat-num">0</div>
+        <div class="gap-stat-label">CSS frameworks for<br>Tibetan rendering</div>
+      </div>
+      <div class="gap-stat">
+        <div class="gap-stat-num">0</div>
+        <div class="gap-stat-label">Pecha manuscript<br>tools</div>
+      </div>
+      <div class="gap-stat gap-stat-accent">
+        <div class="gap-stat-num">6</div>
+        <div class="gap-stat-label">Tools we're<br>building right now</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin: 0 auto;">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       THE ECOSYSTEM — all 6 tools
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="page-section" id="ecosystem">
+    <div class="section-eyebrow reveal">The Ecosystem</div>
+    <h2 class="section-heading reveal">Six tools. One mission.</h2>
+    <p class="section-sub reveal">Each tool solves a specific gap in Tibetan digital infrastructure. Together, they form a complete ecosystem.</p>
 
     <div class="cards-grid cards-grid-2 reveal">
       <!-- termaUI -->
@@ -69,43 +105,43 @@ import SiteLayout from '@layouts/SiteLayout.astro';
         <div class="tool-card-badge">Available Now</div>
         <div class="tool-card-icon">◈</div>
         <h3 class="tool-card-title">termaUI</h3>
-        <p class="tool-card-desc">The world's first utility-first CSS framework for Tibetan language rendering. Guards, fonts, effects, pecha layouts — in one stylesheet.</p>
+        <p class="tool-card-desc">The first CSS framework built for Tibetan script. Fixes clipped letters, broken line spacing, and missing fonts — developers add one file and Tibetan just works, beautifully, on any device.</p>
         <div class="tool-card-link">Explore termaUI →</div>
       </a>
 
       <!-- TermaOCR -->
       <a href="/ocr" class="tool-card tool-card-featured">
-        <div class="tool-card-badge">Beta</div>
+        <div class="tool-card-badge tool-card-badge-proto">Web Prototype</div>
         <div class="tool-card-icon">⊡</div>
         <h3 class="tool-card-title">TermaOCR</h3>
-        <p class="tool-card-desc">Upload an image or PDF of Tibetan text, draw selection boxes around text areas, and get accurate Unicode output instantly. Supports batch processing with reusable templates.</p>
+        <p class="tool-card-desc">Turn photos of Tibetan text into editable digital text. Upload an image or PDF, draw boxes around the text you want, and get results instantly. Process entire books in batch mode.</p>
         <div class="tool-card-link">Try TermaOCR →</div>
       </a>
 
       <!-- TermaType -->
       <a href="/type" class="tool-card tool-card-featured">
-        <div class="tool-card-badge">Beta</div>
+        <div class="tool-card-badge tool-card-badge-proto">Web Prototype</div>
         <div class="tool-card-icon">⌨</div>
         <h3 class="tool-card-title">TermaType</h3>
-        <p class="tool-card-desc">A Tibetan word processor with built-in Monlam IME, live dictionary, rich formatting, and multi-format export. Works entirely in your browser.</p>
+        <p class="tool-card-desc">A Tibetan word processor with a built-in keyboard, live dictionary, rich formatting, and export to multiple formats. Works entirely in your browser — no installation needed.</p>
         <div class="tool-card-link">Open TermaType →</div>
       </a>
 
       <!-- PechaForge -->
       <a href="/pecha" class="tool-card tool-card-featured">
-        <div class="tool-card-badge">Beta</div>
+        <div class="tool-card-badge tool-card-badge-proto">Web Prototype</div>
         <div class="tool-card-icon">༺</div>
         <h3 class="tool-card-title">PechaForge</h3>
-        <p class="tool-card-desc">Create traditional Tibetan pecha manuscripts in the browser. Yig mgo, Tibetan folios, four themes, duplex printing, and PDF export. The first web-based pecha maker.</p>
+        <p class="tool-card-desc">The first digital tool for creating traditional Tibetan pecha manuscripts. Choose fonts and themes, then export as print-ready PDFs — including double-sided layouts.</p>
         <div class="tool-card-link">Open PechaForge →</div>
       </a>
 
       <!-- TermaDictionary -->
       <a href="/dictionary" class="tool-card tool-card-featured">
-        <div class="tool-card-badge">Beta</div>
+        <div class="tool-card-badge tool-card-badge-proto">Web Prototype</div>
         <div class="tool-card-icon" lang="bo" style="font-family:'Noto Serif Tibetan','Jomolhari',serif;font-size:0.75em;line-height:1.8">ཚིག་མཛོད།</div>
         <h3 class="tool-card-title">TermaDictionary</h3>
-        <p class="tool-card-desc">The world's largest free Tibetan dictionary — 1.2+ million entries across 64 authoritative sources. Search by Tibetan script, Wylie, or English instantly.</p>
+        <p class="tool-card-desc">1.2 million entries from 64 dictionaries, all searchable in one place. Look up any Tibetan word by typing in Tibetan, English, or romanized Tibetan.</p>
         <div class="tool-card-link">Open TermaDictionary →</div>
       </a>
 
@@ -114,7 +150,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
         <div class="tool-card-badge">Available Now</div>
         <div class="tool-card-icon">Ꭿ</div>
         <h3 class="tool-card-title">TermaFonts</h3>
-        <p class="tool-card-desc">A curated library of 36 Tibetan web fonts — Uchen, Umed, cursive, and display styles — ready to embed in any website or app via CDN.</p>
+        <p class="tool-card-desc">A curated library of 36 Tibetan fonts — from traditional formal scripts to modern clean styles — free to use on any website or application.</p>
         <div class="tool-card-link">Browse TermaFonts →</div>
       </a>
     </div>
@@ -122,11 +158,57 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
   <hr class="divider" style="max-width:1100px; margin: 0 auto;">
 
-  <!-- TERMAUI PREVIEW -->
+  <!-- ═══════════════════════════════════════════════════════════════
+       PROTOTYPE → PRODUCT CALLOUT
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="page-section">
+    <div class="proto-callout reveal">
+      <div class="proto-callout-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="proto-callout-body">
+        <h3 class="proto-callout-title">Web prototypes today. Desktop applications tomorrow.</h3>
+        <p class="proto-callout-desc">
+          Every tool on this site is a functional prototype you can use right now. Each one is being developed into a full desktop application — TermaType, PechaForge, TermaOCR, TermaDictionary. We build in the open so the community can use them today and help shape what they become.
+        </p>
+        <div class="proto-roadmap">
+          <div class="proto-stage">
+            <div class="proto-stage-dot proto-stage-done"></div>
+            <div class="proto-stage-text">
+              <strong>Now</strong>
+              <span>Working web prototypes</span>
+            </div>
+          </div>
+          <div class="proto-stage-line"></div>
+          <div class="proto-stage">
+            <div class="proto-stage-dot proto-stage-next"></div>
+            <div class="proto-stage-text">
+              <strong>Next</strong>
+              <span>Desktop apps (Windows, Mac, Linux)</span>
+            </div>
+          </div>
+          <div class="proto-stage-line"></div>
+          <div class="proto-stage">
+            <div class="proto-stage-dot"></div>
+            <div class="proto-stage-text">
+              <strong>Future</strong>
+              <span>Mobile apps, offline-first</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin: 0 auto;">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       termaUI LIVE PREVIEW
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="page-section">
     <div class="section-eyebrow reveal">termaUI in Action</div>
     <h2 class="section-heading reveal">One class. Beautiful Tibetan.</h2>
-    <p class="section-sub reveal">This entire website is built using termaUI — proving it's production-ready for real Tibetan digital projects.</p>
+    <p class="section-sub reveal">This entire website is rendered using termaUI — proof that the framework is production-ready.</p>
 
     <div class="termaui-preview reveal">
       <div class="preview-col preview-demo">
@@ -154,8 +236,8 @@ import SiteLayout from '@layouts/SiteLayout.astro';
         </div>
       </div>
       <div class="preview-col preview-cta">
-        <h3>Built for Tibetan.<br>Works like any CSS framework.</h3>
-        <p>Prefix-based utility classes (<code>.tr-*</code>) that compose cleanly with any stack. Self-hosted fonts. No external dependencies.</p>
+        <h3>Built for Tibetan script.<br>Works on any website.</h3>
+        <p>termaUI handles fonts, spacing, effects, and layout so that Tibetan text renders beautifully everywhere — no workarounds needed.</p>
         <a href="/termaui/" class="btn btn-primary" style="margin-top:1.5rem;">See All Classes</a>
         <a href="/termaui/docs/" class="btn btn-ghost" style="margin-top:.75rem;">Read the Docs</a>
       </div>
@@ -164,7 +246,9 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
   <hr class="divider" style="max-width:1100px; margin: 0 auto;">
 
-  <!-- MISSION / FONTS IN DEVELOPMENT -->
+  <!-- ═══════════════════════════════════════════════════════════════
+       ORIGINAL FONTS IN DEVELOPMENT
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="page-section">
     <div class="section-eyebrow reveal">Original Fonts</div>
     <h2 class="section-heading reveal">Three fonts we're building<br>from scratch.</h2>
@@ -190,37 +274,56 @@ import SiteLayout from '@layouts/SiteLayout.astro';
         <div class="card-desc">Simplified, approachable letterforms for young learners and semi-literate readers in the diaspora.</div>
       </div>
     </div>
-
-
   </section>
 
   <hr class="divider" style="max-width:1100px; margin: 0 auto;">
 
-  <!-- WHY IT MATTERS -->
+  <!-- ═══════════════════════════════════════════════════════════════
+       WHY IT MATTERS — for funders
+       ═══════════════════════════════════════════════════════════════ -->
   <section class="page-section">
     <div class="section-eyebrow reveal">Why It Matters</div>
-    <h2 class="section-heading reveal">Tibetan as a first-class<br>citizen of the internet.</h2>
+    <h2 class="section-heading reveal">Making Tibetan script a first-class<br>citizen of the digital world.</h2>
 
     <div class="cards-grid cards-grid-2 reveal">
       <div class="card">
         <div class="why-icon">◈</div>
         <div class="card-title">Style Tibetan the Web Way</div>
-        <div class="card-desc">Every web project that displays Tibetan text re-solves the same bugs from scratch — clipped vowels, broken line wrapping, no standard font API. termaUI fixes all of it in one stylesheet, so developers and designers can build instead of patch.</div>
+        <div class="card-desc">Every website that shows Tibetan text faces the same problems — letters get cut off, lines overlap, fonts don't load. termaUI fixes all of it in one toolkit, so builders can create instead of troubleshoot.</div>
       </div>
       <div class="card">
         <div class="why-icon">⊡</div>
         <div class="card-title">Digitize the Canon</div>
-        <div class="card-desc">Centuries of Tibetan scholarship exist only as ink on paper. TermaOCR converts scanned pecha pages, manuscripts, and books into searchable Unicode text — making the written tradition accessible to everyone, instantly.</div>
+        <div class="card-desc">Centuries of Tibetan scholarship exist only as ink on paper. TermaOCR converts scanned pages, manuscripts, and books into editable digital text — making the written tradition searchable and accessible to everyone.</div>
       </div>
       <div class="card">
         <div class="why-icon">⌨</div>
         <div class="card-title">Write in Tibetan, Anywhere</div>
-        <div class="card-desc">Most people who want to write Tibetan hit the same wall: no keyboard, no font, wrong software. TermaType removes every barrier — built-in IME, live dictionary, rich formatting, and export — all in a browser tab.</div>
+        <div class="card-desc">Most people who want to write in Tibetan hit the same wall: no keyboard, no font, wrong software. TermaType removes every barrier — a built-in keyboard, live dictionary, rich formatting, and export — all in a browser tab.</div>
       </div>
       <div class="card">
         <div class="why-icon">༺</div>
         <div class="card-title">Keep Pecha Alive</div>
-        <div class="card-desc">The traditional three-column pecha format carries fifteen centuries of Tibetan literary culture. PechaForge is the first tool that lets anyone create, format, and print authentic pecha manuscripts — no monastery printing press required.</div>
+        <div class="card-desc">The traditional pecha format carries fifteen centuries of Tibetan literary culture. PechaForge is the first tool that lets anyone create, format, and print authentic pecha manuscripts digitally.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin: 0 auto;">
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CLOSING CTA — for funders
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="page-section" style="text-align:center;">
+    <div class="cta-final reveal">
+      <div class="cta-final-eyebrow">Open Source. Community Driven.</div>
+      <h2 class="cta-final-heading">Help us build what Tibetan script<br>has been waiting for.</h2>
+      <p class="cta-final-desc">
+        Terma Foundry is an open-source project. Every tool we build is free to use, free to inspect, and free to contribute to. We're actively seeking partners and funding to bring these prototypes to full production.
+      </p>
+      <div class="cta-final-actions">
+        <a href="/about" class="btn btn-primary">Learn About Us</a>
+        <a href="https://github.com/vajradog/TermaFoundry" target="_blank" rel="noopener" class="btn btn-outline">View on GitHub</a>
       </div>
     </div>
   </section>
@@ -228,7 +331,9 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 </SiteLayout>
 
 <style>
-  /* ── HERO ── */
+  /* ══════════════════════════════════════════════════════════════════
+     HERO
+     ══════════════════════════════════════════════════════════════════ */
   .hub-hero {
     position: relative; overflow: hidden;
     padding: 10rem 2rem 8rem;
@@ -238,18 +343,14 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   .hub-hero-glow {
     position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
     width: 900px; height: 600px; pointer-events: none;
-    background: radial-gradient(ellipse 65% 50%, rgba(56,189,248,0.1) 0%, rgba(139,92,246,0.05) 50%, transparent 80%);
+    background: radial-gradient(ellipse 65% 50%, rgba(217,119,87,0.08) 0%, rgba(237,161,0,0.04) 50%, transparent 80%);
   }
   .hub-hero-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
   .hub-hero-eyebrow {
     font-size: .75rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: .12em; color: var(--accent); margin-bottom: 1.25rem;
   }
-  /* ── Two-phase hero display zone (English ↔ Tibetan cycling) ── */
-  .hero-display-zone {
-    display: grid;
-    margin-bottom: 1.5rem;
-  }
+  .hero-display-zone { display: grid; margin-bottom: 1.5rem; }
   .hub-hero-heading {
     grid-area: 1/1;
     font-size: clamp(2rem, 4.5vw, 3.25rem); font-weight: 900;
@@ -257,10 +358,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     margin-bottom: 0;
     transition: opacity 0.45s ease;
   }
-  /* Accent colour on "Tibetan." in the English phase */
   .hero-tibetan-word { color: var(--accent); }
-
-  /* Tibetan overlay — its own spacing context, no h1 inheritance */
   .hero-phase-tib {
     grid-area: 1/1;
     display: flex; align-items: center; justify-content: center;
@@ -273,14 +371,41 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     font-size: clamp(2rem, 4.5vw, 3.25rem);
     text-align: center;
   }
-
   .hub-hero-sub {
     font-size: 1.1rem; color: var(--text2); line-height: 1.8;
-    margin-bottom: 2.5rem; max-width: 560px; margin-left: auto; margin-right: auto;
+    margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto;
   }
   .hub-hero-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
 
-  /* ── TOOL CARDS ── */
+  /* ══════════════════════════════════════════════════════════════════
+     THE GAP — stats row
+     ══════════════════════════════════════════════════════════════════ */
+  .gap-section { text-align: center; }
+  .gap-stats {
+    display: flex; justify-content: center; gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 16px; overflow: hidden;
+    margin-top: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;
+  }
+  .gap-stat {
+    flex: 1; background: var(--surface);
+    padding: 2rem 1.5rem; text-align: center;
+  }
+  .gap-stat-num {
+    font-size: 2.5rem; font-weight: 900; color: var(--muted);
+    letter-spacing: -.04em; line-height: 1; margin-bottom: .5rem;
+  }
+  .gap-stat-label {
+    font-size: .72rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--muted); line-height: 1.45;
+  }
+  .gap-stat-accent .gap-stat-num { color: var(--accent); }
+  .gap-stat-accent .gap-stat-label { color: var(--text2); }
+
+  /* ══════════════════════════════════════════════════════════════════
+     TOOL CARDS
+     ══════════════════════════════════════════════════════════════════ */
   .tool-card {
     display: block; background: var(--surface);
     padding: 2.25rem 2rem; position: relative;
@@ -288,31 +413,85 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   }
   .tool-card:hover { background: var(--surface2); }
   .tool-card-featured { border-top: 2px solid var(--accent); }
-  .tool-card-soon { border-top: 2px solid rgba(148,163,184,0.15); }
-  .tool-card-badges {
-    display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.25rem;
-  }
   .tool-card-badge {
     display: inline-block; font-size: .65rem; font-weight: 700; text-transform: uppercase;
     letter-spacing: .08em; padding: .2rem .6rem; border-radius: 3px;
-    background: rgba(56,189,248,0.12); color: var(--accent);
-    border: 1px solid rgba(56,189,248,0.2); margin-bottom: 1.25rem;
+    background: rgba(217,119,87,0.1); color: var(--accent);
+    border: 1px solid rgba(217,119,87,0.2); margin-bottom: 1.25rem;
   }
-  .tool-card-badges .tool-card-badge { margin-bottom: 0; }
-  .tool-card-badge-funding {
-    background: rgba(251,191,36,0.12); color: #fbbf24;
-    border-color: rgba(251,191,36,0.25);
-  }
-  .tool-card-badge-soon {
-    background: rgba(148,163,184,0.08); color: var(--muted);
-    border-color: rgba(148,163,184,0.15);
+  .tool-card-badge-proto {
+    background: rgba(237,161,0,0.1); color: #b87d00;
+    border-color: rgba(237,161,0,0.25);
   }
   .tool-card-icon { font-size: 1.75rem; margin-bottom: .75rem; line-height: 1; }
   .tool-card-title { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
   .tool-card-desc { font-size: .85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.25rem; }
   .tool-card-link { font-size: .82rem; font-weight: 600; color: var(--accent); }
 
-  /* ── termaUI preview ── */
+  /* ══════════════════════════════════════════════════════════════════
+     PROTOTYPE → PRODUCT CALLOUT
+     ══════════════════════════════════════════════════════════════════ */
+  .proto-callout {
+    display: flex; gap: 2rem; align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem;
+  }
+  .proto-callout-icon {
+    flex-shrink: 0; color: var(--accent);
+    width: 56px; height: 56px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(217,119,87,0.08);
+    border-radius: 12px;
+  }
+  .proto-callout-body { flex: 1; }
+  .proto-callout-title {
+    font-size: 1.2rem; font-weight: 800; color: var(--text);
+    letter-spacing: -.02em; margin-bottom: .75rem;
+  }
+  .proto-callout-desc {
+    font-size: .9rem; color: var(--text2); line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+
+  /* roadmap mini-timeline */
+  .proto-roadmap {
+    display: flex; align-items: center; gap: 0;
+    flex-wrap: wrap;
+  }
+  .proto-stage {
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .proto-stage-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+    border: 2px solid var(--muted);
+    background: transparent; flex-shrink: 0;
+  }
+  .proto-stage-done {
+    background: var(--accent); border-color: var(--accent);
+    box-shadow: 0 0 8px rgba(217,119,87,0.35);
+  }
+  .proto-stage-next {
+    border-color: var(--accent);
+    background: rgba(217,119,87,0.2);
+  }
+  .proto-stage-text { display: flex; flex-direction: column; }
+  .proto-stage-text strong {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .06em; color: var(--text);
+  }
+  .proto-stage-text span { font-size: .78rem; color: var(--muted); }
+  .proto-stage-line {
+    width: 40px; height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--border));
+    margin: 0 .75rem;
+    flex-shrink: 0;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     termaUI PREVIEW
+     ══════════════════════════════════════════════════════════════════ */
   .termaui-preview {
     display: grid; grid-template-columns: 1.1fr 1fr; gap: 1px;
     background: var(--border); border: 1px solid var(--border);
@@ -328,29 +507,53 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   .preview-cta { display: flex; flex-direction: column; justify-content: center; }
   .preview-cta h3 { font-size: 1.4rem; font-weight: 700; color: var(--text); line-height: 1.35; margin-bottom: 1rem; }
   .preview-cta p { font-size: .88rem; color: var(--muted); line-height: 1.7; }
-  .preview-cta code {
-    font-family: 'JetBrains Mono', monospace; font-size: .82em;
-    color: var(--accent); background: rgba(56,189,248,0.08);
-    padding: .1em .35em; border-radius: 3px;
-  }
 
-  /* ── Font preview glyphs ── */
+  /* ══════════════════════════════════════════════════════════════════
+     FONT PREVIEW GLYPHS
+     ══════════════════════════════════════════════════════════════════ */
   .font-preview-glyph {
     font-size: 3.5rem; color: var(--text2); margin-bottom: .75rem; display: block;
     padding-block: .25em;
   }
 
-  /* ── Mission CTA ── */
-  .mission-cta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
-  .mission-cta p { font-size: .92rem; color: var(--muted); max-width: 380px; }
-
-  /* ── Why icon ── */
+  /* ══════════════════════════════════════════════════════════════════
+     WHY ICON
+     ══════════════════════════════════════════════════════════════════ */
   .why-icon { font-size: 1.6rem; margin-bottom: .9rem; }
 
+  /* ══════════════════════════════════════════════════════════════════
+     CLOSING CTA
+     ══════════════════════════════════════════════════════════════════ */
+  .cta-final { max-width: 620px; margin: 0 auto; }
+  .cta-final-eyebrow {
+    font-size: .75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .12em; color: var(--accent); margin-bottom: 1.25rem;
+  }
+  .cta-final-heading {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 900;
+    letter-spacing: -.04em; line-height: 1.15; color: var(--text);
+    margin-bottom: 1.25rem;
+  }
+  .cta-final-desc {
+    font-size: .95rem; color: var(--text2); line-height: 1.8;
+    margin-bottom: 2rem;
+  }
+  .cta-final-actions { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ══════════════════════════════════════════════════════════════════
+     RESPONSIVE
+     ══════════════════════════════════════════════════════════════════ */
   @media (max-width: 900px) {
     .termaui-preview { grid-template-columns: 1fr; }
     .hub-hero { padding: 7rem 1.5rem 5rem; }
-    .mission-cta { flex-direction: column; align-items: flex-start; }
+    .proto-callout { flex-direction: column; }
+    .gap-stats { flex-wrap: wrap; }
+    .gap-stat { min-width: 140px; }
+  }
+  @media (max-width: 600px) {
+    .gap-stats { flex-direction: column; }
+    .proto-roadmap { flex-direction: column; align-items: flex-start; gap: .5rem; }
+    .proto-stage-line { width: 2px; height: 20px; margin: 0 0 0 5px; }
   }
 </style>
 
@@ -361,15 +564,10 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   var tibText  = document.getElementById('hero-tib-text');
   if (!phaseEn || !phaseTib || !tibText) return;
 
-  var FADE = 450; // ms — match CSS transition duration
+  var FADE = 450;
 
-  // 4-phase cycle: English heading, then 3 Tibetan phrases
-  // Each Tibetan phase has its own font class, effect class, and display duration
   var phases = [
-    {
-      type: 'en',
-      duration: 5500
-    },
+    { type: 'en', duration: 5500 },
     {
       type: 'tib',
       html: 'བོད་ཡིག་ནི་བོད་ཀྱི་བླ་སྲོག་ཡིན།',
@@ -396,7 +594,6 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     }
   ];
 
-  // All possible font/effect classes — for cleanup before each Tibetan phase
   var tibFonts   = ['tr-drutsa', 'tr-jomolhari', 'tr-riwoche'];
   var tibEffects = ['tr-text-rainbow', 'tr-text-fire', 'tr-text-saffron', 'tr-glow-aurora', 'tr-outline-gold'];
 
@@ -405,14 +602,12 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
   function applyPhase(p) {
     if (p.type === 'en') {
-      // Restore English heading
       phaseEn.style.opacity      = '1';
       phaseEn.style.pointerEvents = '';
       phaseTib.style.opacity     = '0';
       phaseTib.style.pointerEvents = 'none';
       phaseTib.setAttribute('aria-hidden', 'true');
     } else {
-      // Strip previous Tibetan classes, set new content
       tibFonts.forEach(function(c)   { tibText.classList.remove(c); });
       tibEffects.forEach(function(c) { tibText.classList.remove(c); });
       tibText.style.color = '';
@@ -420,7 +615,6 @@ import SiteLayout from '@layouts/SiteLayout.astro';
       tibText.classList.add(p.font);
       if (p.effect) tibText.classList.add(p.effect);
       if (p.color) tibText.style.color = p.color;
-      // Show Tibetan overlay, hide English
       phaseEn.style.opacity      = '0';
       phaseEn.style.pointerEvents = 'none';
       phaseTib.style.opacity     = '1';
@@ -432,13 +626,9 @@ import SiteLayout from '@layouts/SiteLayout.astro';
   function advance() {
     if (busy) return;
     busy = true;
-
-    // Fade out the currently visible element
     var cur = phases[idx];
     if (cur.type === 'en') { phaseEn.style.opacity  = '0'; }
     else                   { phaseTib.style.opacity = '0'; }
-
-    // Wait for fade, then switch to next phase and schedule the one after
     setTimeout(function () {
       idx = (idx + 1) % phases.length;
       applyPhase(phases[idx]);
@@ -447,12 +637,9 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     }, FADE + 20);
   }
 
-  // Initialise: English fully visible, Tibetan hidden
   phaseEn.style.opacity       = '1';
   phaseTib.style.opacity      = '0';
   phaseTib.style.pointerEvents = 'none';
-
-  // Kick off the first transition after the English phase duration
   setTimeout(advance, phases[0].duration);
 })();
 </script>

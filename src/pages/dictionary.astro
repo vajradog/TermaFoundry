@@ -8,10 +8,10 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 >
 
   <section class="page-section">
-    <div class="section-eyebrow" style="text-align:center">&#128218;&nbsp; Multi-Dictionary Search</div>
-    <h1 class="section-heading" style="text-align:center">Tibetan Dictionary <span class="dict-version">v4.6.0</span></h1>
-    <p class="dict-tagline" style="text-align:center"><span class="dict-tibetan">ཚིག་མཛོད།</span> — The most comprehensive Tibetan dictionary in existence.</p>
-    <p class="section-sub" style="text-align:center;margin-left:auto;margin-right:auto;margin-bottom:1.5rem">Search 1.2+ million entries across 64 authoritative sources.</p>
+    <div class="section-eyebrow" style="text-align:center">&#128218;&nbsp; Tibetan-English Dictionary</div>
+    <h1 class="section-heading" style="text-align:center">Look up any Tibetan word.</h1>
+    <p class="dict-tagline" style="text-align:center"><span class="dict-tibetan">ཚིག་མཛོད།</span> — Search in Tibetan, English, or Wylie (romanized Tibetan). Free, instant, no account needed.</p>
+    <p class="section-sub" style="text-align:center;margin-left:auto;margin-right:auto;margin-bottom:1.5rem">Powered by 1.2 million entries drawn from 64 dictionaries — the largest free Tibetan dictionary available online.</p>
   </section>
 
   <section class="dict-page reveal">
@@ -61,18 +61,16 @@ import SiteLayout from '@layouts/SiteLayout.astro';
     <div id="dict-results" class="dict-results"></div>
   </div>
 
-  <!-- ── Curation roadmap box ── -->
+  <!-- ── Roadmap box ── -->
   <div class="dict-roadmap">
-    <p class="dict-roadmap-lead">TermaDictionary aggregates the world's largest collection of Tibetan lexicographic sources — but aggregation is only the beginning. Deduplicating entries, resolving conflicts between sources, and matching headwords across 64 independent datasets is a massive, ongoing curation effort.</p>
-    <p class="dict-roadmap-body">Our current system connects all sources into a single searchable index. What it still needs is a <strong>human editorial layer</strong> — expert review, conflict resolution, and a community correction mechanism. The gaps are real:</p>
+    <p class="dict-roadmap-lead">This dictionary combines 64 separate sources into one search. It's a working prototype — powerful, but still growing. Here's what we're working on next:</p>
     <ul class="dict-roadmap-list">
-      <li><strong>No deduplication</strong> — the same headword can appear dozens of times with conflicting definitions from different sources</li>
-      <li><strong>No conflict resolution</strong> — contradictory translations from different traditions are shown without priority or context</li>
-      <li><strong>No community corrections</strong> — errors discovered by scholars and practitioners have no path back into the database</li>
-      <li><strong>No version history</strong> — changes to entries are not tracked or attributed</li>
-      <li><strong>No expert review workflow</strong> — specialist knowledge in Madhyamaka, Vajrayāna, medical, and classical Tibetan terminology is untapped</li>
+      <li><strong>Smarter results</strong> — when the same word appears in multiple sources with different definitions, we'll show the best answer first instead of listing every duplicate</li>
+      <li><strong>Community corrections</strong> — a way for scholars and practitioners to flag errors and suggest improvements</li>
+      <li><strong>Expert review</strong> — partnering with specialists in Buddhist philosophy, medicine, and classical Tibetan to verify definitions</li>
+      <li><strong>Change tracking</strong> — a transparent history of edits so you can see how definitions evolve</li>
     </ul>
-    <p class="dict-roadmap-cta">With grant support, TermaDictionary can become a living, community-curated resource — the first Tibetan dictionary with crowdsourced corrections, expert review, and transparent version history per entry. This is what it takes to build a truly authoritative, open Tibetan lexical commons.</p>
+    <p class="dict-roadmap-cta">With grant support, this dictionary can become a living, community-curated resource — the first Tibetan dictionary where corrections, expert review, and version history are built in from the ground up.</p>
   </div>
 
   <!-- ── Info sections ── -->
@@ -88,8 +86,8 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
       <article class="dict-info-card">
         <div class="dict-info-icon">&#128269;</div>
-        <h2 class="dict-info-heading">Search Tibetan Words in Multiple Ways</h2>
-        <p>Our dictionary supports three input methods: type directly in <span class="dict-tibetan-inline">Tibetan script (བོད་ཡིག)</span>, use <strong>Wylie transliteration</strong> (the standard romanization system for Tibetan), or search in <strong>English</strong> to find Tibetan translations. The search engine simultaneously queries all 64 dictionaries, returning results organized by source so you can compare definitions across multiple authoritative references.</p>
+        <h2 class="dict-info-heading">Three Ways to Search</h2>
+        <p>Type directly in <span class="dict-tibetan-inline">Tibetan script (བོད་ཡིག)</span>, use <strong>Wylie</strong> (the standard way to type Tibetan with a Latin keyboard — e.g., "bkra shis" for བཀྲ་ཤིས།), or just search in <strong>English</strong>. All 64 dictionaries are searched at once, and results are organized by source so you can compare definitions.</p>
       </article>
 
       <article class="dict-info-card">
@@ -100,8 +98,8 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 
       <article class="dict-info-card">
         <div class="dict-info-icon">&#129666;</div>
-        <h2 class="dict-info-heading">Buddhist Terminology &amp; Specialized Vocabulary</h2>
-        <p>The dictionary is particularly strong in Buddhist philosophical terminology, with dedicated sources covering <strong>Madhyamaka, Yogācāra, Abhidharma, Vinaya, and Vajrayāna</strong> traditions. The <span class="dict-tibetan-inline">Compendium of Dharma (ཆོས་རྣམ་ཀུན་བཏུས)</span> (11,512 entries) and <span class="dict-tibetan-inline">Buddhist Philosophy Dictionary (བོད་རྒྱ་ནང་དོན)</span> (8,947 entries) provide specialized definitions crucial for understanding Buddhist texts in their original language.</p>
+        <h2 class="dict-info-heading">Deep Buddhist Vocabulary</h2>
+        <p>Especially strong in Buddhist philosophical terminology — covering all major traditions and schools of thought. Includes specialized sources for understanding Buddhist texts in their original Tibetan, with over 20,000 entries dedicated to philosophical and religious vocabulary alone.</p>
       </article>
 
     </div>

@@ -22,10 +22,28 @@ import FontsBase from '@layouts/FontsBase.astro';
     </div>
   </section>
 
-  <!-- EXECUTIVE SUMMARY -->
-  <section class="page-section" style="padding-top:1.5rem; padding-bottom:2rem;">
+  <!-- PLAIN-SPEAK SUMMARY -->
+  <section class="page-section" style="padding-top:1.5rem; padding-bottom:1rem;">
+    <div class="exec-box reveal" style="border-left:3px solid var(--accent, #f59e0b);">
+      <div class="exec-label">The Short Version</div>
+      <p style="margin-bottom:1rem;">Tibetan has over sixty fonts available online — but most of them don't actually work properly. When you test them on real devices, only about a dozen render Tibetan text without visible errors. None were designed for children. None were designed for phone screens. Most are digital copies of hand-drawn letters from the 1990s that were never meant for the modern web.</p>
+      <p style="margin-bottom:1rem;">The result? Six specific problems that affect every piece of Tibetan digital text:</p>
+      <ol style="padding-left:1.5rem; margin-bottom:1rem; font-size:.92rem; color:var(--text2, #94a3b8); line-height:1.9;">
+        <li><strong>Ghost circles</strong> — placeholder dots appear inside words when the font doesn't know how to stack certain letters</li>
+        <li><strong>Words break in the wrong places</strong> — lines split in the middle of syllables instead of at natural word boundaries</li>
+        <li><strong>Letters get cut off</strong> — vowel marks above and below the line are clipped by the text container</li>
+        <li><strong>No standard way to load fonts</strong> — every developer reinvents font loading, leading to inconsistent results</li>
+        <li><strong>Tibetan and English don't mix</strong> — bilingual text looks broken because the sizes and alignments clash</li>
+        <li><strong>The diaspora is losing the script</strong> — children and heritage learners give up because the fonts make the writing look harder than it is</li>
+      </ol>
+      <p>We are building three new fonts to fix these problems — a formal serif, a clean screen font, and a child-friendly version. All free, forever. The technical details of each problem are documented below.</p>
+    </div>
+  </section>
+
+  <!-- EXECUTIVE SUMMARY (technical) -->
+  <section class="page-section" style="padding-top:.5rem; padding-bottom:2rem;">
     <div class="exec-box reveal">
-      <div class="exec-label">Executive Summary</div>
+      <div class="exec-label">Executive Summary (Technical)</div>
       <p>Tibetan is spoken by over 6 million people across 40 countries and carries a literary tradition spanning 1,400 years — yet in the digital era it appears to be served by over sixty publicly available fonts. That number is an illusion. Once you filter for Unicode compliance, correct OpenType stacking tables, and professional rendering on both iOS and Windows, fewer than a dozen survive. None were designed for children. None were designed for digital interfaces. Most look like 18th-century woodblock prints, because they are. Terma Foundry is building three original Tibetan typefaces: a scholarly serif, a screen-optimised sans-serif, and a child-friendly display face. Each will ship with complete Unicode coverage, full OpenType engineering for consonant stacking, and cultural authenticity verified by master calligraphers and Tibetan language educators. All three will be released under the SIL Open Font License — free for everyone, forever.</p>
     </div>
   </section>

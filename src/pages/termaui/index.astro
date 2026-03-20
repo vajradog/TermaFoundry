@@ -22,87 +22,76 @@ const effects = [
 
 <Base title="termaUI — Tibetan CSS Framework">
 
-  <!-- HERO -->
+  <!-- PLAIN-SPEAK HERO -->
   <section class="hero">
     <div class="hero-glow" aria-hidden="true"></div>
     <div class="hero-content">
       <div class="hero-heading-wrap reveal" id="hero-switcher">
         <h1 class="hero-heading hero-slot hero-en" id="hero-en">
-          Render beautiful Tibetan<br>
-          typography without ever<br>
-          leaving your HTML.
+          The engine that makes<br>
+          Tibetan text work<br>
+          on the web.
         </h1>
         <div class="hero-heading hero-slot hero-bo" id="hero-bo" aria-hidden="true">
           <span class="tr-jomolhari tr-guard" lang="bo">བོད་ཡིག་གི་མཛེས་རྩལ་ཇི་བཞིན་མངོན་པར་བྱ།</span>
         </div>
       </div>
       <p class="hero-sub reveal reveal-delay-1">
-        A utility-first CSS framework packed with classes like
-        <code class="hl-code">tr-jomolhari</code>,
-        <code class="hl-code">tr-guard</code>,
-        <code class="hl-code hl-pink">tr-text-rainbow</code> and
-        <code class="hl-code hl-teal">tr-glow-aurora</code>
-        that can be composed to render any Tibetan script, directly in your markup.
+        Tibetan text on websites is broken by default — letters get clipped, lines collide, and fonts don't load. termaUI is the invisible layer that fixes all of it. Developers add one file to their project and Tibetan just works — beautifully, on any device.
       </p>
       <div class="hero-actions reveal reveal-delay-2">
-        <a href="#start" class="btn-primary">Get started</a>
-        <a href="/termaui/docs" class="btn-secondary">Read the docs</a>
+        <a href="#what-it-does" class="btn-primary">See what it does</a>
+        <a href="/termaui/docs" class="btn-secondary">I'm a developer</a>
       </div>
-      <a href="https://www.npmjs.com/package/termaui" target="_blank" rel="noopener" class="hero-npm reveal reveal-delay-3">
-        <span class="hero-npm-prompt">$</span>
-        <code class="hero-npm-cmd">npm i termaui</code>
-        <span class="hero-npm-badge">v0.3.0</span>
-      </a>
     </div>
   </section>
 
-  <!-- STATS STRIP -->
-  <div class="stats-strip">
-    <div class="stats-inner">
-      <div class="stat-item">
-        <div class="stat-num">36</div>
-        <div class="stat-label">Tibetan typefaces</div>
+  <!-- WHAT IT DOES — plain speak -->
+  <section class="section plain-section" id="what-it-does">
+    <div class="section-eyebrow reveal">What termaUI Does</div>
+    <h2 class="section-heading reveal">It solves the problems<br>no one else has solved.</h2>
+    <p class="section-sub reveal">
+      Every website that displays Tibetan text faces the same set of problems. termaUI is a toolkit that solves all of them at once.
+    </p>
+
+    <div class="grid grid-3 reveal">
+      <div class="card">
+        <div class="why-icon">&#9986;</div>
+        <div class="card-title">Letters get cut off</div>
+        <div class="card-desc">Tibetan has tall stacked consonants and vowel marks that extend above and below the line. Standard web technology clips them. termaUI creates the space they need.</div>
       </div>
-      <div class="stat-sep"></div>
-      <div class="stat-item">
-        <div class="stat-num">6</div>
-        <div class="stat-label">CSS utility modules</div>
+      <div class="card">
+        <div class="why-icon">&#128295;</div>
+        <div class="card-title">Lines crash into each other</div>
+        <div class="card-desc">Because Tibetan letters are taller than Latin ones, lines of text overlap unless carefully adjusted. termaUI handles line spacing automatically for every font.</div>
       </div>
-      <div class="stat-sep"></div>
-      <div class="stat-item">
-        <div class="stat-num">1</div>
-        <div class="stat-label">stylesheet to import</div>
+      <div class="card">
+        <div class="why-icon">&#127912;</div>
+        <div class="card-title">Fonts don't load</div>
+        <div class="card-desc">Most Tibetan fonts aren't set up for the web. termaUI bundles 36 typefaces that are optimized, tested, and ready to use — from traditional manuscript styles to modern sans-serif.</div>
       </div>
-      <div class="stat-sep"></div>
-      <div class="stat-item">
-        <div class="stat-num">0</div>
-        <div class="stat-label">build tools required</div>
+      <div class="card">
+        <div class="why-icon">&#128196;</div>
+        <div class="card-title">Pecha manuscripts can't be made digitally</div>
+        <div class="card-desc">The pecha is Tibet's traditional long-leaf book format. termaUI includes a layout system that recreates authentic pecha pages directly in the browser.</div>
+      </div>
+      <div class="card">
+        <div class="why-icon">&#127760;</div>
+        <div class="card-title">Mixing Tibetan and English breaks</div>
+        <div class="card-desc">When Tibetan text appears alongside English, the sizes look wrong and baselines don't align. termaUI automatically scales and aligns mixed-language text.</div>
+      </div>
+      <div class="card">
+        <div class="why-icon">&#10024;</div>
+        <div class="card-title">No visual effects exist</div>
+        <div class="card-desc">Other scripts have rainbow gradients, glowing text, and metallic effects. Tibetan has never had these. termaUI includes 10 visual effects designed specifically for the script.</div>
       </div>
     </div>
-  </div>
 
-  <!-- INTERACTIVE DEMO -->
-  <section class="demo-section reveal" id="demo">
-    <div class="demo-container" data-base="">
-      <!-- Preview Card -->
-      <div class="demo-preview">
-        <div class="demo-card" id="demo-card"></div>
-      </div>
-
-      <!-- Code Editor -->
-      <div class="demo-editor">
-        <div class="editor-chrome">
-          <div class="editor-dots"><span></span><span></span><span></span></div>
-          <div class="editor-tabs" id="editor-tabs">
-            <button class="editor-tab active" data-step="0">Plain</button>
-            <button class="editor-tab" data-step="1">+ Font</button>
-            <button class="editor-tab" data-step="2">+ Effect</button>
-            <button class="editor-tab" data-step="3">In Context</button>
-          </div>
-        </div>
-        <div class="editor-body">
-          <pre class="editor-code" id="editor-code"></pre>
-        </div>
+    <div class="plain-cta reveal">
+      <p class="plain-cta-text">termaUI powers this entire website. Every page, every Tibetan word you see here is rendered by it.</p>
+      <div class="plain-cta-actions">
+        <a href="/termaui/playground" class="btn-primary">Try it in the Playground</a>
+        <a href="#showcase" class="btn-secondary">See live examples below</a>
       </div>
     </div>
   </section>
@@ -556,78 +545,15 @@ const effects = [
     </div>
   </section>
 
-  <!-- GET STARTED -->
-  <section class="section" id="start">
-    <div class="section-eyebrow reveal">Get Started</div>
-    <h2 class="section-heading reveal">One install.<br>Beautiful Tibetan.</h2>
-    <p class="section-sub reveal">
-      termaUI is live on npm — drop in the stylesheet, add <code style="color:#38bdf8;font-family:'JetBrains Mono',monospace;font-size:0.88em;">lang="bo"</code>, and write. No config, no build step required.
-    </p>
-
-    <!-- npm install callout -->
-    <div class="npm-callout reveal">
-      <div class="npm-callout-inner">
-        <div class="npm-callout-left">
-          <span class="npm-badge">npm</span>
-          <code class="npm-cmd">npm i termaui</code>
-        </div>
-        <a href="https://www.npmjs.com/package/termaui" target="_blank" rel="noopener" class="npm-callout-link">View on npm →</a>
-      </div>
-      <div class="npm-callout-alts">
-        <span class="npm-alt"><span class="npm-alt-pm">pnpm</span> add termaui</span>
-        <span class="npm-alt-sep">·</span>
-        <span class="npm-alt"><span class="npm-alt-pm">yarn</span> add termaui</span>
-        <span class="npm-alt-sep">·</span>
-        <span class="npm-alt"><span class="npm-alt-pm">CDN</span> unpkg.com/termaui/dist/termaui.css</span>
-      </div>
-    </div>
-
-    <div class="code-examples reveal">
-      <div class="code-block">
-        <div class="code-block-header">
-          <span class="code-block-title">Basic Usage</span>
-          <button class="copy-btn">Copy</button>
-        </div>
-        <pre><code><span class="cmt">&lt;!-- 1. Add the stylesheet --&gt;</span>
-<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"termaui.css"</span><span class="tag">&gt;</span>
-
-<span class="cmt">&lt;!-- 2. Use lang="bo" + termaUI classes --&gt;</span>
-<span class="tag">&lt;h1</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-text-rainbow tr-guard"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
-  བཀྲ་ཤིས་བདེ་ལེགས།
-<span class="tag">&lt;/h1&gt;</span></code></pre>
-      </div>
-
-      <div class="code-grid">
-        <div class="code-block">
-          <div class="code-block-header">
-            <span class="code-block-title">Font Selection</span>
-            <button class="copy-btn">Copy</button>
-          </div>
-          <pre><code><span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari"</span><span class="tag">&gt;</span>   Jomolhari
-<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-noto"</span><span class="tag">&gt;</span>  Noto Serif
-<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-machine-uni"</span><span class="tag">&gt;</span>   Machine Uni
-<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-drutsa"</span><span class="tag">&gt;</span> Qomolangma
-<span class="tag">&lt;p</span> <span class="attr">class</span>=<span class="str">"tr-monlam"</span><span class="tag">&gt;</span> Monlam
-<span class="cmt">&lt;!-- + 31 more fonts → /fonts/library --&gt;</span></code></pre>
-        </div>
-
-        <div class="code-block">
-          <div class="code-block-header">
-            <span class="code-block-title">Mixed Language</span>
-            <button class="copy-btn">Copy</button>
-          </div>
-          <pre><code><span class="tag">&lt;p&gt;</span>The word
-  <span class="tag">&lt;span</span> <span class="attr">class</span>=<span class="str">"tr-jomolhari tr-scale-up
-    tr-baseline"</span> <span class="attr">lang</span>=<span class="str">"bo"</span><span class="tag">&gt;</span>
-    བཀྲ་ཤིས་བདེ་ལེགས།
-  <span class="tag">&lt;/span&gt;</span>
-  means hello.
-<span class="tag">&lt;/p&gt;</span></code></pre>
-        </div>
-      </div>
+  <!-- DEVELOPER CTA -->
+  <section class="section" style="text-align:center; padding-top:2rem;">
+    <h2 class="section-heading reveal">Ready to use termaUI<br>in your project?</h2>
+    <p class="section-sub reveal">Everything you need — installation guides, class references, code examples, and framework-specific setup.</p>
+    <div class="hero-actions reveal" style="justify-content:center;">
+      <a href="/termaui/docs" class="btn-primary">Read the Documentation</a>
+      <a href="/termaui/playground" class="btn-secondary">Open Playground</a>
     </div>
   </section>
-
 
 </Base>
 
@@ -840,6 +766,56 @@ const effects = [
 </script>
 
 <style is:global>
+  /* ====== PLAIN-SPEAK SECTION ====== */
+  .plain-section { text-align: center; }
+  .plain-section .grid { text-align: left; }
+  .plain-cta {
+    margin-top: 2.5rem;
+    padding: 2rem;
+    background: var(--surface, rgba(30,41,59,0.5));
+    border: 1px solid var(--border, rgba(148,163,184,0.1));
+    border-radius: 14px;
+    text-align: center;
+  }
+  .plain-cta-text {
+    font-size: .95rem;
+    color: var(--text2, #94a3b8);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+  .plain-cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ====== LAYER DIVIDER ====== */
+  .layer-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 3rem auto 1rem;
+    padding: 0 2rem;
+  }
+  .layer-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border, rgba(148,163,184,0.15));
+  }
+  .layer-divider-label {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--accent, #f59e0b);
+    white-space: nowrap;
+  }
+
+  /* ====== TECH HERO ====== */
+  .tech-hero-section {
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+  }
+  .tech-hero-section .hero-actions { justify-content: center; }
+
   /* ====== HERO ====== */
   .hero {
     position: relative;
