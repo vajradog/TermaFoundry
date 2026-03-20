@@ -7,23 +7,86 @@ import sonamImage from '../assets/sonam.jpg';
 import collabImage from '../assets/collab.png';
 ---
 
-<SiteLayout title="About Terma Foundry — Team, Mission & Tibetan Typography" description="Terma Foundry is building the open-source digital infrastructure that Tibetan script has never had — typefaces, rendering tools, and CSS frameworks for 6 million speakers worldwide.">
+<SiteLayout title="About Terma Foundry — Tools, Team & Mission" description="Terma Foundry is building a complete open-source ecosystem for Tibetan script — a word processor, manuscript creator, OCR, dictionary, CSS framework, and original typefaces for 6 million speakers.">
 
   <!-- PAGE HEADER -->
   <section class="page-section" style="padding-bottom:2rem;">
     <div class="section-eyebrow reveal">About Us</div>
-    <h1 class="section-heading reveal">Tibetan script deserves<br>a digital future.</h1>
-    <p class="section-sub reveal">Terma Foundry is building the open-source type and web infrastructure that six million Tibetan speakers have never had — working typefaces, rendering tools, and the world's first CSS framework for Tibetan script.</p>
+    <h1 class="section-heading reveal">A complete digital ecosystem<br>for Tibetan script.</h1>
+    <p class="section-sub reveal">Tibetan is spoken by six million people and has one of the oldest literary traditions on earth — yet it has no word processor, no CSS framework, no manuscript tool, and existing OCR struggles with its stacked consonants. Terma Foundry is building what's missing — and rebuilding what's broken.</p>
   </section>
 
-  <!-- OUR STORY -->
+  <!-- WHAT WE BUILD -->
   <section class="page-section" style="padding-top:0;">
+    <div class="section-eyebrow reveal">The Ecosystem</div>
+    <h2 class="section-heading reveal">Six tools. One mission.</h2>
+    <p class="section-sub reveal">Each tool solves a real problem that Tibetan speakers, developers, students, and scholars face today.</p>
+
+    <div class="ecosystem-grid reveal">
+      <a href="/termaui/" class="eco-card">
+        <div class="eco-status eco-status--live">Available Now</div>
+        <div class="eco-icon">&#9672;</div>
+        <h3 class="eco-title">termaUI</h3>
+        <p class="eco-desc">The world's first CSS framework for Tibetan script. Solves rendering, line-height, font loading, and layout in a single stylesheet. Powers this entire website.</p>
+        <div class="eco-dest">CSS framework &middot; npm package</div>
+      </a>
+
+      <a href="/type" class="eco-card">
+        <div class="eco-status eco-status--beta">Web Prototype</div>
+        <div class="eco-icon">&#9998;</div>
+        <h3 class="eco-title">TermaType</h3>
+        <p class="eco-desc">A Tibetan word processor with a built-in keyboard, live dictionary, and beautiful typography. Write, format, and publish — no installation needed.</p>
+        <div class="eco-dest">Web prototype &rarr; Desktop app</div>
+      </a>
+
+      <a href="/pecha" class="eco-card">
+        <div class="eco-status eco-status--beta">Web Prototype</div>
+        <div class="eco-icon">&#128220;</div>
+        <h3 class="eco-title">PechaForge</h3>
+        <p class="eco-desc">Create authentic three-column pecha manuscripts. Choose fonts and themes, then export print-ready PDFs — including double-sided layouts for cutting into traditional leaves.</p>
+        <div class="eco-dest">Web prototype &rarr; Desktop app</div>
+      </a>
+
+      <a href="/ocr" class="eco-card">
+        <div class="eco-status eco-status--beta">Web Prototype</div>
+        <div class="eco-icon">&#9041;</div>
+        <h3 class="eco-title">TermaOCR</h3>
+        <p class="eco-desc">Tibetan script recognition that handles stacked consonants and varied woodblock styles. Upload an image or PDF, draw regions, and get editable Unicode text back.</p>
+        <div class="eco-dest">Web prototype &rarr; Desktop app</div>
+      </a>
+
+      <a href="/dictionary" class="eco-card">
+        <div class="eco-status eco-status--beta">Web Prototype</div>
+        <div class="eco-icon">&#128218;</div>
+        <h3 class="eco-title">Dictionary</h3>
+        <p class="eco-desc">The most comprehensive Tibetan dictionary available — 1.2 million entries across 64 authoritative sources. Search by Tibetan, Wylie, or English.</p>
+        <div class="eco-dest">Web prototype &rarr; Desktop app</div>
+      </a>
+
+      <a href="/fonts" class="eco-card">
+        <div class="eco-status eco-status--dev">In Development</div>
+        <div class="eco-icon">&#127912;</div>
+        <h3 class="eco-title">Typeface Library</h3>
+        <p class="eco-desc">Original typefaces created with master calligrapher Jamyang Dorjee — Uchen, Drutsa, and display styles for educational, devotional, and modern use.</p>
+        <div class="eco-dest">Production fonts &middot; WOFF2 &middot; Open source</div>
+      </a>
+    </div>
+
+    <!-- PROTOTYPE → PRODUCT -->
+    <div class="proto-callout reveal">
+      <div class="proto-label">From web prototypes to full applications</div>
+      <p class="proto-text">Every tool on this site is a working prototype — built to prove the concept, gather feedback, and refine the design. Each one is on a path to becoming a standalone desktop application: offline-first, fast, and free. The web versions you see today are the foundation for what comes next.</p>
+    </div>
+  </section>
+
+  <hr class="divider" style="max-width:1100px; margin: 0 auto;">
+
+  <!-- WHY THIS MATTERS -->
+  <section class="page-section">
     <div class="story-grid reveal">
       <div class="story-text">
-        <h2>The Gap</h2>
-        <p>Tibetan is spoken by over six million people across Tibet, India, Nepal, Bhutan, and diaspora communities worldwide. It has one of the oldest continuous literary traditions on earth. And yet on the modern web, it is effectively invisible — broken by the very tools developers rely on.</p>
-        <p>Rendering inconsistencies, vowel mark clipping, line-height collisions, and a near-total absence of display, children's, or UI typefaces have left Tibetan-speaking communities building with tools that were never designed for their script. While Japanese, Korean, and Arabic type ecosystems offer hundreds of high-quality fonts across every register, Tibetan developers navigate a handful of legacy faces and a CSS stack that has no concept of the script's unique requirements.</p>
-        <p>This is not a minor inconvenience. It shapes what gets built, what gets published, and who can participate in the digital life of their language. <em>A script that can't render beautifully doesn't get used — and a language that disappears from screens disappears from children.</em></p>
+        <h2>Why This Matters</h2>
+        <p>While Japanese, Korean, and Arabic type ecosystems offer hundreds of high-quality fonts and mature developer tooling, Tibetan speakers navigate a handful of legacy typefaces and a CSS stack that has no concept of the script's unique requirements. The absence of proper tools shapes what gets built, what gets published, and who can participate in the digital life of their language. <em>A script that can't render beautifully doesn't get used — and a language that disappears from screens disappears from children.</em></p>
 
         <!-- TIBETAN TRANSLATION PANEL -->
         <div class="bo-panel" id="bo-panel">
@@ -52,17 +115,6 @@ import collabImage from '../assets/collab.png';
             </div>
           </div>
         </div>
-
-        <div class="story-divider"></div>
-
-        <h2>What We're Building</h2>
-        <p>Terma Foundry was founded to close this gap. Working alongside Jamyang Dorjee — a master Tibetan calligrapher with decades of practice — and a team of linguists, type designers, font engineers, and Unicode specialists, we are developing the infrastructure layer that has been missing:</p>
-        <ul>
-          <li><strong>termaUI</strong> — the world's first CSS framework purpose-built for Tibetan script, solving rendering, layout, and typography with a single stylesheet. A working prototype powers this entire website today.</li>
-          <li><strong>An original typeface library</strong> — digitizing Jamyang Dorjee's calligraphic work into production-ready WOFF2 fonts across Uchen, Drutsa, and display styles, covering educational, devotional, and modern registers.</li>
-          <li><strong>Open layout tools</strong> — pecha manuscript layout, mixed-language composition utilities, and optical scale corrections that no existing tool provides.</li>
-        </ul>
-        <p>This work is already underway. The prototype is real, tested, and public. What funding enables is completion: full production release, expanded font coverage, documentation, and the community infrastructure to sustain it as an open standard.</p>
       </div>
       <div class="story-mission-card reveal reveal-delay-1">
         <div class="mission-label">Our Mission</div>
@@ -71,10 +123,10 @@ import collabImage from '../assets/collab.png';
         </div>
         <p class="mission-en">"To ensure the Tibetan script thrives in the modern world while honoring its timeless heritage."</p>
         <div class="mission-pillars">
-          <div class="pillar"><span class="pillar-dot"></span>Close the digital infrastructure gap for Tibetan script</div>
-          <div class="pillar"><span class="pillar-dot"></span>Release professional tools as free, open-source public goods</div>
-          <div class="pillar"><span class="pillar-dot"></span>Bridge living calligraphic tradition with modern type practice</div>
-          <div class="pillar"><span class="pillar-dot"></span>Put world-class Tibetan typography within reach of any developer</div>
+          <div class="pillar"><span class="pillar-dot"></span>Build the complete digital toolkit Tibetan script has never had</div>
+          <div class="pillar"><span class="pillar-dot"></span>Release every tool as free, open-source public goods</div>
+          <div class="pillar"><span class="pillar-dot"></span>Bridge living calligraphic tradition with modern technology</div>
+          <div class="pillar"><span class="pillar-dot"></span>Make world-class Tibetan tools accessible to anyone, anywhere</div>
         </div>
       </div>
     </div>
@@ -106,7 +158,7 @@ import collabImage from '../assets/collab.png';
         <div class="team-info">
           <h3 class="team-name">Sonam Tsering</h3>
           <div class="team-role">Pedagogy Lead</div>
-          <p class="team-bio">Sonam Tsering is the director of the Tibetan language program at Columbia University. Previously at the University of Michigan — where he also taught remotely at Yale and Ohio State — he brings firsthand insight into how Tibetan is taught and learned across institutions today. Originally from Rebgong, and later a founder and editor of Bod kyi Dus bab (Tibet Times) in the exile community in India, Sonam helps ensure that Terma Foundry's tools — from termaUI's rendering to our typeface choices — serve real pedagogical needs and work for learners at every level.</p>
+          <p class="team-bio">Director of the Tibetan language program at Columbia University. Previously at the University of Michigan — where he also taught remotely at Yale and Ohio State — he brings firsthand insight into how Tibetan is taught and learned across institutions today. Originally from Rebgong, and later a founder and editor of Bod kyi Dus bab (Tibet Times) in the exile community in India, Sonam helps ensure that Terma Foundry's tools — from TermaType to PechaForge to the dictionary — serve real pedagogical needs and work for learners at every level.</p>
         </div>
       </div>
 
@@ -117,7 +169,7 @@ import collabImage from '../assets/collab.png';
         <div class="team-info">
           <h3 class="team-name">Thupten Chakrishar</h3>
           <div class="team-role">Founder & Lead Technologist</div>
-          <p class="team-bio">A seasoned social entrepreneur and technologist with over two decades blending technology, design, and community service. With a background in software development, media production, and 3D animation, he leads the engineering behind Terma Foundry's ecosystem — from termaUI and its CSS framework to the font pipeline and open-source tooling. Co-founder of the Himalayan Elders Project, he brings the technical vision and dedication needed to build the digital infrastructure Tibetan script has been missing.</p>
+          <p class="team-bio">A seasoned social entrepreneur and technologist with over two decades blending technology, design, and community service. With a background in software development, media production, and 3D animation, he leads the engineering behind Terma Foundry's entire ecosystem — termaUI, TermaType, PechaForge, TermaOCR, the dictionary, and the font pipeline. Co-founder of the Himalayan Elders Project, he brings the technical vision and dedication needed to build the digital infrastructure Tibetan script has been missing.</p>
         </div>
       </div>
 
@@ -128,7 +180,7 @@ import collabImage from '../assets/collab.png';
         <div class="team-info">
           <h3 class="team-name">The Extended Team</h3>
           <div class="team-role">Linguists · Educators · Type Designers · Font Engineers · Unicode Specialists</div>
-          <p class="team-bio">Behind every tool is a community. Tibetan linguists and educators — from classroom teachers in Dharamsala to heritage language tutors in New York — test our rendering, review our layout decisions, and validate that the ecosystem works in real classrooms and real workflows. Type designers translate Jamyang Dorjee's calligraphic originals into production-ready digital fonts. Front-end engineers build and maintain termaUI — the CSS framework, JavaScript utilities, and developer tooling that make Tibetan typography work on the modern web. And Unicode specialists ensure full script coverage and standards compliance, because Tibetan's stacked consonants and combining marks must be encoded exactly right for everything else to work.</p>
+          <p class="team-bio">Behind every tool is a community. Tibetan linguists and educators — from classroom teachers in Dharamsala to heritage language tutors in New York — test our tools, review layout decisions, and validate that the ecosystem works in real classrooms and real workflows. Type designers translate Jamyang Dorjee's calligraphic originals into production-ready digital fonts. Front-end engineers build and maintain the applications — termaUI, TermaType, PechaForge, and more. And Unicode specialists ensure full script coverage and standards compliance, because Tibetan's stacked consonants and combining marks must be encoded exactly right for everything else to work.</p>
         </div>
       </div>
     </div>
@@ -137,6 +189,52 @@ import collabImage from '../assets/collab.png';
 </SiteLayout>
 
 <style>
+  /* Ecosystem grid */
+  .ecosystem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .eco-card {
+    display: flex; flex-direction: column;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background .2s, border-color .2s, transform .2s;
+  }
+  .eco-card:hover { background: var(--surface2); border-color: var(--accent); transform: translateY(-2px); }
+  .eco-status {
+    font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    padding: .2rem .6rem; border-radius: 20px; width: fit-content; margin-bottom: .85rem;
+  }
+  .eco-status--live { background: color-mix(in srgb, var(--accent) 15%, transparent); color: var(--accent); }
+  .eco-status--beta { background: color-mix(in srgb, #3b82f6 15%, transparent); color: #60a5fa; }
+  .eco-status--dev  { background: color-mix(in srgb, #a855f7 15%, transparent); color: #c084fc; }
+  .eco-icon { font-size: 1.5rem; margin-bottom: .6rem; }
+  .eco-title { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+  .eco-desc { font-size: .84rem; color: var(--text2); line-height: 1.7; flex: 1; margin-bottom: .85rem; }
+  .eco-dest { font-size: .7rem; color: var(--muted); font-weight: 600; letter-spacing: .03em; }
+
+  /* Prototype callout */
+  .proto-callout {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1rem;
+  }
+  .proto-label {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--accent); margin-bottom: .6rem;
+  }
+  .proto-text { font-size: .9rem; color: var(--text2); line-height: 1.8; margin: 0; }
+
   .story-grid { display: grid; grid-template-columns: 1fr 360px; gap: 4rem; align-items: start; }
   .story-text h2 { font-size: 1.35rem; font-weight: 700; color: var(--text); margin: 2rem 0 .75rem; }
   .story-text h2:first-child { margin-top: 0; }
@@ -252,10 +350,14 @@ import collabImage from '../assets/collab.png';
   .team-bio { font-size: .88rem; color: var(--text2); line-height: 1.8; }
 
   @media (max-width: 900px) {
+    .ecosystem-grid { grid-template-columns: 1fr; }
     .story-grid { grid-template-columns: 1fr; }
     .story-mission-card { position: static; }
     .team-grid { columns: 1; }
     .team-photo { aspect-ratio: 1/1; height: auto; }
+  }
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .ecosystem-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 
