@@ -5,6 +5,7 @@ import thuptenImage from '../assets/thupten.jpg';
 import jamyangImage from '../assets/jamyang.png';
 import sonamImage from '../assets/sonam.jpg';
 import yewongImage from '../assets/yewong.jpg';
+import tashiImage from '../assets/tashi.png';
 import collabImage from '../assets/collab.png';
 ---
 
@@ -200,6 +201,20 @@ import collabImage from '../assets/collab.png';
           </div>
         </div>
       </div>
+      <div class="team-card">
+        <div class="team-photo">
+          <Picture src={tashiImage} formats={['avif', 'webp']} alt="Tashi Gyaltsen" width={400} height={400} />
+        </div>
+        <div class="team-info">
+          <h3 class="team-name">Tashi Gyaltsen</h3>
+          <div class="team-role">Technology Advisor</div>
+          <p class="team-tagline">Cloud solutions architect with 15+ years in secure, scalable infrastructure and distributed systems</p>
+          <button class="team-toggle" aria-expanded="false">Read more <span class="team-toggle-arrow">+</span></button>
+          <div class="team-bio-full" hidden>
+            <p class="team-bio">A cloud solutions architect with 15+ years of experience specializing in secure, scalable infrastructure and modern system design. He has led complex cloud migrations, identity and access management, and network architecture for distributed systems. His expertise in building resilient platforms for specialized applications brings critical infrastructure knowledge to Terma Foundry — ensuring that as our tools grow from web prototypes into desktop applications, the systems behind them are built to scale.</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Extended team — separate card below -->
@@ -367,8 +382,8 @@ import collabImage from '../assets/collab.png';
 
   .team-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2.5rem;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem;
   }
   .team-card {
     display: flex;
@@ -390,6 +405,16 @@ import collabImage from '../assets/collab.png';
     width: 100%; height: 100%;
     object-fit: cover; object-position: center 20%;
     display: block;
+  }
+  .team-photo--placeholder {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface2);
+    border-color: var(--border);
+  }
+  .team-initial {
+    font-size: 2.5rem; font-weight: 700;
+    color: var(--muted);
+    line-height: 1;
   }
   .team-name { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
   .team-role { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--accent); margin-bottom: .5rem; }
@@ -438,7 +463,7 @@ import collabImage from '../assets/collab.png';
     .ecosystem-grid { grid-template-columns: 1fr; }
     .story-grid { grid-template-columns: 1fr; }
     .story-mission-card { position: static; }
-    .team-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
   }
   @media (max-width: 600px) {
     .team-grid { grid-template-columns: 1fr; }
