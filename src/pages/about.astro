@@ -3,6 +3,7 @@ import SiteLayout from '@layouts/SiteLayout.astro';
 import { Picture } from 'astro:assets';
 import thuptenImage from '../assets/thupten.png';
 import jamyangImage from '../assets/jamyang.png';
+import sonamImage from '../assets/sonam.jpg';
 import collabImage from '../assets/collab.png';
 ---
 
@@ -84,20 +85,9 @@ import collabImage from '../assets/collab.png';
   <!-- TEAM -->
   <section class="page-section">
     <div class="section-eyebrow reveal">The Team</div>
-    <h2 class="section-heading reveal">Meet the people behind<br>Terma Type Foundry.</h2>
+    <h2 class="section-heading reveal">Meet the people behind<br>Terma Foundry.</h2>
 
     <div class="team-grid reveal">
-      <div class="team-card">
-        <div class="team-photo">
-          <Picture src={thuptenImage} formats={['avif', 'webp']} alt="Thupten Chakrishar" width={400} height={400} />
-        </div>
-        <div class="team-info">
-          <h3 class="team-name">Thupten Chakrishar</h3>
-          <div class="team-role">Founder & Lead Technologist</div>
-          <p class="team-bio">A seasoned social entrepreneur and technologist with over two decades blending technology, design, and community service. With a background in software development, media production, and 3D animation, his work reflects a rare mix of technical precision and creative vision. Co-founder of the Himalayan Elders Project, he brings the expertise and dedication needed to ensure Tibetan script thrives in the modern world.</p>
-        </div>
-      </div>
-
       <div class="team-card">
         <div class="team-photo">
           <Picture src={jamyangImage} formats={['avif', 'webp']} alt="Jamyang Dorjee" width={400} height={400} />
@@ -105,18 +95,40 @@ import collabImage from '../assets/collab.png';
         <div class="team-info">
           <h3 class="team-name">Jamyang Dorjee</h3>
           <div class="team-role">Master Calligrapher & Cultural Advisor</div>
-          <p class="team-bio">A renowned master of Tibetan calligraphy with decades of experience and deep cultural wisdom. His expertise lies in preserving the spiritual and artistic essence of traditional Tibetan script while guiding its evolution for modern use. Known for meticulous craftsmanship and profound understanding of Tibetan heritage, he ensures that each font retains the elegance, authenticity, and cultural depth that the script embodies.</p>
+          <p class="team-bio">A renowned master of Tibetan calligraphy with decades of experience and deep cultural wisdom. His work anchors the entire Terma Foundry ecosystem in authenticity — from the letterforms that shape our typefaces to the cultural standards that guide our rendering tools and CSS framework. Known for meticulous craftsmanship and profound understanding of Tibetan heritage, he ensures that every layer of the platform — type, layout, and interaction — honors the spirit of the script.</p>
         </div>
       </div>
 
       <div class="team-card">
         <div class="team-photo">
-          <Picture src={collabImage} formats={['avif', 'webp']} alt="The extended team — linguists, educators, type designers, font engineers, and Unicode specialists" width={400} height={400} />
+          <Picture src={sonamImage} formats={['avif', 'webp']} alt="Sonam Tsering" width={400} height={400} />
+        </div>
+        <div class="team-info">
+          <h3 class="team-name">Sonam Tsering</h3>
+          <div class="team-role">Pedagogy Lead</div>
+          <p class="team-bio">Sonam Tsering is the director of the Tibetan language program at Columbia University. Previously at the University of Michigan — where he also taught remotely at Yale and Ohio State — he brings firsthand insight into how Tibetan is taught and learned across institutions today. Originally from Rebgong, and later a founder and editor of Bod kyi Dus bab (Tibet Times) in the exile community in India, Sonam helps ensure that Terma Foundry's tools — from termaUI's rendering to our typeface choices — serve real pedagogical needs and work for learners at every level.</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-photo">
+          <Picture src={thuptenImage} formats={['avif', 'webp']} alt="Thupten Chakrishar" width={400} height={400} />
+        </div>
+        <div class="team-info">
+          <h3 class="team-name">Thupten Chakrishar</h3>
+          <div class="team-role">Founder & Lead Technologist</div>
+          <p class="team-bio">A seasoned social entrepreneur and technologist with over two decades blending technology, design, and community service. With a background in software development, media production, and 3D animation, he leads the engineering behind Terma Foundry's ecosystem — from termaUI and its CSS framework to the font pipeline and open-source tooling. Co-founder of the Himalayan Elders Project, he brings the technical vision and dedication needed to build the digital infrastructure Tibetan script has been missing.</p>
+        </div>
+      </div>
+
+      <div class="team-card team-card--wide">
+        <div class="team-photo">
+          <Picture src={collabImage} formats={['avif', 'webp']} alt="The extended team — linguists, educators, type designers, font engineers, and Unicode specialists" width={800} height={400} />
         </div>
         <div class="team-info">
           <h3 class="team-name">The Extended Team</h3>
           <div class="team-role">Linguists · Educators · Type Designers · Font Engineers · Unicode Specialists</div>
-          <p class="team-bio">Behind every typeface is a community. Tibetan linguists and educators — from classroom teachers in Dharamsala to heritage language tutors in New York — review every design decision against the lived reality of teaching and learning the script today. Type designers translate Jamyang Dorjee's calligraphic originals into precise digital outlines, ensuring the character of the hand survives the journey from paper to pixel. Font engineers build the OpenType feature tables, hinting instructions, and kerning that make a font render correctly at every size on every platform. And Unicode specialists ensure full script coverage and standards compliance — because Tibetan's stacked consonants and combining marks must be encoded exactly right for the font to work everywhere it needs to.</p>
+          <p class="team-bio">Behind every tool is a community. Tibetan linguists and educators — from classroom teachers in Dharamsala to heritage language tutors in New York — test our rendering, review our layout decisions, and validate that the ecosystem works in real classrooms and real workflows. Type designers translate Jamyang Dorjee's calligraphic originals into production-ready digital fonts. Front-end engineers build and maintain termaUI — the CSS framework, JavaScript utilities, and developer tooling that make Tibetan typography work on the modern web. And Unicode specialists ensure full script coverage and standards compliance, because Tibetan's stacked consonants and combining marks must be encoded exactly right for everything else to work.</p>
         </div>
       </div>
     </div>
@@ -226,21 +238,24 @@ import collabImage from '../assets/collab.png';
   .pillar { display: flex; align-items: flex-start; gap: .6rem; font-size: .82rem; color: var(--muted); line-height: 1.5; }
   .pillar-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: .42rem; flex-shrink: 0; }
 
-  .team-grid { display: flex; flex-direction: column; gap: 1px; background: var(--border); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
-  .team-card { display: grid; grid-template-columns: 220px 1fr; background: var(--surface); transition: background .25s; }
-  .team-card:hover { background: var(--surface2); }
-  .team-photo { overflow: hidden; }
-  .team-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .team-info { padding: 2.25rem 2.5rem; }
-  .team-name { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
-  .team-role { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--accent); margin-bottom: 1rem; }
+  .team-grid { columns: 3; column-gap: 1.5rem; }
+  .team-card--wide { column-span: all; display: grid; grid-template-columns: 340px 1fr; }
+  .team-card--wide .team-photo { aspect-ratio: unset; height: 100%; min-height: 220px; }
+  .team-card--wide .team-info { padding: 2rem 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+  .team-card { break-inside: avoid; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: background .25s, border-color .25s; margin-bottom: 1.5rem; }
+  .team-card:hover { background: var(--surface2); border-color: var(--border2); }
+  .team-photo { overflow: hidden; aspect-ratio: 1/1; }
+  .team-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
+  .team-info { padding: 1.5rem; }
+  .team-name { font-size: 1.1rem; font-weight: 700; color: var(--text); margin-bottom: .25rem; }
+  .team-role { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--accent); margin-bottom: .85rem; }
   .team-bio { font-size: .88rem; color: var(--text2); line-height: 1.8; }
 
   @media (max-width: 900px) {
     .story-grid { grid-template-columns: 1fr; }
     .story-mission-card { position: static; }
-    .team-card { grid-template-columns: 1fr; }
-    .team-photo { height: 220px; }
+    .team-grid { columns: 1; }
+    .team-photo { aspect-ratio: 1/1; height: auto; }
   }
 </style>
 
