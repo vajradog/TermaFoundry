@@ -2,10 +2,11 @@
 import Site from '../../foundry/layouts/Site.astro';
 import Filters from '../../foundry/components/Filters.astro';
 import { paths, BUILD } from '../../foundry/config.js';
-import { FONTS, TEXT, SAMPLES } from '../../foundry/data/fonts.js';
+import { FONTS, TEXT, SAMPLES, CREDITS } from '../../foundry/data/fonts.js';
 
 const y = FONTS.yangtso;
 const p = FONTS.pema;
+const coverCredits = CREDITS.filter((c) => c.role !== 'Published by');
 const flipLetters = TEXT.letters.slice(0, 12);
 const flipWylie = TEXT.lettersWylie.slice(0, 12);
 const firstSentence = SAMPLES.yangtso.text.split('།')[0] + '།';
@@ -48,9 +49,19 @@ const duoChips = [
           </svg>
         </div>
         <div class="cover__meta">
-          <span class="cover__label">Yangtso</span>
-          <span class="cover__desc">{y.tagline} For children, learners and classrooms.</span>
-          <span class="cover__cta cover__cta--chalk">Meet Yangtso <span class="arrow">→</span></span>
+          <div class="cover__meta-main">
+            <span class="cover__label">Yangtso</span>
+            <span class="cover__desc">{y.tagline} For children, learners and classrooms.</span>
+            <span class="cover__cta cover__cta--chalk">Meet Yangtso <span class="arrow">→</span></span>
+          </div>
+          <dl class="cover__credits">
+            {coverCredits.map((c) => (
+              <>
+                <dt>{c.role}</dt>
+                <dd>{c.name}</dd>
+              </>
+            ))}
+          </dl>
         </div>
       </div>
     </a>
@@ -62,9 +73,19 @@ const duoChips = [
         <span class="sheet__drop sheet__drop--2" aria-hidden="true"></span>
         <span class="sheet__seal bo-pema" lang="bo" aria-hidden="true">{p.nameBo}</span>
         <div class="cover__meta">
-          <span class="cover__label">Pema</span>
-          <span class="cover__desc">{p.tagline} For titles, covers and prayer cards.</span>
-          <span class="cover__cta cover__cta--ink">Meet Pema <span class="arrow">→</span></span>
+          <div class="cover__meta-main">
+            <span class="cover__label">Pema</span>
+            <span class="cover__desc">{p.tagline} For titles, covers and prayer cards.</span>
+            <span class="cover__cta cover__cta--ink">Meet Pema <span class="arrow">→</span></span>
+          </div>
+          <dl class="cover__credits">
+            {coverCredits.map((c) => (
+              <>
+                <dt>{c.role}</dt>
+                <dd>{c.name}</dd>
+              </>
+            ))}
+          </dl>
         </div>
       </div>
     </a>
@@ -418,8 +439,55 @@ const duoChips = [
     right: clamp(1.5rem, 4vw, 3rem);
     bottom: clamp(1.5rem, 4vw, 3rem);
     display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem 2rem;
+    align-items: end;
+  }
+  .cover__meta-main {
+    display: grid;
     gap: 0.35rem;
     justify-items: start;
+    min-width: 0;
+  }
+  .cover__credits {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.25rem 0.9rem;
+    align-content: end;
+    justify-self: end;
+    padding-bottom: 0.4rem;
+  }
+  .cover__credits dt {
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    white-space: nowrap;
+  }
+  .cover__credits dd {
+    font-size: var(--step--1);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  @media (max-width: 1100px) and (min-width: 861px) {
+    .cover__credits {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .cover__credits dt {
+      margin-top: 0.4rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .cover__meta {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .cover__credits {
+      justify-self: start;
+      padding-bottom: 0;
+    }
   }
   .cover__label {
     font-family: var(--font-display);

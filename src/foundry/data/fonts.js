@@ -7,7 +7,7 @@
 
 export const CREDITS = [
   { role: 'Font Designer', name: 'Thupten Chakrishar', href: 'https://chakrishar.com' },
-  { role: 'Calligraphy Advisor', name: 'Jamyang Chakrishar', note: 'Tibetan Calligrapher' },
+  { role: 'Calligraphy Advisor', name: 'Jamyang Dorjee Chakrishar', note: 'Tibetan Calligrapher' },
   { role: 'Script Consultant', name: 'Sonam Tsering', note: 'Director, Tibetan Language Program, Columbia University' },
   { role: 'Published by', name: 'Terma Heritage Foundation' },
 ];
