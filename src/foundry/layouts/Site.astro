@@ -1,0 +1,189 @@
+---
+/*
+  The shell shared by every page of the new site: head, review ribbon, floating nav,
+  footer with credits. Nothing here references the old site.
+*/
+import '../styles/base.css';
+import { BASE, SITE_NAME, BUILD, paths } from '../config.js';
+import { FONTS, fontFaceCss } from '../data/fonts.js';
+
+interface Props {
+  title: string;
+  description?: string;
+  bodyClass?: string;
+  preload?: string[];
+  chrome?: boolean;
+}
+
+const {
+  title,
+  description = `${SITE_NAME}: Yangtso and Pema, two Tibetan typefaces in development. A private review build.`,
+  bodyClass = '',
+  preload = [],
+  chrome = true,
+} = Astro.props;
+
+const path = Astro.url.pathname;
+const current = (href: string) => path === href || path === href.replace(/\/$/, '');
+const fontCss = fontFaceCss(BASE);
+const fontUrl = (file: string) => `${paths.fonts}/${file}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · {SITE_NAME}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#f7f7f4" />
+    <link rel="icon" href={`${BASE}/favicon.svg`} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    {preload.map((file) => <link rel="preload" as="font" type="font/woff2" href={fontUrl(file)} crossorigin />)}
+    <style is:inline set:html={fontCss}></style>
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem('foundry.theme');
+          if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.dataset.theme = t;
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
+  </head>
+  <body class={bodyClass}>
+    <a class="skip" href="#main">Skip to content</a>
+
+    {
+      chrome && (
+        <>
+          <div class="ribbon" role="note">
+            <span class="ribbon__dot" aria-hidden="true" />
+            <span>
+              <strong>Private review build v{BUILD.version}</strong> · Yangtso and Pema are unreleased and still in development ·
+              shared with a few reviewers · {BUILD.dateHuman}
+            </span>
+          </div>
+          <div class="nav-wrap">
+            <header class="site-header">
+              <a class="wordmark" href={paths.home} aria-label={`${SITE_NAME} home`}>
+                <span class="wordmark__mark" aria-hidden="true" />
+                <span class="wordmark__text">
+                  Terma <em>Foundry</em>
+                </span>
+              </a>
+              <nav class="site-nav" aria-label="Primary">
+                <a href={paths.yangtso} aria-current={current(paths.yangtso) ? 'page' : undefined}>
+                  Yangtso
+                </a>
+                <a href={paths.pema} aria-current={current(paths.pema) ? 'page' : undefined}>
+                  Pema
+                </a>
+                <a href={paths.studio} class="site-nav__cta" aria-current={current(paths.studio) ? 'page' : undefined}>
+                  Studio
+                </a>
+                <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle dark mode">
+                  <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="4" />
+                    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" />
+                  </svg>
+                  <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+                  </svg>
+                </button>
+              </nav>
+            </header>
+          </div>
+        </>
+      )
+    }
+
+    <main id="main">
+      <slot />
+    </main>
+
+    {
+      chrome && (
+        <footer class="site-footer">
+          <div class="container">
+            <div class="site-footer__grid">
+              <div>
+                <a class="wordmark" href={paths.home}>
+                  <span class="wordmark__mark" aria-hidden="true" />
+                  <span>
+                    Terma <em>Foundry</em>
+                  </span>
+                </a>
+                <p class="site-footer__blurb">A Tibetan type foundry. Typefaces drawn by hand, for the readers no font has served yet.</p>
+              </div>
+              <div class="site-footer__fonts">
+                <a href={paths.yangtso} class="site-footer__font">
+                  <span class="bo-yangtso" lang="bo">{FONTS.yangtso.nameBo}</span>
+                  <small>Yangtso · {FONTS.yangtso.short}</small>
+                </a>
+                <a href={paths.pema} class="site-footer__font">
+                  <span class="bo-pema" lang="bo">{FONTS.pema.nameBo}</span>
+                  <small>Pema · {FONTS.pema.short}</small>
+                </a>
+              </div>
+            </div>
+            <div class="site-footer__meta">
+              <span>
+                {BUILD.label} · {BUILD.dateHuman}
+              </span>
+              <span>Fonts are under development and not for production use</span>
+              <span>© {new Date().getFullYear()} {SITE_NAME}</span>
+            </div>
+          </div>
+        </footer>
+      )
+    }
+
+    <script>
+      // Theme toggle
+      document.querySelectorAll('[data-theme-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const root = document.documentElement;
+          const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem('foundry.theme', next);
+          } catch (e) {
+            /* ignore */
+          }
+        });
+      });
+
+      // Reveal on scroll
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add('in-view');
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.06, rootMargin: '0px 0px -6% 0px' },
+      );
+      document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+      // Ink-in once the Tibetan webfonts have arrived
+      const ready = () => document.documentElement.classList.add('fonts-ready');
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(ready);
+        setTimeout(ready, 2500);
+      } else {
+        ready();
+      }
+    </script>
+  </body>
+</html>

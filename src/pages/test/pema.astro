@@ -1,0 +1,645 @@
+---
+import Site from '../../foundry/layouts/Site.astro';
+import Filters from '../../foundry/components/Filters.astro';
+import Tryout from '../../foundry/components/Tryout.astro';
+import Details from '../../foundry/components/Details.astro';
+import Credits from '../../foundry/components/Credits.astro';
+import Wip from '../../foundry/components/Wip.astro';
+import { paths } from '../../foundry/config.js';
+import { FONTS, TEXT, SAMPLES } from '../../foundry/data/fonts.js';
+
+const font = FONTS.pema;
+const sample = SAMPLES.pema;
+const verseLines = sample.text.split('\n');
+const studioHref = `${paths.studio}?font=pema&sample=pema`;
+
+const styles = [
+  {
+    id: 'fx-sumi-style',
+    label: 'Sumi ink',
+    blurb: 'Dense black on white paper. The edges break like a brush, the dry hairs leave streaks, and a faint bleed sits under it all. Pema as calligraphy.',
+    text: font.nameBo,
+    css: `background: #fcfbf8; /* white paper */\ncolor: #0a0908;\nfilter: url(#fx-sumi); /* SVG: displacement + dry streaks + bleed */`,
+  },
+  {
+    id: 'fx-ink',
+    label: 'Ink on paper',
+    blurb: 'Black ink with a soft bleed at the edge of every stroke, on a cream sheet with a little tooth.',
+    text: TEXT.tashi,
+    css: `background: #f3ecdc; /* + an SVG grain */\ncolor: #141112;\nfilter: url(#fx-wetink);`,
+  },
+  {
+    id: 'fx-redink',
+    label: 'Red ink',
+    blurb: 'The same brush dipped in vermilion, the colour of a heading in a text.',
+    text: TEXT.tashi,
+    css: `background: #fcfbf8;\ncolor: #c9331a;\nfilter: url(#fx-wetink-red);`,
+  },
+  {
+    id: 'fx-seal',
+    label: 'Vermilion seal',
+    blurb: 'Cream letters on cinnabar red, boxed like a seal impression.',
+    text: TEXT.bodyig,
+    css: `background: #d1361b;\ncolor: #f3ecdc;\nborder: 3px solid rgba(243,236,220,.55); border-radius: 6px;\ntext-shadow: 0 2px 0 rgba(0,0,0,.25);`,
+  },
+  {
+    id: 'fx-drybrush-style',
+    label: 'Dry brush',
+    blurb: 'A stronger displacement, as if the brush had almost run out of ink.',
+    text: TEXT.kaKhaGaNga,
+    css: `background: #fcfbf8;\ncolor: #0a0908;\nfilter: url(#fx-drybrush);`,
+  },
+  {
+    id: 'fx-woodblock-style',
+    label: 'Woodblock',
+    blurb: 'Red-brown ink, slightly swollen and uneven, the way a carved block prints.',
+    text: TEXT.bodyig,
+    css: `color: #8b2a13;\nfilter: url(#fx-woodblock); /* displacement + dilate + grain */`,
+  },
+];
+const tryStyles = styles.map((s) => ({ id: s.id, label: s.label }));
+
+const brush = [
+  { letter: 'ཀ', title: 'Lands', text: 'The brush touches down a little light, then presses full along the head line and ends firm.' },
+  { letter: 'ང', title: 'Presses', text: 'At every turn and corner the hand slows and presses, so the weight gathers where the stroke bends.' },
+  { letter: 'ཤ', title: 'Lifts', text: 'Down a leg the brush is full, then lifts to a point: the thin end of a stroke is the hand leaving the paper.' },
+];
+---
+
+<Site
+  title={`Pema ${font.nameBo}, a Tibetan typeface written with a brush`}
+  description="Pema (པདྨ): a Tibetan uchen typeface written with a calligraphy brush, for titles, covers, headings and prayer cards. In development, review build v0.1."
+  preload={['pema-regular.woff2']}
+  bodyClass="page-pema"
+>
+  <Filters />
+
+  <!-- ═══════════ HERO: sumi ink on white paper ═══════════ -->
+  <section class="phero paper-grain">
+    <div class="container phero__in">
+      <div class="phero__art reveal">
+        <div class="sheet">
+          <div class="sheet__name bo-pema ink-in" lang="bo">{font.nameBo}</div>
+          <span class="sheet__drop sheet__drop--1" aria-hidden="true"></span>
+          <span class="sheet__drop sheet__drop--2" aria-hidden="true"></span>
+          <span class="sheet__seal bo-pema" lang="bo" aria-hidden="true">{font.nameBo}</span>
+        </div>
+      </div>
+      <div class="phero__text">
+        <div class="flex reveal">
+          <span class="pill pill--wip">In development · v0.1</span>
+          <span class="pill">Titles · Covers · Prayer cards</span>
+        </div>
+        <h1 class="display display--xl reveal reveal-d1">Pema</h1>
+        <p class="namebo reveal reveal-d1">
+          <span class="bo-pema" lang="bo">{font.nameBo}</span>
+          <span class="namebo__wy">{font.nameWylie}</span>
+        </p>
+        <p class="lede reveal reveal-d2">{font.tagline}</p>
+        <p class="prose reveal reveal-d3">{font.intro[0]}</p>
+        <div class="flex reveal reveal-d4">
+          <a class="btn btn-primary btn-lg" href="#try">Try Pema <span class="arrow">→</span></a>
+          <a class="btn btn-outline btn-lg" href={studioHref}>Open the verse in the Studio</a>
+        </div>
+      </div>
+    </div>
+    <div class="container weights reveal">
+      {
+        font.weights.map((w) => (
+          <div class="weight">
+            <div class="weight__sample bo-pema" lang="bo" style={`font-weight:${w.css}`}>
+              {TEXT.bodyig}
+            </div>
+            <div class="weight__meta">
+              <strong>{w.name}</strong>
+              <span>
+                brush {w.stroke} · {w.note}
+              </span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container"><Wip name="Pema" /></div>
+  </section>
+
+  <!-- ═══════════ TRY ═══════════ -->
+  <section class="section" id="try">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Try it</span>
+        <h2 class="display display--md">Set a title. <em>Watch the brush.</em></h2>
+        <p class="lede">
+          Pema is meant for display sizes: start large, in Regular. Type Wylie or paste Tibetan, then use the font size slider
+          and the ink styles from below.
+        </p>
+      </div>
+      <div class="reveal"><Tryout font={font} text={TEXT.tashi} size={96} leading={2} styles={tryStyles} /></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ THE BRUSH ═══════════ -->
+  <section class="section brush">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The brush</span>
+        <h2 class="display display--lg">Thick where the hand presses, <em>thin where it leaves.</em></h2>
+        <p class="lede">{font.intro[1]}</p>
+      </div>
+      <div class="brush__grid">
+        {
+          brush.map((b, i) => (
+            <div class={`brush__card reveal reveal-d${i + 1}`}>
+              <div class="brush__paper paper-grain">
+                <div class="brush__letter bo-pema" lang="bo">
+                  {b.letter}
+                </div>
+              </div>
+              <div>
+                <strong>{b.title}</strong>
+                <p>{b.text}</p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ THE INK ROOM ═══════════ -->
+  <section class="section inkroom" id="styles">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The ink room</span>
+        <h2 class="display display--lg">Six ways to <em>put it on a page.</em></h2>
+        <p class="lede">
+          Pema carries the thick and thin of a brush, so it wants treatments that respect an edge: sumi ink, ink on paper, red
+          ink, a seal, a dry brush, a woodblock. All of these are CSS and SVG filters on the live webfont, in Regular. Open the
+          CSS on any card.
+        </p>
+      </div>
+      <div class="styles-grid">
+        {
+          styles.map((s, i) => (
+            <article class={`style-card ${s.id} reveal reveal-d${(i % 3) + 1}`}>
+              <div class="style-card__stage fx-stage">
+                <div class="fx-text bo-pema" lang="bo">
+                  {s.text}
+                </div>
+              </div>
+              <div class="style-card__foot">
+                <div>
+                  <strong>{s.label}</strong>
+                  <p>{s.blurb}</p>
+                </div>
+                <details>
+                  <summary>CSS</summary>
+                  <pre><code>{s.css}</code></pre>
+                </details>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ A PAGE ═══════════ -->
+  <section class="section page-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">A page</span>
+        <h2 class="display display--md">{sample.note.split('.')[0]}.</h2>
+        <p class="lede">
+          The review passage for Pema, set line by line as verse, black on white. Pema is judged at display sizes; read it for
+          the shape of the letters and the rhythm of the line.
+        </p>
+      </div>
+      <div class="sheetpage reveal">
+        <div class="sheetpage__page paper-grain">
+          {verseLines.map((line) => <p class="sheetpage__line bo-pema" lang="bo">{line}</p>)}
+          <div class="sheetpage__folio">
+            <span>Pema Regular · 30 px · line spacing 2.1</span>
+            <span lang="bo" class="bo-pema">༡</span>
+          </div>
+        </div>
+        <div class="sheetpage__actions">
+          <a class="btn btn-primary" href={studioHref}>Open this verse in the Studio <span class="arrow">→</span></a>
+          <span class="small muted">Make it larger there, in any weight.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Details font={font} />
+  <Credits font={font} />
+</Site>
+
+<style is:global>
+  /* ---- Ink-room styles: shared by the tester (`.tryout.fx-*`) and the style cards ---- */
+  .fx-sumi-style .fx-stage,
+  .fx-redink .fx-stage,
+  .fx-drybrush-style .fx-stage {
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),
+      #fcfbf8;
+  }
+  .fx-sumi-style .fx-text {
+    color: #0a0908;
+    filter: url(#fx-sumi);
+  }
+  .fx-ink .fx-stage {
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),
+      #f3ecdc;
+  }
+  .fx-ink .fx-text {
+    color: #141112;
+    filter: url(#fx-wetink);
+  }
+  .fx-redink .fx-text {
+    color: #c9331a;
+    filter: url(#fx-wetink-red);
+  }
+  .fx-seal .fx-stage {
+    background: radial-gradient(70% 60% at 50% 40%, #e24a2a, #c22f16 80%);
+  }
+  .fx-seal .fx-text {
+    color: #f3ecdc;
+    padding: 0.05em 0.45em;
+    border: 3px solid rgba(243, 236, 220, 0.55);
+    border-radius: 6px;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+  }
+  .fx-drybrush-style .fx-text {
+    color: #0a0908;
+    filter: url(#fx-drybrush);
+  }
+  .fx-woodblock-style .fx-stage {
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"),
+      #efe4cc;
+  }
+  .fx-woodblock-style .fx-text {
+    color: #8b2a13;
+    filter: url(#fx-woodblock);
+  }
+  .tryout--pema {
+    --tr-accent: #c9331a;
+  }
+</style>
+
+<style>
+  /* ---------- Hero: white paper in every theme ---------- */
+  .phero {
+    --fg: #0a0908;
+    --fg-2: #3a3634;
+    --fg-3: #7a736d;
+    --accent: #c9331a;
+    --bg: #fcfbf8;
+    --bg-2: #ffffff;
+    --line: rgba(10, 9, 8, 0.1);
+    --line-2: rgba(10, 9, 8, 0.22);
+    position: relative;
+    color: var(--fg);
+    background: #fcfbf8;
+    padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 5vw, 4rem);
+    overflow: hidden;
+    border-radius: 0;
+  }
+  .phero::before {
+    opacity: 0.35;
+  }
+  .phero__in {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 3rem;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .phero__in {
+      grid-template-columns: 1fr;
+    }
+    .phero__art {
+      order: 2;
+    }
+  }
+  .phero__text {
+    display: grid;
+    gap: 1.1rem;
+    justify-items: start;
+  }
+  .phero .btn-primary {
+    background: #0a0908;
+    color: #fcfbf8;
+  }
+  .phero .btn-outline {
+    background: rgba(255, 255, 255, 0.5);
+  }
+  .phero .pill {
+    background: rgba(255, 255, 255, 0.6);
+  }
+  .namebo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.25rem 0.9rem 0.25rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--fg);
+  }
+  .namebo span[lang='bo'] {
+    font-size: 1.35rem;
+    line-height: 1.9;
+  }
+  .namebo__wy {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    color: var(--fg-3);
+    padding-left: 0.7rem;
+    border-left: 1px solid var(--line-2);
+  }
+  .sheet {
+    position: relative;
+    min-height: 420px;
+    display: grid;
+    place-items: center;
+    padding: 2rem;
+    overflow: hidden;
+  }
+  .sheet__name {
+    position: relative;
+    z-index: 2;
+    font-size: clamp(7rem, 15vw, 15rem);
+    font-weight: 400;
+    line-height: 1.9;
+    color: #0a0908;
+    filter: url(#fx-sumi);
+  }
+  .sheet__drop {
+    position: absolute;
+    z-index: 2;
+    border-radius: 50%;
+    background: #0a0908;
+    filter: url(#fx-wetink);
+    opacity: 0.85;
+  }
+  .sheet__drop--1 { width: 9px; height: 9px; left: 24%; top: 30%; }
+  .sheet__drop--2 { width: 5px; height: 5px; left: 27%; top: 27%; }
+  .sheet__seal {
+    position: absolute;
+    z-index: 2;
+    right: 12%;
+    bottom: 14%;
+    width: 68px;
+    height: 68px;
+    display: grid;
+    place-items: center;
+    padding-top: 6px;
+    background: #c9331a;
+    color: #fcfbf8;
+    font-size: 1.35rem;
+    line-height: 1;
+    border-radius: 5px;
+    box-shadow:
+      inset 0 0 0 3px #fcfbf8,
+      inset 0 0 0 5px #c9331a,
+      0 6px 16px -8px rgba(201, 51, 26, 0.6);
+    opacity: 0.94;
+    transform: rotate(-6deg);
+    filter: url(#fx-woodblock);
+  }
+  .weights {
+    position: relative;
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  @media (max-width: 720px) {
+    .weights {
+      grid-template-columns: 1fr;
+    }
+  }
+  .weight {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.9rem 1.2rem;
+    border-radius: var(--r);
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid var(--line);
+  }
+  .weight__sample {
+    font-size: 2.3rem;
+    line-height: 2;
+    color: #0a0908;
+  }
+  .weight__meta {
+    display: grid;
+    font-size: var(--step--2);
+    color: var(--fg-3);
+  }
+  .weight__meta strong {
+    color: var(--fg);
+    font-size: var(--step--1);
+  }
+
+  /* ---------- The brush ---------- */
+  .brush__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  @media (max-width: 860px) {
+    .brush__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .brush__card {
+    border-radius: var(--r-lg);
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    padding: 1.5rem;
+    display: grid;
+    gap: 1rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .brush__paper {
+    background: #fcfbf8;
+    border-radius: 18px;
+    padding: 1.5rem 1rem;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .brush__paper::before {
+    opacity: 0.35;
+  }
+  .brush__letter {
+    font-size: 7.5rem;
+    line-height: 2;
+    text-align: center;
+    color: #0a0908;
+    filter: url(#fx-sumi);
+  }
+  .brush__card strong {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--fg);
+  }
+  .brush__card p {
+    margin-top: 0.3rem;
+    font-size: var(--step--1);
+    color: var(--fg-2);
+    line-height: 1.6;
+  }
+
+  /* ---------- Ink room ---------- */
+  .inkroom {
+    background: color-mix(in oklab, var(--bg-3) 55%, var(--bg));
+  }
+  .styles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  @media (max-width: 1000px) {
+    .styles-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 620px) {
+    .styles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .style-card {
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .style-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+  }
+  .style-card__stage {
+    min-height: 260px;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1.5rem;
+    overflow: hidden;
+  }
+  .style-card__stage .fx-text {
+    font-size: clamp(2.4rem, 3.6vw, 3.4rem);
+    font-weight: 400;
+    line-height: 2;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .style-card__foot {
+    padding: 1rem 1.2rem 1.1rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .style-card__foot strong {
+    display: block;
+    font-size: var(--step-0);
+    color: var(--fg);
+  }
+  .style-card__foot p {
+    margin-top: 0.25rem;
+    font-size: var(--step--1);
+    color: var(--fg-3);
+    line-height: 1.5;
+  }
+  .style-card__foot details summary {
+    cursor: pointer;
+    font-size: var(--step--2);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .style-card__foot details summary::-webkit-details-marker {
+    display: none;
+  }
+  .style-card__foot details summary::before {
+    content: '{ }';
+    font-family: var(--font-mono);
+    letter-spacing: 0;
+  }
+  .style-card__foot pre {
+    margin-top: 0.6rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 12px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    line-height: 1.6;
+    color: var(--fg-2);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* ---------- A page ---------- */
+  .sheetpage {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: center;
+  }
+  .sheetpage__page {
+    position: relative;
+    width: min(820px, 100%);
+    padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem) 1.5rem;
+    border-radius: 6px;
+    background: #fcfbf8;
+    color: #0a0908;
+    box-shadow: var(--shadow-lg);
+    border-top: 6px solid #c9331a;
+  }
+  .sheetpage__page::before {
+    opacity: 0.35;
+  }
+  .sheetpage__line {
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 2.1;
+    filter: url(#fx-wetink);
+  }
+  .sheetpage__folio {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(10, 9, 8, 0.12);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--step--2);
+    color: rgba(10, 9, 8, 0.55);
+    font-family: var(--font-mono);
+  }
+  .sheetpage__folio span[lang='bo'] {
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+  .sheetpage__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

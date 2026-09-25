@@ -1,0 +1,25 @@
+---
+/* The explicit "not ready" notice for a font page. */
+import { BUILD } from '../config.js';
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+---
+
+<div class="wip reveal" role="note">
+  <div class="wip__icon" aria-hidden="true">!</div>
+  <div>
+    <h3>{name} is not finished. Please treat everything on this page as work in progress.</h3>
+    <p>
+      This is {BUILD.label.toLowerCase()}, exported on {BUILD.dateHuman}, and it is shared privately so that a few reviewers can
+      look closely before the design goes further. The outlines are unhinted, the character set is deliberately limited, some
+      stacks are known to be wrong, and any of it may change. Do not use {name} in anything real yet.
+    </p>
+    <ul>
+      <li>What helps most: letterforms that read wrong, stacks that sit wrong, vowel signs out of place, spacing that feels off, weights that do not balance.</li>
+      <li>Use the Writing Studio to type or paste any passage, and note what you see.</li>
+      <li>Send your notes to Thupten Chakrishar by replying to the message that brought you here.</li>
+    </ul>
+  </div>
+</div>
