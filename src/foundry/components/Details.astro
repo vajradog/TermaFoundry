@@ -1,0 +1,222 @@
+---
+/* The specification block of a font page: numbers, coverage, weights, build notes, known issues. */
+import { TEXT } from '../data/fonts.js';
+import { BUILD } from '../config.js';
+interface Props {
+  font: any;
+}
+const { font } = Astro.props;
+---
+
+<section class="section" id="details">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Details</span>
+      <h2 class="display display--md">What is in {font.name}, <em>and what is not.</em></h2>
+      <p class="lede">
+        {font.name} covers everyday Tibetan and the common mantras. It is a first review build: the numbers below describe
+        exactly this version, {BUILD.label.toLowerCase()} of {BUILD.dateHuman}.
+      </p>
+    </div>
+
+    <div class="numbers reveal">
+      {
+        font.numbers.map((s: any) => (
+          <div class="stat">
+            <div class="stat__n">{s.n}</div>
+            <div class="stat__l">{s.label}</div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="details-grid">
+      <article class="card card--pad reveal">
+        <h3 class="dh">In the font</h3>
+        <ul class="dl">
+          {font.coverage.map((c: string) => <li>{c}</li>)}
+        </ul>
+      </article>
+
+      <article class="card card--pad reveal reveal-d1">
+        <h3 class="dh">Left out, on purpose</h3>
+        <p class="dp">{font.notSanskrit}</p>
+        <p class="dp">{font.leftOut}</p>
+      </article>
+
+      <article class="card card--pad reveal">
+        <h3 class="dh">Weights</h3>
+        <table class="wt">
+          <thead>
+            <tr>
+              <th>Weight</th>
+              <th>{font.weightUnit}</th>
+              <th>Sample</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              font.weights.map((w: any) => (
+                <tr>
+                  <td>
+                    <strong>{w.name}</strong>
+                    <span class="wt__note">{w.note}</span>
+                  </td>
+                  <td class="tnum">{w.stroke}</td>
+                  <td>
+                    <span class={`wt__sample bo-${font.id}`} lang="bo" style={`font-weight:${w.css}`}>
+                      {TEXT.bodyig}
+                    </span>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p class="dp small">{font.weightNotes}</p>
+      </article>
+
+      <article class="card card--pad reveal reveal-d1">
+        <h3 class="dh">About this build</h3>
+        <ul class="dl">
+          {font.build.map((b: string) => <li>{b}</li>)}
+        </ul>
+        <h4 class="dh dh--sub">Known issues</h4>
+        <ul class="dl dl--issues">
+          {font.knownIssues.map((k: string) => <li>{k}</li>)}
+        </ul>
+      </article>
+
+      <article class="card card--pad reveal">
+        <h3 class="dh">Made for</h3>
+        <ul class="dl dl--plain">
+          {font.uses.map((u: string) => <li>{u}</li>)}
+        </ul>
+      </article>
+
+      <article class="card card--pad reveal reveal-d1">
+        <h3 class="dh">Format and licence</h3>
+        <ul class="dl dl--plain">
+          <li>Review files: TrueType (.ttf), three static weights. This site serves them as WOFF2.</li>
+          <li>OpenType: stacks by substitution, vowel signs by anchors, kerning.</li>
+          <li>Character set: the Tibetan block, everyday Tibetan and the common mantras. No Latin: pair it with a Latin face of your choice.</li>
+          <li>Licence: not yet released. The intention is a free, open licence once the fonts are ready.</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .numbers {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  @media (max-width: 1000px) {
+    .numbers {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 560px) {
+    .numbers {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+  @media (max-width: 860px) {
+    .details-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .dh {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1.1;
+    color: var(--fg);
+    margin-bottom: 1rem;
+  }
+  .dh--sub {
+    font-size: var(--step-1);
+    margin-top: 1.5rem;
+    color: var(--fg-2);
+  }
+  .dl {
+    display: grid;
+    gap: 0.7rem;
+    color: var(--fg-2);
+    font-size: var(--step--1);
+    line-height: 1.65;
+  }
+  .dl li {
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .dl li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .dl--issues li::before {
+    background: var(--saffron);
+  }
+  .dl--plain li::before {
+    background: var(--fg-4);
+  }
+  .dp {
+    color: var(--fg-2);
+    font-size: var(--step--1);
+    line-height: 1.65;
+  }
+  .dp + .dp {
+    margin-top: 0.8rem;
+  }
+  .wt {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step--1);
+  }
+  .wt th {
+    text-align: left;
+    font-size: var(--step--2);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    padding: 0 0.5rem 0.6rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .wt td {
+    padding: 0.7rem 0.5rem 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+    color: var(--fg-2);
+  }
+  .wt td strong {
+    color: var(--fg);
+    display: block;
+  }
+  .wt__note {
+    font-size: var(--step--2);
+    color: var(--fg-3);
+  }
+  .wt__sample {
+    font-size: 1.9rem;
+    line-height: 2;
+    color: var(--fg);
+    white-space: nowrap;
+  }
+  .wt + .dp {
+    margin-top: 1rem;
+  }
+</style>

@@ -1,0 +1,738 @@
+---
+import Site from '../../foundry/layouts/Site.astro';
+import Filters from '../../foundry/components/Filters.astro';
+import Tryout from '../../foundry/components/Tryout.astro';
+import Details from '../../foundry/components/Details.astro';
+import Credits from '../../foundry/components/Credits.astro';
+import Wip from '../../foundry/components/Wip.astro';
+import { paths } from '../../foundry/config.js';
+import { FONTS, TEXT, SAMPLES } from '../../foundry/data/fonts.js';
+
+const font = FONTS.yangtso;
+const sample = SAMPLES.yangtso;
+const studioHref = `${paths.studio}?font=yangtso&sample=yangtso`;
+
+const styles = [
+  {
+    id: 'fx-chalkboard',
+    label: 'Chalkboard',
+    blurb: 'Dusty strokes on green. The classroom, where Yangtso is meant to live.',
+    text: font.nameBo,
+    css: `background: #1f4a38; /* the board */\ncolor: #f8f6ee;\nfilter: url(#fx-chalk); /* speckle mask + a touch of blur */`,
+  },
+  {
+    id: 'fx-sticker-style',
+    label: 'Sticker',
+    blurb: 'A thick white die-cut outline and a soft shadow. Letters on a lunchbox.',
+    text: TEXT.kaKhaGaNga,
+    css: `color: #ff6b6b;\nfilter: url(#fx-sticker); /* SVG: feMorphology dilate + white flood */`,
+  },
+  {
+    id: 'fx-balloon',
+    label: 'Balloon',
+    blurb: 'Stacked shadows turn the round stroke into a puffy, three-dimensional letter.',
+    text: TEXT.tashi,
+    css: `color: #ffcc33;\ntext-shadow: 0 1px 0 #e8b400, 0 2px 0 #dcaa00, 0 3px 0 #cf9f00,\n  0 4px 0 #c29500, 0 5px 0 #b48a00, 0 12px 20px rgba(30,27,75,.28);`,
+  },
+  {
+    id: 'fx-rainbow',
+    label: 'Rainbow crayon',
+    blurb: 'A gradient clipped to the letters, roughened by a grain filter so it reads like wax on paper.',
+    text: 'ཀ་ཁ་ག་ང་ཅ་ཆ་ཇ་ཉ',
+    css: `background: linear-gradient(90deg,#ff6b6b,#ffcc33,#34d399,#38bdf8,#a78bfa,#ff8fab);\n-webkit-background-clip: text; background-clip: text; color: transparent;\nfilter: url(#fx-chalk);`,
+  },
+  {
+    id: 'fx-trace',
+    label: 'Trace me',
+    blurb: 'Hollow letters on ruled paper: a worksheet a child can trace with a pencil.',
+    text: TEXT.kaKhaGaNga,
+    css: `color: rgba(30,27,75,.06);\n-webkit-text-stroke: 1.5px #7c7c88;\npaint-order: stroke fill;\n/* stage: repeating-linear-gradient for the ruling */`,
+  },
+  {
+    id: 'fx-candy',
+    label: 'Candy stripes',
+    blurb: 'Diagonal stripes clipped inside the strokes, with a small sticker outline to hold them.',
+    text: TEXT.bodyig,
+    css: `background: repeating-linear-gradient(135deg,#ff6b6b 0 10px,#fff 10px 20px);\n-webkit-background-clip: text; background-clip: text; color: transparent;\nfilter: url(#fx-sticker-sm);`,
+  },
+];
+const tryStyles = styles.map((s) => ({ id: s.id, label: s.label }));
+const vowelDemo = ['ཀ', 'ཀི', 'ཀུ', 'ཀེ', 'ཀོ'];
+const vowelLabels = ['ka', 'ki', 'ku', 'ke', 'ko'];
+---
+
+<Site
+  title={`Yangtso ${font.nameBo}, a Tibetan typeface for children`}
+  description="Yangtso (དབྱངས་མཚོ): a Tibetan uchen typeface written with one round stroke, made for children, learners and classrooms. In development, review build v0.1."
+  preload={['yangtso-regular.woff2']}
+  bodyClass="page-yangtso"
+>
+  <Filters />
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="yhero">
+    <div class="yhero__bg" aria-hidden="true"></div>
+    <div class="container yhero__in">
+      <div class="yhero__text">
+        <div class="flex reveal">
+          <span class="pill pill--wip">In development · v0.1</span>
+          <span class="pill">Children · Learners · Classrooms</span>
+        </div>
+        <h1 class="display display--xl reveal reveal-d1">Yangtso</h1>
+        <p class="namebo reveal reveal-d1">
+          <span class="bo-yangtso" lang="bo">{font.nameBo}</span>
+          <span class="namebo__wy">{font.nameWylie}</span>
+        </p>
+        <p class="lede reveal reveal-d2">{font.tagline}</p>
+        <p class="prose reveal reveal-d3">{font.intro[0]}</p>
+        <div class="flex reveal reveal-d4">
+          <a class="btn btn-primary btn-lg" href="#try">Try Yangtso <span class="arrow">→</span></a>
+          <a class="btn btn-outline btn-lg" href={studioHref}>Open the passage in the Studio</a>
+        </div>
+      </div>
+      <div class="yhero__art reveal reveal-d2">
+        <div class="board">
+          <div class="board__frame" aria-hidden="true"></div>
+          <span class="doodle doodle--1 chalk chalk--lemon bo-yangtso" lang="bo" aria-hidden="true">{TEXT.kaKhaGaNga}</span>
+          <span class="doodle doodle--2 chalk chalk--pink bo-yangtso" lang="bo" aria-hidden="true">༡ ༢ ༣</span>
+          <span class="doodle doodle--3 chalk chalk--sky bo-yangtso" lang="bo" aria-hidden="true">ཀི་ཀུ་ཀེ་ཀོ</span>
+          <svg class="doodle doodle--star chalk" viewBox="0 0 64 64" aria-hidden="true">
+            <path d="M32 6l7.6 16.4 17.9 2.1-13.2 12.3 3.5 17.7L32 45.7l-15.8 8.8 3.5-17.7L6.5 24.5l17.9-2.1z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+          </svg>
+          <div class="board__center">
+            <div class="board__name chalk bo-yangtso ink-in" lang="bo">{font.nameBo}</div>
+            <svg class="board__underline chalk" viewBox="0 0 400 24" aria-hidden="true" preserveAspectRatio="none">
+              <path d="M4 14 C 80 4, 160 22, 240 10 S 360 6, 396 14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container weights reveal">
+      {
+        font.weights.map((w) => (
+          <div class="weight">
+            <div class="weight__sample bo-yangtso" lang="bo" style={`font-weight:${w.css}`}>
+              {TEXT.bodyig}
+            </div>
+            <div class="weight__meta">
+              <strong>{w.name}</strong>
+              <span>
+                stroke {w.stroke} · {w.note}
+              </span>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="container"><Wip name="Yangtso" /></div>
+  </section>
+
+  <!-- ═══════════ TRY ═══════════ -->
+  <section class="section" id="try">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Try it</span>
+        <h2 class="display display--md">Type something. <em>Make it cute.</em></h2>
+        <p class="lede">Wylie or Tibetan, three weights (Regular is the one to judge), any size, and the playroom styles from below.</p>
+      </div>
+      <div class="reveal"><Tryout font={font} text={TEXT.tashi} size={84} leading={1.8} styles={tryStyles} /></div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PLAYROOM ═══════════ -->
+  <section class="section playroom" id="styles">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The playroom</span>
+        <h2 class="display display--lg">One round stroke takes <em>every costume.</em></h2>
+        <p class="lede">
+          Because every stroke of Yangtso is the same width with round ends, it survives outlines, shadows, stripes and textures
+          that would break a calligraphic face. All of these are plain CSS on the live webfont, in the Regular weight. Open the
+          CSS on any card.
+        </p>
+      </div>
+      <div class="styles-grid">
+        {
+          styles.map((s, i) => (
+            <article class={`style-card ${s.id} reveal reveal-d${(i % 3) + 1}`}>
+              <div class="style-card__stage fx-stage">
+                <div class="fx-text bo-yangtso" lang="bo">
+                  {s.text}
+                </div>
+              </div>
+              <div class="style-card__foot">
+                <div>
+                  <strong>{s.label}</strong>
+                  <p>{s.blurb}</p>
+                </div>
+                <details>
+                  <summary>CSS</summary>
+                  <pre><code>{s.css}</code></pre>
+                </details>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ ALPHABET ═══════════ -->
+  <section class="section alphabet">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The letters</span>
+        <h2 class="display display--lg">Thirty letters, four vowels, <em>ten digits.</em></h2>
+        <p class="lede">A child's first page: the alphabet in Yangtso Regular, each tile with its Wylie name.</p>
+      </div>
+      <div class="tiles reveal">
+        {
+          TEXT.letters.map((l, i) => (
+            <div class={`tile tile--${i % 6}`}>
+              <span class="bo-yangtso" lang="bo">{l}</span>
+              <small>{TEXT.lettersWylie[i]}</small>
+            </div>
+          ))
+        }
+      </div>
+      <div class="rows">
+        <div class="row reveal">
+          <div class="row__label">Vowels</div>
+          <div class="row__items">
+            {
+              vowelDemo.map((v, i) => (
+                <div class="tile tile--wide tile--v">
+                  <span class="bo-yangtso" lang="bo">{v}</span>
+                  <small>{vowelLabels[i]}</small>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+        <div class="row reveal reveal-d1">
+          <div class="row__label">Digits</div>
+          <div class="row__items">
+            {
+              TEXT.digitList.map((d, i) => (
+                <div class="tile tile--sm tile--d">
+                  <span class="bo-yangtso" lang="bo">{d}</span>
+                  <small>{i}</small>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ READER PAGE ═══════════ -->
+  <section class="section reader">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">A page from a reader</span>
+        <h2 class="display display--md">{sample.note.split('.')[0]}.</h2>
+        <p class="lede">
+          Yangtso Regular at reading size, with the generous leading a child's book wants. This is the review passage for
+          Yangtso: read it slowly and note anything that looks wrong.
+        </p>
+      </div>
+      <div class="book reveal">
+        <div class="book__page">
+          <p class="book__text bo-yangtso" lang="bo">{sample.text}</p>
+          <div class="book__folio">
+            <span>Yangtso Regular · 30 px · leading 2.1</span>
+            <span class="bo-yangtso" lang="bo">༡</span>
+          </div>
+        </div>
+        <div class="book__actions">
+          <a class="btn btn-primary" href={studioHref}>Open this passage in the Studio <span class="arrow">→</span></a>
+          <span class="small muted">Change weight, size and leading there, or type your own.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Details font={font} />
+  <Credits font={font} />
+</Site>
+
+<style is:global>
+  /* ---- Playroom styles: shared by the tester (`.tryout.fx-*`) and the style cards ---- */
+  .fx-chalkboard .fx-stage {
+    background:
+      radial-gradient(80% 60% at 50% 40%, rgba(255, 255, 255, 0.07), transparent 70%),
+      #1f4a38;
+    box-shadow: inset 0 0 0 10px #8a5a2b;
+  }
+  .fx-chalkboard .fx-text {
+    color: #f8f6ee;
+    filter: url(#fx-chalk);
+  }
+  .fx-sticker-style .fx-stage {
+    background:
+      radial-gradient(60% 50% at 15% 15%, #fff3b0 0%, transparent 60%),
+      radial-gradient(50% 45% at 90% 25%, #ffd6e0 0%, transparent 60%),
+      radial-gradient(55% 45% at 70% 95%, #cdeffd 0%, transparent 60%),
+      #fffdf5;
+  }
+  .fx-sticker-style .fx-text {
+    color: #ff6b6b;
+    filter: url(#fx-sticker);
+  }
+  .fx-balloon .fx-stage {
+    background: linear-gradient(160deg, #e6f6ff, #fff0f5);
+  }
+  .fx-balloon .fx-text {
+    color: #ffcc33;
+    text-shadow:
+      0 1px 0 #e8b400,
+      0 2px 0 #dcaa00,
+      0 3px 0 #cf9f00,
+      0 4px 0 #c29500,
+      0 5px 0 #b48a00,
+      0 6px 0 #a67f00,
+      0 14px 22px rgba(30, 27, 75, 0.28);
+  }
+  .fx-rainbow .fx-stage {
+    background: #fffdf5;
+  }
+  .fx-rainbow .fx-text {
+    background: linear-gradient(90deg, #ff6b6b, #ffcc33, #34d399, #38bdf8, #a78bfa, #ff8fab);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: url(#fx-chalk);
+  }
+  .fx-trace .fx-stage {
+    background:
+      repeating-linear-gradient(0deg, transparent 0 34px, rgba(56, 189, 248, 0.45) 34px 35px),
+      #fffefb;
+  }
+  .fx-trace .fx-text {
+    color: rgba(30, 27, 75, 0.06);
+    -webkit-text-stroke: 1.5px #7c7c88;
+    paint-order: stroke fill;
+  }
+  .fx-candy .fx-stage {
+    background: linear-gradient(160deg, #fff7d6, #e6f6ff);
+  }
+  .fx-candy .fx-text {
+    background: repeating-linear-gradient(135deg, #ff6b6b 0 10px, #fff 10px 20px);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: url(#fx-sticker-sm);
+  }
+  .tryout--yangtso {
+    --tr-accent: #ff6b6b;
+  }
+</style>
+
+<style>
+  /* ---------- Hero ---------- */
+  .yhero {
+    position: relative;
+    padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 5vw, 4rem);
+    overflow: hidden;
+  }
+  .yhero__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(45% 50% at 85% 20%, rgba(255, 214, 224, 0.9), transparent 70%),
+      radial-gradient(40% 45% at 70% 80%, rgba(205, 239, 253, 0.9), transparent 70%),
+      radial-gradient(35% 40% at 10% 10%, rgba(255, 243, 176, 0.9), transparent 70%);
+  }
+  [data-theme='dark'] .yhero__bg {
+    opacity: 0.22;
+  }
+  .yhero__in {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 3rem;
+    align-items: center;
+  }
+  @media (max-width: 900px) {
+    .yhero__in {
+      grid-template-columns: 1fr;
+    }
+  }
+  .yhero__text {
+    display: grid;
+    gap: 1.1rem;
+    justify-items: start;
+  }
+  .namebo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.25rem 0.9rem 0.25rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    background: color-mix(in oklab, var(--bg-2) 70%, transparent);
+    color: var(--fg);
+  }
+  .namebo span[lang='bo'] {
+    font-size: 1.35rem;
+    line-height: 1.9;
+  }
+  .namebo__wy {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    color: var(--fg-3);
+    padding-left: 0.7rem;
+    border-left: 1px solid var(--line-2);
+  }
+  .yhero__art {
+    min-height: 380px;
+  }
+
+  /* the chalkboard */
+  .board {
+    position: relative;
+    height: 100%;
+    min-height: 420px;
+    display: grid;
+    place-items: center;
+    padding: 2.5rem;
+    overflow: hidden;
+    border-radius: 22px;
+    background:
+      radial-gradient(70% 60% at 50% 45%, rgba(255, 255, 255, 0.07), transparent 70%),
+      #1f4a38;
+    box-shadow: var(--shadow-lg);
+  }
+  .board__frame {
+    position: absolute;
+    inset: 0;
+    border: 12px solid #8a5a2b;
+    border-radius: 22px;
+    box-shadow:
+      inset 0 0 0 3px #5e3d1c,
+      inset 0 0 40px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+  }
+  .chalk {
+    color: #f8f6ee;
+    filter: url(#fx-chalk);
+  }
+  .chalk--lemon { color: #fff3b0; }
+  .chalk--pink { color: #ffd6e0; }
+  .chalk--sky { color: #cdeffd; }
+  .board__center {
+    display: grid;
+    justify-items: center;
+    transform: rotate(-2deg);
+  }
+  .board__name {
+    font-size: clamp(3.6rem, 6.5vw, 6.4rem);
+    font-weight: 400;
+    line-height: 1.9;
+    white-space: nowrap;
+  }
+  .board__underline {
+    width: min(70%, 380px);
+    height: 24px;
+    margin-top: -0.9em;
+  }
+  .doodle {
+    position: absolute;
+    font-size: 1.5rem;
+    line-height: 2;
+    opacity: 0.9;
+    transform: rotate(var(--rot, 0deg));
+    pointer-events: none;
+  }
+  .doodle--1 { left: 9%; top: 12%; --rot: -8deg; font-size: 1.8rem; }
+  .doodle--2 { right: 11%; top: 16%; --rot: 7deg; }
+  .doodle--3 { left: 12%; bottom: 18%; --rot: 4deg; }
+  .doodle--star { width: 46px; height: 46px; right: 14%; bottom: 20%; --rot: 12deg; }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(calc(var(--rot, 0deg) - 3deg)); }
+    50% { transform: rotate(calc(var(--rot, 0deg) + 3deg)); }
+  }
+  .board:hover .doodle {
+    animation: wiggle 1.4s ease-in-out infinite;
+  }
+
+  .weights {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  @media (max-width: 720px) {
+    .weights {
+      grid-template-columns: 1fr;
+    }
+  }
+  .weight {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.9rem 1.2rem;
+    border-radius: var(--r);
+    background: color-mix(in oklab, var(--bg-2) 80%, transparent);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(8px);
+  }
+  .weight__sample {
+    font-size: 2.3rem;
+    line-height: 2;
+    color: var(--fg);
+  }
+  .weight__meta {
+    display: grid;
+    font-size: var(--step--2);
+    color: var(--fg-3);
+  }
+  .weight__meta strong {
+    color: var(--fg);
+    font-size: var(--step--1);
+  }
+
+  /* ---------- Playroom ---------- */
+  .playroom {
+    background: color-mix(in oklab, var(--bg-3) 55%, var(--bg));
+  }
+  .styles-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  @media (max-width: 1000px) {
+    .styles-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 620px) {
+    .styles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .style-card {
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+  .style-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+  }
+  .style-card__stage {
+    min-height: 260px;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1.5rem;
+    overflow: hidden;
+  }
+  .style-card__stage .fx-text {
+    font-size: clamp(2.6rem, 4vw, 3.6rem);
+    font-weight: 400;
+    line-height: 2;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .style-card__foot {
+    padding: 1rem 1.2rem 1.1rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .style-card__foot strong {
+    display: block;
+    font-size: var(--step-0);
+    color: var(--fg);
+  }
+  .style-card__foot p {
+    margin-top: 0.25rem;
+    font-size: var(--step--1);
+    color: var(--fg-3);
+    line-height: 1.5;
+  }
+  .style-card__foot details summary {
+    cursor: pointer;
+    font-size: var(--step--2);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    list-style: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .style-card__foot details summary::-webkit-details-marker {
+    display: none;
+  }
+  .style-card__foot details summary::before {
+    content: '{ }';
+    font-family: var(--font-mono);
+    letter-spacing: 0;
+  }
+  .style-card__foot pre {
+    margin-top: 0.6rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 12px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    line-height: 1.6;
+    color: var(--fg-2);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  /* ---------- Alphabet ---------- */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.7rem;
+  }
+  @media (max-width: 900px) {
+    .tiles {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .tiles {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .tile {
+    display: grid;
+    place-items: center;
+    padding: 0.6rem 0.5rem 0.6rem;
+    border-radius: 22px;
+    color: #1e1b4b;
+    transition: transform 0.35s var(--ease-bounce), box-shadow 0.35s var(--ease);
+    cursor: default;
+  }
+  .tile:hover {
+    transform: translateY(-6px) rotate(-2deg);
+    box-shadow: var(--shadow);
+  }
+  .tile span {
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.9;
+  }
+  .tile small {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    opacity: 0.7;
+  }
+  .tile--0 { background: #fff3b0; }
+  .tile--1 { background: #ffd6e0; }
+  .tile--2 { background: #cdeffd; }
+  .tile--3 { background: #d7f5e6; }
+  .tile--4 { background: #e9ddff; }
+  .tile--5 { background: #ffe1c7; }
+  .rows {
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 1rem;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+  @media (max-width: 640px) {
+    .row {
+      grid-template-columns: 1fr;
+    }
+  }
+  .row__label {
+    font-size: var(--step--2);
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .row__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .tile--wide {
+    min-width: 96px;
+    background: #fff3b0;
+  }
+  .tile--v:nth-child(2) { background: #ffd6e0; }
+  .tile--v:nth-child(3) { background: #cdeffd; }
+  .tile--v:nth-child(4) { background: #d7f5e6; }
+  .tile--v:nth-child(5) { background: #e9ddff; }
+  .tile--sm {
+    min-width: 64px;
+    padding: 0.4rem 0.4rem 0.4rem;
+    background: #e6f6ff;
+  }
+  .tile--sm span {
+    font-size: 2rem;
+  }
+  .tile--d:nth-child(odd) { background: #fff3b0; }
+
+  /* ---------- Reader ---------- */
+  .reader {
+    background:
+      radial-gradient(50% 40% at 90% 10%, rgba(205, 239, 253, 0.6), transparent 70%),
+      radial-gradient(40% 40% at 10% 90%, rgba(255, 214, 224, 0.6), transparent 70%);
+  }
+  [data-theme='dark'] .reader {
+    background: none;
+  }
+  .book {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: center;
+  }
+  .book__page {
+    width: min(760px, 100%);
+    padding: clamp(1.75rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 3.5rem) 1.5rem;
+    border-radius: 28px;
+    background: #fffdf8;
+    color: #1e1b4b;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid rgba(30, 27, 75, 0.08);
+  }
+  .book__text {
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 2.1;
+    text-wrap: pretty;
+  }
+  .book__folio {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(30, 27, 75, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--step--2);
+    color: rgba(30, 27, 75, 0.55);
+    font-family: var(--font-mono);
+  }
+  .book__folio span[lang='bo'] {
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+  .book__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

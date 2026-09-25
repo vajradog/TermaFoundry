@@ -1,0 +1,75 @@
+---
+/* The credits for one typeface. These apply to the fonts, not to the website. */
+import { CREDITS } from '../data/fonts.js';
+interface Props {
+  font: any;
+}
+const { font } = Astro.props;
+---
+
+<section class="section" id="credits">
+  <div class="container">
+    <div class="credits-card card reveal">
+      <div class="credits-card__head">
+        <span class="eyebrow">Credits</span>
+        <h2 class="display display--sm">The people behind <em>{font.name}</em>.</h2>
+        <p class="muted small">
+          <span class={`credits-card__bo bo-${font.id}`} lang="bo">{font.nameBo}</span>
+          {font.name} is designed and published by the people named here.
+        </p>
+      </div>
+      <dl class="credits credits--big">
+        {
+          CREDITS.map((c) => (
+            <>
+              <dt>{c.role}</dt>
+              <dd>
+                {c.href ? (
+                  <a href={c.href} target="_blank" rel="noopener">
+                    {c.name}
+                  </a>
+                ) : (
+                  c.name
+                )}
+                {c.note && <span>{c.note}</span>}
+              </dd>
+            </>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .credits-card {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem 3rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  .credits-card__head .display {
+    margin-top: 0.7rem;
+  }
+  .credits-card__head .muted {
+    margin-top: 0.8rem;
+  }
+  .credits-card__bo {
+    display: block;
+    font-size: 2.2rem;
+    line-height: 2;
+    color: var(--fg);
+    margin-bottom: 0.25rem;
+  }
+  .credits--big dd {
+    font-size: var(--step-1);
+    font-family: var(--font-display);
+    font-weight: 400;
+  }
+  @media (max-width: 800px) {
+    .credits-card {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

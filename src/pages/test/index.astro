@@ -1,0 +1,791 @@
+---
+import Site from '../../foundry/layouts/Site.astro';
+import Filters from '../../foundry/components/Filters.astro';
+import { paths, BUILD } from '../../foundry/config.js';
+import { FONTS, TEXT, SAMPLES } from '../../foundry/data/fonts.js';
+
+const y = FONTS.yangtso;
+const p = FONTS.pema;
+const flipLetters = TEXT.letters.slice(0, 12);
+const flipWylie = TEXT.lettersWylie.slice(0, 12);
+const firstSentence = SAMPLES.yangtso.text.split('།')[0] + '།';
+const stats = [
+  { n: '6.5M', label: 'people speak Tibetan' },
+  { n: '~12', label: 'digital Tibetan fonts render reliably' },
+  { n: '0', label: 'of them were designed for children' },
+  { n: '2', label: 'new faces in this review build' },
+];
+const duoChips = [
+  { label: 'Tashi delek', text: TEXT.tashiWylie },
+  { label: y.nameBo, text: y.nameWylie, bo: true },
+  { label: p.nameBo, text: p.nameWylie, bo: true },
+  { label: 'Alphabet', text: TEXT.alphabetWylie },
+  { label: 'Digits', text: TEXT.digits },
+];
+---
+
+<Site title="Yangtso and Pema, two Tibetan typefaces" preload={['yangtso-regular.woff2', 'pema-regular.woff2']} bodyClass="home">
+  <Filters />
+
+  <!-- ═══════════ HERO: the two covers ═══════════ -->
+  <section class="covers" aria-label="The two typefaces">
+    <a class="cover cover--board" href={paths.yangtso} aria-label="Yangtso, a typeface for children and learners">
+      <div class="board">
+        <div class="board__frame" aria-hidden="true"></div>
+        <span class="doodle doodle--1 chalk chalk--lemon bo-yangtso" lang="bo" aria-hidden="true">{TEXT.kaKhaGaNga}</span>
+        <span class="doodle doodle--2 chalk chalk--pink bo-yangtso" lang="bo" aria-hidden="true">༡ ༢ ༣</span>
+        <span class="doodle doodle--3 chalk chalk--sky bo-yangtso" lang="bo" aria-hidden="true">ཀི་ཀུ་ཀེ་ཀོ</span>
+        <svg class="doodle doodle--star chalk" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M32 6l7.6 16.4 17.9 2.1-13.2 12.3 3.5 17.7L32 45.7l-15.8 8.8 3.5-17.7L6.5 24.5l17.9-2.1z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+        </svg>
+        <svg class="doodle doodle--heart chalk chalk--pink" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M32 54S6 38 6 21a12 12 0 0 1 26-6 12 12 0 0 1 26 6c0 17-26 33-26 33z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+        </svg>
+        <div class="board__center">
+          <h2 class="board__name chalk bo-yangtso ink-in" lang="bo">{y.nameBo}</h2>
+          <svg class="board__underline chalk" viewBox="0 0 400 24" aria-hidden="true" preserveAspectRatio="none">
+            <path d="M4 14 C 80 4, 160 22, 240 10 S 360 6, 396 14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="cover__meta">
+          <span class="cover__label">Yangtso</span>
+          <span class="cover__desc">{y.tagline} For children, learners and classrooms.</span>
+          <span class="cover__cta cover__cta--chalk">Meet Yangtso <span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+
+    <a class="cover cover--sheet" href={paths.pema} aria-label="Pema, a calligraphic brush typeface">
+      <div class="sheet paper-grain">
+        <h2 class="sheet__name bo-pema ink-in" lang="bo" style="--ink-delay:.2s">{p.nameBo}</h2>
+        <span class="sheet__drop sheet__drop--1" aria-hidden="true"></span>
+        <span class="sheet__drop sheet__drop--2" aria-hidden="true"></span>
+        <span class="sheet__seal bo-pema" lang="bo" aria-hidden="true">{p.nameBo}</span>
+        <div class="cover__meta">
+          <span class="cover__label">Pema</span>
+          <span class="cover__desc">{p.tagline} For titles, covers and prayer cards.</span>
+          <span class="cover__cta cover__cta--ink">Meet Pema <span class="arrow">→</span></span>
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <div class="strapline">
+    <div class="container strapline__in">
+      <span class="eyebrow">Terma Foundry</span>
+      <p>
+        A Tibetan type foundry. Two typefaces, one hand-drawn skeleton: a round pen and a brush. Both are in development,
+        {BUILD.label.toLowerCase()}, shared privately for review.
+      </p>
+      <a class="btn btn-accent" href={paths.studio}>Open the Writing Studio <span class="arrow">→</span></a>
+    </div>
+  </div>
+
+  <!-- ═══════════ TRY BOTH ═══════════ -->
+  <section class="section duo" id="try">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Try both</span>
+        <h2 class="display display--lg">Type Wylie. <em>Read it twice.</em></h2>
+        <p class="lede">Whatever you type appears in Yangtso and in Pema at once, in their Regular weights. Paste Tibetan if you prefer.</p>
+      </div>
+      <div class="duo__box card reveal" data-duo>
+        <div class="duo__panes">
+          <div class="duo__pane duo__pane--y">
+            <span class="duo__tag">Yangtso · Regular</span>
+            <div class="duo__text bo-yangtso" lang="bo" data-duo-y>{TEXT.tashi}</div>
+          </div>
+          <div class="duo__pane duo__pane--p paper-grain">
+            <span class="duo__tag">Pema · Regular</span>
+            <div class="duo__text bo-pema" lang="bo" data-duo-p>{TEXT.tashi}</div>
+          </div>
+        </div>
+        <div class="duo__bar">
+          <input class="duo__input" type="text" value={TEXT.tashiWylie} data-duo-in spellcheck="false" autocomplete="off" aria-label="Type Wylie or paste Tibetan" placeholder="bkra shis bde legs/" />
+          <label class="duo__size">
+            <span>Font size</span>
+            <input type="range" min="28" max="140" value="72" data-duo-size aria-label="Font size" />
+          </label>
+        </div>
+        <div class="duo__chips">
+          {duoChips.map((c) => <button type="button" class="chip" data-duo-chip={c.text} lang={c.bo ? 'bo' : undefined}>{c.label}</button>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FLIP ═══════════ -->
+  <section class="section flip">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">One skeleton, two pens</span>
+        <h2 class="display display--lg">Same bones, <em>two hands.</em></h2>
+        <p class="lede">
+          Every letter was drawn once, as the strokes a writer makes. A round pen over that skeleton gives Yangtso; a brush that
+          presses and lifts gives Pema. Hover or tap a letter to watch the pen change.
+        </p>
+      </div>
+      <div class="flip__grid">
+        {
+          flipLetters.map((l, i) => (
+            <button type="button" class={`flip__card reveal reveal-d${(i % 4) + 1}`} data-flip aria-label={`The letter ${flipWylie[i]}, in Yangtso and in Pema`}>
+              <span class="flip__inner">
+                <span class="flip__face flip__face--y bo-yangtso" lang="bo">{l}</span>
+                <span class="flip__face flip__face--p bo-pema paper-grain" lang="bo">{l}</span>
+              </span>
+              <small>{flipWylie[i]}</small>
+            </button>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ WHY ═══════════ -->
+  <section class="section why">
+    <div class="container">
+      <div class="why__grid">
+        <div class="section-head reveal">
+          <span class="eyebrow">Why a foundry for Tibetan</span>
+          <h2 class="display display--lg">The most underserved <em>writing system</em> on a screen.</h2>
+        </div>
+        <div class="prose reveal reveal-d1">
+          <p>
+            Six and a half million speakers, fifteen centuries of literature, and a handful of digital fonts, most of them tracings
+            of hand-drawn letters from the 1990s: dense, intricate, made for monks and scholars, never for a child opening a first
+            book.
+          </p>
+          <p>
+            <strong>We start with children.</strong> Tibetans growing up abroad speak the language but cannot read it, and when
+            asked why, they say the same thing: the writing looked too hard. A rounder, warmer, simpler letter is the smallest
+            thing that could change that. Yangtso is that letter. Pema shows the same skeleton can carry a calligrapher's hand.
+          </p>
+          <p>When the fonts are ready they will be released free, under an open licence, for everyone.</p>
+        </div>
+      </div>
+      <div class="stats reveal">
+        {
+          stats.map((s) => (
+            <div class="stat">
+              <div class="stat__n">{s.n}</div>
+              <div class="stat__l">{s.label}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ STUDIO ═══════════ -->
+  <section class="section">
+    <div class="container">
+      <div class="studio-promo card reveal">
+        <div class="studio-promo__text">
+          <span class="eyebrow">The Writing Studio</span>
+          <h2 class="display display--md">Type Wylie, <em>see Tibetan.</em> Then tell us what you see.</h2>
+          <p class="prose">
+            A distraction-free page for long passages, built for this review. Type Wylie and watch it become Tibetan as you go, or
+            paste Tibetan straight in. Switch between Yangtso and Pema, change weight, size and leading, work in three layouts and
+            five themes, and export what you wrote as text or as a typeset image.
+          </p>
+          <ul class="studio-promo__list">
+            <li>Live Wylie → Tibetan as you type, with gentle hints for anything the converter cannot parse</li>
+            <li>Tibetan-only, split, and interleaved layouts</li>
+            <li>Autosaves to your browser; keeps several documents</li>
+            <li>Loads the review passage for each font in one click</li>
+          </ul>
+          <a class="btn btn-accent btn-lg" href={paths.studio}>Open the Studio <span class="arrow">→</span></a>
+        </div>
+        <div class="studio-promo__mock" aria-hidden="true">
+          <div class="mock__bar">
+            <span></span><span></span><span></span>
+            <em>ལྷ་མོ་དང་ཀརྨ · Yangtso · autosaved</em>
+          </div>
+          <div class="mock__wylie mono">lha mo dang karma gnyis ni ni'u yog mnga' sde'i …</div>
+          <div class="mock__bo bo-yangtso" lang="bo">{firstSentence}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Site>
+
+<script>
+  import { convertMixed } from '../../foundry/lib/ewts.js';
+
+  const duo = document.querySelector('[data-duo]');
+  if (duo) {
+    const input = duo.querySelector('[data-duo-in]') as HTMLInputElement;
+    const size = duo.querySelector('[data-duo-size]') as HTMLInputElement;
+    const y = duo.querySelector('[data-duo-y]') as HTMLElement;
+    const p = duo.querySelector('[data-duo-p]') as HTMLElement;
+    const fallback = y.textContent || '';
+    const render = () => {
+      const out = convertMixed(input.value.trim()) || fallback;
+      y.textContent = out;
+      p.textContent = out;
+    };
+    input.addEventListener('input', render);
+    size.addEventListener('input', () => {
+      y.style.fontSize = `${size.value}px`;
+      p.style.fontSize = `${size.value}px`;
+    });
+    duo.querySelectorAll<HTMLButtonElement>('[data-duo-chip]').forEach((c) =>
+      c.addEventListener('click', () => {
+        input.value = c.dataset.duoChip || '';
+        render();
+        input.focus();
+      }),
+    );
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-flip]').forEach((card) => {
+    card.addEventListener('click', () => card.classList.toggle('is-flipped'));
+  });
+</script>
+
+<style>
+  /* ---------- Covers ---------- */
+  .covers {
+    display: flex;
+    min-height: min(calc(100dvh - 120px), 920px);
+    gap: 0;
+  }
+  .cover {
+    flex: 1 1 0;
+    min-width: 0;
+    display: block;
+    transition: flex-grow 0.7s var(--ease);
+  }
+  @media (hover: hover) and (min-width: 861px) {
+    .cover:hover {
+      flex-grow: 1.35;
+    }
+  }
+  @media (max-width: 860px) {
+    .covers {
+      flex-direction: column;
+      min-height: 0;
+    }
+    .cover {
+      min-height: 72vh;
+    }
+  }
+
+  /* The chalkboard */
+  .board {
+    position: relative;
+    height: 100%;
+    min-height: 560px;
+    display: grid;
+    place-items: center;
+    padding: 3rem;
+    overflow: hidden;
+    background:
+      radial-gradient(70% 60% at 50% 45%, rgba(255, 255, 255, 0.07), transparent 70%),
+      radial-gradient(40% 30% at 20% 90%, rgba(255, 255, 255, 0.04), transparent 70%),
+      #1f4a38;
+  }
+  .board__frame {
+    position: absolute;
+    inset: 14px;
+    border: 12px solid #8a5a2b;
+    border-radius: 6px;
+    box-shadow:
+      inset 0 0 0 3px #5e3d1c,
+      0 0 0 2px #5e3d1c,
+      inset 0 0 40px rgba(0, 0, 0, 0.35);
+    pointer-events: none;
+  }
+  .chalk {
+    color: #f8f6ee;
+    filter: url(#fx-chalk);
+  }
+  .chalk--lemon {
+    color: #fff3b0;
+  }
+  .chalk--pink {
+    color: #ffd6e0;
+  }
+  .chalk--sky {
+    color: #cdeffd;
+  }
+  .board__center {
+    display: grid;
+    justify-items: center;
+    gap: 0;
+    transform: rotate(-2deg);
+  }
+  .board__name {
+    font-size: clamp(4.2rem, 8.5vw, 9rem);
+    font-weight: 400;
+    line-height: 1.9;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .board__underline {
+    width: min(70%, 420px);
+    height: 24px;
+    margin-top: -0.9em;
+  }
+  .doodle {
+    position: absolute;
+    font-size: 1.7rem;
+    line-height: 2;
+    opacity: 0.9;
+    transform: rotate(var(--rot, 0deg));
+    pointer-events: none;
+  }
+  .doodle--1 { left: 9%; top: 12%; --rot: -8deg; font-size: 2.1rem; }
+  .doodle--2 { right: 11%; top: 16%; --rot: 7deg; }
+  .doodle--3 { left: 12%; bottom: 26%; --rot: 4deg; }
+  .doodle--star { width: 54px; height: 54px; right: 16%; bottom: 30%; --rot: 12deg; }
+  .doodle--heart { width: 40px; height: 40px; left: 46%; top: 10%; --rot: -10deg; }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(calc(var(--rot, 0deg) - 3deg)); }
+    50% { transform: rotate(calc(var(--rot, 0deg) + 3deg)); }
+  }
+  .cover--board:hover .doodle {
+    animation: wiggle 1.4s ease-in-out infinite;
+  }
+
+  /* The sheet */
+  .sheet {
+    position: relative;
+    height: 100%;
+    min-height: 560px;
+    display: grid;
+    place-items: center;
+    padding: 3rem;
+    overflow: hidden;
+    background: #fcfbf8;
+    color: #0a0908;
+    border-radius: 0;
+  }
+  .sheet::before {
+    opacity: 0.35;
+  }
+  .sheet__name {
+    position: relative;
+    z-index: 2;
+    font-size: clamp(6rem, 12vw, 13rem);
+    font-weight: 400;
+    line-height: 1.9;
+    color: #0a0908;
+    filter: url(#fx-sumi);
+    transition: transform 0.9s var(--ease);
+  }
+  .cover--sheet:hover .sheet__name {
+    transform: scale(1.03) rotate(-1deg);
+  }
+  .sheet__drop {
+    position: absolute;
+    z-index: 2;
+    border-radius: 50%;
+    background: #0a0908;
+    filter: url(#fx-wetink);
+    opacity: 0.85;
+  }
+  .sheet__drop--1 { width: 9px; height: 9px; left: 30%; top: 33%; }
+  .sheet__drop--2 { width: 5px; height: 5px; left: 33%; top: 30%; }
+  .sheet__seal {
+    position: absolute;
+    z-index: 2;
+    right: 12%;
+    bottom: 24%;
+    width: 68px;
+    height: 68px;
+    display: grid;
+    place-items: center;
+    padding-top: 6px;
+    background: #c9331a;
+    color: #fcfbf8;
+    font-size: 1.35rem;
+    line-height: 1;
+    border-radius: 5px;
+    box-shadow:
+      inset 0 0 0 3px #fcfbf8,
+      inset 0 0 0 5px #c9331a,
+      0 6px 16px -8px rgba(201, 51, 26, 0.6);
+    opacity: 0.94;
+    transform: rotate(-6deg);
+    filter: url(#fx-woodblock);
+  }
+
+  .cover__meta {
+    position: absolute;
+    z-index: 3;
+    left: clamp(1.5rem, 4vw, 3rem);
+    right: clamp(1.5rem, 4vw, 3rem);
+    bottom: clamp(1.5rem, 4vw, 3rem);
+    display: grid;
+    gap: 0.35rem;
+    justify-items: start;
+  }
+  .cover__label {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .cover__desc {
+    font-size: var(--step--1);
+    max-width: 40ch;
+    opacity: 0.85;
+  }
+  .cover__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0.7rem 1.2rem;
+    border-radius: 999px;
+    font-size: var(--step--1);
+    font-weight: 800;
+    transition: transform 0.3s var(--ease), background 0.2s;
+  }
+  .cover:hover .cover__cta {
+    transform: translateY(-2px);
+  }
+  .cover:hover .cover__cta .arrow {
+    transform: translateX(3px);
+  }
+  .cover__cta .arrow {
+    transition: transform 0.3s var(--ease);
+  }
+  .cover__cta--chalk {
+    border: 2px solid rgba(248, 246, 238, 0.8);
+    color: #f8f6ee;
+  }
+  .cover--board:hover .cover__cta--chalk {
+    background: #f8f6ee;
+    color: #1f4a38;
+  }
+  .cover__cta--ink {
+    background: #141112;
+    color: #f3ecdc;
+  }
+  .cover--board .cover__meta {
+    color: #f8f6ee;
+  }
+  .cover--sheet .cover__meta {
+    color: #141112;
+  }
+
+  /* ---------- Strapline ---------- */
+  .strapline {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-2);
+  }
+  .strapline__in {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding-block: 1.1rem;
+  }
+  .strapline p {
+    color: var(--fg-2);
+    font-size: var(--step--1);
+    max-width: 70ch;
+  }
+  @media (max-width: 860px) {
+    .strapline__in {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      justify-items: start;
+    }
+  }
+
+  /* ---------- Duo tester ---------- */
+  .duo__box {
+    overflow: hidden;
+  }
+  .duo__panes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  @media (max-width: 760px) {
+    .duo__panes {
+      grid-template-columns: 1fr;
+    }
+  }
+  .duo__pane {
+    position: relative;
+    min-height: 260px;
+    padding: 3rem clamp(1.25rem, 3vw, 2.5rem) 2rem;
+    display: grid;
+    align-items: center;
+  }
+  .duo__pane--y {
+    background:
+      radial-gradient(60% 50% at 15% 15%, #fff3b0 0%, transparent 60%),
+      radial-gradient(50% 45% at 90% 25%, #ffd6e0 0%, transparent 60%),
+      radial-gradient(55% 45% at 70% 95%, #cdeffd 0%, transparent 60%),
+      #fffdf5;
+    color: #1e1b4b;
+  }
+  .duo__pane--p {
+    background: #fcfbf8;
+    color: #0a0908;
+    border-radius: 0;
+  }
+  .duo__pane--p::before {
+    opacity: 0.35;
+  }
+  .duo__tag {
+    position: absolute;
+    left: 1.25rem;
+    top: 1rem;
+    font-size: var(--step--2);
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .duo__text {
+    font-size: 72px;
+    line-height: 2.1;
+    overflow-wrap: anywhere;
+    transition: font-size 0.25s var(--ease);
+  }
+  .duo__pane--p .duo__text {
+    filter: url(#fx-sumi);
+  }
+  .duo__bar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.1rem 0.5rem;
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 560px) {
+    .duo__bar {
+      grid-template-columns: 1fr;
+    }
+  }
+  .duo__input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border-radius: 14px;
+    border: 1px solid var(--line-2);
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+  .duo__input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
+  .duo__size {
+    display: grid;
+    gap: 0.2rem;
+    font-size: var(--step--2);
+    font-weight: 800;
+    color: var(--fg-3);
+    min-width: 160px;
+  }
+  .duo__size input {
+    accent-color: var(--accent);
+  }
+  .duo__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.5rem 1.1rem 1.1rem;
+  }
+  .chip {
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    font-size: var(--step--2);
+    font-weight: 700;
+    color: var(--fg-2);
+    background: var(--bg-2);
+    transition: border-color 0.2s, color 0.2s, transform 0.2s var(--ease-bounce);
+  }
+  .chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-1px);
+  }
+  .chip[lang='bo'] {
+    font-family: var(--font-yangtso);
+    font-size: 1rem;
+    line-height: 1.7;
+    padding-block: 0.15rem;
+  }
+
+  /* ---------- Flip cards ---------- */
+  .flip__grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+  @media (max-width: 900px) {
+    .flip__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 560px) {
+    .flip__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .flip__card {
+    display: grid;
+    gap: 0.45rem;
+    justify-items: center;
+    perspective: 900px;
+    color: var(--fg-3);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+  .flip__inner {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    transform-style: preserve-3d;
+    transition: transform 0.75s var(--ease-bounce);
+  }
+  .flip__card:hover .flip__inner,
+  .flip__card.is-flipped .flip__inner {
+    transform: rotateY(180deg);
+  }
+  .flip__face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    line-height: 2;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .flip__face--y {
+    background: #fff3b0;
+    color: #1e1b4b;
+  }
+  .flip__card:nth-child(6n + 2) .flip__face--y { background: #ffd6e0; }
+  .flip__card:nth-child(6n + 3) .flip__face--y { background: #cdeffd; }
+  .flip__card:nth-child(6n + 4) .flip__face--y { background: #d7f5e6; }
+  .flip__card:nth-child(6n + 5) .flip__face--y { background: #e9ddff; }
+  .flip__card:nth-child(6n + 6) .flip__face--y { background: #ffe1c7; }
+  .flip__face--p {
+    background: #fcfbf8;
+    color: #0a0908;
+    transform: rotateY(180deg);
+    filter: url(#fx-sumi);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flip__inner {
+      transition: none;
+    }
+  }
+
+  /* ---------- Why ---------- */
+  .why__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 4rem;
+    align-items: start;
+  }
+  @media (max-width: 860px) {
+    .why__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .stats {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+  @media (max-width: 720px) {
+    .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ---------- Studio promo ---------- */
+  .studio-promo {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 2rem;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    overflow: hidden;
+  }
+  @media (max-width: 900px) {
+    .studio-promo {
+      grid-template-columns: 1fr;
+    }
+  }
+  .studio-promo__text {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+  }
+  .studio-promo__list {
+    display: grid;
+    gap: 0.45rem;
+    color: var(--fg-2);
+    font-size: var(--step--1);
+  }
+  .studio-promo__list li {
+    padding-left: 1.3rem;
+    position: relative;
+  }
+  .studio-promo__list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 800;
+  }
+  .studio-promo__mock {
+    border-radius: 22px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transform: rotate(1.5deg);
+  }
+  .mock__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg-2);
+  }
+  .mock__bar span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--bg-4);
+  }
+  .mock__bar em {
+    margin-left: auto;
+    font-style: normal;
+    font-size: var(--step--2);
+    color: var(--fg-3);
+    font-family: var(--font-ui), var(--font-yangtso);
+  }
+  .mock__wylie {
+    padding: 0.9rem 1.2rem 0;
+    color: var(--fg-3);
+    font-size: 0.8rem;
+  }
+  .mock__bo {
+    padding: 0.4rem 1.2rem 1.4rem;
+    font-size: 1.55rem;
+    line-height: 2;
+    color: var(--fg);
+  }
+</style>

@@ -1,0 +1,294 @@
+---
+/* The type tester on a font page: type Wylie or Tibetan, pick a weight, size, leading and a style. */
+import { TEXT, SAMPLES } from '../data/fonts.js';
+
+interface StyleOption {
+  id: string;
+  label: string;
+}
+interface Props {
+  font: any;
+  text?: string;
+  size?: number;
+  leading?: number;
+  styles?: StyleOption[];
+  id?: string;
+}
+const { font, text = TEXT.tashi, size = 72, leading = 2.1, styles = [], id = `tryout-${font.id}` } = Astro.props;
+const sample = SAMPLES[font.id as 'yangtso' | 'pema'];
+const chips = [
+  { label: 'Tashi delek', text: TEXT.tashiWylie },
+  { label: font.nameBo, text: font.nameWylie },
+  { label: 'Alphabet', text: TEXT.alphabetWylie },
+  { label: 'Vowels', text: TEXT.vowelsWylie },
+  { label: 'Digits', text: TEXT.digits },
+  { label: 'Review passage', text: sample.text },
+];
+---
+
+<div class={`tryout tryout--${font.id}`} data-tryout id={id}>
+  <div class="tryout__bar">
+    <div class="tryout__group" role="radiogroup" aria-label="Weight">
+      {
+        font.weights.map((w: any) => (
+          <button type="button" role="radio" aria-checked={w.css === 400 ? 'true' : 'false'} data-weight={w.css} class="tryout__seg">
+            {w.name}
+          </button>
+        ))
+      }
+    </div>
+    <label class="tryout__range">
+      <span>Font size <output data-size-out>{size} px</output></span>
+      <input type="range" min="20" max="200" step="1" value={size} data-size aria-label="Font size" />
+    </label>
+    <label class="tryout__range">
+      <span>Line spacing <output data-leading-out>{leading.toFixed(2)}</output></span>
+      <input type="range" min="1.6" max="3.4" step="0.05" value={leading} data-leading aria-label="Line spacing" />
+    </label>
+    {
+      styles.length > 0 && (
+        <label class="tryout__select">
+          <span>Style</span>
+          <select data-style aria-label="Text style">
+            <option value="">Plain</option>
+            {styles.map((s) => (
+              <option value={s.id}>{s.label}</option>
+            ))}
+          </select>
+        </label>
+      )
+    }
+    <div class="tryout__group" role="radiogroup" aria-label="Alignment">
+      <button type="button" role="radio" aria-checked="true" data-align="start" class="tryout__seg">Left</button>
+      <button type="button" role="radio" aria-checked="false" data-align="center" class="tryout__seg">Centred</button>
+    </div>
+  </div>
+
+  <div class="tryout__stage fx-stage">
+    <div
+      class={`tryout__preview fx-text bo-${font.id}`}
+      lang="bo"
+      data-preview
+      style={`font-size:${size}px;line-height:${leading};font-weight:400`}
+      aria-live="polite"
+    >
+      {text}
+    </div>
+  </div>
+
+  <div class="tryout__input">
+    <label>
+      <span class="tryout__label">Type Wylie here, or paste Tibetan text</span>
+      <textarea rows="2" data-input spellcheck="false" autocomplete="off" placeholder="bkra shis bde legs/  ·  or paste Tibetan here">{TEXT.tashiWylie}</textarea>
+    </label>
+    <div class="tryout__chips" aria-label="Sample texts">
+      {
+        chips.map((c) => (
+          <button type="button" class="chip" data-chip={c.text} lang={/[ༀ-࿿]/.test(c.label) ? 'bo' : undefined}>
+            {c.label}
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .tryout {
+    --tr-accent: var(--accent);
+    border-radius: var(--r-xl);
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .tryout__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg-3) 60%, var(--bg-2));
+  }
+  .tryout__group {
+    display: inline-flex;
+    padding: 3px;
+    border-radius: 999px;
+    background: color-mix(in oklab, var(--fg) 7%, transparent);
+    gap: 2px;
+  }
+  .tryout__seg {
+    padding: 0.42rem 0.85rem;
+    border-radius: 999px;
+    font-size: var(--step--2);
+    font-weight: 700;
+    color: var(--fg-2);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .tryout__seg[aria-checked='true'] {
+    background: var(--bg-2);
+    color: var(--fg);
+    box-shadow: var(--shadow-sm);
+  }
+  .tryout__range,
+  .tryout__select {
+    display: grid;
+    gap: 0.25rem;
+    font-size: var(--step--2);
+    font-weight: 700;
+    color: var(--fg-3);
+    min-width: 150px;
+  }
+  .tryout__range output {
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+    margin-left: 0.35rem;
+  }
+  .tryout__range input {
+    width: 100%;
+    accent-color: var(--tr-accent);
+  }
+  .tryout__select select {
+    padding: 0.45rem 0.7rem;
+    border-radius: 10px;
+    border: 1px solid var(--line-2);
+    background: var(--bg-2);
+    color: var(--fg);
+    font-weight: 600;
+  }
+  .tryout__stage {
+    padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 3rem);
+    min-height: 240px;
+    display: grid;
+    align-items: center;
+    background: var(--tr-stage, transparent);
+    overflow: hidden;
+  }
+  .tryout__preview {
+    color: var(--fg);
+    text-align: start;
+    transition: font-size 0.25s var(--ease), line-height 0.25s var(--ease);
+    overflow-wrap: anywhere;
+  }
+  .tryout__input {
+    padding: 1rem 1.1rem 1.1rem;
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 0.75rem;
+  }
+  .tryout__label {
+    display: block;
+    font-size: var(--step--2);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    margin-bottom: 0.4rem;
+  }
+  .tryout__input textarea {
+    width: 100%;
+    resize: vertical;
+    padding: 0.8rem 1rem;
+    border-radius: 14px;
+    border: 1px solid var(--line-2);
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    line-height: 1.7;
+    min-height: 3.6rem;
+  }
+  .tryout__input textarea:focus {
+    outline: 2px solid var(--tr-accent);
+    outline-offset: 1px;
+    border-color: transparent;
+  }
+  .tryout__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .chip {
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    font-size: var(--step--2);
+    font-weight: 700;
+    color: var(--fg-2);
+    background: var(--bg-2);
+    transition: border-color 0.2s, color 0.2s, transform 0.2s var(--ease-bounce);
+  }
+  .chip:hover {
+    border-color: var(--tr-accent);
+    color: var(--tr-accent);
+    transform: translateY(-1px);
+  }
+  .chip[lang='bo'] {
+    font-family: var(--font-yangtso);
+    font-size: 1rem;
+    line-height: 1.7;
+    padding-block: 0.15rem;
+  }
+  .tryout--pema .chip[lang='bo'] {
+    font-family: var(--font-pema);
+  }
+</style>
+
+<script>
+  import { convertMixed } from '../lib/ewts.js';
+
+  function init(root: HTMLElement) {
+    const preview = root.querySelector('[data-preview]') as HTMLElement;
+    const input = root.querySelector('[data-input]') as HTMLTextAreaElement;
+    const size = root.querySelector('[data-size]') as HTMLInputElement;
+    const sizeOut = root.querySelector('[data-size-out]') as HTMLElement;
+    const leading = root.querySelector('[data-leading]') as HTMLInputElement;
+    const leadingOut = root.querySelector('[data-leading-out]') as HTMLElement;
+    const style = root.querySelector('[data-style]') as HTMLSelectElement | null;
+    const placeholder = preview.textContent || '';
+    let styleClass = '';
+
+    const render = () => {
+      const out = convertMixed(input.value.trim());
+      preview.textContent = out || placeholder;
+    };
+    input.addEventListener('input', render);
+
+    root.querySelectorAll<HTMLButtonElement>('[data-weight]').forEach((b) => {
+      b.addEventListener('click', () => {
+        root.querySelectorAll('[data-weight]').forEach((x) => x.setAttribute('aria-checked', String(x === b)));
+        preview.style.fontWeight = b.dataset.weight || '400';
+      });
+    });
+    root.querySelectorAll<HTMLButtonElement>('[data-align]').forEach((b) => {
+      b.addEventListener('click', () => {
+        root.querySelectorAll('[data-align]').forEach((x) => x.setAttribute('aria-checked', String(x === b)));
+        preview.style.textAlign = b.dataset.align || 'start';
+      });
+    });
+    size.addEventListener('input', () => {
+      preview.style.fontSize = `${size.value}px`;
+      sizeOut.textContent = `${size.value} px`;
+    });
+    leading.addEventListener('input', () => {
+      preview.style.lineHeight = leading.value;
+      leadingOut.textContent = Number(leading.value).toFixed(2);
+    });
+    style?.addEventListener('change', () => {
+      if (styleClass) root.classList.remove(styleClass);
+      styleClass = style.value;
+      if (styleClass) root.classList.add(styleClass);
+    });
+    root.querySelectorAll<HTMLButtonElement>('[data-chip]').forEach((c) => {
+      c.addEventListener('click', () => {
+        input.value = c.dataset.chip || '';
+        render();
+        input.focus();
+      });
+    });
+    render();
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-tryout]').forEach(init);
+</script>
