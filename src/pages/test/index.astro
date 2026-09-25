@@ -49,19 +49,17 @@ const duoChips = [
           </svg>
         </div>
         <div class="cover__meta">
-          <div class="cover__meta-main">
-            <span class="cover__label">Yangtso</span>
-            <span class="cover__desc">{y.tagline} For children, learners and classrooms.</span>
-            <span class="cover__cta cover__cta--chalk">Meet Yangtso <span class="arrow">→</span></span>
-          </div>
-          <dl class="cover__credits">
+          <span class="cover__label">Yangtso</span>
+          <span class="cover__desc">{y.tagline} For children, learners and classrooms.</span>
+          <span class="cover__cta cover__cta--chalk">Meet Yangtso <span class="arrow">→</span></span>
+          <p class="cover__credits">
             {coverCredits.map((c) => (
-              <>
-                <dt>{c.role}</dt>
-                <dd>{c.name}</dd>
-              </>
+              <span class="cover__credit">
+                <span class="cover__role">{c.role}</span>
+                {c.name}
+              </span>
             ))}
-          </dl>
+          </p>
         </div>
       </div>
     </a>
@@ -73,19 +71,17 @@ const duoChips = [
         <span class="sheet__drop sheet__drop--2" aria-hidden="true"></span>
         <span class="sheet__seal bo-pema" lang="bo" aria-hidden="true">{p.nameBo}</span>
         <div class="cover__meta">
-          <div class="cover__meta-main">
-            <span class="cover__label">Pema</span>
-            <span class="cover__desc">{p.tagline} For titles, covers and prayer cards.</span>
-            <span class="cover__cta cover__cta--ink">Meet Pema <span class="arrow">→</span></span>
-          </div>
-          <dl class="cover__credits">
+          <span class="cover__label">Pema</span>
+          <span class="cover__desc">{p.tagline} For titles, covers and prayer cards.</span>
+          <span class="cover__cta cover__cta--ink">Meet Pema <span class="arrow">→</span></span>
+          <p class="cover__credits">
             {coverCredits.map((c) => (
-              <>
-                <dt>{c.role}</dt>
-                <dd>{c.name}</dd>
-              </>
+              <span class="cover__credit">
+                <span class="cover__role">{c.role}</span>
+                {c.name}
+              </span>
             ))}
-          </dl>
+          </p>
         </div>
       </div>
     </a>
@@ -288,7 +284,12 @@ const duoChips = [
       min-height: 0;
     }
     .cover {
-      min-height: 72vh;
+      flex: 0 0 auto;
+      min-height: 0;
+    }
+    .board,
+    .sheet {
+      height: auto;
     }
   }
 
@@ -437,56 +438,52 @@ const duoChips = [
     z-index: 3;
     left: clamp(1.5rem, 4vw, 3rem);
     right: clamp(1.5rem, 4vw, 3rem);
-    bottom: clamp(1.5rem, 4vw, 3rem);
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 1rem 2rem;
-    align-items: end;
-  }
-  .cover__meta-main {
+    bottom: clamp(1.25rem, 3vw, 2.5rem);
     display: grid;
     gap: 0.35rem;
     justify-items: start;
-    min-width: 0;
   }
   .cover__credits {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 0.25rem 0.9rem;
-    align-content: end;
-    justify-self: end;
-    padding-bottom: 0.4rem;
+    margin-top: 0.7rem;
+    padding-top: 0.6rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.28);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 1.1rem;
+    font-size: 0.72rem;
+    line-height: 1.45;
+    font-weight: 600;
+    opacity: 0.9;
+    max-width: 64ch;
   }
-  .cover__credits dt {
-    font-size: 0.66rem;
+  .cover--sheet .cover__credits {
+    border-top-color: rgba(10, 9, 8, 0.15);
+  }
+  .cover__credit {
+    white-space: nowrap;
+  }
+  .cover__role {
+    font-size: 0.58rem;
     font-weight: 800;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
-    opacity: 0.6;
-    white-space: nowrap;
+    opacity: 0.62;
+    margin-right: 0.3rem;
   }
-  .cover__credits dd {
-    font-size: var(--step--1);
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  @media (max-width: 1100px) and (min-width: 861px) {
-    .cover__credits {
-      grid-template-columns: 1fr;
-      gap: 0;
+  @media (max-width: 860px) {
+    .board,
+    .sheet {
+      min-height: 640px;
+      padding-bottom: 290px;
     }
-    .cover__credits dt {
-      margin-top: 0.4rem;
-    }
-  }
-  @media (max-width: 480px) {
-    .cover__meta {
-      grid-template-columns: 1fr;
-      gap: 1rem;
+    .doodle--3,
+    .doodle--star,
+    .sheet__seal {
+      display: none;
     }
     .cover__credits {
-      justify-self: start;
-      padding-bottom: 0;
+      flex-direction: column;
+      gap: 0.1rem;
     }
   }
   .cover__label {
