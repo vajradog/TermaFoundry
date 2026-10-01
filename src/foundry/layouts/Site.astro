@@ -50,8 +50,9 @@ const fontUrl = (file: string) => `${paths.fonts}/${file}`;
     <script is:inline>
       (function () {
         try {
-          var t = localStorage.getItem('foundry.theme');
-          if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          // Light unless the visitor chose dark with the toggle (the system setting is not followed).
+          var t = localStorage.getItem('foundry.theme.v2');
+          if (t !== 'dark') t = 'light';
           document.documentElement.dataset.theme = t;
         } catch (e) {
           document.documentElement.dataset.theme = 'light';
@@ -148,7 +149,7 @@ const fontUrl = (file: string) => `${paths.fonts}/${file}`;
           const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
           root.dataset.theme = next;
           try {
-            localStorage.setItem('foundry.theme', next);
+            localStorage.setItem('foundry.theme.v2', next);
           } catch (e) {
             /* ignore */
           }

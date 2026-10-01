@@ -9,8 +9,10 @@ site is retired, everything outside these three places can be deleted.
 src/foundry/
   config.js            BASE path ('/test'), site name, build label. Change BASE here only.
   data/fonts.js        Font metadata, weights, coverage, credits, sample passages, @font-face generator
+  data/glyphset.js     Every character of Yangtso, grouped (generated: `python src/foundry/tools/glyphset.py`)
+  tools/glyphset.py    Reads the font, checks each stack with HarfBuzz, writes data/glyphset.js
   layouts/Site.astro   Page shell: head, review ribbon, floating nav, footer with credits
-  components/          Filters (SVG text effects), Tryout (type tester), Details, Credits, Wip
+  components/          Filters (SVG text effects), Tryout (type tester), GlyphSet (the whole set), Details, Credits, Wip
   styles/base.css      Tokens, reset, typography, components, motion (self-contained)
   styles/studio.css    The Writing Studio
   lib/ewts.js          The only module that talks to the Wylie converter (+ tokenizer, stats)
@@ -20,9 +22,11 @@ src/foundry/
   docs/DESIGN.md       Aesthetic direction and the alternatives considered
   docs/NEEDS_REVIEW.md Tibetan content a native reader should confirm
 src/pages/test/
-  index.astro          Home: the chalkboard hero, a tester, letter cards that flip to their names, new in 1.0, why, studio
-  yangtso.astro        Yangtso: chalkboard hero, not-ready notice, tester, playroom styles, alphabet, reader page, details, credits
-  studio.astro         The Writing Studio (review tool)
+  index.astro          Home, the launch: exercise-book hero, a band of stacks, why Tibetan type is hard, the weights,
+                       a tester, Tibetan and English, letter cards, why we made it, the people, the Studio
+  yangtso.astro        Yangtso: chalkboard hero, not-ready notice, tester, playroom styles, alphabet, the whole set,
+                       reader page, details, credits
+  studio.astro         The Writing Studio (review tool): type Wylie or paste Tibetan, weight and size only
 public/test/
   fonts/*.woff2        Yangtso Light/Regular/Bold, converted from the Yangtso 1.0 TTF exports
   favicon.svg

@@ -5,6 +5,7 @@ import Tryout from '../../foundry/components/Tryout.astro';
 import Details from '../../foundry/components/Details.astro';
 import Credits from '../../foundry/components/Credits.astro';
 import Wip from '../../foundry/components/Wip.astro';
+import GlyphSet from '../../foundry/components/GlyphSet.astro';
 import { paths, BUILD } from '../../foundry/config.js';
 import { FONTS, TEXT, SAMPLES } from '../../foundry/data/fonts.js';
 
@@ -229,6 +230,8 @@ const vowelLabels = ['ka', 'ki', 'ku', 'ke', 'ko'];
       </div>
     </div>
   </section>
+
+  <GlyphSet />
 
   <!-- ═══════════ READER PAGE ═══════════ -->
   <section class="section reader">

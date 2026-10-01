@@ -3,18 +3,31 @@ import Site from '../../foundry/layouts/Site.astro';
 import Filters from '../../foundry/components/Filters.astro';
 import { paths, BUILD } from '../../foundry/config.js';
 import { FONTS, TEXT, SAMPLES, CREDITS } from '../../foundry/data/fonts.js';
+import { GLYPHSET } from '../../foundry/data/glyphset.js';
 
 const y = FONTS.yangtso;
-const coverCredits = CREDITS.filter((c) => c.role !== 'Published by');
 const flipLetters = TEXT.letters.slice(0, 12);
 const flipWylie = TEXT.lettersWylie.slice(0, 12);
 const firstSentence = SAMPLES.yangtso.text.split('།')[0] + '།';
-const stats = [
-  { n: '6.5M', label: 'people speak Tibetan' },
-  { n: '~12', label: 'digital Tibetan fonts render reliably' },
-  { n: '0', label: 'of them were designed for children' },
-  { n: '968', label: 'glyphs in each weight of Yangtso 1.0' },
+// The band shows the commonest stacks first, the ones a reader meets on every page.
+const rows = [GLYPHSET.stacksByUse.slice(0, 70), GLYPHSET.stacksByUse.slice(70, 140)];
+const precomposed = GLYPHSET.stacks.length + GLYPHSET.vowelLigatures.length;
+
+// One syllable, built up the way a writer stacks it.
+const build = [
+  { bo: 'ག', wy: 'ga', note: 'The root letter.' },
+  { bo: 'སྒ', wy: 'sga', note: 'A letter on its head.' },
+  { bo: 'སྒྲ', wy: 'sgra', note: 'A letter under its feet.' },
+  { bo: 'སྒྲུ', wy: 'sgru', note: 'A vowel below that.' },
+  { bo: 'བསྒྲུབས', wy: 'bsgrubs', note: 'One letter before and two after: one syllable.' },
 ];
+const numbers = [
+  { n: String(GLYPHSET.glyphs), label: 'glyphs in each weight' },
+  { n: String(precomposed), label: 'stacks and ligatures, each drawn as one shape' },
+  { n: '99.75%', label: 'of written Tibetan covered, measured on 134 million syllables' },
+  { n: '3', label: 'weights, one round pen' },
+];
+const weightLine = `${TEXT.tashi}`;
 const tryChips = [
   { label: 'Tashi delek', text: TEXT.tashiWylie },
   { label: y.nameBo, text: y.nameWylie, bo: true },
@@ -29,71 +42,131 @@ const SEAL_BO = '';
 <Site title="Yangtso, a Tibetan typeface for children" preload={['yangtso-regular.woff2']} bodyClass="home">
   <Filters />
 
-  <!-- ═══════════ HERO: the chalkboard ═══════════ -->
-  <section class="hero" aria-label="Yangtso">
-    <a class="board" href={paths.yangtso} aria-label="Meet Yangtso, a Tibetan typeface for children and learners">
-      <div class="board__frame" aria-hidden="true"></div>
-      <div class="board__smudge" aria-hidden="true"></div>
+  <!-- ═══════════ HERO: the name on an exercise-book page ═══════════ -->
+  <section class="launch" aria-labelledby="launch-name">
+    <div class="launch__page">
+      <svg class="doodle doodle--star" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M32 6l7.6 16.4 17.9 2.1-13.2 12.3 3.5 17.7L32 45.7l-15.8 8.8 3.5-17.7L6.5 24.5l17.9-2.1z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+      </svg>
+      <svg class="doodle doodle--heart" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M32 54S6 38 6 21a12 12 0 0 1 26-6 12 12 0 0 1 26 6c0 17-26 33-26 33z" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" />
+      </svg>
+      <svg class="doodle doodle--sun" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="11" fill="none" stroke="currentColor" stroke-width="3.5" />
+        <path d="M32 6v8M32 50v8M6 32h8M50 32h8M13.6 13.6l5.7 5.7M44.7 44.7l5.7 5.7M13.6 50.4l5.7-5.7M44.7 19.3l5.7-5.7" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" />
+      </svg>
+      <span class="doodle doodle--ka bo-yangtso" lang="bo" aria-hidden="true">{TEXT.kaKhaGaNga}</span>
+      <span class="doodle doodle--abc bo-yangtso" aria-hidden="true">ABC 123</span>
 
-      <span class="doodle doodle--abc chalk chalk--lemon bo-yangtso" lang="bo" aria-hidden="true">{TEXT.kaKhaGaNga}</span>
-      <span class="doodle doodle--digits chalk chalk--pink bo-yangtso" lang="bo" aria-hidden="true">༡ ༢ ༣</span>
-      <span class="doodle doodle--vowels chalk chalk--sky bo-yangtso" lang="bo" aria-hidden="true">ཀི་ཀུ་ཀེ་ཀོ</span>
-      <span class="doodle doodle--latin chalk chalk--mint bo-yangtso" aria-hidden="true">ABC abc</span>
-      <span class="doodle doodle--sum chalk chalk--lemon bo-yangtso" aria-hidden="true">1+2=3</span>
-      <svg class="doodle doodle--star chalk" viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M32 6l7.6 16.4 17.9 2.1-13.2 12.3 3.5 17.7L32 45.7l-15.8 8.8 3.5-17.7L6.5 24.5l17.9-2.1z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
-      </svg>
-      <svg class="doodle doodle--heart chalk chalk--pink" viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M32 54S6 38 6 21a12 12 0 0 1 26-6 12 12 0 0 1 26 6c0 17-26 33-26 33z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
-      </svg>
-      <svg class="doodle doodle--sun chalk chalk--lemon" viewBox="0 0 64 64" aria-hidden="true">
-        <circle cx="32" cy="32" r="11" fill="none" stroke="currentColor" stroke-width="3" />
-        <path d="M32 6v8M32 50v8M6 32h8M50 32h8M13.6 13.6l5.7 5.7M44.7 44.7l5.7 5.7M13.6 50.4l5.7-5.7M44.7 19.3l5.7-5.7" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
-      </svg>
-
-      <div class="board__center">
-        <h1 class="board__name chalk bo-yangtso ink-in" lang="bo">{y.nameBo}</h1>
-        <svg class="board__underline chalk" viewBox="0 0 400 24" aria-hidden="true" preserveAspectRatio="none">
-          <path d="M4 14 C 80 4, 160 22, 240 10 S 360 6, 396 14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
-        </svg>
-        <p class="board__greeting chalk bo-yangtso ink-in" style="--ink-delay:.35s">
-          <span lang="bo">{TEXT.tashi}</span> Tashi Delek!
+      <div class="container launch__in">
+        <span class="launch__badge reveal"><span class="launch__dot" aria-hidden="true"></span> New · Yangtso {BUILD.version}</span>
+        <div class="launch__word">
+          <h1 class="launch__name bo-yangtso ink-in" id="launch-name" lang="bo">{y.nameBo}</h1>
+          <svg class="launch__swash" viewBox="0 0 400 24" aria-hidden="true" preserveAspectRatio="none">
+            <path d="M4 14 C 80 4, 160 22, 240 10 S 360 6, 396 14" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" />
+          </svg>
+        </div>
+        <p class="launch__title reveal reveal-d1">Introducing <em>Yangtso</em></p>
+        <p class="launch__tag reveal reveal-d2">
+          A Tibetan typeface for children, written with one round pen. Tibetan and English together, three weights,
+          {GLYPHSET.glyphs} glyphs.
         </p>
-      </div>
-
-      <div class="board__meta">
-        <span class="board__label">Yangtso <em>{BUILD.version}</em></span>
-        <span class="board__desc">{y.tagline} For children, learners and classrooms.</span>
-        <span class="board__cta">Meet Yangtso <span class="arrow">→</span></span>
-        <p class="board__credits">
-          {coverCredits.map((c) => (
-            <span class="board__credit">
-              <span class="board__role">{c.role}</span>
+        <div class="launch__cta reveal reveal-d3">
+          <a class="btn btn-primary btn-lg" href="#try">Try Yangtso <span class="arrow">→</span></a>
+          <a class="btn btn-outline btn-lg" href={paths.yangtso}>See the typeface</a>
+          <a class="btn btn-ghost btn-lg" href={paths.studio}>Open the Writing Studio</a>
+        </div>
+        <p class="launch__credits reveal reveal-d4">
+          {CREDITS.map((c) => (
+            <span class="launch__credit">
+              <span class="launch__role">{c.role}</span>
               {c.name}
             </span>
           ))}
         </p>
       </div>
-
-      <div class="board__ledge" aria-hidden="true">
-        <span class="stick stick--white"></span>
-        <span class="stick stick--pink"></span>
-        <span class="stick stick--lemon"></span>
-        <span class="eraser"></span>
-      </div>
-    </a>
+    </div>
   </section>
 
-  <div class="strapline">
-    <div class="container strapline__in">
-      <span class="eyebrow">Terma Foundry</span>
-      <p>
-        A Tibetan type foundry. Our first typeface is Yangtso, a round and friendly uchen for a child’s first book. This is
-        {BUILD.label.toLowerCase()}, shared privately for review before release.
-      </p>
-      <a class="btn btn-accent" href={paths.studio}>Open the Writing Studio <span class="arrow">→</span></a>
+  <!-- ═══════════ STACKS: a moving band of every stack ═══════════ -->
+  <section class="band" aria-label={`${GLYPHSET.stacks.length} stacks drawn in Yangtso`}>
+    {
+      rows.map((row, i) => (
+        <div class={`band__row band__row--${i + 1}`} aria-hidden="true">
+          <div class="band__track bo-yangtso" lang="bo">
+            {[...row, ...row].map((g) => <span>{g}</span>)}
+          </div>
+        </div>
+      ))
+    }
+    <p class="band__note container">
+      <span>{precomposed} stacks and ligatures, each one drawn and placed by hand.</span>
+      <a class="link-arrow" href={`${paths.yangtso}#set`}>See every one <span class="arrow">→</span></a>
+    </p>
+  </section>
+
+  <!-- ═══════════ WHY IT IS HARD ═══════════ -->
+  <section class="section hard">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">Why Tibetan type is hard</span>
+        <h2 class="display display--lg">One syllable, <em>stacked four high.</em></h2>
+        <p class="lede">
+          Tibetan builds each syllable upward and downward from its root letter. A Latin typeface gets by with a few hundred
+          glyphs; a Tibetan one has to draw every stack so the letters touch, sit and balance, the way a calligrapher's hand
+          would.
+        </p>
+      </div>
+      <ol class="build">
+        {
+          build.map((b, i) => (
+            <li class={`build__step reveal reveal-d${i + 1}`}>
+              <span class="build__n">{i + 1}</span>
+              <span class="build__bo bo-yangtso" lang="bo">{b.bo}</span>
+              <span class="build__wy">{b.wy}</span>
+              <span class="build__note">{b.note}</span>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="numbers reveal">
+        {
+          numbers.map((s) => (
+            <div class="number">
+              <div class="number__n bo-yangtso">{s.n}</div>
+              <div class="number__l">{s.label}</div>
+            </div>
+          ))
+        }
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- ═══════════ THREE WEIGHTS ═══════════ -->
+  <section class="section weights-sec">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">The family</span>
+        <h2 class="display display--lg">Light, Regular, <em>Bold.</em></h2>
+        <p class="lede">The same round pen at three widths. Regular is the book weight; Light for large and airy pages; Bold for headings and the youngest readers.</p>
+      </div>
+      <div class="wrows">
+        {
+          y.weights.map((w, i) => (
+            <div class={`wrow reveal reveal-d${i + 1}`}>
+              <div class="wrow__meta">
+                <strong>{w.name}</strong>
+                <span>stroke {w.stroke}</span>
+              </div>
+              <p class="wrow__text bo-yangtso" style={`font-weight:${w.css}`}>
+                <span lang="bo">{weightLine}</span> Tashi Delek!
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
 
   <!-- ═══════════ TRY IT ═══════════ -->
   <section class="section try" id="try">
@@ -129,54 +202,20 @@ const SEAL_BO = '';
     </div>
   </section>
 
-  <!-- ═══════════ FLIP: the letter and its name ═══════════ -->
-  <section class="section flip">
-    <div class="container">
-      <div class="section-head section-head--center reveal">
-        <span class="eyebrow">The letters</span>
-        <h2 class="display display--lg">Every letter, <em>and its name.</em></h2>
-        <p class="lede">
-          Yangtso writes English with the same round pen, so a learner meets the letter and its sound in one hand. Hover or tap a
-          letter to turn it over.
-        </p>
-      </div>
-      <div class="flip__grid">
-        {
-          flipLetters.map((l, i) => (
-            <button type="button" class={`flip__card reveal reveal-d${(i % 4) + 1}`} data-flip aria-label={`The letter ${flipWylie[i]}`}>
-              <span class="flip__inner">
-                <span class="flip__face flip__face--front bo-yangtso" lang="bo">{l}</span>
-                <span class="flip__face flip__face--back bo-yangtso">
-                  <span class="flip__small" lang="bo">{l}</span>
-                  {flipWylie[i]}
-                </span>
-              </span>
-            </button>
-          ))
-        }
-      </div>
-      <p class="flip__more reveal">
-        <a class="link-arrow" href={`${paths.yangtso}#letters`}>All thirty letters, the vowels and the digits <span class="arrow">→</span></a>
-      </p>
-    </div>
-  </section>
-
-  <!-- ═══════════ NEW IN 1.0 ═══════════ -->
+  <!-- ═══════════ TWO SCRIPTS ═══════════ -->
   <section class="section new">
     <div class="container">
       <div class="section-head reveal">
-        <span class="eyebrow">New in {BUILD.version}</span>
+        <span class="eyebrow">Tibetan and English</span>
         <h2 class="display display--lg">Two scripts, <em>one round pen.</em></h2>
         <p class="lede">
-          Yangtso now carries its own English letters, the icons a classroom needs, the signs of arithmetic and the designer’s
-          seal, all drawn with the same pen as the Tibetan.
+          Yangtso carries its own English letters, the icons a classroom needs, the signs of arithmetic and the designer’s seal,
+          all drawn with the same pen as the Tibetan.
         </p>
       </div>
-
       <div class="banner reveal" aria-label="Tashi Delek, in Tibetan and English">
         <p class="banner__line bo-yangtso"><span lang="bo">{TEXT.tashi}</span> Tashi Delek!</p>
       </div>
-
       <div class="new__grid">
         <article class="ncard ncard--lemon reveal reveal-d1">
           <div class="ncard__stage bo-yangtso">
@@ -211,35 +250,90 @@ const SEAL_BO = '';
     </div>
   </section>
 
+  <!-- ═══════════ LETTERS ═══════════ -->
+  <section class="section flip">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">The letters</span>
+        <h2 class="display display--lg">Every letter, <em>and its name.</em></h2>
+        <p class="lede">
+          A learner meets the letter and its sound in one hand: the Tibetan on the front, its name in Yangtso’s English on the
+          back. Hover or tap a letter to turn it over.
+        </p>
+      </div>
+      <div class="flip__grid">
+        {
+          flipLetters.map((l, i) => (
+            <button type="button" class={`flip__card reveal reveal-d${(i % 4) + 1}`} data-flip aria-label={`The letter ${flipWylie[i]}`}>
+              <span class="flip__inner">
+                <span class="flip__face flip__face--front bo-yangtso" lang="bo">{l}</span>
+                <span class="flip__face flip__face--back bo-yangtso">
+                  <span class="flip__small" lang="bo">{l}</span>
+                  {flipWylie[i]}
+                </span>
+              </span>
+            </button>
+          ))
+        }
+      </div>
+      <p class="flip__more reveal">
+        <a class="link-arrow" href={`${paths.yangtso}#set`}>See the whole set: all {GLYPHSET.glyphs} glyphs <span class="arrow">→</span></a>
+      </p>
+    </div>
+  </section>
+
   <!-- ═══════════ WHY ═══════════ -->
   <section class="section why">
-    <div class="container">
-      <div class="why__grid">
-        <div class="section-head reveal">
-          <span class="eyebrow">Why a foundry for Tibetan</span>
-          <h2 class="display display--lg">The most underserved <em>writing system</em> on a screen.</h2>
-        </div>
-        <div class="prose reveal reveal-d1">
+    <div class="container why__grid">
+      <div class="reveal">
+        <span class="eyebrow">Why we made it</span>
+        <h2 class="display display--lg">For a child’s <em>first book.</em></h2>
+        <div class="prose">
           <p>
-            Six and a half million speakers, fifteen centuries of literature, and a handful of digital fonts, most of them tracings
-            of hand-drawn letters from the 1990s: dense, intricate, made for monks and scholars, never for a child opening a first
-            book.
+            Six and a half million people speak Tibetan, and fifteen centuries of literature are written in it, yet only a handful
+            of digital fonts exist, most of them tracings of hand-drawn letters from the 1990s: dense and intricate, made for monks
+            and scholars, never for a child opening a first book.
           </p>
           <p>
-            <strong>We start with children.</strong> Tibetans growing up abroad speak the language but cannot read it, and when
-            asked why, they say the same thing: the writing looked too hard. A rounder, warmer, simpler letter is the smallest
-            thing that could change that. Yangtso is that letter.
+            Tibetans growing up abroad often speak the language but cannot read it, and when asked why, they say the same thing:
+            the writing looked too hard. A rounder, warmer, simpler letter is the smallest thing that could change that.
+            <strong>Yangtso is that letter.</strong>
           </p>
-          <p>When Yangtso is ready it will be released free, under an open licence, for everyone.</p>
+          <p>When Yangtso is released it will be free, under an open licence, for everyone.</p>
         </div>
       </div>
-      <div class="stats reveal">
+      <div class="board reveal reveal-d2" aria-hidden="true">
+        <div class="board__frame"></div>
+        <span class="chalk chalk--lemon bo-yangtso board__doodle board__doodle--1" lang="bo">{TEXT.kaKhaGaNga}</span>
+        <span class="chalk chalk--pink bo-yangtso board__doodle board__doodle--2" lang="bo">༡ ༢ ༣</span>
+        <span class="chalk bo-yangtso board__name" lang="bo">{TEXT.bodyig}</span>
+        <span class="chalk chalk--sky bo-yangtso board__doodle board__doodle--3">1+2=3</span>
+        <div class="board__ledge"><span class="stick stick--white"></span><span class="stick stick--pink"></span><span class="eraser"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PEOPLE ═══════════ -->
+  <section class="section people">
+    <div class="container">
+      <div class="section-head section-head--center reveal">
+        <span class="eyebrow">The people behind it</span>
+        <h2 class="display display--lg">Made by <em>hand,</em> made with care.</h2>
+      </div>
+      <div class="people__grid">
         {
-          stats.map((s) => (
-            <div class="stat">
-              <div class="stat__n">{s.n}</div>
-              <div class="stat__l">{s.label}</div>
-            </div>
+          CREDITS.map((c, i) => (
+            <article class={`person person--${i} reveal reveal-d${i + 1}`}>
+              <span class="person__role">{c.role}</span>
+              {c.href ? (
+                <a class="person__name" href={c.href}>
+                  {c.name}
+                </a>
+              ) : (
+                <span class="person__name">{c.name}</span>
+              )}
+              {c.note && <span class="person__note">{c.note}</span>}
+            </article>
           ))
         }
       </div>
@@ -268,7 +362,7 @@ const SEAL_BO = '';
         <div class="studio-promo__mock" aria-hidden="true">
           <div class="mock__bar">
             <span></span><span></span><span></span>
-            <em>ལྷ་མོ་དང་ཀརྨ · Yangtso · autosaved</em>
+            <em>Yangtso · autosaved</em>
           </div>
           <div class="mock__wylie mono">lha mo dang karma gnyis ni ni'u yog mnga' sde'i …</div>
           <div class="mock__bo bo-yangtso" lang="bo">{firstSentence}</div>
@@ -317,293 +411,363 @@ const SEAL_BO = '';
 </script>
 
 <style>
-  /* ---------- Hero: one big chalkboard ---------- */
-  .hero {
-    padding: clamp(0.75rem, 2vw, 1.25rem);
-    padding-top: 0;
+  /* The home page is warm paper in the light theme. */
+  :global(html:not([data-theme='dark']) body.home) {
+    --bg: #fbf8f1;
+    --bg-2: #fffdf8;
+    --bg-3: #f3eee2;
+    background: var(--bg);
   }
-  .board {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 1fr auto;
-    min-height: max(min(calc(100dvh - 130px), 900px), 600px);
-    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.75rem, 4vw, 3.25rem) calc(16px + 22px + clamp(1.25rem, 3vw, 2rem));
-    overflow: hidden;
-    border-radius: 28px;
-    color: #f8f6ee;
-    background:
-      radial-gradient(60% 55% at 50% 42%, rgba(255, 255, 255, 0.08), transparent 70%),
-      radial-gradient(35% 30% at 15% 85%, rgba(255, 255, 255, 0.045), transparent 70%),
-      radial-gradient(30% 25% at 85% 20%, rgba(255, 255, 255, 0.04), transparent 70%),
-      #1f4a38;
-    box-shadow: var(--shadow-lg);
-  }
-  .board__frame {
-    position: absolute;
-    inset: 0;
-    border: 16px solid #8a5a2b;
-    border-radius: 28px;
-    box-shadow:
-      inset 0 0 0 3px #5e3d1c,
-      inset 0 0 60px rgba(0, 0, 0, 0.4);
-    pointer-events: none;
-    z-index: 4;
-  }
-  /* the ghost of yesterday's lesson, half rubbed out */
-  .board__smudge {
-    position: absolute;
-    inset: 12% 18% 30%;
-    background:
-      radial-gradient(40% 30% at 30% 40%, rgba(255, 255, 255, 0.05), transparent 70%),
-      radial-gradient(35% 25% at 70% 60%, rgba(255, 255, 255, 0.04), transparent 70%);
-    filter: blur(8px);
-    pointer-events: none;
-  }
-  .chalk {
-    color: #f8f6ee;
-    filter: url(#fx-chalk);
-  }
-  .chalk--lemon { color: #fff3b0; }
-  .chalk--pink { color: #ffd6e0; }
-  .chalk--sky { color: #cdeffd; }
-  .chalk--mint { color: #c9f2dc; }
 
-  .board__center {
-    --name: clamp(5rem, 13vw, 13rem);
+  /* ---------- Hero: an exercise-book page ---------- */
+  .launch {
+    padding: 0 clamp(0.75rem, 2vw, 1.25rem);
+  }
+  .launch__page {
+    position: relative;
+    overflow: hidden;
+    border-radius: 32px;
+    padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(3rem, 6vw, 5rem);
+    color: #1e1b4b;
+    background:
+      linear-gradient(to right, transparent calc(clamp(1.5rem, 7vw, 6rem) - 1px), rgba(255, 107, 107, 0.45) calc(clamp(1.5rem, 7vw, 6rem) - 1px) clamp(1.5rem, 7vw, 6rem), transparent clamp(1.5rem, 7vw, 6rem)),
+      repeating-linear-gradient(to bottom, transparent 0 39px, rgba(56, 189, 248, 0.22) 39px 40px),
+      radial-gradient(45% 55% at 85% 10%, rgba(255, 214, 224, 0.65), transparent 70%),
+      radial-gradient(40% 50% at 8% 90%, rgba(255, 243, 176, 0.75), transparent 70%),
+      #fffdf6;
+    box-shadow: 0 1px 0 rgba(30, 27, 75, 0.06), 0 30px 60px -40px rgba(30, 27, 75, 0.35);
+  }
+  .launch__in {
     position: relative;
     z-index: 2;
-    align-self: center;
-    justify-self: center;
     display: grid;
     justify-items: center;
-    padding-block: 1rem 2rem;
-    transform: rotate(-2deg);
+    text-align: center;
   }
-  .board__name {
+  .launch__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.95rem;
+    border-radius: 999px;
+    background: #1e1b4b;
+    color: #fff3b0;
+    font-size: var(--step--1);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+  }
+  .launch__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 0 4px rgba(52, 211, 153, 0.25);
+  }
+  .launch__word {
+    --name: clamp(4rem, 15vw, 10.5rem);
+    display: grid;
+    justify-items: center;
+  }
+  .launch__name {
     font-size: var(--name);
     font-weight: 400;
-    line-height: 1.75;
-    text-align: center;
+    line-height: 1.55;
     white-space: nowrap;
-    transition: transform 0.9s var(--ease);
   }
-  .board:hover .board__name {
-    transform: scale(1.025);
+  .launch__swash {
+    width: min(72%, 620px);
+    height: 22px;
+    margin-top: calc(var(--name) * -0.3);
+    color: #ff6b6b;
   }
-  .board__underline {
-    width: min(64%, 560px);
-    height: 26px;
-    margin-top: calc(var(--name) * -0.42);
+  .launch__title {
+    margin-top: 1rem;
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    line-height: 1;
+    letter-spacing: -0.01em;
   }
-  .board__greeting {
-    margin-top: 0.4rem;
-    font-size: clamp(1.4rem, 2.8vw, 2.3rem);
-    line-height: 2;
-    text-align: center;
-    color: #fff3b0;
+  .launch__title em {
+    color: #ff6b6b;
   }
-
+  .launch__tag {
+    margin-top: 1rem;
+    max-width: 46ch;
+    font-size: var(--step-1);
+    line-height: 1.55;
+    color: #3b3768;
+  }
+  .launch__cta {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  .launch__cta .btn-outline {
+    color: #1e1b4b;
+    border-color: rgba(30, 27, 75, 0.3);
+  }
+  .launch__cta .btn-ghost {
+    color: #1e1b4b;
+  }
+  .launch__credits {
+    margin-top: 2.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem 1.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #3b3768;
+  }
+  .launch__credit {
+    white-space: nowrap;
+  }
+  .launch__role {
+    margin-right: 0.35rem;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
   .doodle {
     position: absolute;
     z-index: 1;
-    font-size: 1.8rem;
-    line-height: 2;
-    opacity: 0.88;
+    opacity: 0.9;
     transform: rotate(var(--rot, 0deg));
     pointer-events: none;
     white-space: nowrap;
   }
-  .doodle--abc { left: 7%; top: 9%; --rot: -8deg; font-size: 2.2rem; }
-  .doodle--digits { right: 9%; top: 11%; --rot: 7deg; font-size: 2rem; }
-  .doodle--vowels { left: 8%; top: 46%; --rot: 4deg; }
-  .doodle--latin { right: 8%; top: 44%; --rot: -6deg; font-size: 2rem; }
-  .doodle--sum { left: 30%; top: 8%; --rot: 5deg; font-size: 1.6rem; }
-  .doodle--star { width: 54px; height: 54px; right: 26%; top: 9%; --rot: 12deg; }
-  .doodle--heart { width: 42px; height: 42px; left: 21%; top: 30%; --rot: -10deg; }
-  .doodle--sun { width: 58px; height: 58px; right: 20%; top: 30%; --rot: 8deg; }
-  @keyframes wiggle {
-    0%, 100% { transform: rotate(calc(var(--rot, 0deg) - 3deg)); }
-    50% { transform: rotate(calc(var(--rot, 0deg) + 3deg)); }
+  .doodle--star { width: 58px; height: 58px; right: 12%; top: 12%; --rot: 12deg; color: #f5b400; }
+  .doodle--heart { width: 46px; height: 46px; left: 9%; top: 52%; --rot: -10deg; color: #ff6b6b; }
+  .doodle--sun { width: 62px; height: 62px; right: 9%; bottom: 22%; --rot: 8deg; color: #38bdf8; }
+  .doodle--ka { left: 11%; top: 11%; font-size: 1.9rem; line-height: 2; --rot: -6deg; color: #a78bfa; }
+  .doodle--abc { left: 10%; bottom: 16%; font-size: 1.6rem; --rot: 5deg; color: #34d399; }
+  @keyframes bob {
+    0%, 100% { transform: rotate(var(--rot, 0deg)) translateY(0); }
+    50% { transform: rotate(var(--rot, 0deg)) translateY(-6px); }
   }
-  .board:hover .doodle {
-    animation: wiggle 1.4s ease-in-out infinite;
+  .doodle {
+    animation: bob 4.5s ease-in-out infinite;
   }
-  .board:hover .doodle:nth-of-type(2n) {
-    animation-delay: -0.7s;
+  .doodle--heart { animation-delay: -1.5s; }
+  .doodle--sun { animation-delay: -3s; }
+  @media (max-width: 760px) {
+    .doodle--ka,
+    .doodle--abc,
+    .doodle--heart {
+      display: none;
+    }
+    .doodle--star { top: 4%; right: 6%; width: 40px; height: 40px; }
+    .doodle--sun { bottom: 3%; right: 5%; width: 44px; height: 44px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .doodle {
+      animation: none;
+    }
   }
 
-  .board__meta {
-    position: relative;
-    z-index: 3;
-    display: grid;
-    gap: 0.35rem;
-    justify-items: start;
+  /* ---------- The band of stacks ---------- */
+  .band {
+    margin-top: clamp(2.5rem, 6vw, 4.5rem);
+    padding-block: 1.25rem 0;
+    overflow: hidden;
   }
-  .board__label {
-    font-family: var(--font-display);
-    font-size: var(--step-3);
-    line-height: 1;
-    letter-spacing: -0.01em;
+  .band__row {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
   }
-  .board__label em {
-    font-family: var(--font-ui);
-    font-style: normal;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    vertical-align: middle;
-    margin-left: 0.4rem;
-    padding: 0.2rem 0.55rem;
-    border-radius: 999px;
-    border: 1.5px solid rgba(248, 246, 238, 0.55);
+  .band__track {
+    display: flex;
+    width: max-content;
+    gap: clamp(1.4rem, 3vw, 2.4rem);
+    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    line-height: 2.3;
+    color: var(--fg);
+    animation: band 140s linear infinite;
+    will-change: transform;
   }
-  .board__desc {
-    font-size: var(--step--1);
-    max-width: 44ch;
-    opacity: 0.85;
+  .band__row--2 .band__track {
+    animation-direction: reverse;
+    color: var(--fg-3);
   }
-  .board__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    padding: 0.7rem 1.25rem;
-    border-radius: 999px;
-    border: 2px solid rgba(248, 246, 238, 0.85);
-    font-size: var(--step--1);
-    font-weight: 800;
-    transition: transform 0.3s var(--ease), background 0.2s, color 0.2s;
+  .band:hover .band__track {
+    animation-play-state: paused;
   }
-  .board__cta .arrow {
-    transition: transform 0.3s var(--ease);
+  @keyframes band {
+    to { transform: translateX(-50%); }
   }
-  .board:hover .board__cta {
-    background: #f8f6ee;
-    color: #1f4a38;
-    transform: translateY(-2px);
+  @media (prefers-reduced-motion: reduce) {
+    .band__track {
+      animation: none;
+    }
   }
-  .board:hover .board__cta .arrow {
-    transform: translateX(3px);
-  }
-  .board__credits {
-    margin-top: 0.7rem;
-    padding-top: 0.6rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.25);
+  .band__note {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.2rem 1.1rem;
-    font-size: 0.72rem;
-    line-height: 1.45;
+    justify-content: center;
+    gap: 0.5rem 1.25rem;
+    padding-top: 1rem;
+    color: var(--fg-2);
     font-weight: 600;
-    opacity: 0.9;
-    max-width: 72ch;
+    font-size: var(--step--1);
+    text-align: center;
   }
-  .board__credit {
+  .link-arrow {
+    font-weight: 800;
+    font-size: var(--step--1);
+    color: var(--fg-2);
+    border-bottom: 2px solid var(--line-2);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .link-arrow:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* ---------- Why it is hard: one syllable, built up ---------- */
+  .build {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(0, 1.8fr);
+    gap: 0.9rem;
+  }
+  @media (max-width: 900px) {
+    .build {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .build__step:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+  .build__step {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    justify-items: center;
+    gap: 0.2rem;
+    padding: 2.2rem 1rem 1.2rem;
+    border-radius: 24px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    color: #1e1b4b;
+  }
+  .build__step:nth-child(1) { background: #fff3b0; }
+  .build__step:nth-child(2) { background: #ffd6e0; }
+  .build__step:nth-child(3) { background: #cdeffd; }
+  .build__step:nth-child(4) { background: #d7f5e6; }
+  .build__step:nth-child(5) { background: #e9ddff; }
+  .build__n {
+    position: absolute;
+    left: 1rem;
+    top: 0.9rem;
+    font-size: var(--step--2);
+    font-weight: 800;
+    opacity: 0.55;
+  }
+  .build__bo {
+    display: grid;
+    place-items: center;
+    font-size: clamp(3rem, 5.5vw, 4.4rem);
+    line-height: 2.5;
     white-space: nowrap;
   }
-  .board__role {
-    font-size: 0.58rem;
-    font-weight: 800;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    opacity: 0.62;
-    margin-right: 0.3rem;
-  }
-
-  /* the chalk ledge along the bottom of the board */
-  .board__ledge {
-    position: absolute;
-    z-index: 5;
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    height: 22px;
-    display: flex;
-    align-items: end;
-    gap: 10px;
-    padding: 0 clamp(1.5rem, 6vw, 5rem) 7px;
-    justify-content: flex-end;
-    background: linear-gradient(#a06a36, #7a4c22);
-    box-shadow:
-      0 -3px 8px rgba(0, 0, 0, 0.25),
-      inset 0 2px 0 rgba(255, 255, 255, 0.18);
-  }
-  .stick {
-    width: 42px;
-    height: 9px;
-    border-radius: 5px;
-    box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.12);
-    transform: rotate(-3deg);
-  }
-  .stick--white { background: #f8f6ee; }
-  .stick--pink { background: #ffd6e0; width: 30px; transform: rotate(4deg); }
-  .stick--lemon { background: #fff3b0; width: 22px; }
-  .eraser {
-    width: 64px;
-    height: 16px;
-    margin-left: 18px;
-    border-radius: 4px;
-    background: linear-gradient(#4b5563 0 55%, #e7e2d4 55%);
-  }
-
-  @media (max-width: 860px) {
-    .board {
-      min-height: 0;
-      gap: 1.5rem;
-    }
-    .board__center {
-      --name: 16vw;
-      padding-top: 4.5rem;
-    }
-    .board__greeting {
-      font-size: 1.3rem;
-    }
-    .doodle--abc { top: 3%; }
-    .doodle--digits { top: 4%; }
-    .doodle--sum,
-    .doodle--vowels,
-    .doodle--latin,
-    .doodle--sun,
-    .doodle--heart,
-    .doodle--star {
-      display: none;
-    }
-    .board__credits {
-      flex-direction: column;
-      gap: 0.1rem;
-    }
-    .stick--lemon,
-    .eraser {
-      display: none;
-    }
-  }
-
-  /* ---------- Strapline ---------- */
-  .strapline {
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    background: var(--bg-2);
-    margin-top: clamp(0.75rem, 2vw, 1.25rem);
-  }
-  .strapline__in {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 1.5rem;
-    align-items: center;
-    padding-block: 1.1rem;
-  }
-  .strapline p {
-    color: var(--fg-2);
+  .build__wy {
+    font-family: var(--font-mono);
     font-size: var(--step--1);
-    max-width: 72ch;
+    font-weight: 600;
   }
-  @media (max-width: 860px) {
-    .strapline__in {
-      grid-template-columns: 1fr;
-      gap: 0.75rem;
-      justify-items: start;
+  .build__note {
+    font-size: var(--step--1);
+    text-align: center;
+    opacity: 0.75;
+  }
+  .numbers {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+  }
+  @media (max-width: 760px) {
+    .numbers {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+  }
+  .number {
+    padding: 1.5rem 1rem 1.6rem;
+    text-align: center;
+  }
+  .number + .number {
+    border-left: 1px solid var(--line);
+  }
+  @media (max-width: 760px) {
+    .number:nth-child(3) {
+      border-left: 0;
+    }
+    .number:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
+    }
+  }
+  .number__n {
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    line-height: 1.3;
+    color: #1e1b4b;
+  }
+  .number__l {
+    margin-top: 0.3rem;
+    font-size: var(--step--1);
+    color: var(--fg-2);
+    max-width: 22ch;
+    margin-inline: auto;
+  }
+
+  /* ---------- Weights ---------- */
+  .wrows {
+    display: grid;
+    border-top: 1px solid var(--line-2);
+  }
+  .wrow {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid var(--line-2);
+  }
+  @media (max-width: 760px) {
+    .wrow {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+      padding-top: 1rem;
+    }
+  }
+  .wrow__meta {
+    display: grid;
+    gap: 0.1rem;
+  }
+  .wrow__meta strong {
+    font-size: var(--step-1);
+  }
+  .wrow__meta span {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    color: var(--fg-3);
+  }
+  .wrow__text {
+    font-size: clamp(2rem, 5.2vw, 4.4rem);
+    line-height: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    mask-image: linear-gradient(to right, #000 88%, transparent);
+    -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
   }
 
   /* ---------- Try it ---------- */
@@ -728,100 +892,7 @@ const SEAL_BO = '';
     padding-block: 0.15rem;
   }
 
-  /* ---------- Flip cards: the letter, then its name ---------- */
-  .flip__grid {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 0.9rem;
-  }
-  @media (max-width: 900px) {
-    .flip__grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-  @media (max-width: 560px) {
-    .flip__grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.6rem;
-    }
-  }
-  .flip__card {
-    display: block;
-    perspective: 900px;
-  }
-  .flip__inner {
-    position: relative;
-    display: block;
-    width: 100%;
-    aspect-ratio: 1;
-    transform-style: preserve-3d;
-    transition: transform 0.75s var(--ease-bounce);
-  }
-  .flip__card:hover .flip__inner,
-  .flip__card.is-flipped .flip__inner {
-    transform: rotateY(180deg);
-  }
-  .flip__face {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    border-radius: 22px;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    box-shadow: var(--shadow-sm);
-  }
-  .flip__face--front {
-    font-size: clamp(2.6rem, 5vw, 4.2rem);
-    line-height: 2;
-    background: #fff3b0;
-    color: #1e1b4b;
-  }
-  .flip__card:nth-child(6n + 2) .flip__face--front { background: #ffd6e0; }
-  .flip__card:nth-child(6n + 3) .flip__face--front { background: #cdeffd; }
-  .flip__card:nth-child(6n + 4) .flip__face--front { background: #d7f5e6; }
-  .flip__card:nth-child(6n + 5) .flip__face--front { background: #e9ddff; }
-  .flip__card:nth-child(6n + 6) .flip__face--front { background: #ffe1c7; }
-  .flip__face--back {
-    align-content: center;
-    gap: 0;
-    background: #1f4a38;
-    color: #f8f6ee;
-    font-size: clamp(1.5rem, 3vw, 2.3rem);
-    line-height: 1.2;
-    transform: rotateY(180deg);
-    box-shadow:
-      inset 0 0 0 5px #8a5a2b,
-      var(--shadow-sm);
-  }
-  .flip__small {
-    font-size: 0.8em;
-    line-height: 1.7;
-    color: #fff3b0;
-  }
-  .flip__more {
-    margin-top: 1.75rem;
-    text-align: center;
-  }
-  .link-arrow {
-    font-weight: 800;
-    font-size: var(--step--1);
-    color: var(--fg-2);
-    border-bottom: 2px solid var(--line-2);
-    padding-bottom: 2px;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .link-arrow:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .flip__inner {
-      transition: none;
-    }
-  }
-
-  /* ---------- New in 1.0 ---------- */
+  /* ---------- Two scripts ---------- */
   .banner {
     margin-bottom: 1rem;
     padding: clamp(1.5rem, 4vw, 2.75rem) clamp(1.25rem, 4vw, 3rem);
@@ -861,7 +932,7 @@ const SEAL_BO = '';
     border-radius: 24px;
     overflow: hidden;
     border: 1px solid var(--line);
-    background: var(--bg);
+    background: var(--bg-2);
     box-shadow: var(--shadow-sm);
     transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
   }
@@ -919,32 +990,224 @@ const SEAL_BO = '';
     font-size: 0.9em;
     padding: 0.05rem 0.35rem;
     border-radius: 6px;
-    background: var(--bg-2);
+    background: var(--bg-3);
     border: 1px solid var(--line);
   }
 
-  /* ---------- Why ---------- */
+  /* ---------- Letter cards ---------- */
+  .flip__grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+  @media (max-width: 900px) {
+    .flip__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 560px) {
+    .flip__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.6rem;
+    }
+  }
+  .flip__card {
+    display: block;
+    perspective: 900px;
+  }
+  .flip__inner {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    transform-style: preserve-3d;
+    transition: transform 0.75s var(--ease-bounce);
+  }
+  .flip__card:hover .flip__inner,
+  .flip__card.is-flipped .flip__inner {
+    transform: rotateY(180deg);
+  }
+  .flip__face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 22px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .flip__face--front {
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    line-height: 2;
+    background: #fff3b0;
+    color: #1e1b4b;
+  }
+  .flip__card:nth-child(6n + 2) .flip__face--front { background: #ffd6e0; }
+  .flip__card:nth-child(6n + 3) .flip__face--front { background: #cdeffd; }
+  .flip__card:nth-child(6n + 4) .flip__face--front { background: #d7f5e6; }
+  .flip__card:nth-child(6n + 5) .flip__face--front { background: #e9ddff; }
+  .flip__card:nth-child(6n + 6) .flip__face--front { background: #ffe1c7; }
+  .flip__face--back {
+    align-content: center;
+    background: #1e1b4b;
+    color: #fffdf6;
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    line-height: 1.2;
+    transform: rotateY(180deg);
+  }
+  .flip__small {
+    font-size: 0.8em;
+    line-height: 1.7;
+    color: #fff3b0;
+  }
+  .flip__more {
+    margin-top: 1.75rem;
+    text-align: center;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .flip__inner {
+      transition: none;
+    }
+  }
+
+  /* ---------- Why we made it, with a small chalkboard ---------- */
   .why__grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem 4rem;
-    align-items: start;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
   }
   @media (max-width: 860px) {
     .why__grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
   }
-  .stats {
-    margin-top: clamp(2rem, 5vw, 3.5rem);
+  .why .prose {
+    margin-top: 1.25rem;
+  }
+  .board {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 22px;
+    background:
+      radial-gradient(60% 55% at 50% 45%, rgba(255, 255, 255, 0.08), transparent 70%),
+      #1f4a38;
+    box-shadow: var(--shadow-lg);
+    transform: rotate(1.5deg);
+  }
+  .board__frame {
+    position: absolute;
+    inset: 0;
+    border: 12px solid #8a5a2b;
+    border-radius: 22px;
+    box-shadow:
+      inset 0 0 0 3px #5e3d1c,
+      inset 0 0 40px rgba(0, 0, 0, 0.4);
+    z-index: 3;
+  }
+  .chalk {
+    color: #f8f6ee;
+    filter: url(#fx-chalk);
+  }
+  .chalk--lemon { color: #fff3b0; }
+  .chalk--pink { color: #ffd6e0; }
+  .chalk--sky { color: #cdeffd; }
+  .board__name {
+    font-size: clamp(4rem, 9vw, 7rem);
+    line-height: 2;
+    transform: rotate(-2deg);
+  }
+  .board__doodle {
+    position: absolute;
+    font-size: 1.5rem;
+    line-height: 2;
+  }
+  .board__doodle--1 { left: 9%; top: 9%; transform: rotate(-7deg); }
+  .board__doodle--2 { right: 10%; top: 11%; transform: rotate(6deg); }
+  .board__doodle--3 { right: 12%; bottom: 20%; transform: rotate(-4deg); }
+  .board__ledge {
+    position: absolute;
+    z-index: 4;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    height: 18px;
+    display: flex;
+    align-items: end;
+    justify-content: flex-end;
+    gap: 9px;
+    padding: 0 1.5rem 5px;
+    background: linear-gradient(#a06a36, #7a4c22);
+  }
+  .stick {
+    width: 36px;
+    height: 8px;
+    border-radius: 4px;
+    transform: rotate(-3deg);
+  }
+  .stick--white { background: #f8f6ee; }
+  .stick--pink { background: #ffd6e0; width: 26px; transform: rotate(4deg); }
+  .eraser {
+    width: 54px;
+    height: 13px;
+    margin-left: 14px;
+    border-radius: 3px;
+    background: linear-gradient(#4b5563 0 55%, #e7e2d4 55%);
+  }
+
+  /* ---------- People ---------- */
+  .people__grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.75rem;
+    gap: 1rem;
   }
-  @media (max-width: 720px) {
-    .stats {
+  @media (max-width: 900px) {
+    .people__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+  }
+  @media (max-width: 520px) {
+    .people__grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .person {
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    padding: 1.4rem 1.3rem 1.5rem;
+    border-radius: 22px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+    border-top: 6px solid #fff3b0;
+  }
+  .person--1 { border-top-color: #ffd6e0; }
+  .person--2 { border-top-color: #cdeffd; }
+  .person--3 { border-top-color: #d7f5e6; }
+  .person__role {
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .person__name {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1.1;
+    color: var(--fg);
+  }
+  a.person__name:hover {
+    color: var(--accent);
+  }
+  .person__note {
+    font-size: var(--step--1);
+    color: var(--fg-2);
   }
 
   /* ---------- Studio promo ---------- */
@@ -986,7 +1249,8 @@ const SEAL_BO = '';
   .studio-promo__mock {
     border-radius: 22px;
     border: 1px solid var(--line);
-    background: var(--bg);
+    background: #f6f0e1;
+    color: #111;
     box-shadow: var(--shadow);
     overflow: hidden;
     transform: rotate(1.5deg);
@@ -996,31 +1260,29 @@ const SEAL_BO = '';
     align-items: center;
     gap: 6px;
     padding: 0.7rem 1rem;
-    border-bottom: 1px solid var(--line);
-    background: var(--bg-2);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+    background: #fbf7ee;
   }
   .mock__bar span {
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--bg-4);
+    background: #e3dccb;
   }
   .mock__bar em {
     margin-left: auto;
     font-style: normal;
     font-size: var(--step--2);
-    color: var(--fg-3);
-    font-family: var(--font-ui), var(--font-yangtso);
+    color: #8a8172;
   }
   .mock__wylie {
     padding: 0.9rem 1.2rem 0;
-    color: var(--fg-3);
+    color: #8a8172;
     font-size: 0.8rem;
   }
   .mock__bo {
     padding: 0.4rem 1.2rem 1.4rem;
     font-size: 1.55rem;
     line-height: 2;
-    color: var(--fg);
   }
 </style>

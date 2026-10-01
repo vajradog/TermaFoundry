@@ -19,14 +19,19 @@ To fix it, edit `text` under `SAMPLES.yangtso` in `src/foundry/data/fonts.js`.
 
 ## 2. Every Tibetan string on the site
 
-All Tibetan text on the site comes from four sources only:
+All Tibetan text on the site comes from these sources only:
 
 - the Yangtso review passage, verbatim (see 1), and the font name as supplied, དབྱངས་མཚོ;
 - the Studio's mixed-language passage (Tibetan with English names), verbatim as supplied, with
   three happy faces added at the end;
 - the alphabet (30 consonants), the vowel signs on ཀ (ཀ་ཀི་ཀུ་ཀེ་ཀོ།), and the digits ༠–༩;
 - བཀྲ་ཤིས་བདེ་ལེགས།
-- བོད་ཡིག (used as the sample word for the weight comparisons).
+- བོད་ཡིག (used as the sample word for the weight comparisons, and on the chalkboard on the home page);
+- on the home page, the syllable བསྒྲུབས built up in five steps: ག, སྒ, སྒྲ, སྒྲུ, བསྒྲུབས (Wylie
+  ga, sga, sgra, sgru, bsgrubs), to show a root letter with a letter on its head, one under its feet,
+  a vowel below, a prefix and two suffixes. Please confirm the steps and the captions;
+- the whole set on the Yangtso page: every stack and sign in the font, read from the font itself,
+  each with its Wylie from the converter.
 
 No mantras appear anywhere. The Wylie cheat sheet in the Studio shows single letters and the
 syllable ཀ with each vowel; the Sanskrit row shows ཊ ཋ ཌ ཎ ཥ, ཀཾ, ཀཿ and ཀྃ (only to document

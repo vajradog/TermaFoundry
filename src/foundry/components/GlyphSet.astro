@@ -1,0 +1,267 @@
+---
+/* The whole set: every character of Yangtso, in groups, with a large preview of the one under
+   the pointer. The data is read from the font by src/foundry/tools/glyphset.py. */
+import { GLYPHSET } from '../data/glyphset.js';
+import { toWylie } from '../lib/ewts.js';
+
+const hex = (s: string) => [...s].map((c) => `U+${c.codePointAt(0)!.toString(16).toUpperCase().padStart(4, '0')}`).join(' ');
+const tibetan = (list: string[]) => list.map((g) => ({ g, label: toWylie(g).text, cp: hex(g) }));
+const plain = (list: string[]) => list.map((g) => ({ g, label: hex(g), cp: hex(g) }));
+
+const groups = [
+  { id: 'stacks', label: 'Stacks', items: tibetan(GLYPHSET.stacks) },
+  { id: 'vowel-ligs', label: 'Stacks with vowels', items: tibetan(GLYPHSET.vowelLigatures) },
+  { id: 'letters', label: 'Letters and vowels', items: tibetan([...GLYPHSET.letters, ...GLYPHSET.sanskrit, ...GLYPHSET.vowels]) },
+  { id: 'signs', label: 'Digits and signs', items: tibetan([...GLYPHSET.digits, ...GLYPHSET.signs]) },
+  { id: 'english', label: 'English', items: plain(GLYPHSET.english) },
+  { id: 'icons', label: 'Icons and sums', items: plain([...GLYPHSET.icons, ...GLYPHSET.sums]) },
+  { id: 'seals', label: 'Seals', items: GLYPHSET.seals.map((g, i) => ({ g, label: i === 0 ? '@@@#' : '@@@@#', cp: hex(g) })), wide: true },
+];
+const first = groups[0].items[0];
+---
+
+<section class="section set" id="set">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">The whole set</span>
+      <h2 class="display display--lg">{GLYPHSET.glyphs} glyphs, <em>one round pen.</em></h2>
+      <p class="lede">
+        Every stack, every vowel, the digits and signs, the English, the icons and the seals: everything in Yangtso, read from
+        the font itself. Hover or tap any one to see it large.
+      </p>
+    </div>
+
+    <div class="set__box card reveal" data-set>
+      <div class="set__tabs" role="tablist" aria-label="Groups of characters">
+        {
+          groups.map((grp, i) => (
+            <button type="button" role="tab" class="set__tab" id={`set-tab-${grp.id}`} aria-controls={`set-${grp.id}`} aria-selected={i === 0 ? 'true' : 'false'} data-set-tab={grp.id}>
+              {grp.label} <span class="set__count">{grp.items.length}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="set__body">
+        <div class="set__panels">
+          {
+            groups.map((grp, i) => (
+              <div class={`set__grid${grp.wide ? ' set__grid--wide' : ''}`} id={`set-${grp.id}`} role="tabpanel" aria-labelledby={`set-tab-${grp.id}`} hidden={i !== 0} data-set-panel={grp.id}>
+                {grp.items.map((it) => (
+                  <button type="button" class="glyph" data-g={it.g} data-label={it.label} data-cp={it.cp} aria-label={it.label}>
+                    <span class="glyph__g bo-yangtso" lang="bo">{it.g}</span>
+                    <small class="glyph__l">{it.label}</small>
+                  </button>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+
+        <aside class="set__view" aria-live="polite">
+          <div class="set__big bo-yangtso" lang="bo" data-set-big>{first.g}</div>
+          <div class="set__meta">
+            <strong data-set-label>{first.label}</strong>
+            <span data-set-cp>{first.cp}</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-set]').forEach((box) => {
+    const big = box.querySelector('[data-set-big]') as HTMLElement;
+    const label = box.querySelector('[data-set-label]') as HTMLElement;
+    const cp = box.querySelector('[data-set-cp]') as HTMLElement;
+    const show = (b: HTMLElement) => {
+      big.textContent = b.dataset.g || '';
+      big.classList.toggle('is-wide', !!b.closest('.set__grid--wide'));
+      label.textContent = b.dataset.label || '';
+      cp.textContent = b.dataset.cp || '';
+      box.querySelectorAll('.glyph.is-on').forEach((x) => x.classList.remove('is-on'));
+      b.classList.add('is-on');
+    };
+    box.querySelectorAll<HTMLButtonElement>('.glyph').forEach((b) => {
+      b.addEventListener('mouseenter', () => show(b));
+      b.addEventListener('focus', () => show(b));
+      b.addEventListener('click', () => show(b));
+    });
+    const tabs = Array.from(box.querySelectorAll<HTMLButtonElement>('[data-set-tab]'));
+    tabs.forEach((t) =>
+      t.addEventListener('click', () => {
+        tabs.forEach((x) => x.setAttribute('aria-selected', String(x === t)));
+        box.querySelectorAll<HTMLElement>('[data-set-panel]').forEach((p) => {
+          p.hidden = p.dataset.setPanel !== t.dataset.setTab;
+          if (!p.hidden) {
+            p.scrollTop = 0;
+            const firstGlyph = p.querySelector<HTMLElement>('.glyph');
+            if (firstGlyph) show(firstGlyph);
+          }
+        });
+      }),
+    );
+  });
+</script>
+
+<style>
+  .set__box {
+    overflow: hidden;
+  }
+  .set__tabs {
+    display: flex;
+    gap: 0.35rem;
+    padding: 0.75rem;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--line);
+    scrollbar-width: none;
+  }
+  .set__tab {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    font-size: var(--step--1);
+    font-weight: 800;
+    color: var(--fg-3);
+    transition: background 0.2s, color 0.2s;
+  }
+  .set__tab:hover {
+    color: var(--fg);
+  }
+  .set__tab[aria-selected='true'] {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .set__count {
+    font-size: 0.72em;
+    font-weight: 700;
+    opacity: 0.6;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .set__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(240px, 28vw, 340px);
+  }
+  @media (max-width: 760px) {
+    .set__body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .set__view {
+      order: -1;
+      border-left: 0;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+  .set__panels {
+    min-width: 0;
+  }
+  .set__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+    gap: 6px;
+    max-height: 560px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0.75rem;
+  }
+  .set__grid[hidden] {
+    display: none;
+  }
+  .set__grid--wide {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+  .glyph {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    justify-items: center;
+    align-items: center;
+    min-height: 96px;
+    padding: 0.2rem 0.25rem 0.45rem;
+    border-radius: 14px;
+    background: var(--bg-2);
+    border: 1px solid transparent;
+    color: var(--fg);
+    transition: background 0.15s, transform 0.2s var(--ease-bounce), border-color 0.15s;
+  }
+  .glyph:hover,
+  .glyph:focus-visible {
+    background: #fff3b0;
+    color: #1e1b4b;
+    transform: translateY(-2px);
+  }
+  .glyph:nth-child(5n + 2):hover { background: #ffd6e0; }
+  .glyph:nth-child(5n + 3):hover { background: #cdeffd; }
+  .glyph:nth-child(5n + 4):hover { background: #d7f5e6; }
+  .glyph:nth-child(5n + 5):hover { background: #e9ddff; }
+  .glyph.is-on {
+    border-color: var(--accent);
+  }
+  .glyph__g {
+    font-size: 1.6rem;
+    line-height: 2.4;
+    white-space: nowrap;
+  }
+  .set__grid--wide .glyph__g {
+    font-size: 3.2rem;
+    line-height: 1.6;
+  }
+  .glyph__l {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--fg-3);
+  }
+  .glyph:hover .glyph__l,
+  .glyph:focus-visible .glyph__l {
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .set__view {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    border-left: 1px solid var(--line);
+    background:
+      radial-gradient(60% 50% at 20% 15%, #fff3b0 0%, transparent 65%),
+      radial-gradient(55% 45% at 85% 85%, #cdeffd 0%, transparent 65%),
+      #fffdf5;
+    color: #1e1b4b;
+    min-height: 300px;
+  }
+  .set__big {
+    display: grid;
+    place-items: center;
+    container-type: inline-size;
+    font-size: clamp(5rem, 9vw, 7.5rem);
+    line-height: 2.4;
+    padding-inline: 1rem;
+    white-space: nowrap;
+  }
+  .set__big.is-wide {
+    font-size: 2.6rem;
+  }
+  .set__meta {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.9rem 1.1rem 1.1rem;
+    border-top: 1px solid rgba(30, 27, 75, 0.1);
+  }
+  .set__meta strong {
+    font-family: var(--font-mono);
+    font-size: var(--step-0);
+  }
+  .set__meta span {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    opacity: 0.65;
+  }
+</style>
