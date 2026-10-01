@@ -8,15 +8,14 @@ export const BASE = '/test';
 export const SITE_NAME = 'Terma Foundry';
 export const PUBLISHER = 'Terma Heritage Foundation';
 export const BUILD = {
-  version: '0.1',
-  date: '2026-09-25',
-  dateHuman: '25 September 2026',
-  label: 'Review build v0.1',
+  version: '1.0',
+  date: '2026-10-01',
+  dateHuman: '1 October 2026',
+  label: 'Review build v1.0',
 };
 export const paths = {
   home: `${BASE}/`,
   yangtso: `${BASE}/yangtso/`,
-  pema: `${BASE}/pema/`,
   studio: `${BASE}/studio/`,
   directions: `${BASE}/directions/`,
   fonts: `${BASE}/fonts`,

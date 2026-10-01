@@ -5,7 +5,7 @@ import Tryout from '../../foundry/components/Tryout.astro';
 import Details from '../../foundry/components/Details.astro';
 import Credits from '../../foundry/components/Credits.astro';
 import Wip from '../../foundry/components/Wip.astro';
-import { paths } from '../../foundry/config.js';
+import { paths, BUILD } from '../../foundry/config.js';
 import { FONTS, TEXT, SAMPLES } from '../../foundry/data/fonts.js';
 
 const font = FONTS.yangtso;
@@ -63,7 +63,7 @@ const vowelLabels = ['ka', 'ki', 'ku', 'ke', 'ko'];
 
 <Site
   title={`Yangtso ${font.nameBo}, a Tibetan typeface for children`}
-  description="Yangtso (དབྱངས་མཚོ): a Tibetan uchen typeface written with one round stroke, made for children, learners and classrooms. In development, review build v0.1."
+  description="Yangtso (དབྱངས་མཚོ): a Tibetan uchen typeface written with one round stroke, made for children, learners and classrooms. Review build v1.0, not released yet."
   preload={['yangtso-regular.woff2']}
   bodyClass="page-yangtso"
 >
@@ -75,7 +75,7 @@ const vowelLabels = ['ka', 'ki', 'ku', 'ke', 'ko'];
     <div class="container yhero__in">
       <div class="yhero__text">
         <div class="flex reveal">
-          <span class="pill pill--wip">In development · v0.1</span>
+          <span class="pill pill--wip">Review build · v{BUILD.version}</span>
           <span class="pill">Children · Learners · Classrooms</span>
         </div>
         <h1 class="display display--xl reveal reveal-d1">Yangtso</h1>
@@ -182,7 +182,7 @@ const vowelLabels = ['ka', 'ki', 'ku', 'ke', 'ko'];
   </section>
 
   <!-- ═══════════ ALPHABET ═══════════ -->
-  <section class="section alphabet">
+  <section class="section alphabet" id="letters">
     <div class="container">
       <div class="section-head reveal">
         <span class="eyebrow">The letters</span>
@@ -251,7 +251,7 @@ const vowelLabels = ['ka', 'ki', 'ku', 'ke', 'ko'];
         </div>
         <div class="book__actions">
           <a class="btn btn-primary" href={studioHref}>Open this passage in the Studio <span class="arrow">→</span></a>
-          <span class="small muted">Change weight, size and leading there, or type your own.</span>
+          <span class="small muted">Change the weight and size there, or type your own.</span>
         </div>
       </div>
     </div>

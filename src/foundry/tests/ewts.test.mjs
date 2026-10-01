@@ -1,7 +1,7 @@
 /* Run: node --test src/foundry/tests/   (also `npm run test:ewts`, and a step in the deploy workflow) */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { toUnicode, toWylie, analyze, tokenize, convertLine, convertMixed, stats } from '../lib/ewts.js';
+import { toUnicode, toWylie, analyze, tokenize, convertLine, convertMixed, markEnglish, stats } from '../lib/ewts.js';
 import { SAMPLES, TEXT, isCovered } from '../data/fonts.js';
 
 const U = (w) => toUnicode(w).text;
@@ -100,8 +100,8 @@ test('Sanskrit stacks and marks (converter coverage; not shown on the site)', ()
   assert.equal(U('gha'), 'གྷ');
 });
 
-test('the two review passages round-trip Unicode -> Wylie -> Unicode exactly', () => {
-  for (const s of [SAMPLES.yangtso, SAMPLES.pema]) {
+test('the review passage round-trips Unicode -> Wylie -> Unicode exactly', () => {
+  for (const s of [SAMPLES.yangtso]) {
     const nfc = s.text.normalize('NFC');
     assert.equal(nfc, s.text, `${s.id} is already NFC`);
     const { text: wylie, warnings: w1 } = toWylie(nfc);
@@ -112,7 +112,7 @@ test('the two review passages round-trip Unicode -> Wylie -> Unicode exactly', (
   }
 });
 
-test('the alphabet, vowels, digits, greeting and font names round-trip', () => {
+test('the alphabet, vowels, digits, greeting, the font name and a stack round-trip', () => {
   for (const t of [TEXT.alphabet, TEXT.vowels, TEXT.tashi, TEXT.digits, TEXT.bodyig, 'དབྱངས་མཚོ', 'པདྨ']) {
     assert.equal(toUnicode(toWylie(t).text).text, t.normalize('NFC'), t);
   }
@@ -136,7 +136,29 @@ test('mixed Wylie and Unicode input, and the space rule', () => {
   assert.equal(convertMixed('  bkra'), 'བཀྲ');
   assert.equal(convertMixed('bkra   shis'), 'བཀྲ་ཤིས');
   assert.equal(convertMixed('bkra shis/\nbde legs/'), 'བཀྲ་ཤིས།\nབདེ་ལེགས།');
-  assert.equal(convertMixed(SAMPLES.pema.text), SAMPLES.pema.text);
+  const verse = 'བླ་མ་དང་ལྷག་པའི་ལྷ་ལ་ཕྱག་འཚལ་ལོ། །\nའགྲོ་བ་ཀུན་ལ་བརྩེ་བའི་བདག་ཉིད་ཅན། །';
+  assert.equal(convertMixed(verse), verse);
+});
+
+test('English in brackets and emoji are shown as they are', () => {
+  assert.equal(convertMixed('bkra shis [Tashi Delek!] 😄'), 'བཀྲ་ཤིས Tashi Delek! 😄');
+  assert.equal(convertMixed('[(Brian Mast)]'), '(Brian Mast)');
+  assert.equal(convertMixed('legs/ ☺'), 'ལེགས། ☺');
+  const t = tokenize('ka [a b] ★')[0].tokens;
+  assert.deepEqual(t.map((x) => x.type), ['wy', 'sp', 'en', 'sp', 'en']);
+  assert.equal(t[2].lit, 'a b');
+});
+
+test('a space between two runs of pasted Tibetan stays a space', () => {
+  assert.equal(convertMixed('ཕྱི་ལོ་ ༢༠༢༦ ཟླ་ ༩'), 'ཕྱི་ལོ་ ༢༠༢༦ ཟླ་ ༩');
+  assert.equal(convertMixed('ལེགས། བདེ'), 'ལེགས། བདེ');
+});
+
+test('pasted Tibetan keeps its English: markEnglish brackets it, and it renders unchanged', () => {
+  assert.equal(markEnglish('ཉིན་ (Brian Mast) དང་།'), 'ཉིན་ [(Brian Mast)] དང་།');
+  assert.equal(markEnglish('ལོ་ 2026 ཟླ་'), 'ལོ་ [2026] ཟླ་');
+  assert.equal(markEnglish('bkra shis bde legs/'), 'bkra shis bde legs/', 'plain Wylie is left alone');
+  assert.equal(convertMixed(markEnglish(SAMPLES.mixed.text)), SAMPLES.mixed.text);
 });
 
 test('tokenizer offsets', () => {
@@ -165,7 +187,7 @@ test('statistics', () => {
 });
 
 test('coverage table', () => {
-  for (const ch of TEXT.alphabet + TEXT.digits + 'དབྱངས་མཚོ' + 'པདྨ' + SAMPLES.yangtso.text + SAMPLES.pema.text) {
+  for (const ch of TEXT.alphabet + TEXT.digits + 'དབྱངས་མཚོ' + 'པདྨ' + SAMPLES.yangtso.text + SAMPLES.mixed.text + 'Tashi Delek! 3-1=2') {
     if (/\s/.test(ch)) continue; // line breaks and spaces are not glyphs
     assert.ok(isCovered(ch.codePointAt(0)), `U+${ch.codePointAt(0).toString(16)} should be covered`);
   }

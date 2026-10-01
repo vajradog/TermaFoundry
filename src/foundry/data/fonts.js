@@ -1,7 +1,7 @@
 /*
   Font metadata, sample texts and credits for the new Terma Foundry site.
-  Every Tibetan string here comes from one of four sources: the two review passages and the
-  two font names supplied by the designer, the alphabet / vowels / digits, and the greeting
+  Every Tibetan string here comes from one of four sources: the review passage and the font
+  name supplied by the designer, the alphabet / vowels / digits, and the greeting
   བཀྲ་ཤིས་བདེ་ལེགས།. Nothing else was composed, and no mantras are shown anywhere.
 */
 
@@ -37,36 +37,54 @@ export const SAMPLES = {
     note: 'Lhamo and Karma: the opening of a children’s story. Supplied by the designer for review.',
     text: 'ལྷ་མོ་དང་ཀརྨ་གཉིས་ནི་ནིའུ་ཡོག་མངའ་སྡེའི་ཝུའུ་ཌི་སི་ཊོག་ཏུ་གནས་སྡོད་བྱེད་ཀྱི་ཡོད། ཁོ་གཉིས་ནི་སྤྲོ་སྣང་གིས་ཁེངས་པའི་སྤུན་མཆེད་གཉིས་ཡིན་ལ། ནམ་རྒྱུན་ཁོ་གཉིས་ནི་རང་གི་མཐའ་འཁོར་གྱི་འཇིག་རྟེན་ལ་ཤེས་འདོད་ཆེན་པོ་ཡོད་མཁན་ཞིག་ཀྱང་ཡིན། ལོ་དགུ་ལ་སླེབས་པའི་ལྷ་མོ་ནི་སྤུན་ཆེ་བ་དང་འགན་འཁུར་ཡང་ཆེ། རྒྱུན་དུ་ལོ་ལྔ་ལ་སོན་པའི་སྤུན་ཆུང་བ་ཀརྨའི་ལྟ་རྟོག་བྱེད་ཀྱི་ཡོད། ཀརྨའི་འཆར་སྣང་ལ་མཚམས་དང་ཚོད་མེད། ཁོ་གཉིསཀྱི་མི་ཚེའི་ནང་སྤྲོ་སྣང་ལྡན་པའི་འགྱུར་ལྡོག་ཅིག་བྱུང་བ་ནི། པཱ་ལགས་ཀྱིས་ཁོང་ཚོའི་སྤོ་བོ་ལགས་ཀྱི་གསང་བའི་སྒམ་ཆུང་མང་པོ་ནང་ལ་བསྣམས་ཕེབས་པ་དེ་རེད།',
   },
-  pema: {
-    id: 'sample-pema',
-    label: 'Pema review passage',
-    note: 'Nine lines of verse. Supplied by the designer for review.',
-    text: 'བླ་མ་དང་ལྷག་པའི་ལྷ་ལ་ཕྱག་འཚལ་ལོ། །\nའགྲོ་བ་ཀུན་ལ་བརྩེ་བའི་བདག་ཉིད་ཅན། །\nདམ་ཆོས་བདུད་རྩིའི་ཆར་གྱིས་འགྲོ་བ་རྣམས། །\nམ་ལུས་ཡོངས་སུ་སྨིན་པར་མཛད་པ་པོ། །\nཐུབ་པའི་དབང་པོ་དད་པས་གཙུག་གིས་མཆོད། །\nརྒྱལ་བ་ཀུན་གྱི་བགྲོད་པ་གཅིག་པའི་ལམ། །\nགསུང་རབ་ཀུན་གྱི་སྙིང་པོའི་མཆོག་གྱུར་པ། །\nཤེས་རབ་ཕ་རོལ་ཕྱིན་པའི་དོན་གྱི་ཚུལ། །\nཉམས་སུ་ལེན་པའི་མན་ངག་བཤད་པར་བྱ། །',
+  mixed: {
+    id: 'sample-mixed',
+    label: 'Mixed language',
+    note: 'Tibetan with English names in the middle and happy faces at the end. Supplied by the designer.',
+    text: '༄༅། །ཕྱི་ལོ་ ༢༠༢༦ ཟླ་ ༩ ཚེས་ ༣༠ ཉིན་གྱི་ཞོགས་པར་སྤྱི་ནོར་༸གོང་ས་༸སྐྱབས་མགོན་ཆེན་པོ་མཆོག་གིས་རྡ་རམ་ས་ལའི་ཕོ་བྲང་དུ་ཨ་རིའི་གྲོས་ཚོགས་ཀྱི་ཕྱི་འབྲེལ་ལས་དོན་ཚོགས་ཆུང་གི་ཚོགས་གཙོ་སྐུ་ཞབས་བྷི་རི་ཨན་མཱ་སི་ཊི་ (Brian Mast) མཆོག་གིས་དབུ་ཁྲིད་པའི་སྤྱི་མཐུན་ཚོགས་པའི་འཐུས་མི་བྷི་རི་ཨན་མཱ་སི་ཊི་ (Brian Mast) དང་། ཇེམས་གྷལ་ལཱ་གྷར་ (James Gallagher)། ཇི་མི་པཱ་ཊོ་ནི་སི་ (Jimmy Patronis) དང་། མང་གཙོ་ཚོགས་པའི་འཐུས་མི་ཤྲི་ཐཱ་ནེ་ཌར་ (Shri Thanedar) དང་། ཧེ་ལི་སི་ཊིབ་སི་ (Haley Stevens) བཅས་ཨ་རིའི་གྲོས་ཚོགས་ཀྱི་སྐུ་ཚབ་ཚོགས་ཆུང་ཞིག་ལ་མཇལ་འཕྲད་གནང་བ་དང་། དེ་རྗེས་ཐའེ་ཝན་ཚོགས་གཉིས་ཆོས་ཚོགས་ཀྱི་ཚོགས་མི་ ༤༡༢ ལ་མཇལ་ཁ་དང་ལྗགས་ལུང་ཁག་ཅིག་སྩལ་ཡོད་པ་རེད། 😄 ☺ 😄',
   },
 };
 
-const sharedCoverage = [
+const coverage = [
   'The 30 consonants, the vowel signs, the digits, the punctuation and the common symbols of the Tibetan block.',
   'Every consonant stack and every vowel ligature of modern Tibetan: 540 two-, three-, four- and five-letter stacks, plus the positional forms of the subjoined letters. Measured against a corpus of 134 million syllables of modern Tibetan (news, opinion, Wikipedia; 69,880 documents), this set covers 99.75% of what is written.',
   'The glyphs of the common mantras and of the Sanskrit words a Tibetan reader meets outside the pecha: the retroflex letters (ṭa, ṭha, ḍa, ṇa, ṣa), the aspirates, the anusvāra and visarga, the long vowels, and 18 Sanskrit stacks.',
-  '847 glyphs in all, of which 555 are precomposed stacks and ligatures; the rest are letters, marks, forms, digits and symbols. Stacks form by OpenType substitution as you type; the vowel signs sit by anchors; side bearings and kerning are set letter by letter.',
+  'English, written with the same round pen: A to Z, a to z, 0 to 9 and the punctuation, with curly quotes, dashes, the ellipsis, the bullet and the degree sign. A school print, as children learn it: a one-storey a and g, an l with a tail, round bowls. The capitals and figures stand as tall as the Tibetan head line, so the two scripts sit together on one line. Kerned.',
+  'Icons for children’s material on their standard codes (★ ✓ ☺ ♥ ✏ ⚽ ← ↑ → ↓ and more) and the signs of arithmetic, + − × ÷ =. A hyphen typed beside a digit is drawn as a minus (3-1=2, ༣-༡=༢); inside a word it stays a hyphen.',
+  'The designer’s two seals. Type @@@# in Wylie (༄༄༄༅) for the Tibetan seal and @@@@# (༄༄༄༄༅) for the English one, or insert U+E000 and U+E001. Small at reading size; the words read when enlarged.',
+  '968 glyphs in all, of which 558 are precomposed stacks and ligatures; the rest are letters, marks, forms, digits, English, icons and the seals. Stacks form by OpenType substitution as you type; the vowel signs sit by anchors; side bearings and kerning are set letter by letter.',
 ];
 
-const sharedLeftOut =
-  'The 766 glyphs of the rare Sanskrit set: stacks that occur in transliterated Sanskrit and nowhere in modern Tibetan, the pecha’s apparatus. A text that needs them will show those stacks as their separate letters, one under the other, unstacked.';
-
-const sharedIssues = [
-  'ṣa with a ya-btags below (ཥྱ, in the hundred-syllable mantra) sits a little high and lacks the inner curve of the ya’s hook.',
-  'nga with a sha-btags (ངྴ) is not right yet.',
+const leftOut = [
+  'The 766 glyphs of the rare Sanskrit set: stacks that occur in transliterated Sanskrit and nowhere in modern Tibetan, the pecha’s apparatus. A text that needs them will show those stacks as their separate letters, one under the other, unstacked.',
+  'Twenty religious signs of the Tibetan block, left out on purpose for a children’s font: U+0F15–0F18, 0F1E, 0F1F, 0F8A, 0FC2–0FC5, 0FC7–0FCC, 0FCF, 0FD5 and 0FD6. A text that uses them shows them in another font.',
 ];
 
-const sharedNumbers = [
-  { n: '847', label: 'glyphs' },
-  { n: '555', label: 'precomposed stacks and ligatures' },
+const knownIssues = [
+  'Seven signs (U+0F04, 0F05, 0F08 and 0F3A–0F3D) are provisional shapes under the pen; the designer’s own drawings of them will replace these.',
+  'The seals form by OpenType ligature. They are checked in Chrome, Firefox, LibreOffice and Android, not yet in Microsoft Word or on a Mac. Where an application shows ༄༄༄༅ instead of the seal, insert U+E000 or U+E001.',
+  'On the emoji codes (⚽ and the faces) some applications show their own colour emoji instead of Yangtso’s.',
+  'Microsoft Word applies the kerning only when “Kerning for fonts” is ticked, and the hyphen-as-minus only with contextual alternates on; elsewhere both are on by default.',
+];
+
+const numbers = [
+  { n: '968', label: 'glyphs' },
+  { n: '558', label: 'precomposed stacks and ligatures' },
   { n: '540', label: 'stacks of modern Tibetan' },
   { n: '99.75%', label: 'of a 134M-syllable corpus covered' },
   { n: '3', label: 'weights: Light, Regular, Bold' },
-  { n: '18', label: 'Sanskrit stacks' },
+  { n: 'A–Z', label: 'English letters and figures, same pen' },
+];
+
+/* What changed since review build v0.1, the build the first reviewers saw. */
+const changes = [
+  'English letters, figures and punctuation, written with the same pen and kerned.',
+  'Icons for children’s material, the signs of arithmetic, and the designer’s two seals.',
+  'The pen: the same round pen, its inside corners a little softer.',
+  'The skeleton: shorter legs, 8% wider, rounder tummies, a round tsheg; the rings of the zero and the anusvara at the full pen.',
+  'Stacks: the wa-zur’s stem sits on the stroke it crosses; the ra-btags hangs from the upright in its line (sra, khra); khra keeps kha’s leg; ha’s leg ends above pha’s opening.',
+  'Vowels above: the drengbu and the gigu stand on their syllable where they crowded the tsheg or reached past the letter.',
+  'Twenty religious signs left out for a children’s font; U+0F36 added.',
 ];
 
 export const FONTS = {
@@ -93,69 +111,41 @@ export const FONTS = {
     ],
     weightUnit: 'stroke width, in units of 1000',
     weightNotes: 'Three weights, all one stroke. Regular is the weight of a normal book face; Light for large sizes and airy layouts; Bold for headings and for the youngest readers.',
-    coverage: sharedCoverage,
-    leftOut: sharedLeftOut,
-    numbers: sharedNumbers,
+    coverage,
+    leftOut,
+    numbers,
+    changes,
     build: [
       'TrueType outlines, not hinted. Vertical metrics from the tallest and deepest glyphs.',
-      'Static fonts only: the three weights differ in outline structure in 231 glyphs and did not merge into a variable font. A weight axis is a later step.',
+      'Static fonts only: the three weights differ in outline structure and do not merge into a variable font. A weight axis is a later step.',
       'Not yet read as a book page at 12 to 16 px; judged at 40 px and above. A few counters of the densest stacks may close at small sizes in Bold.',
     ],
-    knownIssues: sharedIssues,
+    knownIssues,
     notSanskrit:
       'Yangtso is not a Sanskrit-transliteration font: the rare stacks of the pecha’s apparatus are left out on purpose, so that every glyph in the font is one a reader of modern Tibetan actually meets.',
     accent: '#ff6b6b',
   },
-  pema: {
-    id: 'pema',
-    name: 'Pema',
-    nameBo: 'པདྨ',
-    nameWylie: 'pad+ma',
-    family: 'Pema',
-    cssFamily: "'Pema', serif",
-    kind: 'calligraphic',
-    tagline: 'A Tibetan uchen typeface written with a calligraphy brush.',
-    short: 'The calligrapher’s one. Heavy heads, light legs, a press at every turn.',
-    pen: 'A brush that lands, presses along the head line and at every turn, and lifts fine at the end of a leg.',
-    intro: [
-      'Pema is uchen as a brush writes it. The brush lands at the start of each stroke, presses full along the head line and at every turn and corner, and lifts fine at the end of a leg, so the thick and the thin of the letters come from the hand’s pressure and not from a cut nib.',
-      'The brush follows the traditional stroke order and direction of uchen, letter by letter, which is why the weight falls where a calligrapher’s would: heavy heads, lighter legs, a press where the stroke turns. The letters are the same hand-drawn skeleton as Yangtso. Pema is for titles, covers, headings, prayer cards and dharma texts that want a written voice, at large sizes.',
-    ],
-    uses: ['Titles and book covers', 'Headings', 'Prayer cards', 'Dharma texts that want a written voice, at large sizes'],
-    weights: [
-      { name: 'Light', css: 300, stroke: 80, file: 'pema-light.woff2', note: 'the same brush, pressed less' },
-      { name: 'Regular', css: 400, stroke: 100, file: 'pema-regular.woff2', note: 'the brush as the hand holds it' },
-      { name: 'Bold', css: 700, stroke: 110, file: 'pema-bold.woff2', note: 'the same brush, pressed more' },
-    ],
-    weightUnit: 'brush width, in units of 1000',
-    weightNotes: 'Three weights: Light, Regular and Bold, the same brush pressed less or more.',
-    coverage: sharedCoverage,
-    leftOut: sharedLeftOut,
-    numbers: sharedNumbers,
-    build: [
-      'TrueType outlines, not hinted. Vertical metrics from the tallest and deepest glyphs.',
-      'The brush is a first setting (its pressure along each kind of stroke, the press at turns and corners, the landing and the lift) and is judged by eye in this build; the speed of the hand (the thinning of a fast stroke, the flick at a lift) is not in it yet.',
-      'Static fonts only: the three weights differ in outline structure in 440 glyphs and did not merge into a variable font. A weight axis is a later step.',
-      'Not yet read as a book page; meant for display sizes.',
-    ],
-    knownIssues: sharedIssues,
-    notSanskrit: 'Pema is not a Sanskrit-transliteration font: the rare stacks of the pecha’s apparatus are left out on purpose.',
-    accent: '#d1361b',
-  },
 };
 
-export const FONT_LIST = [FONTS.yangtso, FONTS.pema];
+export const FONT_LIST = [FONTS.yangtso];
 
-/* Code points the v0.1 fonts actually contain (both fonts share one character set).
+/* Code points Yangtso 1.0 actually contains (read from its cmap).
    Text is NFC-normalized before it is checked, so the decomposable precomposed code points
    (U+0F43, U+0F4D, U+0F52 … U+0FB9) never occur; the ones that matter are marks such as
    U+0F84 (halanta), U+0F82, and the rare subjoined letters U+0F9A, U+0F9E, U+0FB5. */
 export const COVERAGE = [
-  [0x0020, 0x0020], [0x0f00, 0x0f35], [0x0f37, 0x0f42], [0x0f44, 0x0f47], [0x0f49, 0x0f5b],
+  [0x0020, 0x007e], [0x00a0, 0x00a0], [0x00b0, 0x00b0], [0x00d7, 0x00d7], [0x00f7, 0x00f7],
+  [0x0f00, 0x0f14], [0x0f19, 0x0f1d], [0x0f20, 0x0f42], [0x0f44, 0x0f47], [0x0f49, 0x0f5b],
   [0x0f5d, 0x0f68], [0x0f71, 0x0f72], [0x0f74, 0x0f74], [0x0f7a, 0x0f7c], [0x0f7e, 0x0f80],
   [0x0f83, 0x0f83], [0x0f90, 0x0f92], [0x0f94, 0x0f97], [0x0f99, 0x0f99], [0x0f9b, 0x0f9c],
-  [0x0f9f, 0x0fa6], [0x0fa8, 0x0fab], [0x0fad, 0x0fb4], [0x0fb6, 0x0fb8], [0x0fbe, 0x0fcc],
-  [0x0fce, 0x0fda],
+  [0x0f9f, 0x0fa6], [0x0fa8, 0x0fab], [0x0fad, 0x0fb4], [0x0fb6, 0x0fb8], [0x0fbe, 0x0fc1],
+  [0x0fc6, 0x0fc6], [0x0fce, 0x0fce], [0x0fd0, 0x0fd4], [0x0fd7, 0x0fda],
+  [0x2010, 0x2011], [0x2013, 0x2014], [0x2018, 0x2019], [0x201c, 0x201d], [0x2022, 0x2022],
+  [0x2026, 0x2026], [0x2190, 0x2193], [0x2212, 0x2212], [0x2600, 0x2600], [0x2605, 0x2606],
+  [0x2639, 0x263a], [0x2665, 0x2665], [0x266a, 0x266b], [0x26bd, 0x26bd], [0x270f, 0x270f],
+  [0x2712, 0x2713], [0x2717, 0x2717], [0x271a, 0x271a], [0xe000, 0xe001], [0x1f310, 0x1f310],
+  [0x1f44d, 0x1f44d], [0x1f4d6, 0x1f4d6], [0x1f4f7, 0x1f4f7], [0x1f50d, 0x1f50d], [0x1f604, 0x1f604],
+  [0x1f609, 0x1f609], [0x1f62e, 0x1f62e], [0x1f6dd, 0x1f6dd], [0x1f9e9, 0x1f9e9],
 ];
 
 export function isCovered(cp) {

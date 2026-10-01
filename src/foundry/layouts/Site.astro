@@ -17,7 +17,7 @@ interface Props {
 
 const {
   title,
-  description = `${SITE_NAME}: Yangtso and Pema, two Tibetan typefaces in development. A private review build.`,
+  description = `${SITE_NAME}: Yangtso, a Tibetan typeface for children. A private review build.`,
   bodyClass = '',
   preload = [],
   chrome = true,
@@ -68,8 +68,8 @@ const fontUrl = (file: string) => `${paths.fonts}/${file}`;
           <div class="ribbon" role="note">
             <span class="ribbon__dot" aria-hidden="true" />
             <span>
-              <strong>Private review build v{BUILD.version}</strong> · Yangtso and Pema are unreleased and still in development ·
-              shared with a few reviewers · {BUILD.dateHuman}
+              <strong>Private review build v{BUILD.version}</strong> · Yangtso is not released yet · shared with a few reviewers ·
+              {BUILD.dateHuman}
             </span>
           </div>
           <div class="nav-wrap">
@@ -83,9 +83,6 @@ const fontUrl = (file: string) => `${paths.fonts}/${file}`;
               <nav class="site-nav" aria-label="Primary">
                 <a href={paths.yangtso} aria-current={current(paths.yangtso) ? 'page' : undefined}>
                   Yangtso
-                </a>
-                <a href={paths.pema} aria-current={current(paths.pema) ? 'page' : undefined}>
-                  Pema
                 </a>
                 <a href={paths.studio} class="site-nav__cta" aria-current={current(paths.studio) ? 'page' : undefined}>
                   Studio
@@ -129,17 +126,13 @@ const fontUrl = (file: string) => `${paths.fonts}/${file}`;
                   <span class="bo-yangtso" lang="bo">{FONTS.yangtso.nameBo}</span>
                   <small>Yangtso · {FONTS.yangtso.short}</small>
                 </a>
-                <a href={paths.pema} class="site-footer__font">
-                  <span class="bo-pema" lang="bo">{FONTS.pema.nameBo}</span>
-                  <small>Pema · {FONTS.pema.short}</small>
-                </a>
               </div>
             </div>
             <div class="site-footer__meta">
               <span>
                 {BUILD.label} · {BUILD.dateHuman}
               </span>
-              <span>Fonts are under development and not for production use</span>
+              <span>Yangtso is not released yet and not for production use</span>
               <span>© {new Date().getFullYear()} {SITE_NAME}</span>
             </div>
           </div>

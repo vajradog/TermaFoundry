@@ -34,22 +34,10 @@
   --rose: #ff8fab;
   --candy-ink: #1e1b4b;
 
-  /* Pema: the ink room */
-  --ink: #141112;
-  --ink-2: #2a2426;
-  --vermilion: #d1361b;
-  --cinnabar: #e8542f;
-  --gold: #d4a53a;
-  --gold-2: #f3d98b;
-  --lacquer: #1c1113;
-  --lapis: #1e3a8a;
-  --rice: #f3ecdc;
-
   --font-display: 'Instrument Serif', 'Iowan Old Style', 'Times New Roman', serif;
   --font-ui: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --font-yangtso: 'Yangtso', serif;
-  --font-pema: 'Pema', serif;
 
   --r-sm: 10px;
   --r: 18px;
@@ -183,9 +171,6 @@ p {
 }
 .bo-yangtso {
   font-family: var(--font-yangtso);
-}
-.bo-pema {
-  font-family: var(--font-pema);
 }
 
 /* ---------- Skip link ---------- */

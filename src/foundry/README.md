@@ -20,12 +20,11 @@ src/foundry/
   docs/DESIGN.md       Aesthetic direction and the alternatives considered
   docs/NEEDS_REVIEW.md Tibetan content a native reader should confirm
 src/pages/test/
-  index.astro          Home: the chalkboard and paper covers, a two-font tester, flip cards, why, studio
+  index.astro          Home: the chalkboard hero, a tester, letter cards that flip to their names, new in 1.0, why, studio
   yangtso.astro        Yangtso: chalkboard hero, not-ready notice, tester, playroom styles, alphabet, reader page, details, credits
-  pema.astro           Pema: paper hero, not-ready notice, tester, the brush, ink-room styles, the verse, details, credits
   studio.astro         The Writing Studio (review tool)
 public/test/
-  fonts/*.woff2        Yangtso and Pema, Light/Regular/Bold, converted from the v0.1 TTF exports
+  fonts/*.woff2        Yangtso Light/Regular/Bold, converted from the Yangtso 1.0 TTF exports
   favicon.svg
 ```
 

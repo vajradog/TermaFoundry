@@ -3,26 +3,24 @@
 
   A hidden <textarea> holds the source (Wylie and/or Tibetan Unicode) and owns the caret, the
   selection, undo and every native keyboard behaviour. A mirror renders that source as Tibetan,
-  token by token, and maps clicks back to caret positions. The three layouts are three ways of
-  drawing the same mirror; in the split layout the textarea itself is shown on the left.
+  token by token, and maps clicks back to caret positions. The page shows one document and three
+  controls: the weight, the font size and the text itself. (The layouts other than 'tibetan' are
+  still drawn by render() but no longer offered.)
 
   Documents and preferences live in localStorage under STORE_KEY.
 */
-import { tokenize, convertLine, toWylie, stats, TIBETAN_RE } from './ewts.js';
+import { tokenize, convertLine, markEnglish, stats } from './ewts.js';
 import { FONTS, SAMPLES, isCovered } from '../data/fonts.js';
+import { BUILD } from '../config.js';
 
 const STORE_KEY = 'foundry.studio.v1';
-const WIDTHS = { narrow: '34rem', medium: '44rem', wide: '58rem', full: 'none' };
 const DEFAULT_PREFS = {
   layout: 'tibetan',
-  theme: '',
   size: 34,
   leading: 2,
-  width: 'medium',
   hints: true,
   coverage: true,
   warn: true,
-  drawer: true,
 };
 
 const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
@@ -32,13 +30,6 @@ const timeOf = (ms) => {
   const d = new Date(ms);
   return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
 };
-const ago = (ms) => {
-  const s = Math.round((Date.now() - ms) / 1000);
-  if (s < 60) return 'just now';
-  if (s < 3600) return `${Math.round(s / 60)} min ago`;
-  if (s < 86400) return `${Math.round(s / 3600)} h ago`;
-  return `${Math.round(s / 86400)} d ago`;
-};
 
 function loadState() {
   try {
@@ -46,23 +37,20 @@ function loadState() {
     if (raw) {
       const s = JSON.parse(raw);
       if (s && Array.isArray(s.docs)) {
-        return { docs: s.docs, currentId: s.currentId || null, prefs: { ...DEFAULT_PREFS, ...(s.prefs || {}) } };
+        // A document saved with a font that is no longer on the site opens in Yangtso.
+        for (const d of s.docs) if (!FONTS[d.font]) d.font = 'yangtso';
+        // Only the font size is a setting now; the layout, line spacing and typing aids stay at
+        // their defaults, whatever an earlier visit saved.
+        const saved = s.prefs || {};
+        const prefs = { ...DEFAULT_PREFS };
+        if (Number(saved.size)) prefs.size = Number(saved.size);
+        return { docs: s.docs, currentId: s.currentId || null, prefs };
       }
     }
   } catch (e) {
     /* ignore a broken store */
   }
   return { docs: [], currentId: null, prefs: { ...DEFAULT_PREFS } };
-}
-
-function deriveTitle(uni) {
-  const first = uni.split('\n').find((l) => l.trim()) || '';
-  const syls = first
-    .trim()
-    .split(/[་༌།༎༔\s]+/)
-    .filter(Boolean)
-    .slice(0, 4);
-  return syls.length ? syls.join('་') : 'Untitled';
 }
 
 function uncovered(out) {
@@ -75,25 +63,6 @@ function uncovered(out) {
   return missing.length ? missing.map((ch) => `${ch} (U+${ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0')})`).join(', ') : '';
 }
 
-function wrapForCanvas(text, ctx, maxW) {
-  const out = [];
-  for (const para of text.split('\n')) {
-    const chunks = para.split(/(?<=[་༌])|(?<=[།༎]\s)|(?<=\s)/);
-    let line = '';
-    for (const ch of chunks) {
-      const test = line + ch;
-      if (line && ctx.measureText(test).width > maxW) {
-        out.push(line.trimEnd());
-        line = ch;
-      } else {
-        line = test;
-      }
-    }
-    out.push(line.trimEnd());
-  }
-  return out;
-}
-
 export function initStudio(root) {
   const $ = (sel) => root.querySelector(sel);
   const $$ = (sel) => Array.from(root.querySelectorAll(sel));
@@ -101,8 +70,6 @@ export function initStudio(root) {
   const ta = $('[data-ta]');
   const mirror = $('[data-mirror]');
   const col = $('[data-col]');
-  const titleInput = $('[data-title]');
-  const docsEl = $('[data-docs]');
   const savedEl = $('[data-saved]');
   const toastEl = $('[data-toast]');
   const liveEl = $('[data-live]');
@@ -173,102 +140,48 @@ export function initStudio(root) {
     ta.setSelectionRange(ta.value.length, ta.value.length);
     applyDoc();
     render(true);
-    renderDocs();
     saveSoon();
     mirror.scrollTop = 0;
-  }
-  function deleteDoc(id) {
-    const i = state.docs.findIndex((x) => x.id === id);
-    if (i < 0) return;
-    if (!window.confirm('Delete this document? This cannot be undone.')) return;
-    state.docs.splice(i, 1);
-    if (doc && doc.id === id) {
-      doc = null;
-      if (!state.docs.length) newDoc();
-      openDoc(state.docs[0].id);
-    } else {
-      renderDocs();
-      saveSoon();
-    }
   }
   function openSample(key) {
     const s = SAMPLES[key];
     if (!s) return;
-    let d = state.docs.find((x) => x.sample === key && x.text === s.text);
-    if (!d) d = newDoc({ title: s.label, titleLocked: true, text: s.text, font: key, sample: key });
+    const text = markEnglish(s.text);
+    let d = state.docs.find((x) => x.sample === key && x.text === text);
+    if (!d) d = newDoc({ title: s.label, titleLocked: true, text, font: 'yangtso', sample: key });
     openDoc(d.id);
     showToast(`${s.label} loaded`);
   }
-  function renderDocs() {
-    if (!docsEl) return;
-    docsEl.replaceChildren();
-    for (const d of state.docs) {
-      const item = document.createElement('div');
-      item.className = 'doc';
-      item.dataset.id = d.id;
-      item.setAttribute('role', 'button');
-      item.tabIndex = 0;
-      if (doc && d.id === doc.id) item.setAttribute('aria-current', 'true');
-      const t = document.createElement('div');
-      t.className = 'doc__title';
-      const title = d.title || 'Untitled';
-      t.textContent = title;
-      if (TIBETAN_RE.test(title)) t.setAttribute('lang', 'bo');
-      const del = document.createElement('button');
-      del.className = 'doc__del';
-      del.type = 'button';
-      del.setAttribute('aria-label', `Delete ${title}`);
-      del.dataset.del = d.id;
-      del.textContent = '×';
-      const meta = document.createElement('div');
-      meta.className = 'doc__meta';
-      const st = stats(d.text || '');
-      meta.textContent = `${FONTS[d.font]?.name || 'Yangtso'} · ${st.syllables} syllables · ${ago(d.updated)}`;
-      item.append(t, del, meta);
-      docsEl.appendChild(item);
+  /* Put a sample in the editor in place of what is there; Ctrl Z brings the old text back. */
+  function loadSample(key) {
+    const s = SAMPLES[key];
+    if (!s) return;
+    const text = markEnglish(s.text);
+    ta.focus({ preventScroll: true });
+    ta.select();
+    if (!document.execCommand('insertText', false, text)) {
+      ta.value = text;
+      ta.dispatchEvent(new Event('input'));
     }
+    ta.setSelectionRange(0, 0);
+    mirror.scrollTop = 0;
+    render(true);
+    showToast(`${s.label} loaded · Ctrl Z brings back what was here`);
   }
 
   /* ---------- prefs ---------- */
-  function systemTheme() {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  }
   function applyPrefs() {
     const p = state.prefs;
     root.dataset.layout = p.layout;
-    root.dataset.theme = p.theme || systemTheme();
     root.style.setProperty('--s-size', `${p.size}px`);
     root.style.setProperty('--s-leading', String(p.leading));
-    root.style.setProperty('--s-col', WIDTHS[p.width] || WIDTHS.medium);
-    const small = window.innerWidth < 900;
-    root.dataset.drawer = p.drawer && !small ? 'open' : 'closed';
     const ed = $('[data-ed]');
     if (ed) ed.dataset.layout = p.layout;
-    $$('[data-layout-btn]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.layoutBtn === p.layout)));
-    const themeSel = $('[data-theme-sel]');
-    if (themeSel) themeSel.value = p.theme || '';
     const size = $('[data-pref-size]');
     if (size) {
       size.value = p.size;
       $('[data-pref-size-out]').textContent = `${p.size} px`;
     }
-    const lead = $('[data-pref-leading]');
-    if (lead) {
-      lead.value = p.leading;
-      $('[data-pref-leading-out]').textContent = Number(p.leading).toFixed(2);
-    }
-    $$('[data-pref-width]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.prefWidth === p.width)));
-    $$('[data-pref-toggle]').forEach((c) => {
-      c.checked = !!p[c.dataset.prefToggle];
-    });
-    const drawerBtn = $('[data-drawer-toggle]');
-    if (drawerBtn) drawerBtn.setAttribute('aria-expanded', String(root.dataset.drawer === 'open'));
-  }
-  function setPref(key, value) {
-    state.prefs[key] = value;
-    applyPrefs();
-    saveSoon();
-    render(true);
   }
 
   function applyDoc() {
@@ -277,10 +190,6 @@ export function initStudio(root) {
     col.style.fontWeight = String(doc.weight);
     $$('[data-font-btn]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.fontBtn === doc.font)));
     $$('[data-weight-btn]').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.weightBtn) === doc.weight)));
-    if (titleInput) {
-      titleInput.value = doc.title || '';
-      titleInput.setAttribute('lang', TIBETAN_RE.test(doc.title || '') ? 'bo' : 'en');
-    }
   }
 
   /* ---------- rendering ---------- */
@@ -354,7 +263,7 @@ export function initStudio(root) {
           const missing = uncovered(p.out);
           if (missing) {
             span.classList.add('tk--nc');
-            span.title = `Not in ${FONTS[doc.font].name} v0.1, shown by a fallback font: ${missing}`;
+            span.title = `Not in ${FONTS[doc.font].name} v${BUILD.version}, shown by a fallback font: ${missing}`;
           }
         }
         if (!placed && caret >= t.start && caret <= t.end && t.type !== 'sp') {
@@ -413,7 +322,9 @@ export function initStudio(root) {
       const hint = document.createElement('div');
       hint.className = 'ed__empty';
       hint.innerHTML =
-        '<strong>Start typing Wylie</strong> and it turns into Tibetan as you type, for example <code>bkra shis bde legs/</code> (a space makes a tsheg, <code>/</code> makes a shad).<br><br><strong>Or paste Tibetan text</strong> straight in: press <code>Ctrl V</code> (or <code>⌘ V</code> on a Mac).<br><br>The <strong>Font size</strong> slider is in the bar above. The two review passages are in the Documents panel on the left.';
+        '<span class="ed__empty-lead">Type Wylie, or paste Tibetan.</span>' +
+        'Wylie turns into Tibetan as you type: <code>bkra shis bde legs/</code> gives <span lang="bo">བཀྲ་ཤིས་བདེ་ལེགས།</span> ' +
+        '(a space makes a tsheg, <code>/</code> a shad). To paste Tibetan, press <code>Ctrl V</code>, or <code>⌘ V</code> on a Mac.';
       frag.appendChild(hint);
     }
 
@@ -427,18 +338,6 @@ export function initStudio(root) {
     if (statEl.read) statEl.read.textContent = s.syllables === 0 ? '0 min' : s.minutes < 1 ? '< 1 min' : `~${Math.round(s.minutes)} min`;
     if (statEl.bad) statEl.bad.textContent = String(badCount);
     if (statEl.badWrap) statEl.badWrap.hidden = badCount === 0;
-
-    if (!doc.titleLocked) {
-      const t = deriveTitle(uniCache);
-      if (t !== doc.title) {
-        doc.title = t;
-        if (titleInput) {
-          titleInput.value = t;
-          titleInput.setAttribute('lang', TIBETAN_RE.test(t) ? 'bo' : 'en');
-        }
-        renderDocs();
-      }
-    }
 
     if (focused && caretEl) {
       const r = caretEl.getBoundingClientRect();
@@ -534,6 +433,19 @@ export function initStudio(root) {
   document.addEventListener('selectionchange', () => {
     if (document.activeElement === ta) scheduleRender();
   });
+  // Pasted Tibetan keeps its English: the English runs go in [brackets] so they are not read as Wylie.
+  ta.addEventListener('paste', (e) => {
+    const text = e.clipboardData && e.clipboardData.getData('text/plain');
+    if (!text) return;
+    const marked = markEnglish(text);
+    if (marked === text) return;
+    e.preventDefault();
+    if (!document.execCommand('insertText', false, marked)) {
+      ta.setRangeText(marked, ta.selectionStart, ta.selectionEnd, 'end');
+      scheduleRender();
+      saveSoon();
+    }
+  });
   ta.addEventListener('keyup', scheduleRender);
   ta.addEventListener('mouseup', scheduleRender);
   ta.addEventListener('keydown', (e) => {
@@ -542,7 +454,6 @@ export function initStudio(root) {
       persist();
       showToast('Saved in this browser');
     }
-    if (e.key === 'Escape') closeAll();
   });
   ta.addEventListener('scroll', () => {
     if (state.prefs.layout !== 'split' || syncing) return;
@@ -561,31 +472,8 @@ export function initStudio(root) {
     requestAnimationFrame(() => (syncing = false));
   });
 
-  /* ---------- title ---------- */
-  if (titleInput) {
-    titleInput.addEventListener('input', () => {
-      if (!doc) return;
-      const v = titleInput.value;
-      if (v.trim()) {
-        doc.title = v;
-        doc.titleLocked = true;
-      } else {
-        doc.titleLocked = false;
-        doc.title = deriveTitle(uniCache);
-      }
-      titleInput.setAttribute('lang', TIBETAN_RE.test(v) ? 'bo' : 'en');
-      renderDocs();
-      saveSoon();
-    });
-    titleInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        ta.focus({ preventScroll: true });
-      }
-    });
-  }
-
   /* ---------- controls ---------- */
+  $$('[data-sample]').forEach((b) => b.addEventListener('click', () => loadSample(b.dataset.sample)));
   $$('[data-font-btn]').forEach((b) =>
     b.addEventListener('click', () => {
       if (!doc) return;
@@ -593,7 +481,6 @@ export function initStudio(root) {
       applyDoc();
       saveSoon();
       render(true);
-      renderDocs();
     }),
   );
   $$('[data-weight-btn]').forEach((b) =>
@@ -604,9 +491,6 @@ export function initStudio(root) {
       saveSoon();
     }),
   );
-  $$('[data-layout-btn]').forEach((b) => b.addEventListener('click', () => setPref('layout', b.dataset.layoutBtn)));
-  const themeSel = $('[data-theme-sel]');
-  if (themeSel) themeSel.addEventListener('change', () => setPref('theme', themeSel.value));
   const sizeIn = $('[data-pref-size]');
   if (sizeIn)
     sizeIn.addEventListener('input', () => {
@@ -615,116 +499,8 @@ export function initStudio(root) {
       $('[data-pref-size-out]').textContent = `${state.prefs.size} px`;
       saveSoon();
     });
-  const leadIn = $('[data-pref-leading]');
-  if (leadIn)
-    leadIn.addEventListener('input', () => {
-      state.prefs.leading = Number(leadIn.value);
-      root.style.setProperty('--s-leading', String(state.prefs.leading));
-      $('[data-pref-leading-out]').textContent = state.prefs.leading.toFixed(2);
-      saveSoon();
-    });
-  $$('[data-pref-width]').forEach((b) => b.addEventListener('click', () => setPref('width', b.dataset.prefWidth)));
-  $$('[data-pref-toggle]').forEach((c) => c.addEventListener('change', () => setPref(c.dataset.prefToggle, c.checked)));
 
-  /* drawer */
-  const drawerBtn = $('[data-drawer-toggle]');
-  if (drawerBtn)
-    drawerBtn.addEventListener('click', () => {
-      const open = root.dataset.drawer !== 'open';
-      root.dataset.drawer = open ? 'open' : 'closed';
-      state.prefs.drawer = open;
-      drawerBtn.setAttribute('aria-expanded', String(open));
-      saveSoon();
-    });
-  const scrim = $('[data-scrim]');
-  if (scrim)
-    scrim.addEventListener('click', () => {
-      root.dataset.drawer = 'closed';
-      state.prefs.drawer = false;
-      if (drawerBtn) drawerBtn.setAttribute('aria-expanded', 'false');
-    });
-  const newBtn = $('[data-new-doc]');
-  if (newBtn)
-    newBtn.addEventListener('click', () => {
-      const d = newDoc({ font: doc ? doc.font : 'yangtso', weight: doc ? doc.weight : 400 });
-      openDoc(d.id);
-      if (window.innerWidth < 900) root.dataset.drawer = 'closed';
-      ta.focus({ preventScroll: true });
-    });
-  $$('[data-sample]').forEach((b) =>
-    b.addEventListener('click', () => {
-      openSample(b.dataset.sample);
-      if (window.innerWidth < 900) root.dataset.drawer = 'closed';
-    }),
-  );
-  if (docsEl) {
-    docsEl.addEventListener('click', (e) => {
-      const del = e.target.closest('[data-del]');
-      if (del) {
-        e.stopPropagation();
-        deleteDoc(del.dataset.del);
-        return;
-      }
-      const item = e.target.closest('.doc');
-      if (item) {
-        openDoc(item.dataset.id);
-        if (window.innerWidth < 900) root.dataset.drawer = 'closed';
-      }
-    });
-    docsEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        const item = e.target.closest('.doc');
-        if (item) {
-          e.preventDefault();
-          openDoc(item.dataset.id);
-        }
-      }
-    });
-  }
-
-  /* popovers & panels */
-  function closeAll(except) {
-    $$('[data-pop]').forEach((p) => {
-      if (p !== except) p.hidden = true;
-    });
-    $$('[data-pop-btn]').forEach((b) => b.setAttribute('aria-expanded', String(!!(except && b.dataset.popBtn === except.dataset.pop))));
-    $$('[data-panel]').forEach((p) => {
-      if (p !== except) p.dataset.open = 'false';
-    });
-  }
-  $$('[data-pop-btn]').forEach((b) =>
-    b.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const pop = $(`[data-pop="${b.dataset.popBtn}"]`);
-      if (!pop) return;
-      const willOpen = pop.hidden;
-      closeAll(willOpen ? pop : null);
-      pop.hidden = !willOpen;
-      b.setAttribute('aria-expanded', String(willOpen));
-    }),
-  );
-  $$('[data-panel-btn]').forEach((b) =>
-    b.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const panel = $(`[data-panel="${b.dataset.panelBtn}"]`);
-      if (!panel) return;
-      const willOpen = panel.dataset.open !== 'true';
-      closeAll(willOpen ? panel : null);
-      panel.dataset.open = String(willOpen);
-    }),
-  );
-  $$('[data-panel-close]').forEach((b) => b.addEventListener('click', () => closeAll()));
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('[data-pop]') && !e.target.closest('[data-pop-btn]')) {
-      $$('[data-pop]').forEach((p) => (p.hidden = true));
-      $$('[data-pop-btn]').forEach((b) => b.setAttribute('aria-expanded', 'false'));
-    }
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAll();
-  });
-
-  /* ---------- export ---------- */
+  /* ---------- messages ---------- */
   function showToast(msg) {
     if (!toastEl) return;
     toastEl.textContent = msg;
@@ -732,109 +508,6 @@ export function initStudio(root) {
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => (toastEl.dataset.show = 'false'), 2200);
   }
-  async function copyText(txt, label) {
-    try {
-      await navigator.clipboard.writeText(txt);
-      showToast(`${label} copied`);
-    } catch (e) {
-      showToast('Could not copy: your browser refused');
-    }
-  }
-  function download(name, content, type = 'text/plain') {
-    const blob = new Blob([content], { type: `${type};charset=utf-8` });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = name;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-  }
-  function fileBase() {
-    return (doc && doc.title ? doc.title : 'terma-studio').replace(/[\\/:*?"<>|\n]+/g, '-').trim().slice(0, 60) || 'terma-studio';
-  }
-  async function exportPng() {
-    const uni = uniCache.trim();
-    if (!uni) return showToast('Nothing to export yet');
-    const font = FONTS[doc.font];
-    const weight = doc.weight;
-    const weightName = (font.weights.find((w) => w.css === weight) || font.weights[1]).name;
-    try {
-      await document.fonts.load(`${weight} 48px '${font.family}'`);
-      await document.fonts.load(`600 20px 'Manrope'`);
-    } catch (e) {
-      /* fall through with whatever is loaded */
-    }
-    const cs = getComputedStyle(root);
-    const bg = cs.getPropertyValue('--s-bg').trim() || '#fff';
-    const fg = cs.getPropertyValue('--s-text').trim() || '#000';
-    const muted = cs.getPropertyValue('--s-muted').trim() || '#888';
-    const W = 1600;
-    const pad = 120;
-    const fs = 56;
-    const leading = Math.max(1.8, state.prefs.leading);
-    const lh = fs * leading;
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.font = `${weight} ${fs}px '${font.family}'`;
-    const lines = wrapForCanvas(uni, ctx, W - pad * 2);
-    const H = pad * 2 + lines.length * lh + 60;
-    const scale = 2;
-    canvas.width = W * scale;
-    canvas.height = H * scale;
-    ctx.scale(scale, scale);
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, W, H);
-    ctx.font = `${weight} ${fs}px '${font.family}'`;
-    ctx.fillStyle = fg;
-    ctx.textBaseline = 'alphabetic';
-    const baseline = (lh - (1.466 + 1.349) * fs) / 2 + 1.466 * fs;
-    lines.forEach((l, i) => ctx.fillText(l, pad, pad + i * lh + baseline));
-    ctx.font = `600 20px 'Manrope', system-ui, sans-serif`;
-    ctx.fillStyle = muted;
-    ctx.fillText(`${font.name} ${weightName} · Terma Foundry · review build v0.1 · unreleased`, pad, H - pad + 30);
-    canvas.toBlob((blob) => {
-      if (!blob) return showToast('Could not render the image');
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `${fileBase()}.png`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
-      showToast('PNG exported');
-    }, 'image/png');
-  }
-  const actions = {
-    'copy-bo': () => copyText(uniCache, 'Tibetan'),
-    'copy-wy': () => copyText(toWylie(uniCache).text, 'Wylie'),
-    'dl-bo': () => download(`${fileBase()}.txt`, uniCache),
-    'dl-wy': () => download(`${fileBase()}-wylie.txt`, toWylie(uniCache).text),
-    'dl-both': () => download(`${fileBase()}-both.txt`, `${uniCache}\n\n— Wylie —\n\n${toWylie(uniCache).text}\n`),
-    png: exportPng,
-    print: () => window.print(),
-    'src-wy': () => {
-      ta.value = toWylie(uniCache).text;
-      ta.setSelectionRange(0, 0);
-      render(true);
-      saveSoon();
-      showToast('Source is now Wylie');
-    },
-    'src-bo': () => {
-      ta.value = uniCache;
-      ta.setSelectionRange(0, 0);
-      render(true);
-      saveSoon();
-      showToast('Source is now Tibetan');
-    },
-  };
-  $$('[data-action]').forEach((b) =>
-    b.addEventListener('click', () => {
-      closeAll();
-      const fn = actions[b.dataset.action];
-      if (fn) fn();
-    }),
-  );
   if (statEl.badWrap)
     statEl.badWrap.addEventListener('click', () => {
       const first = $('.tk--bad');
@@ -849,8 +522,10 @@ export function initStudio(root) {
   if (qSample && SAMPLES[qSample]) {
     openSample(qSample);
   } else {
-    if (!state.docs.length) newDoc(qFont && FONTS[qFont] ? { font: qFont } : {});
-    const target = state.docs.find((d) => d.id === state.currentId) || state.docs[0];
+    // A plain visit opens the reviewer's own page, not a review passage they loaded earlier.
+    const isPassage = (d) => d.sample && SAMPLES[d.sample] && d.text === markEnglish(SAMPLES[d.sample].text);
+    const current = state.docs.find((d) => d.id === state.currentId);
+    const target = current && !isPassage(current) ? current : state.docs.find((d) => !isPassage(d)) || newDoc();
     openDoc(target.id);
   }
   if (qFont && FONTS[qFont] && doc && doc.font !== qFont) {
@@ -860,9 +535,5 @@ export function initStudio(root) {
     saveSoon();
   }
   window.addEventListener('beforeunload', persist);
-  window.addEventListener('resize', () => {
-    if (window.innerWidth < 900 && root.dataset.drawer === 'open' && state.prefs.drawer) root.dataset.drawer = 'closed';
-  });
   if (window.matchMedia('(pointer: fine)').matches) ta.focus({ preventScroll: true });
-  setInterval(renderDocs, 60000);
 }

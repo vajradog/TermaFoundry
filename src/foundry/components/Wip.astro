@@ -10,11 +10,11 @@ const { name } = Astro.props;
 <div class="wip reveal" role="note">
   <div class="wip__icon" aria-hidden="true">!</div>
   <div>
-    <h3>{name} is not finished. Please treat everything on this page as work in progress.</h3>
+    <h3>{name} {BUILD.version} is not released yet. Please look closely before it is.</h3>
     <p>
       This is {BUILD.label.toLowerCase()}, exported on {BUILD.dateHuman}, and it is shared privately so that a few reviewers can
-      look closely before the design goes further. The outlines are unhinted, the character set is deliberately limited, some
-      stacks are known to be wrong, and any of it may change. Do not use {name} in anything real yet.
+      look closely before release. The outlines are unhinted, the character set is deliberately limited, and anything you find
+      can still change. Please do not use {name} in anything published yet.
     </p>
     <ul>
       <li>What helps most: letterforms that read wrong, stacks that sit wrong, vowel signs out of place, spacing that feels off, weights that do not balance.</li>

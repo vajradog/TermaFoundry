@@ -15,7 +15,7 @@ interface Props {
   id?: string;
 }
 const { font, text = TEXT.tashi, size = 72, leading = 2.1, styles = [], id = `tryout-${font.id}` } = Astro.props;
-const sample = SAMPLES[font.id as 'yangtso' | 'pema'];
+const sample = SAMPLES[font.id as 'yangtso'];
 const chips = [
   { label: 'Tashi delek', text: TEXT.tashiWylie },
   { label: font.nameBo, text: font.nameWylie },
@@ -23,6 +23,7 @@ const chips = [
   { label: 'Vowels', text: TEXT.vowelsWylie },
   { label: 'Digits', text: TEXT.digits },
   { label: 'Review passage', text: sample.text },
+  { label: 'The designer’s seal', text: '@@@#' },
 ];
 ---
 
@@ -229,9 +230,6 @@ const chips = [
     font-size: 1rem;
     line-height: 1.7;
     padding-block: 0.15rem;
-  }
-  .tryout--pema .chip[lang='bo'] {
-    font-family: var(--font-pema);
   }
 </style>
 

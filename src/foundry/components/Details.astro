@@ -14,7 +14,7 @@ const { font } = Astro.props;
       <span class="eyebrow">Details</span>
       <h2 class="display display--md">What is in {font.name}, <em>and what is not.</em></h2>
       <p class="lede">
-        {font.name} covers everyday Tibetan and the common mantras. It is a first review build: the numbers below describe
+        {font.name} covers everyday Tibetan and the common mantras, with English in the same pen. The numbers below describe
         exactly this version, {BUILD.label.toLowerCase()} of {BUILD.dateHuman}.
       </p>
     </div>
@@ -41,7 +41,7 @@ const { font } = Astro.props;
       <article class="card card--pad reveal reveal-d1">
         <h3 class="dh">Left out, on purpose</h3>
         <p class="dp">{font.notSanskrit}</p>
-        <p class="dp">{font.leftOut}</p>
+        {font.leftOut.map((l: string) => <p class="dp">{l}</p>)}
       </article>
 
       <article class="card card--pad reveal">
@@ -81,6 +81,14 @@ const { font } = Astro.props;
         <ul class="dl">
           {font.build.map((b: string) => <li>{b}</li>)}
         </ul>
+        {font.changes && (
+          <>
+            <h4 class="dh dh--sub">New since review build v0.1</h4>
+            <ul class="dl">
+              {font.changes.map((c: string) => <li>{c}</li>)}
+            </ul>
+          </>
+        )}
         <h4 class="dh dh--sub">Known issues</h4>
         <ul class="dl dl--issues">
           {font.knownIssues.map((k: string) => <li>{k}</li>)}
