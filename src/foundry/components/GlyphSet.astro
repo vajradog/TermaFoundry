@@ -9,12 +9,12 @@ const tibetan = (list: string[]) => list.map((g) => ({ g, label: toWylie(g).text
 const plain = (list: string[]) => list.map((g) => ({ g, label: hex(g), cp: hex(g) }));
 
 const groups = [
-  { id: 'stacks', label: 'Stacks', items: tibetan(GLYPHSET.stacks) },
-  { id: 'vowel-ligs', label: 'Stacks with vowels', items: tibetan(GLYPHSET.vowelLigatures) },
   { id: 'letters', label: 'Letters and vowels', items: tibetan([...GLYPHSET.letters, ...GLYPHSET.sanskrit, ...GLYPHSET.vowels]) },
   { id: 'signs', label: 'Digits and signs', items: tibetan([...GLYPHSET.digits, ...GLYPHSET.signs]) },
-  { id: 'english', label: 'English', items: plain(GLYPHSET.english) },
   { id: 'icons', label: 'Icons and sums', items: plain([...GLYPHSET.icons, ...GLYPHSET.sums]) },
+  { id: 'stacks', label: 'Stacks', items: tibetan(GLYPHSET.stacks) },
+  { id: 'vowel-ligs', label: 'Stacks with vowels', items: tibetan(GLYPHSET.vowelLigatures) },
+  { id: 'english', label: 'English', items: plain(GLYPHSET.english) },
 ];
 const first = groups[0].items[0];
 ---
