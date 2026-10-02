@@ -34,9 +34,7 @@ const tryChips = [
   { label: 'Alphabet', text: TEXT.alphabetWylie },
   { label: 'Vowels', text: TEXT.vowelsWylie },
   { label: 'Digits', text: TEXT.digits },
-  { label: 'The designer’s seal', text: '@@@#' },
 ];
-const SEAL_BO = '';
 ---
 
 <Site title="Yangtso, a Tibetan typeface for children" preload={['yangtso-regular.woff2']} bodyClass="home">
@@ -209,8 +207,8 @@ const SEAL_BO = '';
         <span class="eyebrow">Tibetan and English</span>
         <h2 class="display display--lg">Two scripts, <em>one round pen.</em></h2>
         <p class="lede">
-          Yangtso carries its own English letters, the icons a classroom needs, the signs of arithmetic and the designer’s seal,
-          all drawn with the same pen as the Tibetan.
+          Yangtso carries its own English letters, the icons a classroom needs and the signs of arithmetic, all drawn with the
+          same pen as the Tibetan.
         </p>
       </div>
       <div class="banner reveal" aria-label="Tashi Delek, in Tibetan and English">
@@ -239,11 +237,12 @@ const SEAL_BO = '';
         </article>
         <article class="ncard ncard--sky reveal reveal-d3">
           <div class="ncard__stage bo-yangtso">
-            <span class="ncard__seal" role="img" aria-label="The designer’s seal">{SEAL_BO}</span>
+            <span class="ncard__big" lang="bo">༡ ༢ ༣</span>
+            <span class="ncard__line"><span lang="bo">༡+༢=༣</span> · 1+2=3</span>
           </div>
           <div class="ncard__foot">
-            <strong>The designer’s seal</strong>
-            <p>Type <code>@@@#</code> in Wylie and the four marks become the seal; <code>@@@@#</code> gives the English one.</p>
+            <strong>Tibetan figures</strong>
+            <p>The ten Tibetan digits and the English figures, drawn with one pen, and the same sums in either script.</p>
           </div>
         </article>
       </div>
@@ -586,7 +585,8 @@ const SEAL_BO = '';
     width: max-content;
     gap: clamp(1.4rem, 3vw, 2.4rem);
     font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-    line-height: 2.3;
+    line-height: 2;
+    padding-block: 0.45em;
     color: var(--fg);
     animation: band 140s linear infinite;
     will-change: transform;
@@ -763,6 +763,9 @@ const SEAL_BO = '';
   .wrow__text {
     font-size: clamp(2rem, 5.2vw, 4.4rem);
     line-height: 2;
+    /* room inside the clipped box for the vowels above and the stacks below the line */
+    padding-block: 0.45em;
+    margin-block: -0.45em;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: clip;
@@ -941,7 +944,6 @@ const SEAL_BO = '';
     box-shadow: var(--shadow);
   }
   .ncard__stage {
-    container-type: inline-size;
     min-height: 210px;
     display: grid;
     place-content: center;
@@ -967,11 +969,6 @@ const SEAL_BO = '';
     opacity: 0.8;
     white-space: nowrap;
   }
-  /* the seal is about 2.9 em wide: size it to the card */
-  .ncard__seal {
-    font-size: min(6rem, 27cqi);
-    line-height: 1.3;
-  }
   .ncard__foot {
     padding: 1.1rem 1.25rem 1.3rem;
     display: grid;
@@ -984,14 +981,6 @@ const SEAL_BO = '';
   .ncard__foot p {
     color: var(--fg-2);
     font-size: var(--step--1);
-  }
-  .ncard__foot code {
-    font-family: var(--font-mono);
-    font-size: 0.9em;
-    padding: 0.05rem 0.35rem;
-    border-radius: 6px;
-    background: var(--bg-3);
-    border: 1px solid var(--line);
   }
 
   /* ---------- Letter cards ---------- */

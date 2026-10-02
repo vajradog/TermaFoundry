@@ -23,7 +23,6 @@ const chips = [
   { label: 'Vowels', text: TEXT.vowelsWylie },
   { label: 'Digits', text: TEXT.digits },
   { label: 'Review passage', text: sample.text },
-  { label: 'The designer’s seal', text: '@@@#' },
 ];
 ---
 
@@ -49,7 +48,7 @@ const chips = [
     {
       styles.length > 0 && (
         <label class="tryout__select">
-          <span>Style</span>
+          <span>Try a style</span>
           <select data-style aria-label="Text style">
             <option value="">Plain</option>
             {styles.map((s) => (
@@ -150,13 +149,35 @@ const chips = [
     width: 100%;
     accent-color: var(--tr-accent);
   }
+  /* The style menu is the fun part of the tester: a rainbow ring makes it the first thing seen. */
+  .tryout__select span {
+    color: var(--tr-accent, var(--accent));
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
   .tryout__select select {
-    padding: 0.45rem 0.7rem;
-    border-radius: 10px;
-    border: 1px solid var(--line-2);
-    background: var(--bg-2);
-    color: var(--fg);
-    font-weight: 600;
+    padding: 0.55rem 2.2rem 0.55rem 1rem;
+    border-radius: 999px;
+    border: 2.5px solid transparent;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%231e1b4b' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 0.9rem center padding-box,
+      linear-gradient(#fff8d6, #fff8d6) padding-box,
+      linear-gradient(90deg, #ff6b6b, #ffcc33, #34d399, #38bdf8, #a78bfa, #ff8fab) border-box;
+    color: #1e1b4b;
+    font-weight: 800;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: 0 6px 18px -8px rgba(255, 107, 107, 0.7);
+    transition: transform 0.2s var(--ease-bounce), box-shadow 0.2s;
+  }
+  .tryout__select select:hover {
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 10px 22px -8px rgba(167, 139, 250, 0.8);
+  }
+  .tryout__select select:focus-visible {
+    outline: 2px solid var(--tr-accent, var(--accent));
+    outline-offset: 2px;
   }
   .tryout__stage {
     padding: clamp(2rem, 5vw, 3.5rem) clamp(1rem, 4vw, 3rem);

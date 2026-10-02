@@ -301,6 +301,13 @@ const vowelLabels = ['ka', 'ki', 'ku', 'ke', 'ko'];
       0 6px 0 #a67f00,
       0 14px 22px rgba(30, 27, 75, 0.28);
   }
+  /* Styles that paint the letters with a background (background-clip: text) only paint inside the
+     element's box; the padding makes room for the vowels above and the stacks below the line. */
+  .fx-rainbow .fx-text,
+  .fx-candy .fx-text {
+    padding-block: 0.6em;
+    margin-block: -0.6em;
+  }
   .fx-rainbow .fx-stage {
     background: #fffdf5;
   }

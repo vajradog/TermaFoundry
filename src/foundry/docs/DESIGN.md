@@ -33,7 +33,7 @@ everything else; Wylie is always *JetBrains Mono*. Latin never competes with the
 
 **The home page is playful.** A tester renders whatever you type in Yangtso, in any weight;
 twelve letter cards flip on hover or tap from the Tibetan letter to its name written in Yangtso's
-own English letters; "New in 1.0" shows the English, the icons and sums, and the designer's seal;
+own English letters; "New in 1.0" shows the English, the icons and sums, and the Tibetan figures;
 a short "why" and a pointer to the Writing Studio follow. The credits appear as one quiet line
 under the hero's button and in full on the Yangtso page.
 

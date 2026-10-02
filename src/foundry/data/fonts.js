@@ -51,8 +51,7 @@ const coverage = [
   'The glyphs of the common mantras and of the Sanskrit words a Tibetan reader meets outside the pecha: the retroflex letters (ṭa, ṭha, ḍa, ṇa, ṣa), the aspirates, the anusvāra and visarga, the long vowels, and 18 Sanskrit stacks.',
   'English, written with the same round pen: A to Z, a to z, 0 to 9 and the punctuation, with curly quotes, dashes, the ellipsis, the bullet and the degree sign. A school print, as children learn it: a one-storey a and g, an l with a tail, round bowls. The capitals and figures stand as tall as the Tibetan head line, so the two scripts sit together on one line. Kerned.',
   'Icons for children’s material on their standard codes (★ ✓ ☺ ♥ ✏ ⚽ ← ↑ → ↓ and more) and the signs of arithmetic, + − × ÷ =. A hyphen typed beside a digit is drawn as a minus (3-1=2, ༣-༡=༢); inside a word it stays a hyphen.',
-  'The designer’s two seals. Type @@@# in Wylie (༄༄༄༅) for the Tibetan seal and @@@@# (༄༄༄༄༅) for the English one, or insert U+E000 and U+E001. Small at reading size; the words read when enlarged.',
-  '968 glyphs in all, of which 558 are precomposed stacks and ligatures; the rest are letters, marks, forms, digits, English, icons and the seals. Stacks form by OpenType substitution as you type; the vowel signs sit by anchors; side bearings and kerning are set letter by letter.',
+  '968 glyphs in all, of which 558 are precomposed stacks and ligatures; the rest are letters, marks, forms, digits, English and icons. Stacks form by OpenType substitution as you type; the vowel signs sit by anchors; side bearings and kerning are set letter by letter.',
 ];
 
 const leftOut = [
@@ -62,7 +61,6 @@ const leftOut = [
 
 const knownIssues = [
   'Seven signs (U+0F04, 0F05, 0F08 and 0F3A–0F3D) are provisional shapes under the pen; the designer’s own drawings of them will replace these.',
-  'The seals form by OpenType ligature. They are checked in Chrome, Firefox, LibreOffice and Android, not yet in Microsoft Word or on a Mac. Where an application shows ༄༄༄༅ instead of the seal, insert U+E000 or U+E001.',
   'On the emoji codes (⚽ and the faces) some applications show their own colour emoji instead of Yangtso’s.',
   'Microsoft Word applies the kerning only when “Kerning for fonts” is ticked, and the hyphen-as-minus only with contextual alternates on; elsewhere both are on by default.',
 ];
@@ -79,7 +77,7 @@ const numbers = [
 /* What changed since review build v0.1, the build the first reviewers saw. */
 const changes = [
   'English letters, figures and punctuation, written with the same pen and kerned.',
-  'Icons for children’s material, the signs of arithmetic, and the designer’s two seals.',
+  'Icons for children’s material and the signs of arithmetic.',
   'The pen: the same round pen, its inside corners a little softer.',
   'The skeleton: shorter legs, 8% wider, rounder tummies, a round tsheg; the rings of the zero and the anusvara at the full pen.',
   'Stacks: the wa-zur’s stem sits on the stroke it crosses; the ra-btags hangs from the upright in its line (sra, khra); khra keeps kha’s leg; ha’s leg ends above pha’s opening.',
@@ -143,7 +141,7 @@ export const COVERAGE = [
   [0x2010, 0x2011], [0x2013, 0x2014], [0x2018, 0x2019], [0x201c, 0x201d], [0x2022, 0x2022],
   [0x2026, 0x2026], [0x2190, 0x2193], [0x2212, 0x2212], [0x2600, 0x2600], [0x2605, 0x2606],
   [0x2639, 0x263a], [0x2665, 0x2665], [0x266a, 0x266b], [0x26bd, 0x26bd], [0x270f, 0x270f],
-  [0x2712, 0x2713], [0x2717, 0x2717], [0x271a, 0x271a], [0xe000, 0xe001], [0x1f310, 0x1f310],
+  [0x2712, 0x2713], [0x2717, 0x2717], [0x271a, 0x271a], [0x1f310, 0x1f310],
   [0x1f44d, 0x1f44d], [0x1f4d6, 0x1f4d6], [0x1f4f7, 0x1f4f7], [0x1f50d, 0x1f50d], [0x1f604, 0x1f604],
   [0x1f609, 0x1f609], [0x1f62e, 0x1f62e], [0x1f6dd, 0x1f6dd], [0x1f9e9, 0x1f9e9],
 ];

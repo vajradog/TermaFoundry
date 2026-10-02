@@ -86,7 +86,6 @@ signs = [chr(c) for c in cps if (0x0F00 <= c <= 0x0F1F or 0x0F34 <= c <= 0x0F3F 
 english = [chr(c) for c in cps if 0x21 <= c <= 0x7E or c in (0xB0, 0x2010, 0x2011, 0x2013, 0x2014, 0x2018, 0x2019, 0x201C, 0x201D, 0x2022, 0x2026)]
 sums = [chr(c) for c in cps if c in (0x2B, 0x2212, 0xD7, 0xF7, 0x3D)]
 icons = [chr(c) for c in cps if (0x2190 <= c <= 0x2BFF and c != 0x2212) or c >= 0x1F000]
-seals = [chr(c) for c in cps if 0xE000 <= c <= 0xF8FF]
 
 data = {
     'letters': list(ALPHABET),
@@ -100,7 +99,6 @@ data = {
     'english': english,
     'sums': sums,
     'icons': icons,
-    'seals': seals,
     'glyphs': len(order),
 }
 

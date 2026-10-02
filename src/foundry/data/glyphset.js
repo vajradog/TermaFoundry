@@ -1230,9 +1230,5 @@ export const GLYPHSET = {
   "🛝",
   "🧩"
  ],
- "seals": [
-  "",
-  ""
- ],
  "glyphs": 968
 };

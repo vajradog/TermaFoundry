@@ -15,7 +15,6 @@ const groups = [
   { id: 'signs', label: 'Digits and signs', items: tibetan([...GLYPHSET.digits, ...GLYPHSET.signs]) },
   { id: 'english', label: 'English', items: plain(GLYPHSET.english) },
   { id: 'icons', label: 'Icons and sums', items: plain([...GLYPHSET.icons, ...GLYPHSET.sums]) },
-  { id: 'seals', label: 'Seals', items: GLYPHSET.seals.map((g, i) => ({ g, label: i === 0 ? '@@@#' : '@@@@#', cp: hex(g) })), wide: true },
 ];
 const first = groups[0].items[0];
 ---
@@ -26,7 +25,7 @@ const first = groups[0].items[0];
       <span class="eyebrow">The whole set</span>
       <h2 class="display display--lg">{GLYPHSET.glyphs} glyphs, <em>one round pen.</em></h2>
       <p class="lede">
-        Every stack, every vowel, the digits and signs, the English, the icons and the seals: everything in Yangtso, read from
+        Every stack, every vowel, the digits and signs, the English and the icons: everything in Yangtso, read from
         the font itself. Hover or tap any one to see it large.
       </p>
     </div>
@@ -46,7 +45,7 @@ const first = groups[0].items[0];
         <div class="set__panels">
           {
             groups.map((grp, i) => (
-              <div class={`set__grid${grp.wide ? ' set__grid--wide' : ''}`} id={`set-${grp.id}`} role="tabpanel" aria-labelledby={`set-tab-${grp.id}`} hidden={i !== 0} data-set-panel={grp.id}>
+              <div class="set__grid" id={`set-${grp.id}`} role="tabpanel" aria-labelledby={`set-tab-${grp.id}`} hidden={i !== 0} data-set-panel={grp.id}>
                 {grp.items.map((it) => (
                   <button type="button" class="glyph" data-g={it.g} data-label={it.label} data-cp={it.cp} aria-label={it.label}>
                     <span class="glyph__g bo-yangtso" lang="bo">{it.g}</span>
@@ -77,7 +76,6 @@ const first = groups[0].items[0];
     const cp = box.querySelector('[data-set-cp]') as HTMLElement;
     const show = (b: HTMLElement) => {
       big.textContent = b.dataset.g || '';
-      big.classList.toggle('is-wide', !!b.closest('.set__grid--wide'));
       label.textContent = b.dataset.label || '';
       cp.textContent = b.dataset.cp || '';
       box.querySelectorAll('.glyph.is-on').forEach((x) => x.classList.remove('is-on'));
@@ -172,9 +170,6 @@ const first = groups[0].items[0];
   .set__grid[hidden] {
     display: none;
   }
-  .set__grid--wide {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  }
   .glyph {
     display: grid;
     grid-template-rows: 1fr auto;
@@ -205,10 +200,6 @@ const first = groups[0].items[0];
     font-size: 1.6rem;
     line-height: 2.4;
     white-space: nowrap;
-  }
-  .set__grid--wide .glyph__g {
-    font-size: 3.2rem;
-    line-height: 1.6;
   }
   .glyph__l {
     max-width: 100%;
@@ -245,9 +236,6 @@ const first = groups[0].items[0];
     line-height: 2.4;
     padding-inline: 1rem;
     white-space: nowrap;
-  }
-  .set__big.is-wide {
-    font-size: 2.6rem;
   }
   .set__meta {
     display: grid;

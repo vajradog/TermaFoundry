@@ -1,12 +1,14 @@
 ---
 /* SVG filters used by the CSS text styles (sticker outline, dry brush, chalk, woodblock).
+   Each region reaches half a box above and below the element: Tibetan vowels and stacks rise
+   and hang well outside the line box, and a filter cuts off whatever is outside its region.
    Include once per page; reference with `filter: url(#fx-…)`. */
 ---
 
 <svg width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
   <defs>
     <!-- Thick white outline behind the glyphs, like a die-cut sticker -->
-    <filter id="fx-sticker" x="-15%" y="-25%" width="130%" height="150%" color-interpolation-filters="sRGB">
+    <filter id="fx-sticker" x="-15%" y="-50%" width="130%" height="200%" color-interpolation-filters="sRGB">
       <feMorphology in="SourceAlpha" operator="dilate" radius="7" result="dil" />
       <feFlood flood-color="#ffffff" result="white" />
       <feComposite in="white" in2="dil" operator="in" result="outline" />
@@ -16,7 +18,7 @@
         <feMergeNode in="SourceGraphic" />
       </feMerge>
     </filter>
-    <filter id="fx-sticker-sm" x="-15%" y="-25%" width="130%" height="150%" color-interpolation-filters="sRGB">
+    <filter id="fx-sticker-sm" x="-15%" y="-50%" width="130%" height="200%" color-interpolation-filters="sRGB">
       <feMorphology in="SourceAlpha" operator="dilate" radius="4" result="dil" />
       <feFlood flood-color="#ffffff" result="white" />
       <feComposite in="white" in2="dil" operator="in" result="outline" />
@@ -28,7 +30,7 @@
     </filter>
 
     <!-- Dry brush: the edge of every stroke breaks up as if the hairs of the brush ran dry -->
-    <filter id="fx-drybrush" x="-5%" y="-10%" width="110%" height="120%" color-interpolation-filters="sRGB">
+    <filter id="fx-drybrush" x="-5%" y="-50%" width="110%" height="200%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.055 0.09" numOctaves="3" seed="7" result="noise" />
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" result="disp" />
       <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="grain" />
@@ -37,7 +39,7 @@
     </filter>
 
     <!-- Woodblock: a slightly uneven, inked impression -->
-    <filter id="fx-woodblock" x="-5%" y="-10%" width="110%" height="120%" color-interpolation-filters="sRGB">
+    <filter id="fx-woodblock" x="-5%" y="-50%" width="110%" height="200%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="11" result="noise" />
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G" result="disp" />
       <feMorphology in="disp" operator="dilate" radius="0.6" result="fat" />
@@ -47,7 +49,7 @@
     </filter>
 
     <!-- Chalk: speckled, dusty strokes -->
-    <filter id="fx-chalk" x="-5%" y="-10%" width="110%" height="120%" color-interpolation-filters="sRGB">
+    <filter id="fx-chalk" x="-5%" y="-50%" width="110%" height="200%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="2" result="grain" />
       <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.2 2.1" result="mask" />
       <feComposite in="SourceGraphic" in2="mask" operator="in" result="dusty" />
@@ -56,7 +58,7 @@
 
     <!-- Sumi ink: dense black, edges roughened by the brush, dry streaks where the hairs ran out
          of ink, and a faint wet bleed under it all. For big display sizes on white paper. -->
-    <filter id="fx-sumi" x="-8%" y="-15%" width="116%" height="130%" color-interpolation-filters="sRGB">
+    <filter id="fx-sumi" x="-8%" y="-50%" width="116%" height="200%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.035 0.06" numOctaves="3" seed="12" result="edge" />
       <feDisplacementMap in="SourceGraphic" in2="edge" scale="6" xChannelSelector="R" yChannelSelector="G" result="rough" />
       <feTurbulence type="fractalNoise" baseFrequency="0.012 0.45" numOctaves="2" seed="21" result="streaks" />
@@ -73,7 +75,7 @@
     </filter>
 
     <!-- Wet ink: a darker core and a soft bleed at the edge -->
-    <filter id="fx-wetink" x="-5%" y="-10%" width="110%" height="120%" color-interpolation-filters="sRGB">
+    <filter id="fx-wetink" x="-5%" y="-50%" width="110%" height="200%" color-interpolation-filters="sRGB">
       <feGaussianBlur in="SourceAlpha" stdDeviation="1.2" result="blur" />
       <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.08  0 0 0 0 0.06  0 0 0 0 0.05  0 0 0 0.9 0" result="bleed" />
       <feMerge>
@@ -82,7 +84,7 @@
       </feMerge>
     </filter>
     <!-- The same bleed in vermilion, for red ink -->
-    <filter id="fx-wetink-red" x="-5%" y="-10%" width="110%" height="120%" color-interpolation-filters="sRGB">
+    <filter id="fx-wetink-red" x="-5%" y="-50%" width="110%" height="200%" color-interpolation-filters="sRGB">
       <feGaussianBlur in="SourceAlpha" stdDeviation="1.1" result="blur" />
       <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.72  0 0 0 0 0.2  0 0 0 0 0.1  0 0 0 0.85 0" result="bleed" />
       <feMerge>
@@ -91,7 +93,7 @@
       </feMerge>
     </filter>
     <!-- A rough edge for painted brush strokes (SVG shapes, not text) -->
-    <filter id="fx-brushedge" x="-10%" y="-30%" width="120%" height="160%" color-interpolation-filters="sRGB">
+    <filter id="fx-brushedge" x="-10%" y="-50%" width="120%" height="200%" color-interpolation-filters="sRGB">
       <feTurbulence type="fractalNoise" baseFrequency="0.05 0.12" numOctaves="3" seed="4" result="noise" />
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="9" xChannelSelector="R" yChannelSelector="G" result="disp" />
       <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" seed="9" result="grain" />
