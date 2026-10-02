@@ -25,8 +25,8 @@ To fix it, edit `text` under `SAMPLES.yangtso` in `src/foundry/data/fonts.js`.
 All Tibetan text on the site comes from these sources only:
 
 - the font name as supplied, དབྱངས་མཚོ;
-- the Studio's mixed-language passage (Tibetan with English names), verbatim as supplied, with
-  three happy faces added at the end;
+- the Studio's mixed-language passage (Tibetan with English names), as supplied but without its
+  opening ༄༅། །, with three happy faces added at the end;
 - the alphabet (30 consonants), the vowel signs on ཀ (ཀ་ཀི་ཀུ་ཀེ་ཀོ།), and the digits ༠–༩;
 - བཀྲ་ཤིས་བདེ་ལེགས།
 - བོད་ཡིག (used as the sample word for the weight comparisons, and on the chalkboard on the home page);

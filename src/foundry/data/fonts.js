@@ -40,14 +40,14 @@ export const SAMPLES = {
   mixed: {
     id: 'sample-mixed',
     label: 'Mixed language',
-    note: 'Tibetan with English names in the middle and happy faces at the end. Supplied by the designer.',
-    text: '༄༅། །ཕྱི་ལོ་ ༢༠༢༦ ཟླ་ ༩ ཚེས་ ༣༠ ཉིན་གྱི་ཞོགས་པར་སྤྱི་ནོར་༸གོང་ས་༸སྐྱབས་མགོན་ཆེན་པོ་མཆོག་གིས་རྡ་རམ་ས་ལའི་ཕོ་བྲང་དུ་ཨ་རིའི་གྲོས་ཚོགས་ཀྱི་ཕྱི་འབྲེལ་ལས་དོན་ཚོགས་ཆུང་གི་ཚོགས་གཙོ་སྐུ་ཞབས་བྷི་རི་ཨན་མཱ་སི་ཊི་ (Brian Mast) མཆོག་གིས་དབུ་ཁྲིད་པའི་སྤྱི་མཐུན་ཚོགས་པའི་འཐུས་མི་བྷི་རི་ཨན་མཱ་སི་ཊི་ (Brian Mast) དང་། ཇེམས་གྷལ་ལཱ་གྷར་ (James Gallagher)། ཇི་མི་པཱ་ཊོ་ནི་སི་ (Jimmy Patronis) དང་། མང་གཙོ་ཚོགས་པའི་འཐུས་མི་ཤྲི་ཐཱ་ནེ་ཌར་ (Shri Thanedar) དང་། ཧེ་ལི་སི་ཊིབ་སི་ (Haley Stevens) བཅས་ཨ་རིའི་གྲོས་ཚོགས་ཀྱི་སྐུ་ཚབ་ཚོགས་ཆུང་ཞིག་ལ་མཇལ་འཕྲད་གནང་བ་དང་། དེ་རྗེས་ཐའེ་ཝན་ཚོགས་གཉིས་ཆོས་ཚོགས་ཀྱི་ཚོགས་མི་ ༤༡༢ ལ་མཇལ་ཁ་དང་ལྗགས་ལུང་ཁག་ཅིག་སྩལ་ཡོད་པ་རེད། 😄 ☺ 😄',
+    note: 'Tibetan with English names in the middle and happy faces at the end. Supplied by the designer (its opening ༄༅། ། left off).',
+    text: 'ཕྱི་ལོ་ ༢༠༢༦ ཟླ་ ༩ ཚེས་ ༣༠ ཉིན་གྱི་ཞོགས་པར་སྤྱི་ནོར་༸གོང་ས་༸སྐྱབས་མགོན་ཆེན་པོ་མཆོག་གིས་རྡ་རམ་ས་ལའི་ཕོ་བྲང་དུ་ཨ་རིའི་གྲོས་ཚོགས་ཀྱི་ཕྱི་འབྲེལ་ལས་དོན་ཚོགས་ཆུང་གི་ཚོགས་གཙོ་སྐུ་ཞབས་བྷི་རི་ཨན་མཱ་སི་ཊི་ (Brian Mast) མཆོག་གིས་དབུ་ཁྲིད་པའི་སྤྱི་མཐུན་ཚོགས་པའི་འཐུས་མི་བྷི་རི་ཨན་མཱ་སི་ཊི་ (Brian Mast) དང་། ཇེམས་གྷལ་ལཱ་གྷར་ (James Gallagher)། ཇི་མི་པཱ་ཊོ་ནི་སི་ (Jimmy Patronis) དང་། མང་གཙོ་ཚོགས་པའི་འཐུས་མི་ཤྲི་ཐཱ་ནེ་ཌར་ (Shri Thanedar) དང་། ཧེ་ལི་སི་ཊིབ་སི་ (Haley Stevens) བཅས་ཨ་རིའི་གྲོས་ཚོགས་ཀྱི་སྐུ་ཚབ་ཚོགས་ཆུང་ཞིག་ལ་མཇལ་འཕྲད་གནང་བ་དང་། དེ་རྗེས་ཐའེ་ཝན་ཚོགས་གཉིས་ཆོས་ཚོགས་ཀྱི་ཚོགས་མི་ ༤༡༢ ལ་མཇལ་ཁ་དང་ལྗགས་ལུང་ཁག་ཅིག་སྩལ་ཡོད་པ་རེད། 😄 ☺ 😄',
   },
 };
 
 const coverage = [
   'The 30 consonants, the vowel signs, the digits, the punctuation and the common symbols of the Tibetan block.',
-  'Every consonant stack and every vowel ligature of modern Tibetan: 540 two-, three-, four- and five-letter stacks, plus the positional forms of the subjoined letters. Measured against a corpus of 134 million syllables of modern Tibetan (news, opinion, Wikipedia; 69,880 documents), this set covers 99.75% of what is written.',
+  'Every consonant stack and every vowel ligature of modern Tibetan: 540 two-, three-, four- and five-letter stacks, plus the positional forms of the subjoined letters. Measured against a corpus of modern Tibetan (news, opinion and Wikipedia: 69,880 documents, 68.8 million syllables, 134 million stacks), this set covers 99.75% of the stacks written.',
   'The glyphs of the common mantras and of the Sanskrit words a Tibetan reader meets outside the pecha: the retroflex letters (ṭa, ṭha, ḍa, ṇa, ṣa), the aspirates, the anusvāra and visarga, the long vowels, and 18 Sanskrit stacks.',
   'English, written with the same round pen: A to Z, a to z, 0 to 9 and the punctuation, with curly quotes, dashes, the ellipsis, the bullet and the degree sign. A school print, as children learn it: a one-storey a and g, an l with a tail, round bowls. The capitals and figures stand as tall as the Tibetan head line, so the two scripts sit together on one line. Kerned.',
   'Icons for children’s material on their standard codes (★ ✓ ☺ ♥ ✏ ⚽ ← ↑ → ↓ and more) and the signs of arithmetic, + − × ÷ =. A hyphen typed beside a digit is drawn as a minus (3-1=2, ༣-༡=༢); inside a word it stays a hyphen.',
@@ -55,7 +55,7 @@ const coverage = [
 ];
 
 const leftOut = [
-  'The 766 glyphs of the rare Sanskrit set: stacks that occur in transliterated Sanskrit and nowhere in modern Tibetan, the pecha’s apparatus. A text that needs them will show those stacks as their separate letters, one under the other, unstacked.',
+  'The Sanskrit set: 572 stacks, long-vowel forms and signs used to write Sanskrit in Tibetan letters, such as ཀྵ, ཤྲཱ and ནཱ (766 glyphs with their alternate shapes). Yangtso does not draw them as shapes of their own; together they make up about 0.07% of the stacks in the same corpus of modern Tibetan, and 178 of them never occur in it at all. A text that uses them shows them built from separate letters and marks, and the few characters the font lacks (such as the subjoined ssa of ཀྵ) in another font.',
   'Twenty religious signs of the Tibetan block, left out on purpose for a children’s font: U+0F15–0F18, 0F1E, 0F1F, 0F8A, 0FC2–0FC5, 0FC7–0FCC, 0FCF, 0FD5 and 0FD6. A text that uses them shows them in another font.',
 ];
 
@@ -69,7 +69,7 @@ const numbers = [
   { n: '968', label: 'glyphs' },
   { n: '558', label: 'precomposed stacks and ligatures' },
   { n: '540', label: 'stacks of modern Tibetan' },
-  { n: '99.75%', label: 'of a 134M-syllable corpus covered' },
+  { n: '99.75%', label: 'of the stacks in a modern corpus covered' },
   { n: '3', label: 'weights: Light, Regular, Bold' },
   { n: 'A–Z', label: 'English letters and figures, same pen' },
 ];
@@ -79,8 +79,6 @@ const changes = [
   'English letters, figures and punctuation, written with the same pen and kerned.',
   'Icons for children’s material and the signs of arithmetic.',
   'The pen: the same round pen, its inside corners a little softer.',
-  'The skeleton: shorter legs, 8% wider, rounder tummies, a round tsheg; the rings of the zero and the anusvara at the full pen.',
-  'Stacks: the wa-zur’s stem sits on the stroke it crosses; the ra-btags hangs from the upright in its line (sra, khra); khra keeps kha’s leg; ha’s leg ends above pha’s opening.',
   'Vowels above: the drengbu and the gigu stand on their syllable where they crowded the tsheg or reached past the letter.',
   'Twenty religious signs left out for a children’s font; U+0F36 added.',
 ];
