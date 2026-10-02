@@ -12,7 +12,8 @@ src/foundry/
   data/glyphset.js     Every character of Yangtso, grouped (generated: `python src/foundry/tools/glyphset.py`)
   tools/glyphset.py    Reads the font, checks each stack with HarfBuzz, writes data/glyphset.js
   layouts/Site.astro   Page shell: head, review ribbon, floating nav, footer with credits
-  components/          Filters (SVG text effects), Tryout (type tester), GlyphSet (the whole set), Details, Credits, Wip
+  components/          Filters (SVG text effects), Tryout (type tester and its styles), GlyphSet (the whole set),
+                       Details (the specification), Wip (the note for reviewers)
   styles/base.css      Tokens, reset, typography, components, motion (self-contained)
   styles/studio.css    The Writing Studio
   lib/ewts.js          The only module that talks to the Wylie converter (+ tokenizer, stats)
@@ -22,10 +23,10 @@ src/foundry/
   docs/DESIGN.md       Aesthetic direction and the alternatives considered
   docs/NEEDS_REVIEW.md Tibetan content a native reader should confirm
 src/pages/test/
-  index.astro          Home, the launch: exercise-book hero, a band of stacks, why Tibetan type is hard, the weights,
-                       a tester, Tibetan and English, letter cards, why we made it, the people, the Studio
-  yangtso.astro        Yangtso: chalkboard hero, not-ready notice, tester, playroom styles, alphabet, the whole set,
-                       reader page, details, credits
+  index.astro          The site's one page, the Yangtso launch: exercise-book hero, why Tibetan type is hard, the
+                       weights, the tester, Tibetan and English, letter cards, the whole set, the specification,
+                       why we made it, the people, a note for reviewers, the Studio
+  yangtso.astro        Forwards the old /test/yangtso/ address to the home page (keeps any #section)
   studio.astro         The Writing Studio (review tool): type Wylie or paste Tibetan, weight and size only
 public/test/
   fonts/*.woff2        Yangtso Light/Regular/Bold, converted from the Yangtso 1.0 TTF exports

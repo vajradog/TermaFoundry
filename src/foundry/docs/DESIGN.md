@@ -7,7 +7,8 @@ page.
 
 ## The direction: "The fonts speak first"
 
-**The font is the hero.** The site shows one typeface, Yangtso. The home page opens on a full-width green chalkboard in a wooden frame with
+**The font is the hero.** The site is one page about Yangtso, plus the Writing Studio (the old
+Yangtso page was folded into the home page in October 2026). The home page opens on a full-width green chalkboard in a wooden frame with
 དབྱངས་མཚོ written in chalk (Yangtso Regular through a speckle filter), བཀྲ་ཤིས་བདེ་ལེགས། Tashi Delek!
 under it, chalk doodles in Tibetan and English around it, and a chalk ledge along the bottom.
 Under it, one line of Latin explains what this is.

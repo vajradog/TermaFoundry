@@ -15,7 +15,6 @@ export const BUILD = {
 };
 export const paths = {
   home: `${BASE}/`,
-  yangtso: `${BASE}/yangtso/`,
   studio: `${BASE}/studio/`,
   directions: `${BASE}/directions/`,
   fonts: `${BASE}/fonts`,

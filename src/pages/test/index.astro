@@ -1,16 +1,17 @@
 ---
 import Site from '../../foundry/layouts/Site.astro';
 import Filters from '../../foundry/components/Filters.astro';
+import Tryout from '../../foundry/components/Tryout.astro';
+import GlyphSet from '../../foundry/components/GlyphSet.astro';
+import Details from '../../foundry/components/Details.astro';
+import Wip from '../../foundry/components/Wip.astro';
 import { paths, BUILD } from '../../foundry/config.js';
-import { FONTS, TEXT, SAMPLES, CREDITS } from '../../foundry/data/fonts.js';
+import { FONTS, TEXT, CREDITS } from '../../foundry/data/fonts.js';
 import { GLYPHSET } from '../../foundry/data/glyphset.js';
 
 const y = FONTS.yangtso;
 const flipLetters = TEXT.letters.slice(0, 12);
 const flipWylie = TEXT.lettersWylie.slice(0, 12);
-const firstSentence = SAMPLES.yangtso.text.split('།')[0] + '།';
-// The band shows the commonest stacks first, the ones a reader meets on every page.
-const rows = [GLYPHSET.stacksByUse.slice(0, 70), GLYPHSET.stacksByUse.slice(70, 140)];
 const precomposed = GLYPHSET.stacks.length + GLYPHSET.vowelLigatures.length;
 
 // One syllable, built up the way a writer stacks it.
@@ -28,12 +29,14 @@ const numbers = [
   { n: '3', label: 'weights, one round pen' },
 ];
 const weightLine = `${TEXT.tashi}`;
-const tryChips = [
-  { label: 'Tashi delek', text: TEXT.tashiWylie },
-  { label: y.nameBo, text: y.nameWylie, bo: true },
-  { label: 'Alphabet', text: TEXT.alphabetWylie },
-  { label: 'Vowels', text: TEXT.vowelsWylie },
-  { label: 'Digits', text: TEXT.digits },
+// The styles offered in the tester's "Try a style" menu (their CSS lives in Tryout.astro).
+const tryStyles = [
+  { id: 'fx-chalkboard', label: 'Chalkboard' },
+  { id: 'fx-sticker-style', label: 'Sticker' },
+  { id: 'fx-balloon', label: 'Balloon' },
+  { id: 'fx-rainbow', label: 'Rainbow crayon' },
+  { id: 'fx-trace', label: 'Trace me' },
+  { id: 'fx-candy', label: 'Candy stripes' },
 ];
 ---
 
@@ -71,7 +74,7 @@ const tryChips = [
         </p>
         <div class="launch__cta reveal reveal-d3">
           <a class="btn btn-primary btn-lg" href="#try">Try Yangtso <span class="arrow">→</span></a>
-          <a class="btn btn-outline btn-lg" href={paths.yangtso}>See the typeface</a>
+          <a class="btn btn-outline btn-lg" href="#set">See all {GLYPHSET.glyphs} glyphs</a>
           <a class="btn btn-ghost btn-lg" href={paths.studio}>Open the Writing Studio</a>
         </div>
         <p class="launch__credits reveal reveal-d4">
@@ -84,23 +87,6 @@ const tryChips = [
         </p>
       </div>
     </div>
-  </section>
-
-  <!-- ═══════════ STACKS: a moving band of every stack ═══════════ -->
-  <section class="band" aria-label={`${GLYPHSET.stacks.length} stacks drawn in Yangtso`}>
-    {
-      rows.map((row, i) => (
-        <div class={`band__row band__row--${i + 1}`} aria-hidden="true">
-          <div class="band__track bo-yangtso" lang="bo">
-            {[...row, ...row].map((g) => <span>{g}</span>)}
-          </div>
-        </div>
-      ))
-    }
-    <p class="band__note container">
-      <span>{precomposed} stacks and ligatures, each one drawn and placed by hand.</span>
-      <a class="link-arrow" href={`${paths.yangtso}#set`}>See every one <span class="arrow">→</span></a>
-    </p>
   </section>
 
   <!-- ═══════════ WHY IT IS HARD ═══════════ -->
@@ -167,36 +153,17 @@ const tryChips = [
   </section>
 
   <!-- ═══════════ TRY IT ═══════════ -->
-  <section class="section try" id="try">
+  <section class="section" id="try">
     <div class="container">
       <div class="section-head reveal">
         <span class="eyebrow">Try it</span>
-        <h2 class="display display--lg">Type Wylie. <em>Watch it turn Tibetan.</em></h2>
-        <p class="lede">Whatever you type appears in Yangtso as you go. Paste Tibetan if you prefer, and switch the weight to see the family.</p>
+        <h2 class="display display--lg">Type something. <em>Make it cute.</em></h2>
+        <p class="lede">
+          Type Wylie and watch it turn Tibetan, or paste Tibetan, English and all. Three weights (Regular is the one to judge),
+          any size, and a style to dress it up.
+        </p>
       </div>
-      <div class="try__box card reveal" data-try>
-        <div class="try__pane">
-          <span class="try__tag" data-try-tag>Yangtso · Regular</span>
-          <div class="try__text bo-yangtso" lang="bo" data-try-out>{TEXT.tashi}</div>
-        </div>
-        <div class="try__bar">
-          <input class="try__input" type="text" value={TEXT.tashiWylie} data-try-in spellcheck="false" autocomplete="off" aria-label="Type Wylie or paste Tibetan" placeholder="bkra shis bde legs/" />
-          <div class="try__weights" role="radiogroup" aria-label="Weight">
-            {y.weights.map((w) => (
-              <button type="button" role="radio" class="try__seg" data-try-weight={w.css} data-name={w.name} aria-checked={w.css === 400 ? 'true' : 'false'}>
-                {w.name}
-              </button>
-            ))}
-          </div>
-          <label class="try__size">
-            <span>Font size</span>
-            <input type="range" min="28" max="140" value="72" data-try-size aria-label="Font size" />
-          </label>
-        </div>
-        <div class="try__chips">
-          {tryChips.map((c) => <button type="button" class="chip" data-try-chip={c.text} lang={c.bo ? 'bo' : undefined}>{c.label}</button>)}
-        </div>
-      </div>
+      <div class="reveal"><Tryout font={y} text={TEXT.tashi} size={84} leading={1.8} styles={tryStyles} /></div>
     </div>
   </section>
 
@@ -276,10 +243,14 @@ const tryChips = [
         }
       </div>
       <p class="flip__more reveal">
-        <a class="link-arrow" href={`${paths.yangtso}#set`}>See the whole set: all {GLYPHSET.glyphs} glyphs <span class="arrow">→</span></a>
+        <a class="link-arrow" href="#set">See the whole set: all {GLYPHSET.glyphs} glyphs <span class="arrow">→</span></a>
       </p>
     </div>
   </section>
+
+  <GlyphSet />
+
+  <Details font={y} showNumbers={false} />
 
   <!-- ═══════════ WHY ═══════════ -->
   <section class="section why">
@@ -339,6 +310,11 @@ const tryChips = [
     </div>
   </section>
 
+  <!-- ═══════════ FOR REVIEWERS ═══════════ -->
+  <section class="section--tight">
+    <div class="container"><Wip name="Yangtso" /></div>
+  </section>
+
   <!-- ═══════════ STUDIO ═══════════ -->
   <section class="section">
     <div class="container">
@@ -363,8 +339,8 @@ const tryChips = [
             <span></span><span></span><span></span>
             <em>Yangtso · autosaved</em>
           </div>
-          <div class="mock__wylie mono">lha mo dang karma gnyis ni ni'u yog mnga' sde'i …</div>
-          <div class="mock__bo bo-yangtso" lang="bo">{firstSentence}</div>
+          <div class="mock__wylie mono">bkra shis bde legs/ [Tashi Delek!] ☺</div>
+          <div class="mock__bo bo-yangtso"><span lang="bo">{TEXT.tashi}</span> Tashi Delek! ☺</div>
         </div>
       </div>
     </div>
@@ -372,38 +348,6 @@ const tryChips = [
 </Site>
 
 <script>
-  import { convertMixed } from '../../foundry/lib/ewts.js';
-
-  const box = document.querySelector('[data-try]');
-  if (box) {
-    const input = box.querySelector('[data-try-in]') as HTMLInputElement;
-    const size = box.querySelector('[data-try-size]') as HTMLInputElement;
-    const out = box.querySelector('[data-try-out]') as HTMLElement;
-    const tag = box.querySelector('[data-try-tag]') as HTMLElement;
-    const fallback = out.textContent || '';
-    const render = () => {
-      out.textContent = convertMixed(input.value.trim()) || fallback;
-    };
-    input.addEventListener('input', render);
-    size.addEventListener('input', () => {
-      out.style.fontSize = `${size.value}px`;
-    });
-    box.querySelectorAll<HTMLButtonElement>('[data-try-weight]').forEach((b, _, all) =>
-      b.addEventListener('click', () => {
-        all.forEach((x) => x.setAttribute('aria-checked', String(x === b)));
-        out.style.fontWeight = b.dataset.tryWeight || '400';
-        tag.textContent = `Yangtso · ${b.dataset.name}`;
-      }),
-    );
-    box.querySelectorAll<HTMLButtonElement>('[data-try-chip]').forEach((c) =>
-      c.addEventListener('click', () => {
-        input.value = c.dataset.tryChip || '';
-        render();
-        input.focus();
-      }),
-    );
-  }
-
   document.querySelectorAll<HTMLButtonElement>('[data-flip]').forEach((card) => {
     card.addEventListener('click', () => card.classList.toggle('is-flipped'));
   });
@@ -569,67 +513,6 @@ const tryChips = [
     }
   }
 
-  /* ---------- The band of stacks ---------- */
-  .band {
-    margin-top: clamp(2.5rem, 6vw, 4.5rem);
-    padding-block: 1.25rem 0;
-    overflow: hidden;
-  }
-  .band__row {
-    overflow: hidden;
-    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  }
-  .band__track {
-    display: flex;
-    width: max-content;
-    gap: clamp(1.4rem, 3vw, 2.4rem);
-    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-    line-height: 2;
-    padding-block: 0.45em;
-    color: var(--fg);
-    animation: band 140s linear infinite;
-    will-change: transform;
-  }
-  .band__row--2 .band__track {
-    animation-direction: reverse;
-    color: var(--fg-3);
-  }
-  .band:hover .band__track {
-    animation-play-state: paused;
-  }
-  @keyframes band {
-    to { transform: translateX(-50%); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .band__track {
-      animation: none;
-    }
-  }
-  .band__note {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem 1.25rem;
-    padding-top: 1rem;
-    color: var(--fg-2);
-    font-weight: 600;
-    font-size: var(--step--1);
-    text-align: center;
-  }
-  .link-arrow {
-    font-weight: 800;
-    font-size: var(--step--1);
-    color: var(--fg-2);
-    border-bottom: 2px solid var(--line-2);
-    padding-bottom: 2px;
-    transition: color 0.2s, border-color 0.2s;
-  }
-  .link-arrow:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-
   /* ---------- Why it is hard: one syllable, built up ---------- */
   .build {
     display: grid;
@@ -771,128 +654,6 @@ const tryChips = [
     text-overflow: clip;
     mask-image: linear-gradient(to right, #000 88%, transparent);
     -webkit-mask-image: linear-gradient(to right, #000 88%, transparent);
-  }
-
-  /* ---------- Try it ---------- */
-  .try__box {
-    overflow: hidden;
-  }
-  .try__pane {
-    position: relative;
-    min-height: 300px;
-    padding: 3.25rem clamp(1.25rem, 3vw, 2.75rem) 2rem;
-    display: grid;
-    align-items: center;
-    background:
-      radial-gradient(55% 50% at 12% 15%, #fff3b0 0%, transparent 60%),
-      radial-gradient(45% 45% at 92% 22%, #ffd6e0 0%, transparent 60%),
-      radial-gradient(50% 45% at 70% 98%, #cdeffd 0%, transparent 60%),
-      radial-gradient(35% 40% at 20% 95%, #d7f5e6 0%, transparent 60%),
-      #fffdf5;
-    color: #1e1b4b;
-  }
-  .try__tag {
-    position: absolute;
-    left: 1.25rem;
-    top: 1rem;
-    font-size: var(--step--2);
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    opacity: 0.6;
-  }
-  .try__text {
-    font-size: 72px;
-    line-height: 2.1;
-    overflow-wrap: anywhere;
-    transition: font-size 0.25s var(--ease);
-  }
-  .try__bar {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 1rem;
-    align-items: center;
-    padding: 1rem 1.1rem 0.5rem;
-    border-top: 1px solid var(--line);
-  }
-  @media (max-width: 760px) {
-    .try__bar {
-      grid-template-columns: 1fr;
-    }
-  }
-  .try__input {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border-radius: 14px;
-    border: 1px solid var(--line-2);
-    background: var(--bg);
-    color: var(--fg);
-    font-family: var(--font-mono);
-    font-size: var(--step--1);
-  }
-  .try__input:focus {
-    outline: 2px solid var(--accent);
-    outline-offset: 1px;
-    border-color: transparent;
-  }
-  .try__weights {
-    display: inline-flex;
-    padding: 3px;
-    gap: 2px;
-    border-radius: 999px;
-    border: 1px solid var(--line-2);
-    background: var(--bg-2);
-    justify-self: start;
-  }
-  .try__seg {
-    padding: 0.45rem 0.85rem;
-    border-radius: 999px;
-    font-size: var(--step--2);
-    font-weight: 800;
-    color: var(--fg-3);
-    transition: background 0.2s, color 0.2s;
-  }
-  .try__seg[aria-checked='true'] {
-    background: var(--fg);
-    color: var(--bg);
-  }
-  .try__size {
-    display: grid;
-    gap: 0.2rem;
-    font-size: var(--step--2);
-    font-weight: 800;
-    color: var(--fg-3);
-    min-width: 160px;
-  }
-  .try__size input {
-    accent-color: var(--accent);
-  }
-  .try__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    padding: 0.5rem 1.1rem 1.1rem;
-  }
-  .chip {
-    padding: 0.4rem 0.8rem;
-    border-radius: 999px;
-    border: 1px solid var(--line-2);
-    font-size: var(--step--2);
-    font-weight: 700;
-    color: var(--fg-2);
-    background: var(--bg-2);
-    transition: border-color 0.2s, color 0.2s, transform 0.2s var(--ease-bounce);
-  }
-  .chip:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    transform: translateY(-1px);
-  }
-  .chip[lang='bo'] {
-    font-family: var(--font-yangtso);
-    font-size: 1rem;
-    line-height: 1.7;
-    padding-block: 0.15rem;
   }
 
   /* ---------- Two scripts ---------- */
@@ -1053,6 +814,18 @@ const tryChips = [
   .flip__more {
     margin-top: 1.75rem;
     text-align: center;
+  }
+  .link-arrow {
+    font-weight: 800;
+    font-size: var(--step--1);
+    color: var(--fg-2);
+    border-bottom: 2px solid var(--line-2);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .link-arrow:hover {
+    color: var(--accent);
+    border-color: var(--accent);
   }
   @media (prefers-reduced-motion: reduce) {
     .flip__inner {

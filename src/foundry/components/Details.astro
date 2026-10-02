@@ -4,8 +4,10 @@ import { TEXT } from '../data/fonts.js';
 import { BUILD } from '../config.js';
 interface Props {
   font: any;
+  /* false where the page already shows the headline numbers */
+  showNumbers?: boolean;
 }
-const { font } = Astro.props;
+const { font, showNumbers = true } = Astro.props;
 ---
 
 <section class="section" id="details">
@@ -19,16 +21,18 @@ const { font } = Astro.props;
       </p>
     </div>
 
-    <div class="numbers reveal">
-      {
-        font.numbers.map((s: any) => (
-          <div class="stat">
-            <div class="stat__n">{s.n}</div>
-            <div class="stat__l">{s.label}</div>
-          </div>
-        ))
-      }
-    </div>
+    {
+      showNumbers && (
+        <div class="numbers reveal">
+          {font.numbers.map((s: any) => (
+            <div class="stat">
+              <div class="stat__n">{s.n}</div>
+              <div class="stat__l">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      )
+    }
 
     <div class="details-grid">
       <article class="card card--pad reveal">

@@ -82,9 +82,8 @@ const fontUrl = (file: string) => `${paths.fonts}/${file}`;
                 </span>
               </a>
               <nav class="site-nav" aria-label="Primary">
-                <a href={paths.yangtso} aria-current={current(paths.yangtso) ? 'page' : undefined}>
-                  Yangtso
-                </a>
+                <a href={`${paths.home}#try`}>Try it</a>
+                <a href={`${paths.home}#set`}>All glyphs</a>
                 <a href={paths.studio} class="site-nav__cta" aria-current={current(paths.studio) ? 'page' : undefined}>
                   Studio
                 </a>
@@ -123,7 +122,7 @@ const fontUrl = (file: string) => `${paths.fonts}/${file}`;
                 <p class="site-footer__blurb">A Tibetan type foundry. Typefaces drawn by hand, for the readers no font has served yet.</p>
               </div>
               <div class="site-footer__fonts">
-                <a href={paths.yangtso} class="site-footer__font">
+                <a href={paths.home} class="site-footer__font">
                   <span class="bo-yangtso" lang="bo">{FONTS.yangtso.nameBo}</span>
                   <small>Yangtso · {FONTS.yangtso.short}</small>
                 </a>

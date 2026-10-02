@@ -5,6 +5,9 @@ Nothing here was guessed silently: each item is either left exactly as supplied,
 
 ## 1. A possible missing tsheg in the Yangtso review passage
 
+(The passage is no longer shown on the site since October 2026; it is kept in the font data
+because the converter tests use it.)
+
 The passage supplied for Yangtso contains, in its seventh sentence:
 
 > … ཁོ་གཉིསཀྱི་མི་ཚེའི་ནང་ …
@@ -21,7 +24,7 @@ To fix it, edit `text` under `SAMPLES.yangtso` in `src/foundry/data/fonts.js`.
 
 All Tibetan text on the site comes from these sources only:
 
-- the Yangtso review passage, verbatim (see 1), and the font name as supplied, དབྱངས་མཚོ;
+- the font name as supplied, དབྱངས་མཚོ;
 - the Studio's mixed-language passage (Tibetan with English names), verbatim as supplied, with
   three happy faces added at the end;
 - the alphabet (30 consonants), the vowel signs on ཀ (ཀ་ཀི་ཀུ་ཀེ་ཀོ།), and the digits ༠–༩;
@@ -30,7 +33,7 @@ All Tibetan text on the site comes from these sources only:
 - on the home page, the syllable བསྒྲུབས built up in five steps: ག, སྒ, སྒྲ, སྒྲུ, བསྒྲུབས (Wylie
   ga, sga, sgra, sgru, bsgrubs), to show a root letter with a letter on its head, one under its feet,
   a vowel below, a prefix and two suffixes. Please confirm the steps and the captions;
-- the whole set on the Yangtso page: every stack and sign in the font, read from the font itself,
+- the whole set on the home page: every stack and sign in the font, read from the font itself,
   each with its Wylie from the converter.
 
 No mantras appear anywhere. The Wylie cheat sheet in the Studio shows single letters and the
