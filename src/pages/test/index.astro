@@ -22,6 +22,16 @@ const build = [
   { bo: 'སྒྲུ', wy: 'sgru', note: 'A vowel below that.' },
   { bo: 'བསྒྲུབས', wy: 'bsgrubs', note: 'One letter before and two after: one syllable.' },
 ];
+// The same syllable as the text stores it: seven Unicode characters, which the font shapes into one.
+const chars = [
+  { cp: 'U+0F56', name: 'ba' },
+  { cp: 'U+0F66', name: 'sa' },
+  { cp: 'U+0F92', name: 'ga, below' },
+  { cp: 'U+0FB2', name: 'ra, below' },
+  { cp: 'U+0F74', name: 'vowel u' },
+  { cp: 'U+0F56', name: 'ba' },
+  { cp: 'U+0F66', name: 'sa' },
+];
 const numbers = [
   { n: String(GLYPHSET.glyphs), label: 'glyphs in each weight' },
   { n: String(precomposed), label: 'stacks and ligatures, each drawn as one shape' },
@@ -113,6 +123,32 @@ const tryStyles = [
           ))
         }
       </ol>
+      <div class="shape reveal">
+        <div class="shape__text">
+          <span class="eyebrow">Unicode and OpenType</span>
+          <h3 class="display display--md">Seven characters in, <em>one syllable out.</em></h3>
+          <p>
+            Yangtso is fully Unicode-compliant and built with OpenType complex-script shaping. The text stays plain, standard
+            Tibetan, the same characters you type, search, copy and save, and the font stacks each syllable as it is set: the
+            superscript on top, the subjoined letters beneath, the vowel signs above and below, each on its anchor. It works
+            the same in modern web browsers and on modern operating systems, with nothing to install but the font.
+          </p>
+        </div>
+        <div class="shape__demo">
+          <ol class="shape__chars" aria-label="The characters of the syllable bsgrubs, as the text stores them">
+            {
+              chars.map((c) => (
+                <li class="shape__char">
+                  <span class="shape__cp">{c.cp}</span>
+                  <span class="shape__nm">{c.name}</span>
+                </li>
+              ))
+            }
+          </ol>
+          <span class="shape__arrow" aria-hidden="true">↓</span>
+          <span class="shape__out bo-yangtso" lang="bo">བསྒྲུབས</span>
+        </div>
+      </div>
       <div class="numbers reveal">
         {
           numbers.map((s) => (
@@ -172,10 +208,12 @@ const tryStyles = [
     <div class="container">
       <div class="section-head reveal">
         <span class="eyebrow">Tibetan and English</span>
-        <h2 class="display display--lg">Two scripts, <em>one round pen.</em></h2>
+        <h2 class="display display--lg">Two scripts, <em>one line.</em></h2>
         <p class="lede">
-          Yangtso carries its own English letters, the icons a classroom needs and the signs of arithmetic, all drawn with the
-          same pen as the Tibetan.
+          Yangtso carries its own English, drawn with the same round pen and made to share a line with the Tibetan: the
+          capitals rise exactly to the Tibetan head line, and both scripts keep one set of line metrics, so a sentence moves
+          from one to the other with no mismatched baseline and no jump in the spacing. The icons a classroom needs and the
+          signs of arithmetic come in the same pen.
         </p>
       </div>
       <div class="banner reveal" aria-label="Tashi Delek, in Tibetan and English">
@@ -268,6 +306,11 @@ const tryStyles = [
             Tibetans growing up abroad often speak the language but cannot read it, and when asked why, they say the same thing:
             the writing looked too hard. A rounder, warmer, simpler letter is the smallest thing that could change that.
             <strong>Yangtso is that letter.</strong>
+          </p>
+          <p>
+            It is engineered to the standard the world’s major scripts take for granted: plain Unicode text, OpenType shaping,
+            its own English on the same line, at home on the phones, tablets and laptops children actually use. Fonts like it
+            are carrying Tibetan typography into a strong, professional era.
           </p>
           <p>When Yangtso is released it will be free, under an open licence, for everyone.</p>
         </div>
@@ -569,6 +612,74 @@ const tryStyles = [
     font-size: var(--step--1);
     text-align: center;
     opacity: 0.75;
+  }
+  /* ---------- Unicode and OpenType: the syllable as the text stores it ---------- */
+  .shape {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    border-radius: 28px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-sm);
+  }
+  @media (max-width: 900px) {
+    .shape {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .shape__text h3 {
+    margin-block: 0.4rem 0.8rem;
+  }
+  .shape__text p {
+    color: var(--fg-2);
+    font-size: var(--step-0);
+    line-height: 1.65;
+  }
+  .shape__demo {
+    display: grid;
+    justify-items: center;
+    gap: 0.4rem;
+  }
+  .shape__chars {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+  .shape__char {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 12px;
+    background: var(--bg-3);
+    border: 1px solid var(--line);
+    text-align: center;
+  }
+  .shape__cp {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--fg);
+  }
+  .shape__nm {
+    font-size: var(--step--2);
+    color: var(--fg-3);
+    white-space: nowrap;
+  }
+  .shape__arrow {
+    font-size: var(--step-3);
+    line-height: 1;
+    color: #ff6b6b;
+  }
+  .shape__out {
+    font-size: clamp(3.4rem, 7vw, 5.2rem);
+    line-height: 2.2;
+    white-space: nowrap;
+    color: #1e1b4b;
   }
   .numbers {
     margin-top: clamp(2.5rem, 6vw, 4rem);
