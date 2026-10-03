@@ -113,13 +113,13 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
     </script>
   </head>
 
-  <body class="wt">
+  <body class="wt" id="top">
     <a class="skip" href="#practice">Skip to the practice room</a>
 
     <!-- ═══════════ Top bar ═══════════ -->
     <header class="tb" data-tb>
       <div class="wrap tb__in">
-        <a class="tb__brand" href={base} aria-label="Terma Foundry home">
+        <a class="tb__brand" href="#top" aria-label="Wylie Typing Tutor: back to the top">
           <span class="tb__mark" lang="bo" aria-hidden="true">ཝ</span>
           <span class="tb__name">Terma Foundry <span>· Wylie</span></span>
         </a>
