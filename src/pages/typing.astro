@@ -25,7 +25,7 @@ const fontCss = [
 
 const title = 'Wylie Typing Tutor — Learn to Type Tibetan | Terma Foundry';
 const description =
-  'A complete, free course in typing Tibetan with Extended Wylie (EWTS): a live demonstration, ten units and fifty-five lessons, an on-screen keyboard, WPM and accuracy, timed tests and personal bests.';
+  'A complete, free course in typing Tibetan with Extended Wylie (EWTS): a live demonstration, ten units and fifty-five lessons, WPM and accuracy, timed tests and personal bests. Type on the keyboard you already have.';
 
 const star = 'M12 2.6l2.85 5.95 6.55.85-4.8 4.55 1.25 6.5L12 17.3l-5.85 3.15 1.25-6.5L2.6 9.4l6.55-.85z';
 
@@ -182,7 +182,6 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
               <div class="demo__gloss is-on" data-demo-gloss>eight<span>gyé</span></div>
             </div>
             <div class="demo__parts parts" data-demo-parts></div>
-            <div data-demo-kbd></div>
             <div class="demo__foot">
               <span>Seven keys, one syllable: <span class="wy">b r g y a d</span></span>
               <a href="#practice" data-go-practice>Try it yourself →</a>
@@ -331,13 +330,13 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
               <h2 id="practice-title">Accuracy first. <em>Speed follows.</em></h2>
             </div>
             <p>
-              The cursor waits for the right key, so every mistake is noticed and every word is typed correctly once. Watch the keyboard
-              while you learn; look away from it as soon as you can. Switch to <b>Tibetan only</b> to practise reading: the Wylie
-              disappears and you transliterate from the script.
+              Type on your own keyboard: Wylie uses the ordinary Latin keys, so there is nothing to install and no layout to learn. The
+              cursor waits for the right key, so every mistake is noticed and every word is typed correctly once. Switch to
+              <b>Tibetan only</b> to practise reading: the Wylie disappears and you transliterate from the script.
             </p>
           </div>
 
-          <div class="trainer reveal" data-trainer data-script="both" data-size="m" data-kbd="on" data-fingers="on">
+          <div class="trainer reveal" data-trainer data-script="both" data-size="m">
             <div class="tr-bar">
               <div class="seg" role="tablist" aria-label="Practice mode">
                 <button type="button" role="tab" data-mode="course" aria-selected="true">Course</button>
@@ -357,28 +356,6 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
             </div>
 
             <div class="pop" data-settings hidden>
-              <div class="pop__row">
-                <span>Key hints</span>
-                <div class="seg" role="group" aria-label="Key hints">
-                  <button type="button" data-set="hints" data-v="always">Always</button>
-                  <button type="button" data-set="hints" data-v="error">On error</button>
-                  <button type="button" data-set="hints" data-v="off">Off</button>
-                </div>
-              </div>
-              <div class="pop__row">
-                <span>Keyboard</span>
-                <div class="seg" role="group" aria-label="Keyboard">
-                  <button type="button" data-set="kbd" data-v="on">Show</button>
-                  <button type="button" data-set="kbd" data-v="off">Hide</button>
-                </div>
-              </div>
-              <div class="pop__row">
-                <span>Finger colours</span>
-                <div class="seg" role="group" aria-label="Finger colours">
-                  <button type="button" data-set="fingers" data-v="on">On</button>
-                  <button type="button" data-set="fingers" data-v="off">Off</button>
-                </div>
-              </div>
               <div class="pop__row">
                 <span>Key sounds</span>
                 <div class="seg" role="group" aria-label="Key sounds">
@@ -455,7 +432,6 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
             <div class="tr-over" data-over hidden></div>
             </div>
 
-            <div class="tr-kbd"><div data-kbd></div></div>
             <div class="tr-foot">
               <span class="tr-foot__hint" data-hint>Press <b>Enter</b> to begin.</span>
               <span class="caps-warn" data-caps hidden>Caps Lock is on — Wylie is case-sensitive.</span>

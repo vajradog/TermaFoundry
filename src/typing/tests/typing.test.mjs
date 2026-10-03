@@ -7,7 +7,6 @@ import { UNITS, LESSONS, WORD_POOL, SENTENCES, ANATOMY_EXAMPLES, CONSONANTS } fr
 import { parseSyllable, tokenAt } from '../lib/anatomy.js';
 import { buildLesson, buildTimed, buildWeak, buildCustom, rng32, letterGloss } from '../lib/drill.js';
 import { Session, buildCells, sepToBo, starsFor } from '../lib/session.js';
-import { keyFor, shiftFor, KEYS } from '../lib/keyboard.js';
 
 const syllables = (w) => w.split(/[\s/]+/).filter(Boolean);
 const roles = (w) => parseSyllable(w).parts.map((p) => `${p.role}:${p.wy}`).join(' ');
@@ -167,18 +166,4 @@ test('letter glosses', () => {
   assert.equal(letterGloss('o'), 'na ro on the a-chen ཨ');
   assert.equal(letterGloss("'u"), "zhabs kyu on the 'a-chung འ");
   assert.equal(letterGloss('25'), 'the number 25');
-});
-
-test('keys', () => {
-  assert.deepEqual(keyFor('g'), { id: 'g', shift: false });
-  assert.deepEqual(keyFor('T'), { id: 't', shift: true });
-  assert.deepEqual(keyFor('+'), { id: '=', shift: true });
-  assert.deepEqual(keyFor(' '), { id: 'space', shift: false });
-  assert.equal(shiftFor('t'), 'shiftR');
-  assert.equal(shiftFor('n'), 'shiftL');
-  for (const l of LESSONS) {
-    const items = l.drill.kind === 'sentences' ? l.drill.items.map((x) => x[0]) : l.drill.items;
-    for (const ch of items.join(' ')) assert.ok(keyFor(ch), `${l.id}: no key for ${JSON.stringify(ch)}`);
-  }
-  assert.equal(Object.values(KEYS).filter((k) => k[2] === 'cons').length, 18);
 });

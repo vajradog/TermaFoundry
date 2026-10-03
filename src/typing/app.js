@@ -11,7 +11,6 @@ import { LEXICON } from './data/lexicon.js';
 import { parseSyllable, tokenAt } from './lib/anatomy.js';
 import { buildLesson, buildTimed, buildWeak, buildCustom, weakKeys, rng32 } from './lib/drill.js';
 import { Session, starsFor } from './lib/session.js';
-import { createKeyboard, keyFor, FINGER, FINGER_NAME } from './lib/keyboard.js';
 
 /* ───────────────────────── helpers ───────────────────────── */
 const $ = (s, el = document) => el.querySelector(s);
@@ -54,7 +53,7 @@ const store = {
   },
 };
 
-const DEFAULTS = { script: 'both', hints: 'always', kbd: 'on', fingers: 'on', sound: 'off', size: 'm', font: 'jomolhari' };
+const DEFAULTS = { script: 'both', sound: 'off', size: 'm', font: 'jomolhari' };
 const settings = { ...DEFAULTS, ...store.get('settings.v1', {}) };
 const saveSettings = () => store.set('settings.v1', settings);
 
@@ -180,7 +179,6 @@ function initDemo() {
   const partsEl = $('[data-demo-parts]', root);
   const countEl = $('[data-demo-count]', root);
   const btn = $('[data-demo-toggle]', root);
-  const kb = createKeyboard($('[data-demo-kbd]', root), { legend: false, mini: true });
 
   let wi = 0;
   let ci = 0;
@@ -205,7 +203,6 @@ function initDemo() {
     end = end < 0 ? word.w.length : start + end;
     const syl = word.w.slice(start, end);
     partsEl.innerHTML = partsHtml(parseSyllable(syl), complete ? Infinity : ci - start);
-    kb.next(complete ? null : word.w[ci]);
   }
 
   function schedule(ms) {
@@ -217,7 +214,6 @@ function initDemo() {
     const word = DEMO[wi];
     if (ci < word.w.length) {
       const ch = word.w[ci];
-      kb.press(ch, true);
       ci++;
       draw();
       schedule(ci >= word.w.length ? 2300 : ch === ' ' || ch === '/' ? 330 : 170 + Math.random() * 110);
@@ -475,8 +471,6 @@ function initTrainer() {
     popBtn: $('[data-settings-btn]', root),
   };
 
-  const kb = createKeyboard($('[data-kbd]', root), { onKey: (ch) => (ch === '\b' ? null : onChar(ch)) });
-
   const last = store.get('last.v1', {});
   const T = {
     mode: 'course',
@@ -498,15 +492,12 @@ function initTrainer() {
   function applySettings() {
     root.dataset.script = settings.script;
     root.dataset.size = settings.size;
-    root.dataset.kbd = settings.kbd;
-    root.dataset.fingers = settings.fingers;
     document.documentElement.style.setProperty('--bo', `${FONTS[settings.font] || FONTS.jomolhari}, 'TT Noto Tibetan', serif`);
     $$('[data-set-script]', root).forEach((b) => b.setAttribute('aria-pressed', b.dataset.setScript === settings.script ? 'true' : 'false'));
     $$('[data-set]', root).forEach((b) => b.setAttribute('aria-pressed', settings[b.dataset.set] === b.dataset.v ? 'true' : 'false'));
     const sel = $('[data-set-font]', root);
     if (sel) sel.value = settings.font;
   }
-  const hintsMode = () => (settings.script === 'bo' && settings.hints === 'always' ? 'error' : settings.hints);
 
   $$('[data-set-script]', root).forEach((b) =>
     b.addEventListener('click', () => {
@@ -604,8 +595,6 @@ function initTrainer() {
     const seconds = T.mode === 'test' ? TESTS.find((x) => x.id === T.testId).seconds : 0;
     T.session = items.length ? new Session(items, { seconds }) : null;
     renderText();
-    kb.setHeat(null);
-    kb.setNew(T.mode === 'course' ? T.lesson.keys : []);
     updateStats(performance.now());
   }
 
@@ -675,15 +664,13 @@ function initTrainer() {
     }
   }
 
-  /* ── the cursor: classes on the current character and cell, the info strip, the keyboard ── */
+  /* ── the cursor: classes on the current character and cell, the hint line, the info strip ── */
   function refreshCursor() {
     const s = T.session;
     if (!s) {
       el.now.innerHTML = '';
       el.parts.innerHTML = '';
       $('code', el.compose).textContent = '';
-      kb.next(null);
-      kb.digraph(null);
       return;
     }
     const pos = s.pos;
@@ -710,26 +697,26 @@ function initTrainer() {
       T.nowChar = ch;
     } else T.nowChar = null;
 
-    // keyboard & hints
-    const hints = hintsMode();
+    // the hint line: the next key (in reading mode only after a mistake)
     const exp = s.done ? null : s.expected;
-    const showKey = T.phase !== 'done' && exp != null && (hints === 'always' || (hints === 'error' && s.posErrors > 0));
-    const k = kb.next(showKey ? exp : null);
-    let tokenWy = null;
-    if (cell && pos < cell.sylEnd) {
-      const tok = tokenAt(cell.wy, pos - cell.start);
-      if (tok && tok.wy.length > 1) tokenWy = tok.wy;
-    }
-    kb.digraph(showKey ? tokenWy : null);
+    const reading = settings.script === 'bo';
     if (T.phase === 'brief' || T.phase === 'done') {
       // the overlay explains what to do
-    } else if (showKey && k) {
-      const what = exp === ' ' ? '<b>space</b> — the tsheg' : exp === '/' ? '<b>/</b> — the shad' : `<b>${esc(exp)}</b>${tokenWy ? ` of <b>${esc(tokenWy)}</b>` : ''}`;
-      el.hint.innerHTML = `Next: ${what}${k.shift ? ' with Shift' : ''} · ${FINGER_NAME[FINGER[k.id]] || ''}`;
-    } else if (settings.script === 'bo') {
-      el.hint.textContent = 'Reading mode: transliterate the Tibetan. A mistake reveals the key.';
+    } else if (exp != null && (!reading || s.posErrors > 0)) {
+      let tokenWy = null;
+      if (cell && pos < cell.sylEnd) {
+        const tok = tokenAt(cell.wy, pos - cell.start);
+        if (tok && tok.wy.length > 1) tokenWy = tok.wy;
+      }
+      const what =
+        exp === ' '
+          ? '<b>space</b>, the tsheg'
+          : exp === '/'
+            ? '<b>/</b>, the shad'
+            : `<b>${esc(exp)}</b>${tokenWy ? ` of <b>${esc(tokenWy)}</b>` : ''}${/[A-Z+]/.test(exp) ? ' (with Shift)' : ''}`;
+      el.hint.innerHTML = `${s.posErrors > 0 ? 'Not that one. ' : ''}Next key: ${what}`;
     } else {
-      el.hint.textContent = 'Hints are off. Trust your fingers.';
+      el.hint.textContent = 'Reading mode: transliterate the Tibetan. A mistake reveals the key.';
     }
 
     // info strip
@@ -944,10 +931,10 @@ function initTrainer() {
     bringIntoView();
   }
 
-  /* While typing, keep the text and the keyboard on screen together. */
+  /* While typing, keep the whole practice screen in view. */
   function bringIntoView() {
     const top = $('.tr-stats', root).getBoundingClientRect().top;
-    const bottom = $('.tr-kbd', root).getBoundingClientRect().bottom;
+    const bottom = $('.tr-foot', root).getBoundingClientRect().bottom;
     const head = 72;
     if (top >= head && bottom <= window.innerHeight) return;
     const y = window.scrollY + (bottom - top + head > window.innerHeight ? top - head : $('.tr-head', root).getBoundingClientRect().top - head);
@@ -1075,7 +1062,7 @@ function initTrainer() {
         <div><span class="card__label">Syllables/min</span><b>${Math.round(st.spm)}</b></div>
       </div>
       ${extra}
-      <div class="card__actions">${actions}<span class="muted">The keyboard shows where you slipped.</span></div>
+      <div class="card__actions">${actions}</div>
     </div>`;
     $('[data-again]', el.over)?.addEventListener('click', restart);
     $('[data-nextl]', el.over)?.addEventListener('click', () => goLesson(1));
@@ -1083,23 +1070,11 @@ function initTrainer() {
     $('[data-to-course]', el.over)?.addEventListener('click', () => setMode('course'));
     $('[data-viewscores]', el.over)?.addEventListener('click', () => renderScores());
 
-    // heat map of misses on the keyboard
-    const heat = {};
-    for (const [ch, [n, m]] of Object.entries(s.keys)) {
-      const k = keyFor(ch);
-      if (k && m) heat[k.id] = Math.max(heat[k.id] || 0, Math.min(1, (m / Math.max(1, n)) * 2.2 + 0.25));
-    }
-    kb.next(null);
-    kb.digraph(null);
-    kb.setHeat(heat);
-    el.hint.innerHTML = 'Red keys are the ones you missed.';
+    el.hint.innerHTML = $('[data-nextl]', el.over) ? 'Press <b>Enter</b> for the next lesson, <b>Esc</b> to try again.' : 'Press <b>Enter</b> to go again.';
     renderHead();
     renderScores();
     renderLog();
-    const primary = $('.btn--primary', el.over);
-    if (primary && !touch()) {
-      el.input.focus({ preventScroll: true });
-    }
+    if (!touch()) el.input.focus({ preventScroll: true });
   }
 
   /* ── input ── */
@@ -1125,7 +1100,6 @@ function initTrainer() {
     const now = performance.now();
     T.lastKeyAt = now;
     const res = s.type(ch, now);
-    kb.press(ch, res.ok);
     blip(res.ok);
     if (!res.ok) {
       const cell = T.cellEls[s.cell.index];
@@ -1155,10 +1129,6 @@ function initTrainer() {
   }
 
   el.input.addEventListener('keydown', (e) => {
-    if (e.key === 'Shift') {
-      kb.holdShift(true);
-      return;
-    }
     if (e.getModifierState) el.caps.hidden = !e.getModifierState('CapsLock');
     if (e.ctrlKey || e.metaKey || e.altKey) return;
     if (e.key === 'Escape') {
@@ -1184,22 +1154,33 @@ function initTrainer() {
       onChar(ch);
     }
   });
-  el.input.addEventListener('keyup', (e) => {
-    if (e.key === 'Shift') kb.holdShift(false);
+  /* Phone and tablet keyboards (and desktop input methods) do not send usable key events: read
+     what arrives in the box instead. While a word is being composed, take only the new letters
+     and leave the box alone; clear it once the composition ends. */
+  let composing = false;
+  let seen = '';
+  function drain() {
+    const v = el.input.value.replace(/\n/g, '');
+    if (v.startsWith(seen)) for (const ch of v.slice(seen.length)) onChar(ch);
+    seen = v;
+    if (!composing) {
+      el.input.value = '';
+      seen = '';
+    }
+  }
+  el.input.addEventListener('compositionstart', () => (composing = true));
+  el.input.addEventListener('compositionend', () => {
+    composing = false;
+    drain();
   });
-  // soft keyboards and IMEs: read whatever arrived and clear the box
-  el.input.addEventListener('input', () => {
-    const v = el.input.value;
-    el.input.value = '';
-    for (const ch of v.replace(/\n/g, '')) onChar(ch);
-  });
+  el.input.addEventListener('input', drain);
   el.input.addEventListener('blur', () => {
-    kb.holdShift(false);
     if (T.phase === 'run') setTimeout(() => document.activeElement !== el.input && pause(), 60);
   });
 
+  /* Focus the typing box. On a phone this opens the device's own keyboard, so it is only called
+     from a tap or a click. */
   function focusInput() {
-    if (touch() && !T.wantSoftKeyboard) return;
     el.input.focus({ preventScroll: true });
   }
   function refocus() {
@@ -1208,7 +1189,6 @@ function initTrainer() {
 
   el.screen.addEventListener('pointerdown', (e) => {
     if (e.target.closest('.card') || e.target.closest('.focus-msg')) return;
-    if (touch()) T.wantSoftKeyboard = true;
     e.preventDefault();
     if (T.phase === 'paused') resume();
     else if (T.phase === 'brief') {

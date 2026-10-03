@@ -21,16 +21,17 @@ src/typing/
                            drill, or pasted text (Tibetan is converted to Wylie)
   lib/session.js           The typing engine (no DOM): accuracy-first cursor, WPM, accuracy,
                            per-key statistics, pause/resume, timed tests, stars
-  lib/keyboard.js          The on-screen US keyboard with the Tibetan each key types,
-                           finger zones, Shift layer, heat map, digraph legend
   styles/typing.css        The page's own styles (light and dark)
   tests/typing.test.mjs    `npm run test:typing` (also a step in the deploy workflow)
 ```
 
 ## How it teaches
 
+- **Your own keyboard.** Wylie uses the ordinary Latin keys, so there is no on-screen keyboard:
+  the next letter is underlined in the text and named in the hint line. On phones and tablets,
+  tapping the text opens the device keyboard.
 - **Accuracy first.** The cursor waits for the right key; a wrong key is counted, shakes the
-  syllable and lights the right key (hints: always / after a mistake / off).
+  syllable and names the right key.
 - **WPM is the international standard**: correct keystrokes ÷ 5 per minute. Syllables per
   minute are shown beside it.
 - **Stars**: one for finishing, two at 95 % accuracy, three at 97 % and the unit's target speed.
