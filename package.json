@@ -14,7 +14,8 @@
     "css:dist": "npm run css:build && npm run css:minify",
     "pkg:build": "npm run css:dist && node scripts/build-pkg.mjs",
     "pkg:copy": "node scripts/build-pkg.mjs",
-    "test:ewts": "node --test src/foundry/tests/ewts.test.mjs"
+    "test:ewts": "node --test src/foundry/tests/ewts.test.mjs",
+    "test:typing": "node --test src/typing/tests/typing.test.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.2",

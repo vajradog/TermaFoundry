@@ -1,0 +1,660 @@
+---
+/*
+  /typing — the Wylie Typing Tutor. A pilot page: it shares no layout, styles or scripts with the
+  rest of the site. Everything lives in src/typing/ (see the README there).
+*/
+import '../typing/styles/typing.css';
+import { toUnicode } from '../foundry/lib/ewts.js';
+import { UNITS, LESSONS, CONSONANTS, VOWELS, POSITIONS, ANATOMY_EXAMPLES } from '../typing/data/curriculum.js';
+import { LEXICON } from '../typing/data/lexicon.js';
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const font = (f: string) => `${base}fonts/${f}`;
+const U = (w: string) => toUnicode(w).text;
+
+const fontCss = [
+  ['TT Jomolhari', 'jomolhari-regular.woff2', 'U+0F00-0FFF'],
+  ['TT Noto Tibetan', 'noto-serif-tibetan-medium.woff2', 'U+0F00-0FFF, U+25CC'],
+  ['TT DDC Uchen', 'ddc-uchen.woff2', 'U+0F00-0FFF'],
+  ['TT Monlam', 'monlam-bodyig.woff2', 'U+0F00-0FFF'],
+  ['TT Noto Sans', 'noto-sans-tibetan.woff2', 'U+0F00-0FFF, U+25CC'],
+  ['TT Machine Uni', 'tibetan-machine-uni.woff2', 'U+0F00-0FFF'],
+]
+  .map(([fam, file, range]) => `@font-face{font-family:'${fam}';src:url('${font(file)}') format('woff2');font-display:swap;unicode-range:${range};}`)
+  .join('');
+
+const title = 'Wylie Typing Tutor — Learn to Type Tibetan | Terma Foundry';
+const description =
+  'A complete, free course in typing Tibetan with Extended Wylie (EWTS): a live demonstration, ten units and fifty-five lessons, an on-screen keyboard, WPM and accuracy, timed tests and personal bests.';
+
+const star = 'M12 2.6l2.85 5.95 6.55.85-4.8 4.55 1.25 6.5L12 17.3l-5.85 3.15 1.25-6.5L2.6 9.4l6.55-.85z';
+
+const STACKS = [
+  { name: 'ra-mgo', note: 'ra on top', set: ['rka', 'rga', 'rnga', 'rja', 'rnya', 'rta', 'rda', 'rna', 'rba', 'rma', 'rtsa', 'rdza'] },
+  { name: 'la-mgo', note: 'la on top', set: ['lka', 'lga', 'lnga', 'lca', 'lja', 'lta', 'lda', 'lpa', 'lba', 'lha'] },
+  { name: 'sa-mgo', note: 'sa on top', set: ['ska', 'sga', 'snga', 'snya', 'sta', 'sda', 'sna', 'spa', 'sba', 'sma', 'stsa'] },
+  { name: 'ya-btags', note: 'ya beneath', set: ['kya', 'khya', 'gya', 'pya', 'phya', 'bya', 'mya'] },
+  { name: 'ra-btags', note: 'ra beneath', set: ['kra', 'khra', 'gra', 'tra', 'thra', 'dra', 'pra', 'phra', 'bra', 'mra', 'sra', 'hra'] },
+  { name: 'la-btags', note: 'la beneath', set: ['kla', 'gla', 'bla', 'zla', 'rla', 'sla'] },
+  { name: 'wa-zur', note: 'w beneath', set: ['kwa', 'khwa', 'gwa', 'cwa', 'nywa', 'twa', 'dwa', 'tswa', 'tshwa', 'zhwa', 'zwa', 'rwa', 'shwa', 'hwa', 'grwa', 'phywa'] },
+];
+
+const MARKS = [
+  { keys: ['space'], bo: '་', name: 'tsheg', text: 'Ends every syllable. <b>A space is a tsheg.</b>' },
+  { keys: ['/'], bo: '།', name: 'shad', text: 'Ends a clause or sentence. After it, a space is a space.' },
+  { keys: ["'"], bo: 'འ', name: "'a-chung", text: "A letter, not punctuation: <b>'o ma</b>, milk." },
+  { keys: ['.'], bo: 'གཡ', name: 'period', text: 'Separates a prefix from the root: <b>g.yag</b>, yak.' },
+  { keys: ['+'], bo: 'པདྨ', name: 'plus', text: 'Forces a Sanskrit stack: <b>pad+ma</b>, lotus.' },
+  { keys: ['⇧', 'T'], bo: 'ཊ', name: 'capitals', text: 'Sanskrit sounds: <b>T D N Sh</b>, long <b>A I U</b>.' },
+];
+
+const SANSKRIT = [
+  ['T', 'Ta', 'retroflex ṭa'],
+  ['Th', 'Tha', 'retroflex ṭha'],
+  ['D', 'Da', 'retroflex ḍa'],
+  ['N', 'Na', 'retroflex ṇa'],
+  ['Sh', 'Sha', 'retroflex ṣa'],
+  ['A', 'kA', 'long ā (a-chung beneath)'],
+  ['I', 'kI', 'long ī'],
+  ['U', 'kU', 'long ū'],
+  ['M', 'aM', 'anusvāra, a nasal ṃ'],
+  ['H', 'aH', 'visarga, a final ḥ'],
+  ['-i', '-i', 'reversed gi gu, vocalic ṛ/ḷ'],
+  ['+', 'k+Sha', 'join two letters into one stack'],
+];
+
+const wordCount = LEXICON.size;
+const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={new URL('typing', Astro.site || 'https://termafoundry.com').toString()} />
+    <meta property="og:title" content="Wylie Typing Tutor — Terma Foundry" />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#f6f4ef" />
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" as="font" type="font/woff2" href={font('jomolhari-regular.woff2')} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={font('noto-serif-tibetan-medium.woff2')} crossorigin />
+    <style is:inline set:html={fontCss}></style>
+    <script is:inline>
+      (function () {
+        var t = 'light';
+        try {
+          var s = JSON.parse(localStorage.getItem('wylie.settings.v1') || '{}');
+          if (s.theme === 'dark' || s.theme === 'light') t = s.theme;
+          else if (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+          var fonts = {
+            jomolhari: "'TT Jomolhari'",
+            noto: "'TT Noto Tibetan'",
+            ddc: "'TT DDC Uchen'",
+            monlam: "'TT Monlam'",
+            sans: "'TT Noto Sans'",
+            tmu: "'TT Machine Uni'",
+          };
+          if (s.font && fonts[s.font]) document.documentElement.style.setProperty('--bo', fonts[s.font] + ", 'TT Noto Tibetan', serif");
+        } catch (e) {
+          if (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+        }
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+  </head>
+
+  <body class="wt">
+    <a class="skip" href="#practice">Skip to the practice room</a>
+
+    <!-- ═══════════ Top bar ═══════════ -->
+    <header class="tb" data-tb>
+      <div class="wrap tb__in">
+        <a class="tb__brand" href={base} aria-label="Terma Foundry home">
+          <span class="tb__mark" lang="bo" aria-hidden="true">ཝ</span>
+          <span class="tb__name">Terma Foundry <span>· Wylie</span></span>
+        </a>
+        <nav class="tb__nav" aria-label="Sections">
+          <a href="#how">How it works</a>
+          <a href="#course">Course</a>
+          <a href="#practice">Practice</a>
+          <a href="#scores">Scores</a>
+          <a href="#reference">Reference</a>
+        </nav>
+        <div class="tb__right">
+          <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch between light and dark">
+            <svg class="ico theme-ico--sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+            <svg class="ico theme-ico--moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"></path></svg>
+          </button>
+          <a class="btn btn--primary btn--sm tb__cta" href="#practice" data-go-practice>Start typing</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ═══════════ Hero + live demonstration ═══════════ -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="wrap hero__in">
+          <div class="hero__copy">
+            <span class="eyebrow"><span class="eyebrow__dot"></span>Wylie Typing Tutor · Extended Wylie (EWTS)</span>
+            <h1 id="hero-title">Type Tibetan <em>as fast as you think.</em></h1>
+            <p class="hero__lede">
+              A complete course in typing Tibetan with Extended Wylie, the romanization used across Tibetan studies and digital
+              Tibetan libraries. Use the keyboard you already own: every keystroke becomes Tibetan script as you type, from the
+              first letter to whole sentences.
+            </p>
+            <div class="hero__cta">
+              <a class="btn btn--primary" href="#practice" data-go-practice>
+                Begin the course
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              </a>
+              <a class="btn btn--ghost" href="#how">How Wylie works</a>
+            </div>
+            <dl class="hero__facts">
+              <div><dt>{UNITS.length}</dt><dd>units</dd></div>
+              <div><dt>{LESSONS.length}</dt><dd>lessons</dd></div>
+              <div><dt>{wordCount}</dt><dd>words, all glossed</dd></div>
+              <div><dt>Free</dt><dd>no account needed</dd></div>
+            </dl>
+          </div>
+
+          <figure class="demo" data-demo aria-label="Live demonstration: Wylie keystrokes becoming Tibetan script">
+            <div class="demo__top">
+              <span class="demo__live"><i></i>Live demonstration</span>
+              <span class="demo__count" data-demo-count>1 / 6</span>
+              <button class="icon-btn" type="button" data-demo-toggle aria-label="Pause the demonstration">
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" data-ico-pause><path d="M9 5v14M15 5v14"></path></svg>
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" data-ico-play hidden><path d="M7 4.5v15l12-7.5z"></path></svg>
+              </button>
+            </div>
+            <div class="demo__stage">
+              <div class="demo__bo" lang="bo" data-demo-bo aria-live="off">བརྒྱད</div>
+              <div class="demo__wy" data-demo-wy>brgyad<span class="caret"></span></div>
+              <div class="demo__gloss is-on" data-demo-gloss>eight<span>gyé</span></div>
+            </div>
+            <div class="demo__parts parts" data-demo-parts></div>
+            <div data-demo-kbd></div>
+            <div class="demo__foot">
+              <span>Seven keys, one syllable: <span class="wy">b r g y a d</span></span>
+              <a href="#practice" data-go-practice>Try it yourself →</a>
+            </div>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ═══════════ I. How Wylie works ═══════════ -->
+      <section class="sec" id="how" aria-labelledby="how-title">
+        <div class="wrap">
+          <div class="sec__head reveal">
+            <div>
+              <span class="eyebrow"><em>I.</em> How Wylie works</span>
+              <h2 id="how-title">Spell it, and the <em>script</em> builds itself.</h2>
+            </div>
+            <p>
+              Turrell Wylie's 1959 system gives every Tibetan letter a fixed spelling in plain Latin letters. The Extended Wylie
+              scheme (EWTS) adds what the original lacked, from Sanskrit letters to punctuation, so that any Tibetan text can be typed
+              on an ordinary keyboard and converted back to script without loss. Three rules carry most of the weight.
+            </p>
+          </div>
+
+          <div class="rules">
+            <article class="rule reveal">
+              <span class="rule__n">1</span>
+              <h3>Type what is written, not what is said.</h3>
+              <p>Tibetan spelling keeps letters that Lhasa speech has long since dropped. Wylie keeps every one of them, so you type the spelling, never the sound.</p>
+              <div class="rule__ex"><span lang="bo">{U('bsgrubs')}</span><span><span class="wy">bsgrubs</span> is pronounced <i>drup</i></span></div>
+            </article>
+            <article class="rule reveal">
+              <span class="rule__n">2</span>
+              <h3>Left to right, top to bottom.</h3>
+              <p>A syllable can stack letters vertically. You type them in reading order — prefix, then the stack from the top down, then the vowel and any final letters — and the converter builds the stack for you.</p>
+              <div class="rule__ex"><span lang="bo">{U('brgyad')}</span><span><span class="wy">b·r·g·y·a·d</span> eight</span></div>
+            </article>
+            <article class="rule reveal">
+              <span class="rule__n">3</span>
+              <h3>A space is a tsheg; a slash is a shad.</h3>
+              <p>Tibetan separates every syllable with a dot, the tsheg, and ends clauses with a vertical stroke, the shad. In Wylie they are the two keys your thumbs and little fingers already know.</p>
+              <div class="rule__ex"><span lang="bo">{U('thugs rje che/')}</span><span><span class="wy">thugs rje che/</span> thank you</span></div>
+            </article>
+          </div>
+
+          <div class="anat reveal" data-anat>
+            <div class="anat__left">
+              <span class="eyebrow">Anatomy of a syllable</span>
+              <h3>Take any syllable apart.</h3>
+              <p>
+                A Tibetan syllable has up to seven positions around its root letter. Type one in Wylie — or pick an example — to see where
+                each letter sits, what it is called, and the order in which you type it.
+              </p>
+              <label class="field">
+                <span class="vh">A Wylie syllable</span>
+                <input type="text" value="brgyad" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" data-anat-input />
+                <span class="field__bo" lang="bo" data-anat-preview>{U('brgyad')}</span>
+              </label>
+              <div class="chips" data-anat-chips>
+                {ANATOMY_EXAMPLES.map((w, i) => <button class="chip" type="button" data-ex={w} aria-pressed={i === 0 ? 'true' : 'false'}>{w}</button>)}
+              </div>
+              <div class="anat__order">
+                <div class="anat__order-label">Typing order</div>
+                <div class="parts" data-anat-order></div>
+              </div>
+            </div>
+            <div class="anat__right">
+              <div class="anat__word">
+                <div class="anat__bo" lang="bo" data-anat-bo>{U('brgyad')}</div>
+                <div class="anat__gloss" data-anat-gloss>{firstGloss('brgyad')}</div>
+              </div>
+              <div class="xp" data-anat-xp aria-label="The syllable taken apart"></div>
+              <p class="anat__msg" data-anat-msg hidden></p>
+            </div>
+          </div>
+
+          <div class="marks">
+            {
+              MARKS.map((m) => (
+                <div class="mark reveal">
+                  <div class="mark__keys">
+                    {m.keys.map((k) => <kbd>{k}</kbd>)}
+                    <span class="mark__arrow">→</span>
+                    <span class="mark__bo" lang="bo">{m.bo}</span>
+                  </div>
+                  <p set:html={m.text} />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ II. The course ═══════════ -->
+      <section class="sec sec--tint" id="course" aria-labelledby="course-title">
+        <div class="wrap">
+          <div class="sec__head reveal">
+            <div>
+              <span class="eyebrow"><em>II.</em> The course</span>
+              <h2 id="course-title">Ten units, <em>fifty-five</em> lessons.</h2>
+            </div>
+            <p>
+              The order follows the way Tibetan is taught in a first-year university course: the alphabet and vowels, then the slots of the
+              syllable one at a time, then vocabulary, sentences, numerals and Sanskrit. Every lesson opens with a short note; your stars
+              and best speeds are kept in this browser.
+            </p>
+          </div>
+          <div class="units">
+            {
+              UNITS.map((u) => (
+                <article class="unit reveal" data-unit={u.id}>
+                  <span class="unit__glyph" lang="bo" aria-hidden="true">{u.glyph}</span>
+                  <div class="unit__top">
+                    <span>Unit {String(u.num).padStart(2, '0')}</span>
+                    <span class="unit__prog" data-unit-prog>0 / {u.lessons.length}</span>
+                  </div>
+                  <h3>{u.title}</h3>
+                  <div class="unit__term"><span lang="bo">{u.bo}</span><code>{u.wy}</code></div>
+                  <p class="unit__blurb">{u.blurb}</p>
+                  <div class="unit__bar"><i data-unit-bar></i></div>
+                  <ol class="lessons">
+                    {u.lessons.map((l) => (
+                      <li>
+                        <button class="lesson" type="button" data-lesson={l.id}>
+                          <span class="lesson__id">{l.id}</span>
+                          <span class="lesson__t">{l.title}</span>
+                          <span class="stars" data-stars aria-label="No stars yet">
+                            {[0, 1, 2].map(() => <svg viewBox="0 0 24 24" aria-hidden="true"><path d={star} /></svg>)}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ol>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ III. The practice room ═══════════ -->
+      <section class="sec" id="practice" aria-labelledby="practice-title">
+        <div class="wrap">
+          <div class="sec__head reveal">
+            <div>
+              <span class="eyebrow"><em>III.</em> The practice room</span>
+              <h2 id="practice-title">Accuracy first. <em>Speed follows.</em></h2>
+            </div>
+            <p>
+              The cursor waits for the right key, so every mistake is noticed and every word is typed correctly once. Watch the keyboard
+              while you learn; look away from it as soon as you can. Switch to <b>Tibetan only</b> to practise reading: the Wylie
+              disappears and you transliterate from the script.
+            </p>
+          </div>
+
+          <div class="trainer reveal" data-trainer data-script="both" data-size="m" data-kbd="on" data-fingers="on">
+            <div class="tr-bar">
+              <div class="seg" role="tablist" aria-label="Practice mode">
+                <button type="button" role="tab" data-mode="course" aria-selected="true">Course</button>
+                <button type="button" role="tab" data-mode="test" aria-selected="false">Timed test</button>
+                <button type="button" role="tab" data-mode="weak" aria-selected="false">Weak keys</button>
+                <button type="button" role="tab" data-mode="custom" aria-selected="false">Your text</button>
+              </div>
+              <div class="tr-bar__right">
+                <div class="seg" role="group" aria-label="Script shown">
+                  <button type="button" data-set-script="both" aria-pressed="true">Tibetan + Wylie</button>
+                  <button type="button" data-set-script="bo" aria-pressed="false">Tibetan only</button>
+                </div>
+                <button class="icon-btn" type="button" data-settings-btn aria-expanded="false" aria-label="Settings">
+                  <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="pop" data-settings hidden>
+              <div class="pop__row">
+                <span>Key hints</span>
+                <div class="seg" role="group" aria-label="Key hints">
+                  <button type="button" data-set="hints" data-v="always">Always</button>
+                  <button type="button" data-set="hints" data-v="error">On error</button>
+                  <button type="button" data-set="hints" data-v="off">Off</button>
+                </div>
+              </div>
+              <div class="pop__row">
+                <span>Keyboard</span>
+                <div class="seg" role="group" aria-label="Keyboard">
+                  <button type="button" data-set="kbd" data-v="on">Show</button>
+                  <button type="button" data-set="kbd" data-v="off">Hide</button>
+                </div>
+              </div>
+              <div class="pop__row">
+                <span>Finger colours</span>
+                <div class="seg" role="group" aria-label="Finger colours">
+                  <button type="button" data-set="fingers" data-v="on">On</button>
+                  <button type="button" data-set="fingers" data-v="off">Off</button>
+                </div>
+              </div>
+              <div class="pop__row">
+                <span>Key sounds</span>
+                <div class="seg" role="group" aria-label="Key sounds">
+                  <button type="button" data-set="sound" data-v="on">On</button>
+                  <button type="button" data-set="sound" data-v="off">Off</button>
+                </div>
+              </div>
+              <div class="pop__row">
+                <span>Text size</span>
+                <div class="seg" role="group" aria-label="Text size">
+                  <button type="button" data-set="size" data-v="s">S</button>
+                  <button type="button" data-set="size" data-v="m">M</button>
+                  <button type="button" data-set="size" data-v="l">L</button>
+                </div>
+              </div>
+              <div class="pop__row">
+                <label for="wt-font">Tibetan typeface</label>
+                <select id="wt-font" data-set-font>
+                  <option value="jomolhari">Jomolhari</option>
+                  <option value="noto">Noto Serif Tibetan</option>
+                  <option value="ddc">DDC Uchen</option>
+                  <option value="monlam">Monlam Bodyig</option>
+                  <option value="tmu">Tibetan Machine Uni</option>
+                  <option value="sans">Noto Sans Tibetan</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="tr-head">
+              <button class="icon-btn" type="button" data-prev aria-label="Previous lesson">
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>
+              </button>
+              <div class="tr-head__txt">
+                <div class="tr-head__kicker" data-tr-kicker>Unit 01 · The alphabet</div>
+                <h3 data-tr-title><span class="lesson__id">1.1</span><span>ka kha ga nga</span></h3>
+              </div>
+              <div class="tr-head__best" data-tr-best></div>
+              <button class="icon-btn" type="button" data-next aria-label="Next lesson">
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg>
+              </button>
+            </div>
+
+            <div class="tr-screen" data-screen>
+            <div class="tr-stats" aria-live="off">
+              <div class="stat stat--wpm"><div class="stat__k">WPM <small data-st-spm>0 syl/min</small></div><div class="stat__v" data-st-wpm>0</div></div>
+              <div class="stat"><div class="stat__k">Accuracy</div><div class="stat__v" data-st-acc>100<small>%</small></div></div>
+              <div class="stat"><div class="stat__k" data-st-time-k>Time</div><div class="stat__v" data-st-time>0:00</div></div>
+              <div class="stat"><div class="stat__k">Syllables</div><div class="stat__v" data-st-prog>0<small>/0</small></div></div>
+              <div class="stat"><div class="stat__k">Streak <small data-st-best>best 0</small></div><div class="stat__v" data-st-streak>0</div></div>
+            </div>
+            <div class="tr-progress"><i data-tr-bar></i></div>
+
+            <div class="tr-stage" data-stage>
+              <div class="tr-window" data-window>
+                <div class="tr-text" data-text aria-hidden="true"></div>
+              </div>
+              <textarea class="vh" data-input aria-label="Type here, in Wylie" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+            </div>
+
+            <div class="tr-info">
+              <div>
+                <div class="info__k">Now typing</div>
+                <div class="nowbox" data-now></div>
+              </div>
+              <div>
+                <div class="info__k">Your keys</div>
+                <div class="compose" data-compose><code></code></div>
+              </div>
+              <div>
+                <div class="info__k">Inside the syllable</div>
+                <div class="parts" data-parts></div>
+              </div>
+            </div>
+            <div class="tr-over" data-over hidden></div>
+            </div>
+
+            <div class="tr-kbd"><div data-kbd></div></div>
+            <div class="tr-foot">
+              <span class="tr-foot__hint" data-hint>Press <b>Enter</b> to begin.</span>
+              <span class="caps-warn" data-caps hidden>Caps Lock is on — Wylie is case-sensitive.</span>
+              <span class="tr-foot__keys">
+                <span><kbd>Enter</kbd>start · next</span>
+                <span><kbd>Esc</kbd>restart</span>
+                <span><kbd>Tab</kbd>leave the text</span>
+              </span>
+            </div>
+          </div>
+
+          <div class="below" id="scores">
+            <div class="panel reveal">
+              <div class="panel__head">
+                <h3>Personal bests</h3>
+                <div class="seg" role="tablist" aria-label="Test" data-scores-tabs>
+                  <button type="button" role="tab" data-test="w60" aria-selected="true">1 min · words</button>
+                  <button type="button" role="tab" data-test="w180" aria-selected="false">3 min · words</button>
+                  <button type="button" role="tab" data-test="s60" aria-selected="false">1 min · sentences</button>
+                </div>
+              </div>
+              <table class="board">
+                <thead><tr><th>#</th><th>WPM</th><th>Accuracy</th><th>Syllables</th><th>Date</th></tr></thead>
+                <tbody data-scores-body></tbody>
+              </table>
+              <div class="panel__foot">
+                <span>High scores are kept on this device only. Nothing is uploaded.</span>
+                <button class="btn btn--sm" type="button" data-start-test>Take the test</button>
+              </div>
+            </div>
+            <div class="panel reveal">
+              <div class="panel__head"><h3>Your practice</h3></div>
+              <div class="log">
+                <div><b data-log-time>0 min</b><span>time practising</span></div>
+                <div><b data-log-days>0</b><span>day streak</span></div>
+                <div><b data-log-keys>0</b><span>keys typed correctly</span></div>
+                <div><b data-log-lessons>0 / {LESSONS.length}</b><span>lessons passed</span></div>
+              </div>
+              <div class="weak">
+                <div class="card__label">Keys to work on</div>
+                <div class="weak__list" data-weak-list><span class="empty-note">Type a few lessons and your weakest keys appear here.</span></div>
+              </div>
+              <div class="panel__foot">
+                <button class="btn btn--sm" type="button" data-start-weak>Practise weak keys</button>
+                <button class="link-btn" type="button" data-reset>Reset all progress</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════ IV. Reference ═══════════ -->
+      <section class="sec sec--tint" id="reference" aria-labelledby="ref-title">
+        <div class="wrap">
+          <div class="sec__head reveal">
+            <div>
+              <span class="eyebrow"><em>IV.</em> Reference</span>
+              <h2 id="ref-title">The whole system <em>on one page.</em></h2>
+            </div>
+            <p>Keep this open beside your textbook. Every Tibetan form below is produced by the same converter the tutor uses, so what you see here is exactly what your keys will type.</p>
+          </div>
+
+          <div class="ref">
+            <div class="ref__card span-7 reveal">
+              <h3>The thirty consonants</h3>
+              <p>gsal byed sum cu · in the traditional order, four to a row</p>
+              <div class="alpha">
+                {
+                  CONSONANTS.map(([w, bo], i) => (
+                    <div>
+                      <small>{i + 1}</small>
+                      <span lang="bo">{bo}</span>
+                      <code>{w}</code>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+
+            <div class="ref__card span-5 reveal">
+              <h3>The four vowels</h3>
+              <p>dbyangs · shown on ka; with no sign, the inherent a</p>
+              <div class="vowels">
+                {
+                  VOWELS.map((v) => (
+                    <div>
+                      <span lang="bo">{U('k' + v.wy)}</span>
+                      <code>k{v.wy}</code>
+                      <small>{v.name}</small>
+                    </div>
+                  ))
+                }
+              </div>
+              <h3 style="margin-top:28px">The seven positions</h3>
+              <p>In typing order. Only the root letter is required.</p>
+              <table class="tbl">
+                <thead><tr><th>Position</th><th>Tibetan</th><th>Letters</th></tr></thead>
+                <tbody>
+                  {
+                    POSITIONS.map((p) => (
+                      <tr>
+                        <td>{p.en}</td>
+                        <td><span lang="bo">{p.bo}</span> <code>{p.wy}</code></td>
+                        <td><code>{p.letters}</code></td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <div class="ref__card span-12 reveal">
+              <h3>Stacks</h3>
+              <p>Superscripts are typed before the root letter, subscripts after it. Shown with the inherent a.</p>
+              <div class="stacks">
+                {
+                  STACKS.map((s) => (
+                    <div class="stacks__row">
+                      <div class="stacks__name">{s.name}<small>{s.note}</small></div>
+                      <div class="stacks__set">
+                        {s.set.map((w) => (
+                          <span class="stk"><span lang="bo">{U(w)}</span><code>{w}</code></span>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+
+            <div class="ref__card span-6 reveal">
+              <h3>Keys that are not letters</h3>
+              <p>Punctuation and the marks that steer the converter.</p>
+              <table class="tbl">
+                <thead><tr><th>Key</th><th>Types</th><th>Example</th></tr></thead>
+                <tbody>
+                  <tr><td>space</td><td><span lang="bo">་</span> tsheg</td><td><code>ka kha</code> <span lang="bo">{U('ka kha')}</span></td></tr>
+                  <tr><td><code>/</code></td><td><span lang="bo">།</span> shad</td><td><code>thugs rje che/</code></td></tr>
+                  <tr><td><code>//</code></td><td><span lang="bo">༎</span> double shad</td><td><code>ka//</code> <span lang="bo">{U('ka//')}</span></td></tr>
+                  <tr><td>space + <code>/</code></td><td><span lang="bo">་།</span> after nga</td><td><code>song /</code> <span lang="bo">{U('song /')}</span></td></tr>
+                  <tr><td><code>'</code></td><td><span lang="bo">འ</span> 'a-chung</td><td><code>'o ma</code> <span lang="bo">{U("'o ma")}</span></td></tr>
+                  <tr><td><code>.</code></td><td>separator</td><td><code>g.yag</code> <span lang="bo">{U('g.yag')}</span> · <code>gyag</code> <span lang="bo">{U('gyag')}</span></td></tr>
+                  <tr><td><code>0–9</code></td><td><span lang="bo">༠–༩</span> figures</td><td><code>2026</code> <span lang="bo">{U('2026')}</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="ref__card span-6 reveal">
+              <h3>Sanskrit letters</h3>
+              <p>Capital letters are different letters in Wylie. Needed for loanwords and names.</p>
+              <table class="tbl">
+                <thead><tr><th>Wylie</th><th>Tibetan</th><th>Value</th></tr></thead>
+                <tbody>
+                  {
+                    SANSKRIT.map(([k, ex, val]) => (
+                      <tr>
+                        <td><code>{k}</code></td>
+                        <td><span lang="bo">{U(ex)}</span> <code>{ex}</code></td>
+                        <td>{val}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <div class="ref__card span-12 reveal">
+              <h3>Sources and further reading</h3>
+              <p>Where the system comes from, and what this tutor is built on.</p>
+              <ul class="sources">
+                <li><cite>A Standard System of Tibetan Transcription</cite>, Turrell V. Wylie. Harvard Journal of Asiatic Studies 22 (1959): 261–267. The original system.</li>
+                <li><cite>THL Extended Wylie Transliteration Scheme</cite>, David Germano and Nicolas Tournadre, Tibetan and Himalayan Library (2003). The extensions for Sanskrit, punctuation and the period used here.</li>
+                <li><cite>THL Simplified Phonetic Transcription of Standard Tibetan</cite>, David Germano and Nicolas Tournadre (2003). The pronunciations given with each word.</li>
+                <li>Conversion by <a href="https://github.com/rogerespel/ewts-js" rel="noopener">tibetan-ewts-converter</a> by Roger Espel Llima (Apache 2.0), the JavaScript port of Lingua::BO::Wylie. Glosses checked against the Monlam Tibetan–English Dictionary.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="wrap foot__in">
+        <div>
+          <div class="foot__brand">Terma Foundry <span lang="bo">བོད་ཡིག</span></div>
+          <p>
+            Wylie Typing Tutor · a pilot. Everything runs in your browser; progress and high scores are saved on this device only. Tibetan
+            is set in Jomolhari by Christopher J. Fynn and Noto Serif Tibetan (SIL Open Font License).
+          </p>
+        </div>
+        <div>
+          <a href={base}>termafoundry.com</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      import { boot } from '../typing/app.js';
+      boot();
+    </script>
+  </body>
+</html>

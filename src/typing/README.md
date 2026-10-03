@@ -1,0 +1,51 @@
+# Wylie Typing Tutor (`/typing`)
+
+A pilot page: a complete course in typing Tibetan with Extended Wylie (EWTS). It shares no
+layout, styles or scripts with the rest of the site; it only borrows the Wylie converter from
+`src/foundry/lib/ewts.js` and the self-hosted Tibetan fonts in `public/fonts/`.
+
+```
+src/pages/typing.astro     The page: hero with the live demonstration, how Wylie works (the
+                           anatomy explorer), the course map, the practice room, personal
+                           bests, the reference tables. Static parts are rendered at build
+                           time; the reference tables come from the converter itself.
+src/typing/
+  app.js                   Everything that moves: theme, demo, anatomy explorer, trainer,
+                           results, high scores, practice log (localStorage, wylie.*)
+  data/lexicon.js          308 everyday words: Wylie, English gloss, THL phonetics
+  data/curriculum.js       10 units, 55 lessons, the timed tests, reference data
+  lib/anatomy.js           Takes a Wylie syllable apart into prefix / superscript / root /
+                           subscript / vowel / suffix / post-suffix, checked against the
+                           converter's own output
+  lib/drill.js             Builds the practice text for a lesson, a timed test, the weak-key
+                           drill, or pasted text (Tibetan is converted to Wylie)
+  lib/session.js           The typing engine (no DOM): accuracy-first cursor, WPM, accuracy,
+                           per-key statistics, pause/resume, timed tests, stars
+  lib/keyboard.js          The on-screen US keyboard with the Tibetan each key types,
+                           finger zones, Shift layer, heat map, digraph legend
+  styles/typing.css        The page's own styles (light and dark)
+  tests/typing.test.mjs    `npm run test:typing` (also a step in the deploy workflow)
+```
+
+## How it teaches
+
+- **Accuracy first.** The cursor waits for the right key; a wrong key is counted, shakes the
+  syllable and lights the right key (hints: always / after a mistake / off).
+- **WPM is the international standard**: correct keystrokes ÷ 5 per minute. Syllables per
+  minute are shown beside it.
+- **Stars**: one for finishing, two at 95 % accuracy, three at 97 % and the unit's target speed.
+- **Reading mode** ("Tibetan only") hides the Wylie: the student transliterates from the script.
+  A mistake reveals the key.
+- **Timed tests** (1 minute and 3 minutes of words, 1 minute of sentences) keep the ten best
+  results on the device. **Weak keys** builds a drill from the keys the student misses most.
+  **Your text** practises any passage pasted in Wylie or Tibetan.
+- No accounts, nothing uploaded: progress, scores and statistics live in `localStorage`.
+
+## Content
+
+Every word was checked against the Monlam Tibetan–English dictionary (the one bundled with
+TermaType) and every syllable of every lesson converts with no warning (the tests enforce
+both). Vocabulary is everyday and secular: no religious or political content.
+
+The pronunciations follow THL Simplified Phonetic Transcription (Lhasa) and should be read by a
+native speaker before the page leaves pilot; so should the example sentences in Unit 9.
