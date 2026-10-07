@@ -841,10 +841,26 @@ body.wt {
   height: 100%;
   margin: 0 auto;
 }
-.supers__ink {
+/* at rest the superscript is red; while he speaks, the part he is naming is red and the other grey */
+.supers__sup,
+.supers__root {
+  transition: fill 0.14s ease-out;
+}
+.supers__sup {
+  fill: var(--sup-red);
+}
+.supers__root {
   fill: var(--ink);
 }
-.supers__red {
+.supers__tsheg {
+  fill: var(--ink-4);
+}
+[data-phase='sup'] .supers__root,
+[data-phase='root'] .supers__sup {
+  fill: var(--ink-4);
+}
+[data-phase='root'] .supers__root,
+[data-phase='all'] .supers__root {
   fill: var(--sup-red);
 }
 .supers__row {
@@ -874,16 +890,14 @@ body.wt {
   justify-content: space-between;
   gap: 12px;
 }
-.supers__tabs {
-  display: flex;
-  gap: 6px;
+.wt .supers__tabs button {
+  height: 42px;
+  padding: 0 18px;
+  color: var(--ink-2);
 }
-.wt .supers__tabs .chip {
-  height: 38px;
-  padding: 0 12px;
-}
-.supers__tabs .chip [lang='bo'] {
-  font: 19px/1 var(--bo-ui);
+.supers__tabs [lang='bo'] {
+  display: block;
+  font: 22px/42px var(--bo);
 }
 .supers__credit {
   margin-top: 14px;

@@ -170,10 +170,11 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
               <span class="demo__count" data-supers-count>1 / {LESSON.series[0].stacks.length}</span>
             </div>
             <div class="supers__stage">
-              <svg class="supers__svg" viewBox={`0 ${-LESSON.top} ${W} ${H}`} aria-hidden="true">
+              <svg class="supers__svg" viewBox={`0 ${-LESSON.top} ${W} ${H}`} aria-hidden="true" data-supers-svg data-phase="rest">
                 <g data-supers-glyph transform={`translate(${(W - first.w) / 2} 0) scale(1 -1)`}>
-                  <path class="supers__ink" d={first.ink} data-supers-ink></path>
-                  <path class="supers__red" d={first.red} data-supers-red></path>
+                  <path class="supers__root" d={first.root} data-supers-root></path>
+                  <path class="supers__sup" d={first.sup} data-supers-sup></path>
+                  <path class="supers__tsheg" d={first.tsheg} data-supers-tsheg></path>
                 </g>
               </svg>
               <span class="vh" lang="bo" aria-live="polite" data-supers-say>{first.bo}</span>
@@ -188,10 +189,10 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
               }
             </div>
             <div class="supers__foot">
-              <div class="supers__tabs" role="group" aria-label="The three superscripts">
+              <div class="seg supers__tabs" role="group" aria-label="The three superscripts">
                 {
                   LESSON.series.map((ser, i) => (
-                    <button class="chip" type="button" data-supers-series={i} aria-pressed={i === 0 ? 'true' : 'false'}>
+                    <button type="button" data-supers-series={i} aria-pressed={i === 0 ? 'true' : 'false'}>
                       <span lang="bo">{U(SERIES_NAME[ser.sup])}</span>
                     </button>
                   ))

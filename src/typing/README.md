@@ -52,12 +52,17 @@ src/spell/
 
 The card at the top of the page is Sonam Tsering's lesson "The Superscript Letters" (མགོ་ཅན་གསུམ) as a
 player: one stack at a time with its superscript in red, the whole series beneath, his voice for
-each stack, a stack every three seconds as in his video. **Play** runs through all three series;
-a stack in the row or ← → says one stack. The ra-mgo row follows his order (rtsa before rma).
+each stack, a stack every three seconds as in his video. While he speaks, the part he names is red
+and the other grey: the superscript, then the root, then the whole stack for the fused sound.
+**Play** runs through all three series; a stack in the row or ← → says one stack. The ra-mgo row
+follows his order (rtsa before rma).
 
 `python scripts/superscripts.py --video "<his video>.mp4"` rebuilds it: ffmpeg's silencedetect finds
-his 33 utterances (he pauses after each stack) and cuts them; each stack is split at the top of its
-root letter's head bar, found by laying the root letter over the stack where they overlap most.
+his 33 utterances (he pauses after each stack) and cuts them. Each clip is four syllables (the
+superscript, the root, a word that is the same in every clip, then the fused sound after a pause),
+found as vowel peaks. Fonts draw a stack as one outline, so the root letter is laid over the stack
+where they overlap most: above its head bar is the superscript, and below it the superscript keeps
+the stem tips the root's outline does not cover.
 
 ## Content
 

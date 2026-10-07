@@ -158,8 +158,10 @@ function partsHtml(parsed, offset = Infinity, { numbered = false } = {}) {
 /*
   Sonam Tsering's lesson "The Superscript Letters", as a player: one stack at a time with its
   superscript in red, the whole series beneath, his voice for each stack (public/spell/sonam/),
-  a stack every three seconds as in his video. The stacks are drawn from Jomolhari, already split
-  into superscript and root (src/spell/superscripts.json, made by scripts/superscripts.py).
+  a stack every three seconds as in his video. While he speaks, the part he names is red: the
+  superscript, then the root, then the whole stack for the fused sound. The stacks are drawn from
+  Jomolhari in separate parts, with the timing of his words (src/spell/superscripts.json, made by
+  scripts/superscripts.py).
 */
 const STACK_MS = 3000;
 const SUPER_NAME = { r: 'ར', l: 'ལ', s: 'ས' };
@@ -170,8 +172,10 @@ function initSupers() {
   const titleEl = $('[data-supers-title]', root);
   const countEl = $('[data-supers-count]', root);
   const glyph = $('[data-supers-glyph]', root);
-  const inkEl = $('[data-supers-ink]', root);
-  const redEl = $('[data-supers-red]', root);
+  const svg = $('[data-supers-svg]', root);
+  const supEl = $('[data-supers-sup]', root);
+  const rootEl = $('[data-supers-root]', root);
+  const tshegEl = $('[data-supers-tsheg]', root);
   const sayEl = $('[data-supers-say]', root);
   const rowEl = $('[data-supers-row]', root);
   const tabs = $$('[data-supers-series]', root);
@@ -184,6 +188,7 @@ function initSupers() {
   let timer = 0;
   const clips = new Map();
   let sounding = null;
+  let frame = 0;
 
   const stackAt = (s, i) => LESSON.series[s].stacks[i];
   const clip = (wy) => {
@@ -195,11 +200,32 @@ function initSupers() {
     return clips.get(wy);
   };
 
-  function say(wy) {
+  /* Say a stack and light each part as he names it (if the browser blocks the sound, the lights
+     follow the clock instead). */
+  function say(st) {
     if (sounding) sounding.pause();
-    sounding = clip(wy);
+    cancelAnimationFrame(frame);
+    sounding = clip(st.wy);
     sounding.currentTime = 0;
-    sounding.play().catch(() => {});
+    let blocked = false;
+    sounding.play().catch(() => (blocked = true));
+    const [supEnd, fused, length] = st.t;
+    const start = performance.now();
+    const a = sounding;
+    const tick = () => {
+      const t = !blocked && !a.paused ? a.currentTime : (performance.now() - start) / 1000;
+      const done = a.ended || t >= length;
+      const phase = done ? 'rest' : t < supEnd ? 'sup' : t < fused ? 'root' : 'all';
+      if (svg.dataset.phase !== phase) svg.dataset.phase = phase;
+      if (!done && sounding === a) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+  }
+
+  function hush() {
+    cancelAnimationFrame(frame);
+    if (sounding) sounding.pause();
+    svg.dataset.phase = 'rest';
   }
 
   function drawRow() {
@@ -218,8 +244,9 @@ function initSupers() {
     }
     k = i;
     const st = stackAt(si, k);
-    inkEl.setAttribute('d', st.ink);
-    redEl.setAttribute('d', st.red);
+    supEl.setAttribute('d', st.sup);
+    rootEl.setAttribute('d', st.root);
+    tshegEl.setAttribute('d', st.tsheg);
     glyph.setAttribute('transform', `translate(${(W - st.w) / 2} 0) scale(1 -1)`);
     sayEl.textContent = st.bo;
     countEl.textContent = `${k + 1} / ${LESSON.series[si].stacks.length}`;
@@ -232,7 +259,7 @@ function initSupers() {
   function step(s, i) {
     clearTimeout(timer);
     show(s, i);
-    say(stackAt(si, k).wy);
+    say(stackAt(si, k));
     if (!playing) return;
     timer = setTimeout(() => {
       if (k + 1 < LESSON.series[si].stacks.length) step(si, k + 1);
@@ -249,7 +276,7 @@ function initSupers() {
     if (on) step(si, k);
     else {
       clearTimeout(timer);
-      if (sounding) sounding.pause();
+      hush();
     }
   }
 

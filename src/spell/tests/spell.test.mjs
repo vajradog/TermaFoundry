@@ -70,12 +70,14 @@ test('every course syllable spells: known units, the stack only grows, the Tibet
   assert.ok(spelled > 150, `only ${spelled} syllables spelled`);
 });
 
-test("the superscript lesson: Sonam Tsering's 33 stacks, each drawn in two parts and voiced", () => {
+test("the superscript lesson: Sonam Tsering's 33 stacks, drawn in parts, voiced and timed", () => {
   const lesson = JSON.parse(readFileSync(new URL('../superscripts.json', import.meta.url), 'utf8'));
   const stacks = lesson.series.flatMap((s) => s.stacks);
   assert.deepEqual(lesson.series.map((s) => s.stacks.length), [12, 10, 11]);
   for (const st of stacks) {
-    assert.ok(st.red.length > 20 && st.ink.length > 20, `${st.wy}: a part is empty`);
+    assert.ok(st.sup.length > 20 && st.root.length > 20 && st.tsheg.length > 10, `${st.wy}: a part is empty`);
+    const [supEnd, fused, length] = st.t;
+    assert.ok(supEnd > 0.15 && supEnd < fused && fused < length && length < 2.5, `${st.wy}: odd timing ${st.t}`);
     assert.equal(st.bo, toUnicode(st.wy).text, st.wy);
     assert.ok(existsSync(new URL(`../../../public/spell/sonam/${st.wy}.mp3`, import.meta.url)), `${st.wy}: no recording`);
   }

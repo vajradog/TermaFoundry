@@ -5,15 +5,17 @@
 
 Writes
   src/spell/superscripts.json   the three series in the video's order, each stack drawn from
-                                Jomolhari as two SVG paths: the superscript (red) and the rest
-                                (ink), in font units, y up
+                                Jomolhari as separate SVG paths (superscript, root, tsheg; font
+                                units, y up) and the timing of his words: [superscript ends,
+                                fused sound starts, clip length] in seconds
   public/spell/sonam/<wy>.mp3   his voice for each stack, cut at his pauses (ffmpeg)
   <temp>/superscripts-proof.png a proof sheet of every split, to check by eye (not kept)
 
 The video says one stack every three seconds and is silent in between, so silencedetect finds
-exactly one stretch of speech per stack, in order. The split is the top of the root's head bar:
-everything above it is the superscript. The root is found inside the stack by laying the root
-letter over it where the two overlap most. ཙ ཚ ཛ carry a mark above their head bar; it stays ink.
+exactly one stretch of speech per stack, in order. Fonts draw a stack as one merged outline, so
+the root is found inside it by laying the root letter over the stack where the two overlap most.
+Above the root's head bar is the superscript (less the mark of ཙ ཚ ཛ); below it, the
+superscript keeps the stem tips that run into the root.
 """
 
 import argparse
@@ -98,8 +100,70 @@ def place(f, font, root, stack, dys=range(-560, -79, 16)):
         return 2 * inside - whole
 
     _, bx, by = max((score(dx, dy), dx, dy) for dy in dys for dx in range(-80, 81, 16))
-    _, bx, by = max((score(dx, dy), dx, dy) for dy in range(by - 14, by + 15, 2) for dx in range(bx - 12, bx + 13, 4))
+    fine = [dy for dy in range(by - 14, by + 15, 2) if dys[0] <= dy <= dys[-1]]   # stay inside the window
+    _, bx, by = max((score(dx, dy), dx, dy) for dy in fine for dx in range(bx - 12, bx + 13, 4))
     return name, bx, by
+
+
+def grow(path, by):
+    """The path with its outline pushed out by `by` units."""
+    edge = pathops.Path()
+    path.draw(edge.getPen())
+    edge.stroke(2 * by, pathops.LineCap.ROUND_CAP, pathops.LineJoin.ROUND_JOIN, 4)
+    edge.convertConicsToQuads()
+    return pathops.op(edge, path, pathops.PathOp.UNION)
+
+
+def opened(path, r):
+    """Morphological opening: whatever is thinner than 2r disappears, the rest keeps its shape."""
+    if not list(path.contours):
+        return path
+    band = pathops.Path()
+    path.draw(band.getPen())
+    band.stroke(2 * r, pathops.LineCap.ROUND_CAP, pathops.LineJoin.ROUND_JOIN, 4)
+    band.convertConicsToQuads()
+    core = pathops.op(path, band, pathops.PathOp.DIFFERENCE)
+    if not list(core.contours):
+        return core
+    return pathops.op(grow(core, r), path, pathops.PathOp.INTERSECTION)
+
+
+def contours(path):
+    """A path's separate contours, each as its own path."""
+    out = []
+    for c in path.contours:
+        p = pathops.Path()
+        c.draw(p.getPen())
+        out.append(p)
+    return out
+
+
+def union(paths):
+    out = pathops.Path()
+    for p in paths:
+        out = pathops.op(out, p, pathops.PathOp.UNION)
+    return out
+
+
+def column(x0, x1, y0, y1):
+    p = pathops.Path()
+    pen = p.getPen()
+    pen.moveTo((x0, y0)); pen.lineTo((x1, y0)); pen.lineTo((x1, y1)); pen.lineTo((x0, y1)); pen.closePath()
+    return p
+
+
+def crossings(path, y, step=4):
+    """The x-intervals where the path covers the line y."""
+    b = path.bounds
+    runs, start = [], None
+    for x in range(int(b[0]) - step, int(b[2]) + 2 * step, step):
+        inside = path.contains((float(x), float(y)))
+        if inside and start is None:
+            start = x
+        elif not inside and start is not None:
+            runs.append((start, x))
+            start = None
+    return runs
 
 
 def halfplane(y):
@@ -133,26 +197,40 @@ def build_glyphs():
                 rest = pathops.op(rest, outline(f, name, x, y), pathops.PathOp.UNION)
             root_nominal = chr(ord(bo[1]) - 0x50)
             built.append((wy, bo, adv, stack, rest, root_nominal, place(f, font, root_nominal, stack)[2]))
-        # one series lowers its roots by much the same amount: search near the series' median
-        mid = int(np.median([b[-1] for b in built]))
+        # one series lowers its roots by much the same amount (ra-mgo by exactly the same):
+        # search near the series' median
+        found = [b[-1] for b in built]
+        if sup_wy == 'r':
+            mid, win = max(set(found), key=found.count), 4      # the usual lowering, nearly exact
+        else:
+            mid, win = int(np.median(found)), 48
         items = []
         for wy, bo, adv, stack, rest, root_nominal, _ in built:
-            rname, rx, ry = place(f, font, root_nominal, stack, range(mid - 48, mid + 49, 8))
-            top = head + ry - 4
-            red = pathops.op(stack, halfplane(top), pathops.PathOp.INTERSECTION)
-            if root_nominal in MARKED:
-                # the mark of ཙ ཚ ཛ rises above the root's head bar: that part of the root stays ink
-                mark = pathops.op(outline(f, rname, rx, ry), halfplane(top + 12), pathops.PathOp.INTERSECTION)
-                grown = pathops.Path()
-                mark.draw(grown.getPen())
-                grown.stroke(30, pathops.LineCap.ROUND_CAP, pathops.LineJoin.ROUND_JOIN, 4)
-                grown.convertConicsToQuads()
-                red = pathops.op(red, pathops.op(grown, mark, pathops.PathOp.UNION), pathops.PathOp.DIFFERENCE)
-            ink = pathops.op(stack, red, pathops.PathOp.DIFFERENCE)
-            ink = pathops.op(ink, rest, pathops.PathOp.UNION)
-            items.append({'wy': wy, 'bo': bo, 'w': adv, 'red': svg(red), 'ink': svg(ink)})
-            proofs.append((wy, red, ink, adv))
-            print(f'  {wy:5s} {bo}  split at y={top:.0f}')
+            rname, rx, ry = place(f, font, root_nominal, stack, range(mid - win, mid + win + 1, 4))
+            top = head + ry
+            rootp = outline(f, rname, rx, ry)
+            # Above the root's head bar everything is superscript, except the mark that ཙ ཚ ཛ
+            # raise above their head bar. Below it, the superscript's stem runs down into the
+            # root: those tips are what the root letter's own outline does not cover. A letter
+            # drawn inside a stack is not quite the letter alone, so the leftovers there also
+            # hold thin slivers of the root; opening (shrink, then grow back) keeps the tips only.
+            sup = pathops.op(stack, halfplane(top), pathops.PathOp.INTERSECTION)
+            pieces = sorted(contours(pathops.op(stack, halfplane(top + 16), pathops.PathOp.INTERSECTION)), key=lambda c: c.bounds[0])
+            if root_nominal in MARKED and wy[0] == 'r' and len(pieces) > 1:
+                # beside the small ra-mgo, the mark of ཙ ཚ ཛ stands on its own to the right:
+                # from its left edge on, everything above the line is the root's
+                sup = pathops.op(sup, column(pieces[-1].bounds[0] - 6, 5000, top - 1, 5000), pathops.PathOp.DIFFERENCE)
+            # stem tips: below the line, straight under where the superscript crosses it
+            strips = union(column(x0 - 12, x1 + 12, top - 110, top + 1) for x0, x1 in crossings(sup, top + 3))
+            tips = pathops.op(stack, grow(rootp, 10), pathops.PathOp.DIFFERENCE)
+            tips = pathops.op(tips, strips, pathops.PathOp.INTERSECTION)
+            tips = union(c for c in contours(opened(tips, 11)) if abs(c.area) > 1500)   # crumbs are not tips
+            sup = pathops.op(sup, tips, pathops.PathOp.UNION)
+            body = pathops.op(stack, sup, pathops.PathOp.DIFFERENCE)
+            times = timing(wy)
+            items.append({'wy': wy, 'bo': bo, 'w': adv, 'sup': svg(sup), 'root': svg(body), 'tsheg': svg(rest), 't': times})
+            proofs.append((wy, sup, pathops.op(body, rest, pathops.PathOp.UNION), adv))
+            print(f'  {wy:5s} {bo}  root at dy={ry}, voice {times}')
         series.append({'sup': sup_wy, 'bo': sup_bo, 'stacks': items})
     boxes = [b for _, red, ink, _ in proofs for b in (red.bounds, ink.bounds) if b != (0, 0, 0, 0)]
     return {
@@ -228,6 +306,35 @@ def speech(video):
         else:
             out.append([a, b])
     return out
+
+
+def timing(wy):
+    """When, inside his clip, the superscript ends and the fused sound begins (seconds).
+
+    Every clip is four syllables: the superscript, the root, a word that is the same in every clip,
+    then a pause and the fused sound. Syllables are found as vowel peaks in the speech band; the
+    pause is the widest gap between peaks. A few clips show an extra peak (a breathy ra), which
+    is counted with the superscript."""
+    import soundfile as sf
+    from scipy.signal import butter, find_peaks, sosfiltfilt
+    x, sr = sf.read(os.path.join(OUT_AUDIO, f'{wy}.mp3'), dtype='float32')
+    if x.ndim > 1:
+        x = x.mean(axis=1)
+    y = sosfiltfilt(butter(4, [300, 2500], btype='band', fs=sr, output='sos'), x)
+    hop = int(sr * 0.005)
+    n = len(y) // hop
+    env = np.sqrt((y[:n * hop].reshape(n, hop) ** 2).mean(axis=1))
+    win = np.hanning(15)
+    env = 20 * np.log10(np.convolve(env, win / win.sum(), mode='same') + 1e-9)
+    peaks, _ = find_peaks(env, prominence=4, distance=24, height=env.max() - 22)
+    t = peaks * 0.005
+    gap = int(np.argmax(np.diff(t)))            # the pause before the fused sound
+    before = t[:gap + 1]
+    if len(before) < 3:
+        raise ValueError(f'{wy}: {len(t)} syllables, expected four')
+    sup_end = (before[-3] + before[-2]) / 2
+    fused = (t[gap] + t[gap + 1]) / 2
+    return [round(float(sup_end), 2), round(float(fused), 2), round(len(x) / sr, 2)]
 
 
 def cut_audio(video):
