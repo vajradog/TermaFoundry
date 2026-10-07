@@ -72,6 +72,9 @@ jobs:
       - name: Check the Wylie typing tutor (/typing)
         run: npm run test:typing
         working-directory: ${{ env.BUILD_PATH }}
+      - name: Check the spelling-out (/typing)
+        run: npm run test:spell
+        working-directory: ${{ env.BUILD_PATH }}
       - name: Build with Astro
         run: |
           ${{ steps.detect-package-manager.outputs.runner }} astro build \

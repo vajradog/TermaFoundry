@@ -912,6 +912,173 @@ body.wt {
   color: var(--ink-3);
 }
 
+/* spelling it out: the stack drawn glyph by glyph, the piece being named in red */
+.wt {
+  --sp-red: #d4142a;
+}
+:root[data-theme='dark'] .wt {
+  --sp-red: #ff5468;
+}
+.spell-stage {
+  display: none;
+}
+.anat.has-stage .spell-stage {
+  display: block;
+  height: 210px;
+  margin: 4px auto 0;
+}
+.anat.has-stage .anat__bo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.sp-svg {
+  display: block;
+  height: 100%;
+  width: auto;
+  max-width: min(300px, 100%);
+  aspect-ratio: var(--sp-aspect, 0.55);
+  margin: 0 auto;
+  overflow: visible;
+}
+.sp-ink {
+  fill: var(--ink);
+}
+.sp-red {
+  fill: var(--sp-red);
+}
+.sp-new {
+  transform-box: view-box;
+}
+.sp-from-above {
+  animation: sp-above 0.42s var(--ease) backwards;
+}
+.sp-from-below {
+  animation: sp-below 0.42s var(--ease) backwards;
+}
+.sp-from-side {
+  animation: sp-side 0.42s var(--ease) backwards;
+}
+.sp-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sp-pulse 0.7s var(--ease) backwards;
+}
+.sp-new.is-settled {
+  opacity: 0;
+  transition: opacity 0.55s var(--ease);
+}
+@keyframes sp-above {
+  from {
+    transform: translateY(-300px);
+    opacity: 0;
+  }
+}
+@keyframes sp-below {
+  from {
+    transform: translateY(300px);
+    opacity: 0;
+  }
+}
+@keyframes sp-side {
+  from {
+    transform: translateX(260px);
+    opacity: 0;
+  }
+}
+@keyframes sp-pulse {
+  0% {
+    transform: scale(0.94);
+    opacity: 0.35;
+  }
+  45% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+.spell-say {
+  min-height: 34px;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+}
+.spell-say b {
+  font: 600 24px/1.2 var(--sans);
+  color: var(--sp-red);
+  letter-spacing: -0.01em;
+}
+.spell-say b.is-result {
+  font: italic 500 28px/1.2 var(--serif);
+}
+.spell-say [lang='bo'] {
+  font: 22px/1.2 var(--bo-ui);
+  color: var(--ink-3);
+}
+.wt .spell-btn {
+  margin-top: 12px;
+}
+.wt .spell-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.spell-seq {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  font: 500 13.5px var(--mono);
+  color: var(--ink-3);
+}
+.spell-seq:empty {
+  display: none;
+}
+.spell-seq li {
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+}
+.spell-seq li.is-result {
+  font: italic 500 15px var(--serif);
+  border-color: transparent;
+}
+.spell-seq li + li.is-result::before {
+  content: '→ ';
+  font-style: normal;
+  color: var(--ink-4);
+}
+.spell-seq li.is-done {
+  color: var(--ink-2);
+}
+.spell-seq li.is-cur {
+  color: #fff;
+  background: var(--sp-red);
+  border-color: var(--sp-red);
+}
+.spell-seq li.is-cur::before {
+  color: inherit;
+}
+.xp__slot.is-said,
+.anat__order .part.is-said {
+  border-color: var(--sp-red);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sp-red) 22%, transparent);
+}
+.xp__slot.is-said .xp__bo {
+  color: var(--sp-red);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sp-new {
+    animation: none !important;
+  }
+}
+
 /* the exploded syllable */
 .xp {
   display: grid;
@@ -1077,6 +1244,7 @@ body.wt {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
+  align-items: start;
 }
 .unit {
   position: relative;
@@ -1159,6 +1327,47 @@ body.wt {
   background: var(--accent);
   border-radius: inherit;
   transition: width 0.6s var(--ease);
+}
+.unit__more summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 4px 4px;
+  border-top: 1px solid var(--rule);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-3);
+  cursor: pointer;
+  list-style: none;
+  transition: color 0.2s;
+}
+.unit__more summary::-webkit-details-marker {
+  display: none;
+}
+.unit__more summary::after {
+  content: '';
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform 0.2s var(--ease);
+}
+.unit__more[open] summary::after {
+  transform: rotate(-135deg) translateY(-2px);
+}
+.unit__more summary:hover,
+.unit__more[open] summary {
+  color: var(--ink);
+}
+.unit__more summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.unit__more[open] summary {
+  padding-bottom: 8px;
 }
 .lessons {
   border-top: 1px solid var(--rule);
@@ -2509,6 +2718,9 @@ body.wt {
   }
   .anat__bo {
     font-size: 80px;
+  }
+  .anat.has-stage .spell-stage {
+    height: 170px;
   }
   .xp__slot {
     width: 58px;

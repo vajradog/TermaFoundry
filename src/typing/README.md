@@ -23,6 +23,15 @@ src/typing/
                            per-key statistics, pause/resume, timed tests, stars
   styles/typing.css        The page's own styles (light and dark)
   tests/typing.test.mjs    `npm run test:typing` (also a step in the deploy workflow)
+src/spell/                 Spelling it out (the "Spell it" button in the anatomy explorer)
+  utsang.json              The Ü-Tsang classroom spelling as data: what each piece is called,
+                           when the fused sound is said. TO_CONFIRM marks best guesses.
+  spell.js                 anatomy.js parse + scheme -> steps (say, highlight, show, label)
+  stack.js                 Draws the syllable from Yangtso's outlines (harfbuzzjs) and paints
+                           the piece being named red; the font is public/spell/yangtso-tibetan.ttf
+  player.js, voice.js      Plays the steps at 1.2 s each; speaks a unit when its recording
+                           exists (public/spell/audio/<unit id>.wav), silently otherwise
+  tests/spell.test.mjs     `npm run test:spell` (also a step in the deploy workflow)
 ```
 
 ## How it teaches
@@ -40,6 +49,15 @@ src/typing/
   results on the device. **Weak keys** builds a drill from the keys the student misses most.
   **Your text** practises any passage pasted in Wylie or Tibetan.
 - No accounts, nothing uploaded: progress, scores and statistics live in `localStorage`.
+
+## Spelling it out
+
+**Spell it** (or Enter) in the anatomy explorer spells the syllable the way it is spelled in class:
+each piece is named as it lands on the stack in red (ba-o, ka, ra-ta), and after each group the
+fused sound is said (bkra). The examples beside the box each add one piece to the one before;
+together they need 31 recordings. No audio is recorded yet, so the spelling plays silently; a
+recording dropped into `public/spell/audio/` under its unit ID (`l.ka`, `sub.ra`, `syl.bkra`) is
+picked up at the next build.
 
 ## Content
 

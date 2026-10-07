@@ -15,7 +15,8 @@
     "pkg:build": "npm run css:dist && node scripts/build-pkg.mjs",
     "pkg:copy": "node scripts/build-pkg.mjs",
     "test:ewts": "node --test src/foundry/tests/ewts.test.mjs",
-    "test:typing": "node --test src/typing/tests/typing.test.mjs"
+    "test:typing": "node --test src/typing/tests/typing.test.mjs",
+    "test:spell": "node --test src/spell/tests/spell.test.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.0.2",
@@ -32,6 +33,7 @@
     "astro-icon": "^1.1.0",
     "astro-navbar": "^2.3.2",
     "astro-seo": "^0.8.3",
+    "harfbuzzjs": "^1.6.3",
     "sharp": "^0.33.4",
     "tailwindcss": "^3.4.3"
   },

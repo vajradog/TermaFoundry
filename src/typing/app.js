@@ -11,6 +11,11 @@ import { LEXICON } from './data/lexicon.js';
 import { parseSyllable, tokenAt } from './lib/anatomy.js';
 import { buildLesson, buildTimed, buildWeak, buildCustom, weakKeys, rng32 } from './lib/drill.js';
 import { Session, starsFor } from './lib/session.js';
+import scheme from '../spell/utsang.json';
+import { spell, components } from '../spell/spell.js';
+import { createStack } from '../spell/stack.js';
+import { createPlayer } from '../spell/player.js';
+import { createVoice } from '../spell/voice.js';
 
 /* ───────────────────────── helpers ───────────────────────── */
 const $ = (s, el = document) => el.querySelector(s);
@@ -56,6 +61,8 @@ const store = {
 const DEFAULTS = { sound: 'off', size: 'm', font: 'jomolhari' };
 const settings = { ...DEFAULTS, ...store.get('settings.v1', {}) };
 const saveSettings = () => store.set('settings.v1', settings);
+
+const SPELL = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}spell/`;
 
 const FONTS = {
   jomolhari: "'TT Jomolhari'",
@@ -149,12 +156,13 @@ function partsHtml(parsed, offset = Infinity, { numbered = false } = {}) {
   if (!parsed || !parsed.ok) return '';
   let n = 0;
   return parsed.parts
-    .filter((p) => !(p.role === 'root' && p.implicit))
-    .map((p) => {
+    .map((p, i) => ({ p, i }))
+    .filter(({ p }) => !(p.role === 'root' && p.implicit))
+    .map(({ p, i }) => {
       n++;
       const state = offset >= p.end ? '' : offset >= p.start ? 'is-cur' : 'is-todo';
       const label = p.detail || p.label;
-      return `<span class="part ${state}" data-role="${p.role}"${numbered ? ` data-n="${n}"` : ''}><b>${esc(p.wy)}</b><small>${esc(label)}</small></span>`;
+      return `<span class="part ${state}" data-role="${p.role}" data-i="${i}"${numbered ? ` data-n="${n}"` : ''}><b>${esc(p.wy)}</b><small>${esc(label)}</small></span>`;
     })
     .join('');
 }
@@ -271,24 +279,110 @@ function initAnatomy() {
   const xp = $('[data-anat-xp]', root);
   const order = $('[data-anat-order]', root);
   const msg = $('[data-anat-msg]', root);
+  const stageEl = $('[data-spell-stage]', root);
+  const sayEl = $('[data-spell-say]', root);
+  const seqEl = $('[data-spell-seq]', root);
+  const spellBtn = $('[data-spell-btn]', root);
+
+  /* ── spelling it out: the stack assembles, each piece turns red as it is named ── */
+  let recorded = [];
+  try {
+    recorded = JSON.parse(root.dataset.spellAudio || '[]');
+  } catch {
+    /* none */
+  }
+  const voice = createVoice(`${SPELL}audio/`, recorded);
+  let stack = null; // the glyph renderer, once HarfBuzz and the font have loaded
+  let parsed = null; // the syllable in the box, as anatomy.js reads it
+  let spelled = null; // its spelling, from spell()
+  let shown = ''; // the Tibetan on the stage
+  let lastWy = '';
+
+  const lit = (indices) => {
+    const on = new Set(indices.map(String));
+    $$('[data-i]', xp).forEach((el) => el.classList.toggle('is-said', on.has(el.dataset.i)));
+    $$('[data-i]', order).forEach((el) => el.classList.toggle('is-said', on.has(el.dataset.i)));
+  };
+
+  function markStep(step, k) {
+    $$('li', seqEl).forEach((li, i) => {
+      li.classList.toggle('is-cur', i === k);
+      li.classList.toggle('is-done', k >= 0 && i < k);
+    });
+    if (!step) {
+      lit([]);
+      return;
+    }
+    sayEl.innerHTML = `<b class="is-${step.kind}">${esc(step.label)}</b><span lang="bo">${esc(step.tib)}</span>`;
+    const byAt = new Map(components(parsed).map((c) => [c.at, c.part]));
+    lit(step.highlight.map((at) => byAt.get(at)));
+  }
+
+  const player = createPlayer({
+    scheme,
+    voice,
+    getStack: () => stack,
+    onStep: markStep,
+    onDone: (finished) => {
+      markStep(null, -1);
+      if (!finished) sayEl.innerHTML = '';
+      root.classList.remove('is-spelling');
+    },
+  });
+
+  function spellIt() {
+    if (!spelled) return;
+    root.classList.add('is-spelling');
+    player.play(spelled);
+  }
+
+  /* The stage follows the box; a letter just typed drops onto the stack in red, then settles. */
+  function stage(wy, typed) {
+    const bo = parsed.ok ? parsed.bo : preview(wy);
+    if (stack) {
+      stack.frame(bo);
+      const grew = typed && shown && bo !== shown && wy.length > lastWy.length && wy.startsWith(lastWy);
+      stack.draw(grew ? { text: bo, base: shown, from: 'above', settle: 700 } : { text: bo });
+    }
+    shown = bo;
+    lastWy = wy;
+  }
+
+  function bootStage() {
+    createStack(stageEl, { fontUrl: `${SPELL}yangtso-tibetan.ttf` })
+      .then((s) => {
+        stack = s;
+        root.classList.add('has-stage');
+        s.frame(shown);
+        s.draw({ text: shown });
+      })
+      .catch((e) => console.warn('spelling stage unavailable, showing text', e));
+  }
 
   const slot = (role, col, row, p, delay) => {
     if (!p) return `<div class="xp__slot is-empty" data-role="${role}" style="grid-column:${col};grid-row:${row}"><span class="xp__bo"></span><span class="xp__wy"></span><span class="xp__role">${esc(ROLE_LABEL[role])}</span></div>`;
     const bo = p.role === 'vowel' && p.wy === 'a' ? '' : p.bo;
     const name = p.detail || p.term;
     return (
-      `<div class="xp__slot" data-role="${role}" style="grid-column:${col};grid-row:${row};animation-delay:${delay}ms">` +
+      `<div class="xp__slot" data-role="${role}" data-i="${p.i}" style="grid-column:${col};grid-row:${row};animation-delay:${delay}ms">` +
       `<span class="xp__bo" lang="bo">${esc(bo)}</span><span class="xp__wy">${esc(p.wy || 'a')}</span>` +
       `<span class="xp__role">${esc(p.label)}<span>${esc(name)}</span></span></div>`
     );
   };
   const ROLE_LABEL = { prefix: 'Prefix', super: 'Superscript', root: 'Root', sub: 'Subscript', vowel: 'Vowel', suffix: 'Suffix', post: 'Post-suffix' };
 
-  function show(raw) {
+  function show(raw, typed = false) {
     const wy = raw.trim().replace(/[’‘ʼ`´]/g, "'");
     chips.forEach((c) => c.setAttribute('aria-pressed', c.dataset.ex === wy ? 'true' : 'false'));
     prev.textContent = wy ? toUnicode(wy).text : '';
     const p = parseSyllable(wy);
+    player.stop();
+    parsed = p;
+    spelled = p.ok ? spell(p, scheme) : null;
+    spellBtn.disabled = !spelled;
+    sayEl.innerHTML = '';
+    seqEl.innerHTML = spelled ? spelled.steps.map((s) => `<li class="is-${s.kind}">${esc(s.label)}</li>`).join('') : '';
+    stage(wy, typed);
     if (!p.ok) {
       boEl.textContent = wy ? toUnicode(wy).text : '';
       glossEl.textContent = '';
@@ -324,7 +418,17 @@ function initAnatomy() {
     order.innerHTML = partsHtml(p, Infinity, { numbered: true });
   }
 
-  input.addEventListener('input', () => show(input.value));
+  input.addEventListener('input', () => show(input.value, true));
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      spellIt();
+    } else if (e.key === 'Escape') {
+      player.stop();
+    }
+  });
+  spellBtn.addEventListener('click', spellIt);
+  root.addEventListener('keydown', (e) => e.key === 'Escape' && player.stop());
   chips.forEach((c) =>
     c.addEventListener('click', () => {
       input.value = c.dataset.ex;
@@ -332,6 +436,17 @@ function initAnatomy() {
     }),
   );
   show(input.value);
+
+  // HarfBuzz and the font load only when the panel comes near
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => {
+      if (es.some((e) => e.isIntersecting)) {
+        io.disconnect();
+        bootStage();
+      }
+    }, { rootMargin: '600px 0px' });
+    io.observe(root);
+  } else bootStage();
 }
 
 /* ───────────────────────── progress, scores, log ───────────────────────── */

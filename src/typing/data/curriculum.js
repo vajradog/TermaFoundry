@@ -774,5 +774,9 @@ export const SENTENCES = LESSONS.filter((l) => l.drill.kind === 'sentences' && l
 /* Every lexicon word used in units 3–8, for the word tests and the weak-key drill. */
 export const WORD_POOL = [...new Set(LESSONS.filter((l) => l.drill.kind === 'words' || (l.drill.kind === 'sequence' && l.unit.num >= 8)).flatMap((l) => l.drill.items))];
 
-/* Example words for the anatomy explorer. */
-export const ANATOMY_EXAMPLES = ['brgyad', 'bsgrigs', 'skad', 'rta', 'mig', 'g.yag', 'dbyangs', "spre'u", "'khyags", 'khyi', 'zla', 'lcags'];
+/*
+  Example syllables for the anatomy explorer, which also spells them out. Each adds one piece to the
+  one before: a vowel, each of the four subscripts, a superscript, a prefix, then whole stacks with
+  suffixes. Together they need 31 recorded units (src/spell/utsang.json).
+*/
+export const ANATOMY_EXAMPLES = ['ki', 'kya', 'kra', 'zla', 'grwa', 'rka', 'bkra', 'sgrub', 'brgyad', 'bsgrubs'];

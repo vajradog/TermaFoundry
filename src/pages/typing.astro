@@ -4,6 +4,8 @@
   rest of the site. Everything lives in src/typing/ (see the README there).
 */
 import '../typing/styles/typing.css';
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { toUnicode } from '../foundry/lib/ewts.js';
 import { UNITS, LESSONS, CONSONANTS, VOWELS, POSITIONS, ANATOMY_EXAMPLES } from '../typing/data/curriculum.js';
 import { LEXICON } from '../typing/data/lexicon.js';
@@ -62,6 +64,16 @@ const SANSKRIT = [
   ['-i', '-i', 'reversed gi gu, vocalic ṛ/ḷ'],
   ['+', 'k+Sha', 'join two letters into one stack'],
 ];
+
+/* Recorded spelling units (public/spell/audio/<unit id>.wav): the spelling plays these and is silent for the rest. */
+let recorded: string[] = [];
+try {
+  recorded = readdirSync(join(process.cwd(), 'public', 'spell', 'audio'))
+    .filter((f) => f.endsWith('.wav'))
+    .map((f) => f.slice(0, -4));
+} catch {
+  /* no recordings yet */
+}
 
 const wordCount = LEXICON.size;
 const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
@@ -226,13 +238,14 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
             </article>
           </div>
 
-          <div class="anat reveal" data-anat>
+          <div class="anat reveal" data-anat data-spell-audio={JSON.stringify(recorded)}>
             <div class="anat__left">
               <span class="eyebrow">Anatomy of a syllable</span>
               <h3>Take any syllable apart.</h3>
               <p>
                 A Tibetan syllable has up to seven positions around its root letter. Type one in Wylie — or pick an example — to see where
-                each letter sits, what it is called, and the order in which you type it.
+                each letter sits, what it is called, and the order in which you type it. Press <b>Spell it</b> (or Enter) to spell it out
+                the classroom way, one piece at a time.
               </p>
               <label class="field">
                 <span class="vh">A Wylie syllable</span>
@@ -240,7 +253,7 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
                 <span class="field__bo" lang="bo" data-anat-preview>{U('brgyad')}</span>
               </label>
               <div class="chips" data-anat-chips>
-                {ANATOMY_EXAMPLES.map((w, i) => <button class="chip" type="button" data-ex={w} aria-pressed={i === 0 ? 'true' : 'false'}>{w}</button>)}
+                {ANATOMY_EXAMPLES.map((w) => <button class="chip" type="button" data-ex={w} aria-pressed={w === 'brgyad' ? 'true' : 'false'}>{w}</button>)}
               </div>
               <div class="anat__order">
                 <div class="anat__order-label">Typing order</div>
@@ -249,10 +262,17 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
             </div>
             <div class="anat__right">
               <div class="anat__word">
+                <div class="spell-stage" data-spell-stage></div>
                 <div class="anat__bo" lang="bo" data-anat-bo>{U('brgyad')}</div>
+                <div class="spell-say" data-spell-say aria-live="polite"></div>
                 <div class="anat__gloss" data-anat-gloss>{firstGloss('brgyad')}</div>
+                <button class="btn btn--primary btn--sm spell-btn" type="button" data-spell-btn>
+                  <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+                  Spell it
+                </button>
               </div>
               <div class="xp" data-anat-xp aria-label="The syllable taken apart"></div>
+              <ol class="spell-seq" data-spell-seq aria-label="The spelling, step by step"></ol>
               <p class="anat__msg" data-anat-msg hidden></p>
             </div>
           </div>
@@ -301,6 +321,8 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
                   <div class="unit__term"><span lang="bo">{u.bo}</span><code>{u.wy}</code></div>
                   <p class="unit__blurb">{u.blurb}</p>
                   <div class="unit__bar"><i data-unit-bar></i></div>
+                  <details class="unit__more">
+                    <summary>{u.lessons.length} lessons</summary>
                   <ol class="lessons">
                     {u.lessons.map((l) => (
                       <li>
@@ -314,6 +336,7 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
                       </li>
                     ))}
                   </ol>
+                  </details>
                 </article>
               ))
             }

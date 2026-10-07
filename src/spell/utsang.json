@@ -1,0 +1,106 @@
+{
+  "id": "utsang",
+  "name": "Ü-Tsang classroom spelling-out",
+  "about": [
+    "The school spelling method as data: spell.js walks a syllable in writing order and names each component with the unit its role's 'say' list picks from the tables (keyed by Wylie). When a group of components is complete, the fused sound of everything so far is said ('results').",
+    "Unit IDs never change once minted: a recording is saved under its unit ID. Add units, never rename them.",
+    "TO_CONFIRM marks a best guess, to be checked by ear against Sonam Tsering's lesson videos."
+  ],
+  "to_confirm": [
+    "Prefix call: 'ba-o' for prefix ba (the reference video's bkra: 'ba-o, ka ra-ta, tra'), and by analogy ga-o, da-o, ma-o, 'a-o.",
+    "Superscript call: 'ra-go', 'la-go', 'sa-go', then the root letter. Some classrooms say the plain letter: 'ra, ka, ka'.",
+    "Second suffix: its plain letter, 'sa' / 'da'.",
+    "Results are said after the stack, after the vowel and after each suffix (sgrub: 'sa-go, ga, ra-ta, dra, zhab-kyu, dru, ba, drub').",
+    "The genitive 'a-chung with a vowel (pa'i): named like a suffix, then its vowel.",
+    "A bare letter (ka) is said once, with no separate result."
+  ],
+  "pace_ms": 1200,
+  "final_ms": 1600,
+  "result_unit": "syl.",
+  "tables": {
+    "letters": {
+      "k": "l.ka", "kh": "l.kha", "g": "l.ga", "ng": "l.nga",
+      "c": "l.ca", "ch": "l.cha", "j": "l.ja", "ny": "l.nya",
+      "t": "l.ta", "th": "l.tha", "d": "l.da", "n": "l.na",
+      "p": "l.pa", "ph": "l.pha", "b": "l.ba", "m": "l.ma",
+      "ts": "l.tsa", "tsh": "l.tsha", "dz": "l.dza", "w": "l.wa",
+      "zh": "l.zha", "z": "l.za", "'": "l.'a", "y": "l.ya",
+      "r": "l.ra", "l": "l.la", "sh": "l.sha", "s": "l.sa",
+      "h": "l.ha", "": "l.a"
+    },
+    "prefixes": { "g": "pre.ga", "d": "pre.da", "b": "pre.ba", "m": "pre.ma", "'": "pre.'a" },
+    "superscripts": { "r": "sup.ra", "l": "sup.la", "s": "sup.sa" },
+    "subscripts": { "y": "sub.ya", "r": "sub.ra", "l": "sub.la", "w": "sub.wa" },
+    "vowels": { "i": "v.gigu", "u": "v.zhabkyu", "e": "v.drengbu", "o": "v.naro" }
+  },
+  "roles": {
+    "prefix": { "say": ["prefixes"], "group": "head", "TO_CONFIRM": true },
+    "super": { "say": ["superscripts"], "group": "head", "TO_CONFIRM": true },
+    "root": { "say": ["letters"], "group": "head" },
+    "sub": { "say": ["subscripts"], "group": "head" },
+    "sub2": { "say": ["subscripts"], "group": "head" },
+    "vowel": { "say": ["vowels"], "group": "vowel" },
+    "suffix": { "say": ["letters"], "group": "suffix" },
+    "post": { "say": ["letters"], "group": "post", "TO_CONFIRM": true },
+    "achung": { "say": ["letters"], "group": "suffix", "TO_CONFIRM": true },
+    "avowel": { "say": ["vowels"], "group": "vowel" }
+  },
+  "results": {
+    "head": { "min_parts": 2 },
+    "vowel": {},
+    "suffix": {},
+    "post": {}
+  },
+  "units": {
+    "l.ka": { "tib": "ཀ", "say": "ka" },
+    "l.kha": { "tib": "ཁ", "say": "kha" },
+    "l.ga": { "tib": "ག", "say": "ga" },
+    "l.nga": { "tib": "ང", "say": "nga" },
+    "l.ca": { "tib": "ཅ", "say": "ca" },
+    "l.cha": { "tib": "ཆ", "say": "cha" },
+    "l.ja": { "tib": "ཇ", "say": "ja" },
+    "l.nya": { "tib": "ཉ", "say": "nya" },
+    "l.ta": { "tib": "ཏ", "say": "ta" },
+    "l.tha": { "tib": "ཐ", "say": "tha" },
+    "l.da": { "tib": "ད", "say": "da" },
+    "l.na": { "tib": "ན", "say": "na" },
+    "l.pa": { "tib": "པ", "say": "pa" },
+    "l.pha": { "tib": "ཕ", "say": "pha" },
+    "l.ba": { "tib": "བ", "say": "ba" },
+    "l.ma": { "tib": "མ", "say": "ma" },
+    "l.tsa": { "tib": "ཙ", "say": "tsa" },
+    "l.tsha": { "tib": "ཚ", "say": "tsha" },
+    "l.dza": { "tib": "ཛ", "say": "dza" },
+    "l.wa": { "tib": "ཝ", "say": "wa" },
+    "l.zha": { "tib": "ཞ", "say": "zha" },
+    "l.za": { "tib": "ཟ", "say": "za" },
+    "l.'a": { "tib": "འ", "say": "'a" },
+    "l.ya": { "tib": "ཡ", "say": "ya" },
+    "l.ra": { "tib": "ར", "say": "ra" },
+    "l.la": { "tib": "ལ", "say": "la" },
+    "l.sha": { "tib": "ཤ", "say": "sha" },
+    "l.sa": { "tib": "ས", "say": "sa" },
+    "l.ha": { "tib": "ཧ", "say": "ha" },
+    "l.a": { "tib": "ཨ", "say": "a" },
+
+    "v.gigu": { "tib": "གི་གུ", "say": "gi-gu" },
+    "v.zhabkyu": { "tib": "ཞབས་ཀྱུ", "say": "zhab-kyu" },
+    "v.drengbu": { "tib": "འགྲེང་བུ", "say": "dreng-bu" },
+    "v.naro": { "tib": "ན་རོ", "say": "na-ro" },
+
+    "sub.ya": { "tib": "ཡ་བཏགས", "say": "ya-ta" },
+    "sub.ra": { "tib": "ར་བཏགས", "say": "ra-ta" },
+    "sub.la": { "tib": "ལ་བཏགས", "say": "la-ta" },
+    "sub.wa": { "tib": "ཝ་ཟུར", "say": "wa-zur" },
+
+    "sup.ra": { "tib": "ར་མགོ", "say": "ra-go", "TO_CONFIRM": true },
+    "sup.la": { "tib": "ལ་མགོ", "say": "la-go", "TO_CONFIRM": true },
+    "sup.sa": { "tib": "ས་མགོ", "say": "sa-go", "TO_CONFIRM": true },
+
+    "pre.ga": { "tib": "ག་འོ", "say": "ga-o", "TO_CONFIRM": true },
+    "pre.da": { "tib": "ད་འོ", "say": "da-o", "TO_CONFIRM": true },
+    "pre.ba": { "tib": "བ་འོ", "say": "ba-o", "TO_CONFIRM": true },
+    "pre.ma": { "tib": "མ་འོ", "say": "ma-o", "TO_CONFIRM": true },
+    "pre.'a": { "tib": "འ་འོ", "say": "'a-o", "TO_CONFIRM": true }
+  }
+}
