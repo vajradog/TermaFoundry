@@ -528,14 +528,10 @@ body.wt {
   animation: none;
   background: var(--ink-4);
 }
-.demo__count {
-  margin-left: auto;
-  font-variant-numeric: tabular-nums;
-}
 .demo__stage {
   text-align: center;
-  padding: 34px 0 14px;
-  min-height: 330px;
+  padding: 18px 0 6px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -547,65 +543,6 @@ body.wt {
   color: var(--ink);
   min-height: 1.75em;
   white-space: nowrap;
-}
-.demo__bo .is-partial {
-  color: var(--accent);
-}
-.demo__wy {
-  font: 500 clamp(19px, 2.2vw, 24px) / 1.2 var(--mono);
-  color: var(--ink);
-  min-height: 1.3em;
-  letter-spacing: 0.02em;
-  margin-top: -6px;
-}
-.demo__wy .caret {
-  display: inline-block;
-  width: 2px;
-  height: 1.05em;
-  vertical-align: -0.15em;
-  background: var(--accent);
-  margin-left: 2px;
-  animation: blink 1.05s steps(1) infinite;
-}
-.demo__gloss {
-  margin-top: 12px;
-  min-height: 26px;
-  font: italic 400 19px/1.3 var(--serif);
-  color: var(--ink-2);
-  opacity: 0;
-  transform: translateY(4px);
-  transition: opacity 0.35s, transform 0.35s var(--ease);
-}
-.demo__gloss.is-on {
-  opacity: 1;
-  transform: none;
-}
-.demo__gloss span {
-  font-style: normal;
-  font-family: var(--sans);
-  font-size: 13px;
-  color: var(--ink-3);
-  margin-left: 8px;
-}
-.demo__parts {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  min-height: 52px;
-  margin: 10px 0 16px;
-}
-.demo__foot {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 14px;
-  font-size: 12.5px;
-  color: var(--ink-3);
-}
-.demo__foot a {
-  color: var(--accent-ink);
-  font-weight: 600;
 }
 
 /* syllable-part chips (demo, practice, anatomy) */
@@ -922,12 +859,12 @@ body.wt {
 .spell-stage {
   display: none;
 }
-.anat.has-stage .spell-stage {
+.demo.has-stage .spell-stage {
   display: block;
-  height: 210px;
-  margin: 4px auto 0;
+  width: 100%;
+  height: 280px;
 }
-.anat.has-stage .anat__bo {
+.demo.has-stage .demo__bo {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -938,7 +875,7 @@ body.wt {
   display: block;
   height: 100%;
   width: auto;
-  max-width: min(300px, 100%);
+  max-width: 100%;
   aspect-ratio: var(--sp-aspect, 0.55);
   margin: 0 auto;
   overflow: visible;
@@ -998,80 +935,23 @@ body.wt {
     opacity: 1;
   }
 }
-.spell-say {
-  min-height: 34px;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 10px;
-}
-.spell-say b {
-  font: 600 24px/1.2 var(--sans);
-  color: var(--sp-red);
-  letter-spacing: -0.01em;
-}
-.spell-say b.is-result {
-  font: italic 500 28px/1.2 var(--serif);
-}
-.spell-say [lang='bo'] {
-  font: 22px/1.2 var(--bo-ui);
-  color: var(--ink-3);
-}
-.wt .spell-btn {
-  margin-top: 12px;
-}
-.wt .spell-btn:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-.spell-seq {
-  grid-column: 1 / -1;
+.spell-ex {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 6px;
-  margin: 6px 0 0;
-  padding: 0;
-  list-style: none;
-  font: 500 13.5px var(--mono);
-  color: var(--ink-3);
+  justify-content: center;
+  gap: 6px;
+  margin: 4px 0 18px;
 }
-.spell-seq:empty {
-  display: none;
+.wt .spell-ex .chip {
+  height: 40px;
+  padding: 0 12px;
 }
-.spell-seq li {
-  padding: 3px 9px;
-  border-radius: 999px;
-  border: 1px solid var(--rule);
-  transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+.spell-ex .chip [lang='bo'] {
+  font: 22px/1 var(--bo-ui);
 }
-.spell-seq li.is-result {
-  font: italic 500 15px var(--serif);
-  border-color: transparent;
-}
-.spell-seq li + li.is-result::before {
-  content: '→ ';
-  font-style: normal;
-  color: var(--ink-4);
-}
-.spell-seq li.is-done {
-  color: var(--ink-2);
-}
-.spell-seq li.is-cur {
-  color: #fff;
-  background: var(--sp-red);
-  border-color: var(--sp-red);
-}
-.spell-seq li.is-cur::before {
-  color: inherit;
-}
-.xp__slot.is-said,
-.anat__order .part.is-said {
-  border-color: var(--sp-red);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--sp-red) 22%, transparent);
-}
-.xp__slot.is-said .xp__bo {
-  color: var(--sp-red);
+.wt .spell-btn {
+  display: flex;
+  margin: 0 auto;
 }
 @media (prefers-reduced-motion: reduce) {
   .sp-new {
@@ -2706,6 +2586,9 @@ body.wt {
   .demo__stage {
     min-height: 210px;
   }
+  .demo.has-stage .spell-stage {
+    height: 200px;
+  }
   .units {
     grid-template-columns: 1fr;
   }
@@ -2719,9 +2602,7 @@ body.wt {
   .anat__bo {
     font-size: 80px;
   }
-  .anat.has-stage .spell-stage {
-    height: 170px;
-  }
+
   .xp__slot {
     width: 58px;
     min-height: 70px;

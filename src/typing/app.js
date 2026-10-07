@@ -1,5 +1,5 @@
 /*
-  app.js — everything on /typing that moves: theme, the live demonstration, the anatomy explorer,
+  app.js — everything on /typing that moves: theme, the spelling demonstration, the anatomy explorer,
   the course map, the practice room, personal bests and the practice log.
 
   State is kept in localStorage under wylie.* (settings, progress, scores, key statistics, log).
@@ -12,7 +12,7 @@ import { parseSyllable, tokenAt } from './lib/anatomy.js';
 import { buildLesson, buildTimed, buildWeak, buildCustom, weakKeys, rng32 } from './lib/drill.js';
 import { Session, starsFor } from './lib/session.js';
 import scheme from '../spell/utsang.json';
-import { spell, components } from '../spell/spell.js';
+import { spell } from '../spell/spell.js';
 import { createStack } from '../spell/stack.js';
 import { createPlayer } from '../spell/player.js';
 import { createVoice } from '../spell/voice.js';
@@ -85,14 +85,6 @@ export function preview(wy) {
   return toUnicode(s).text;
 }
 
-/* Typed Wylie for display: finished syllables as they are, the one in progress previewed. */
-function renderTyped(typed) {
-  const cut = Math.max(typed.lastIndexOf(' '), typed.lastIndexOf('/')) + 1;
-  const done = typed.slice(0, cut);
-  const part = typed.slice(cut);
-  return { done: done ? toUnicode(done).text : '', part: preview(part) };
-}
-
 /* ───────────────────────── sound ───────────────────────── */
 let audio = null;
 function blip(ok) {
@@ -156,108 +148,73 @@ function partsHtml(parsed, offset = Infinity, { numbered = false } = {}) {
   if (!parsed || !parsed.ok) return '';
   let n = 0;
   return parsed.parts
-    .map((p, i) => ({ p, i }))
-    .filter(({ p }) => !(p.role === 'root' && p.implicit))
-    .map(({ p, i }) => {
+    .filter((p) => !(p.role === 'root' && p.implicit))
+    .map((p) => {
       n++;
       const state = offset >= p.end ? '' : offset >= p.start ? 'is-cur' : 'is-todo';
       const label = p.detail || p.label;
-      return `<span class="part ${state}" data-role="${p.role}" data-i="${i}"${numbered ? ` data-n="${n}"` : ''}><b>${esc(p.wy)}</b><small>${esc(label)}</small></span>`;
+      return `<span class="part ${state}" data-role="${p.role}"${numbered ? ` data-n="${n}"` : ''}><b>${esc(p.wy)}</b><small>${esc(label)}</small></span>`;
     })
     .join('');
 }
 
-/* ───────────────────────── the live demonstration ───────────────────────── */
-const DEMO = [
-  { w: 'brgyad', en: 'eight', ph: 'gyé' },
-  { w: 'bkra shis bde legs/', en: 'hello', ph: 'trashi delek' },
-  { w: 'g.yag', en: 'yak', ph: 'yak' },
-  { w: 'slob grwa', en: 'school', ph: 'lopdra' },
-  { w: "spre'u", en: 'monkey', ph: 'treu' },
-  { w: 'bod yig', en: 'Tibetan script', ph: 'böyik' },
-];
-
-function initDemo() {
-  const root = $('[data-demo]');
+/* ───────────────────────── spelling it out (the opening demonstration) ───────────────────────── */
+/*
+  A stack and the examples beside it. "Spell it" builds the stack piece by piece in the order it is
+  spelled in class, each piece red as it is named, then the fused sound with the whole stack red.
+  Each unit is spoken when its recording exists (public/spell/audio/), silently until then.
+*/
+function initSpell() {
+  const root = $('[data-spell]');
   if (!root) return;
-  const boEl = $('[data-demo-bo]', root);
-  const wyEl = $('[data-demo-wy]', root);
-  const glossEl = $('[data-demo-gloss]', root);
-  const partsEl = $('[data-demo-parts]', root);
-  const countEl = $('[data-demo-count]', root);
-  const btn = $('[data-demo-toggle]', root);
-
-  let wi = 0;
-  let ci = 0;
-  let timer = 0;
-  let playing = !reduced();
-  let visible = true;
-
-  function draw() {
-    const word = DEMO[wi];
-    const typed = word.w.slice(0, ci);
-    const complete = ci >= word.w.length;
-    const r = renderTyped(typed);
-    boEl.innerHTML = complete ? esc(toUnicode(word.w).text) : `${esc(r.done)}<span class="is-partial">${esc(r.part)}</span>` || '&nbsp;';
-    wyEl.innerHTML = `${esc(typed)}<span class="caret"></span>`;
-    glossEl.innerHTML = `${esc(word.en)}<span>${esc(word.ph)}</span>`;
-    glossEl.classList.toggle('is-on', complete);
-    countEl.textContent = `${wi + 1} / ${DEMO.length}`;
-    // chips for the syllable being typed
-    const at = Math.max(0, Math.min(ci, word.w.length) - (complete ? 1 : 0));
-    const start = Math.max(word.w.lastIndexOf(' ', at - 1), word.w.lastIndexOf('/', at - 1)) + 1;
-    let end = word.w.slice(start).search(/[ /]/);
-    end = end < 0 ? word.w.length : start + end;
-    const syl = word.w.slice(start, end);
-    partsEl.innerHTML = partsHtml(parseSyllable(syl), complete ? Infinity : ci - start);
+  const stageEl = $('[data-spell-stage]', root);
+  const boEl = $('[data-spell-bo]', root);
+  const btn = $('[data-spell-btn]', root);
+  const chips = $$('[data-spell-ex]', root);
+  let recorded = [];
+  try {
+    recorded = JSON.parse(root.dataset.spellAudio || '[]');
+  } catch {
+    /* none */
   }
+  const voice = createVoice(`${SPELL}audio/`, recorded);
+  let stack = null; // the glyph renderer, once HarfBuzz and the font have loaded
+  let current = null;
 
-  function schedule(ms) {
-    clearTimeout(timer);
-    if (playing && visible) timer = setTimeout(step, ms);
-  }
+  const player = createPlayer({
+    scheme,
+    voice,
+    getStack: () => stack,
+    onDone: () => root.classList.add('is-paused'),
+  });
 
-  function step() {
-    const word = DEMO[wi];
-    if (ci < word.w.length) {
-      const ch = word.w[ci];
-      ci++;
-      draw();
-      schedule(ci >= word.w.length ? 2300 : ch === ' ' || ch === '/' ? 330 : 170 + Math.random() * 110);
-    } else {
-      wi = (wi + 1) % DEMO.length;
-      ci = 0;
-      draw();
-      schedule(650);
+  function select(wy) {
+    player.stop();
+    chips.forEach((c) => c.setAttribute('aria-pressed', c.dataset.spellEx === wy ? 'true' : 'false'));
+    current = spell(parseSyllable(wy), scheme);
+    boEl.textContent = current.text;
+    if (stack) {
+      stack.frame(current.text);
+      stack.draw({ text: current.text });
     }
   }
 
-  function setPlaying(on) {
-    playing = on;
-    root.classList.toggle('is-paused', !on);
-    btn.setAttribute('aria-label', on ? 'Pause the demonstration' : 'Play the demonstration');
-    $('[data-ico-pause]', btn).toggleAttribute('hidden', !on);
-    $('[data-ico-play]', btn).toggleAttribute('hidden', on);
-    if (on) schedule(250);
-    else clearTimeout(timer);
-  }
-
-  btn.addEventListener('click', () => setPlaying(!playing));
-  if ('IntersectionObserver' in window) {
-    new IntersectionObserver((es) => {
-      visible = es[0].isIntersecting && !document.hidden;
-      if (visible) schedule(400);
-      else clearTimeout(timer);
-    }).observe(root);
-  }
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) clearTimeout(timer);
-    else schedule(400);
+  chips.forEach((c) => c.addEventListener('click', () => select(c.dataset.spellEx)));
+  btn.addEventListener('click', () => {
+    root.classList.remove('is-paused');
+    player.play(current);
   });
+  root.addEventListener('keydown', (e) => e.key === 'Escape' && player.stop());
+  select(($('[data-spell-ex][aria-pressed="true"]', root) || chips[0]).dataset.spellEx);
 
-  ci = playing ? 0 : DEMO[0].w.length;
-  draw();
-  setPlaying(playing);
+  createStack(stageEl, { fontUrl: `${SPELL}yangtso-tibetan.ttf` })
+    .then((s) => {
+      stack = s;
+      root.classList.add('has-stage');
+      s.frame(current.text);
+      s.draw({ text: current.text });
+    })
+    .catch((e) => console.warn('spelling stage unavailable, showing text', e));
 }
 
 /* ───────────────────────── anatomy explorer ───────────────────────── */
@@ -279,110 +236,24 @@ function initAnatomy() {
   const xp = $('[data-anat-xp]', root);
   const order = $('[data-anat-order]', root);
   const msg = $('[data-anat-msg]', root);
-  const stageEl = $('[data-spell-stage]', root);
-  const sayEl = $('[data-spell-say]', root);
-  const seqEl = $('[data-spell-seq]', root);
-  const spellBtn = $('[data-spell-btn]', root);
-
-  /* ── spelling it out: the stack assembles, each piece turns red as it is named ── */
-  let recorded = [];
-  try {
-    recorded = JSON.parse(root.dataset.spellAudio || '[]');
-  } catch {
-    /* none */
-  }
-  const voice = createVoice(`${SPELL}audio/`, recorded);
-  let stack = null; // the glyph renderer, once HarfBuzz and the font have loaded
-  let parsed = null; // the syllable in the box, as anatomy.js reads it
-  let spelled = null; // its spelling, from spell()
-  let shown = ''; // the Tibetan on the stage
-  let lastWy = '';
-
-  const lit = (indices) => {
-    const on = new Set(indices.map(String));
-    $$('[data-i]', xp).forEach((el) => el.classList.toggle('is-said', on.has(el.dataset.i)));
-    $$('[data-i]', order).forEach((el) => el.classList.toggle('is-said', on.has(el.dataset.i)));
-  };
-
-  function markStep(step, k) {
-    $$('li', seqEl).forEach((li, i) => {
-      li.classList.toggle('is-cur', i === k);
-      li.classList.toggle('is-done', k >= 0 && i < k);
-    });
-    if (!step) {
-      lit([]);
-      return;
-    }
-    sayEl.innerHTML = `<b class="is-${step.kind}">${esc(step.label)}</b><span lang="bo">${esc(step.tib)}</span>`;
-    const byAt = new Map(components(parsed).map((c) => [c.at, c.part]));
-    lit(step.highlight.map((at) => byAt.get(at)));
-  }
-
-  const player = createPlayer({
-    scheme,
-    voice,
-    getStack: () => stack,
-    onStep: markStep,
-    onDone: (finished) => {
-      markStep(null, -1);
-      if (!finished) sayEl.innerHTML = '';
-      root.classList.remove('is-spelling');
-    },
-  });
-
-  function spellIt() {
-    if (!spelled) return;
-    root.classList.add('is-spelling');
-    player.play(spelled);
-  }
-
-  /* The stage follows the box; a letter just typed drops onto the stack in red, then settles. */
-  function stage(wy, typed) {
-    const bo = parsed.ok ? parsed.bo : preview(wy);
-    if (stack) {
-      stack.frame(bo);
-      const grew = typed && shown && bo !== shown && wy.length > lastWy.length && wy.startsWith(lastWy);
-      stack.draw(grew ? { text: bo, base: shown, from: 'above', settle: 700 } : { text: bo });
-    }
-    shown = bo;
-    lastWy = wy;
-  }
-
-  function bootStage() {
-    createStack(stageEl, { fontUrl: `${SPELL}yangtso-tibetan.ttf` })
-      .then((s) => {
-        stack = s;
-        root.classList.add('has-stage');
-        s.frame(shown);
-        s.draw({ text: shown });
-      })
-      .catch((e) => console.warn('spelling stage unavailable, showing text', e));
-  }
 
   const slot = (role, col, row, p, delay) => {
     if (!p) return `<div class="xp__slot is-empty" data-role="${role}" style="grid-column:${col};grid-row:${row}"><span class="xp__bo"></span><span class="xp__wy"></span><span class="xp__role">${esc(ROLE_LABEL[role])}</span></div>`;
     const bo = p.role === 'vowel' && p.wy === 'a' ? '' : p.bo;
     const name = p.detail || p.term;
     return (
-      `<div class="xp__slot" data-role="${role}" data-i="${p.i}" style="grid-column:${col};grid-row:${row};animation-delay:${delay}ms">` +
+      `<div class="xp__slot" data-role="${role}" style="grid-column:${col};grid-row:${row};animation-delay:${delay}ms">` +
       `<span class="xp__bo" lang="bo">${esc(bo)}</span><span class="xp__wy">${esc(p.wy || 'a')}</span>` +
       `<span class="xp__role">${esc(p.label)}<span>${esc(name)}</span></span></div>`
     );
   };
   const ROLE_LABEL = { prefix: 'Prefix', super: 'Superscript', root: 'Root', sub: 'Subscript', vowel: 'Vowel', suffix: 'Suffix', post: 'Post-suffix' };
 
-  function show(raw, typed = false) {
+  function show(raw) {
     const wy = raw.trim().replace(/[’‘ʼ`´]/g, "'");
     chips.forEach((c) => c.setAttribute('aria-pressed', c.dataset.ex === wy ? 'true' : 'false'));
     prev.textContent = wy ? toUnicode(wy).text : '';
     const p = parseSyllable(wy);
-    player.stop();
-    parsed = p;
-    spelled = p.ok ? spell(p, scheme) : null;
-    spellBtn.disabled = !spelled;
-    sayEl.innerHTML = '';
-    seqEl.innerHTML = spelled ? spelled.steps.map((s) => `<li class="is-${s.kind}">${esc(s.label)}</li>`).join('') : '';
-    stage(wy, typed);
     if (!p.ok) {
       boEl.textContent = wy ? toUnicode(wy).text : '';
       glossEl.textContent = '';
@@ -418,17 +289,7 @@ function initAnatomy() {
     order.innerHTML = partsHtml(p, Infinity, { numbered: true });
   }
 
-  input.addEventListener('input', () => show(input.value, true));
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      spellIt();
-    } else if (e.key === 'Escape') {
-      player.stop();
-    }
-  });
-  spellBtn.addEventListener('click', spellIt);
-  root.addEventListener('keydown', (e) => e.key === 'Escape' && player.stop());
+  input.addEventListener('input', () => show(input.value));
   chips.forEach((c) =>
     c.addEventListener('click', () => {
       input.value = c.dataset.ex;
@@ -436,17 +297,6 @@ function initAnatomy() {
     }),
   );
   show(input.value);
-
-  // HarfBuzz and the font load only when the panel comes near
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((es) => {
-      if (es.some((e) => e.isIntersecting)) {
-        io.disconnect();
-        bootStage();
-      }
-    }, { rootMargin: '600px 0px' });
-    io.observe(root);
-  } else bootStage();
 }
 
 /* ───────────────────────── progress, scores, log ───────────────────────── */
@@ -1375,7 +1225,7 @@ function initTrainer() {
 /* ───────────────────────── boot ───────────────────────── */
 export function boot() {
   initChrome();
-  initDemo();
+  initSpell();
   initAnatomy();
   const trainer = initTrainer();
   renderScores();

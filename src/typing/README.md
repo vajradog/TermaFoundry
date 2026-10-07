@@ -5,12 +5,12 @@ layout, styles or scripts with the rest of the site; it only borrows the Wylie c
 `src/foundry/lib/ewts.js` and the self-hosted Tibetan fonts in `public/fonts/`.
 
 ```
-src/pages/typing.astro     The page: hero with the live demonstration, how Wylie works (the
+src/pages/typing.astro     The page: hero with the spelling demonstration, how Wylie works (the
                            anatomy explorer), the course map, the practice room, personal
                            bests, the reference tables. Static parts are rendered at build
                            time; the reference tables come from the converter itself.
 src/typing/
-  app.js                   Everything that moves: theme, demo, anatomy explorer, trainer,
+  app.js                   Everything that moves: theme, spelling demo, anatomy explorer, trainer,
                            results, high scores, practice log (localStorage, wylie.*)
   data/lexicon.js          308 everyday words: Wylie, English gloss, THL phonetics
   data/curriculum.js       10 units, 55 lessons, the timed tests, reference data
@@ -23,7 +23,7 @@ src/typing/
                            per-key statistics, pause/resume, timed tests, stars
   styles/typing.css        The page's own styles (light and dark)
   tests/typing.test.mjs    `npm run test:typing` (also a step in the deploy workflow)
-src/spell/                 Spelling it out (the "Spell it" button in the anatomy explorer)
+src/spell/                 Spelling it out (the demonstration card at the top of the page)
   utsang.json              The Ü-Tsang classroom spelling as data: what each piece is called,
                            when the fused sound is said. TO_CONFIRM marks best guesses.
   spell.js                 anatomy.js parse + scheme -> steps (say, highlight, show, label)
@@ -52,12 +52,12 @@ src/spell/                 Spelling it out (the "Spell it" button in the anatomy
 
 ## Spelling it out
 
-**Spell it** (or Enter) in the anatomy explorer spells the syllable the way it is spelled in class:
-each piece is named as it lands on the stack in red (ba-o, ka, ra-ta), and after each group the
-fused sound is said (bkra). The examples beside the box each add one piece to the one before;
-together they need 31 recordings. No audio is recorded yet, so the spelling plays silently; a
-recording dropped into `public/spell/audio/` under its unit ID (`l.ka`, `sub.ra`, `syl.bkra`) is
-picked up at the next build.
+The card at the top of the page shows one stack and ten examples (`SPELL_EXAMPLES`, each adding
+one piece to the one before). **Spell it** builds the stack the way it is spelled in class: each
+piece lands in red as it is named (ba-o, ka, ra-ta), and after each group the fused sound is said
+with the whole stack red (bkra). The ten examples need 31 recordings. None is recorded yet, so the
+spelling plays silently; a recording dropped into `public/spell/audio/` under its unit ID (`l.ka`,
+`sub.ra`, `syl.bkra`) is picked up at the next build.
 
 ## Content
 

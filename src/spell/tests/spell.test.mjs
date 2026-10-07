@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { spell, unitsFor } from '../spell.js';
 import { parseSyllable } from '../../typing/lib/anatomy.js';
-import { ANATOMY_EXAMPLES, WORD_POOL } from '../../typing/data/curriculum.js';
+import { SPELL_EXAMPLES, ANATOMY_EXAMPLES, WORD_POOL } from '../../typing/data/curriculum.js';
 
 const scheme = JSON.parse(readFileSync(new URL('../utsang.json', import.meta.url), 'utf8'));
 const run = (wy) => spell(parseSyllable(wy), scheme);
@@ -48,7 +48,7 @@ test('the genitive, two vowels, g.y, and prefixes before ta and before a ra-btag
 });
 
 test('every course syllable spells: known units, the stack only grows, the Tibetan matches', () => {
-  const syls = [...new Set([...ANATOMY_EXAMPLES, ...WORD_POOL].flatMap((w) => w.split(/[\s/]+/)).filter(Boolean))];
+  const syls = [...new Set([...SPELL_EXAMPLES, ...ANATOMY_EXAMPLES, ...WORD_POOL].flatMap((w) => w.split(/[\s/]+/)).filter(Boolean))];
   let spelled = 0;
   for (const wy of syls) {
     const p = parseSyllable(wy);
@@ -70,8 +70,8 @@ test('every course syllable spells: known units, the stack only grows, the Tibet
 });
 
 test('the examples need only a handful of recordings', () => {
-  const units = unitsFor(ANATOMY_EXAMPLES.map(parseSyllable), scheme);
-  assert.ok(units.length <= 40, `${units.length} units`);
+  const units = unitsFor(SPELL_EXAMPLES.map(parseSyllable), scheme);
+  assert.equal(units.length, 31);
   for (const u of units) assert.ok(u.label && u.tib, u.id);
 });
 

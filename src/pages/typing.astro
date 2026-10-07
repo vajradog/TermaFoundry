@@ -7,7 +7,7 @@ import '../typing/styles/typing.css';
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { toUnicode } from '../foundry/lib/ewts.js';
-import { UNITS, LESSONS, CONSONANTS, VOWELS, POSITIONS, ANATOMY_EXAMPLES } from '../typing/data/curriculum.js';
+import { UNITS, LESSONS, CONSONANTS, VOWELS, POSITIONS, ANATOMY_EXAMPLES, SPELL_EXAMPLES } from '../typing/data/curriculum.js';
 import { LEXICON } from '../typing/data/lexicon.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
@@ -179,25 +179,27 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
             </dl>
           </div>
 
-          <figure class="demo" data-demo aria-label="Live demonstration: Wylie keystrokes becoming Tibetan script">
+          <figure class="demo is-paused" data-spell data-spell-audio={JSON.stringify(recorded)} aria-label="Spelling it out: each piece of a Tibetan stack, in the order it is spelled">
             <div class="demo__top">
-              <span class="demo__live"><i></i>Live demonstration</span>
-              <span class="demo__count" data-demo-count>1 / 6</span>
-              <button class="icon-btn" type="button" data-demo-toggle aria-label="Pause the demonstration">
-                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" data-ico-pause><path d="M9 5v14M15 5v14"></path></svg>
-                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" data-ico-play hidden><path d="M7 4.5v15l12-7.5z"></path></svg>
-              </button>
+              <span class="demo__live"><i></i>Spelling it out</span>
             </div>
             <div class="demo__stage">
-              <div class="demo__bo" lang="bo" data-demo-bo aria-live="off">བརྒྱད</div>
-              <div class="demo__wy" data-demo-wy>brgyad<span class="caret"></span></div>
-              <div class="demo__gloss is-on" data-demo-gloss>eight<span>gyé</span></div>
+              <div class="spell-stage" data-spell-stage></div>
+              <div class="demo__bo" lang="bo" data-spell-bo>{U(SPELL_EXAMPLES[6])}</div>
             </div>
-            <div class="demo__parts parts" data-demo-parts></div>
-            <div class="demo__foot">
-              <span>Seven keys, one syllable: <span class="wy">b r g y a d</span></span>
-              <a href="#practice" data-go-practice>Try it yourself →</a>
+            <div class="spell-ex" role="group" aria-label="Examples">
+              {
+                SPELL_EXAMPLES.map((w, i) => (
+                  <button class="chip" type="button" data-spell-ex={w} aria-label={w} aria-pressed={i === 6 ? 'true' : 'false'}>
+                    <span lang="bo">{U(w)}</span>
+                  </button>
+                ))
+              }
             </div>
+            <button class="btn btn--primary spell-btn" type="button" data-spell-btn>
+              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+              Spell it
+            </button>
           </figure>
         </div>
       </section>
@@ -238,14 +240,13 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
             </article>
           </div>
 
-          <div class="anat reveal" data-anat data-spell-audio={JSON.stringify(recorded)}>
+          <div class="anat reveal" data-anat>
             <div class="anat__left">
               <span class="eyebrow">Anatomy of a syllable</span>
               <h3>Take any syllable apart.</h3>
               <p>
                 A Tibetan syllable has up to seven positions around its root letter. Type one in Wylie — or pick an example — to see where
-                each letter sits, what it is called, and the order in which you type it. Press <b>Spell it</b> (or Enter) to spell it out
-                the classroom way, one piece at a time.
+                each letter sits, what it is called, and the order in which you type it.
               </p>
               <label class="field">
                 <span class="vh">A Wylie syllable</span>
@@ -253,7 +254,7 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
                 <span class="field__bo" lang="bo" data-anat-preview>{U('brgyad')}</span>
               </label>
               <div class="chips" data-anat-chips>
-                {ANATOMY_EXAMPLES.map((w) => <button class="chip" type="button" data-ex={w} aria-pressed={w === 'brgyad' ? 'true' : 'false'}>{w}</button>)}
+                {ANATOMY_EXAMPLES.map((w, i) => <button class="chip" type="button" data-ex={w} aria-pressed={i === 0 ? 'true' : 'false'}>{w}</button>)}
               </div>
               <div class="anat__order">
                 <div class="anat__order-label">Typing order</div>
@@ -262,17 +263,10 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
             </div>
             <div class="anat__right">
               <div class="anat__word">
-                <div class="spell-stage" data-spell-stage></div>
                 <div class="anat__bo" lang="bo" data-anat-bo>{U('brgyad')}</div>
-                <div class="spell-say" data-spell-say aria-live="polite"></div>
                 <div class="anat__gloss" data-anat-gloss>{firstGloss('brgyad')}</div>
-                <button class="btn btn--primary btn--sm spell-btn" type="button" data-spell-btn>
-                  <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
-                  Spell it
-                </button>
               </div>
               <div class="xp" data-anat-xp aria-label="The syllable taken apart"></div>
-              <ol class="spell-seq" data-spell-seq aria-label="The spelling, step by step"></ol>
               <p class="anat__msg" data-anat-msg hidden></p>
             </div>
           </div>
