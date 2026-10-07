@@ -60,6 +60,15 @@ const H = LESSON.top - LESSON.bottom;
 const first = LESSON.series[0].stacks[0];
 const SERIES_NAME: Record<string, string> = { r: 'ra mgo', l: 'la mgo', s: 'sa mgo' };
 
+/* The stroke-order video (skeleton repo: work/research/learn_video.py): each consonant and the second it begins. */
+const LEARN_LETTERS: [string, string, number][] = [
+  ['ཀ', 'ka', 0], ['ཁ', 'kha', 5.1], ['ག', 'ga', 10.5], ['ང', 'nga', 16.1], ['ཅ', 'ca', 19.9], ['ཆ', 'cha', 24.7],
+  ['ཇ', 'ja', 29.9], ['ཉ', 'nya', 34.6], ['ཏ', 'ta', 39.7], ['ཐ', 'tha', 44.2], ['ད', 'da', 49.7], ['ན', 'na', 53.9],
+  ['པ', 'pa', 59.4], ['ཕ', 'pha', 64.1], ['བ', 'ba', 69.5], ['མ', 'ma', 74.2], ['ཙ', 'tsa', 80.0], ['ཚ', 'tsha', 85.3],
+  ['ཛ', 'dza', 91.0], ['ཝ', 'wa', 96.2], ['ཞ', 'zha', 103.0], ['ཟ', 'za', 108.9], ['འ', "'a", 113.7], ['ཡ', 'ya', 117.9],
+  ['ར', 'ra', 123.4], ['ལ', 'la', 127.3], ['ཤ', 'sha', 132.6], ['ས', 'sa', 137.9], ['ཧ', 'ha', 143.4], ['ཨ', 'a', 148.2],
+];
+
 const wordCount = LEXICON.size;
 const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
 ---
@@ -205,6 +214,54 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
               </button>
             </div>
             <figcaption class="supers__credit">Voice and lesson: Sonam Tsering</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- ═══════════ Write the letters: the stroke-order video ═══════════ -->
+      <section class="learn" aria-labelledby="learn-title" data-learn>
+        <div class="wrap learn__in">
+          <div class="learn__copy">
+            <span class="eyebrow"><span class="eyebrow__dot"></span>Write the letters</span>
+            <h2 id="learn-title" class="learn__title">Every letter, <em>stroke by stroke.</em></h2>
+            <p class="learn__lede">
+              Watch each of the thirty consonants being written. The numbered arrows show the order of the strokes and the
+              way the pen moves; each stroke keeps its own colour. Pick a letter to see it again.
+            </p>
+            <div class="learn__letters" role="group" aria-label="Go to a letter">
+              {
+                LEARN_LETTERS.map(([bo, wy, t], i) => (
+                  <button type="button" lang="bo" data-learn-at={t} data-k={i} aria-label={wy} aria-current={i === 0 ? 'true' : 'false'}>
+                    {bo}
+                  </button>
+                ))
+              }
+            </div>
+          </div>
+          <figure class="demo learn__card">
+            <div class="demo__top">
+              <span class="learn__now"><b lang="bo" data-learn-now-bo>ཀ</b> <span data-learn-now-wy>ka</span></span>
+              <span class="demo__count" data-learn-count>1 / 30</span>
+            </div>
+            <div class="learn__paper">
+              <video class="learn__video" autoplay muted loop playsinline preload="metadata" poster={`${base}typing/learn/stroke-order-2.jpg`} aria-label="The thirty consonants written stroke by stroke, each stroke in its own colour" data-learn-video>
+                <source src={`${base}typing/learn/stroke-order-2.webm`} type="video/webm" />
+                <source src={`${base}typing/learn/stroke-order-2.mp4`} type="video/mp4" />
+              </video>
+            </div>
+            <div class="learn__foot">
+              <button class="btn btn--ghost btn--sm" type="button" data-learn-prev aria-label="The letter before">
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg>
+              </button>
+              <button class="btn btn--primary btn--sm learn__play" type="button" data-learn-play>
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" data-ico-pause><path d="M9 5v14M15 5v14"></path></svg>
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" data-ico-play hidden><path d="M7 4.5v15l12-7.5z"></path></svg>
+                <span data-learn-play-label>Pause</span>
+              </button>
+              <button class="btn btn--ghost btn--sm" type="button" data-learn-next aria-label="The next letter">
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+              </button>
+            </div>
           </figure>
         </div>
       </section>
@@ -647,7 +704,9 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
 
     <script>
       import { boot } from '../typing/app.js';
+      import { bootLearn } from '../typing/learn.js';
       boot();
+      bootLearn();
     </script>
   </body>
 </html>

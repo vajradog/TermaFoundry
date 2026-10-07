@@ -2653,3 +2653,125 @@ body.wt {
     gap: 6px;
   }
 }
+
+/* ═══════════ Write the letters (learn.js): the stroke-order video ═══════════ */
+.learn {
+  padding: 104px 0;
+  border-top: 1px solid var(--rule);
+  background: var(--bg-2);
+}
+.learn__in {
+  display: grid;
+  grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+  grid-template-areas: 'card copy';
+  gap: 64px;
+  align-items: center;
+}
+.learn__copy {
+  grid-area: copy;
+}
+.learn__card {
+  grid-area: card;
+}
+.learn__title {
+  font: 400 clamp(36px, 4.4vw, 56px) / 1.02 var(--serif);
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 18px 0 20px;
+}
+.learn__title em {
+  font-style: italic;
+  color: var(--accent);
+}
+.learn__lede {
+  font-size: 16.5px;
+  line-height: 1.65;
+  color: var(--ink-2);
+  max-width: 32em;
+  margin-bottom: 28px;
+}
+.learn__letters {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 6px;
+  max-width: 520px;
+}
+.wt .learn__letters button {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--surface);
+  font: 22px/1 var(--bo);
+  color: var(--ink-3);
+  padding: 0 0 4px;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.wt .learn__letters button:hover {
+  color: var(--ink);
+  border-color: var(--rule-2);
+}
+.wt .learn__letters button[aria-current='true'] {
+  color: var(--accent-ink);
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+}
+.learn__now {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-2);
+  letter-spacing: 0.02em;
+}
+.learn__now b {
+  font: 400 24px/1 var(--bo);
+  color: var(--ink);
+}
+/* the video sits on its own white paper in both themes */
+.learn__paper {
+  margin-top: 12px;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.learn__video {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  aspect-ratio: 1;
+  height: auto;
+}
+.learn__foot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+.learn__play {
+  min-width: 112px;
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .learn {
+    padding: 72px 0;
+  }
+  .learn__in {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'copy' 'card';
+    gap: 36px;
+  }
+  .learn__letters {
+    max-width: none;
+  }
+}
+@media (max-width: 640px) {
+  .learn__letters {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
