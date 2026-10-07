@@ -14,11 +14,4 @@ export default defineConfig({
   image: {
     domains: ["chakrishar.com"],
   },
-
-  // harfbuzzjs (the /typing spelling stage) starts its WebAssembly with a top-level await, which
-  // needs ES2022, and finds harfbuzz.wasm next to itself, so the dev server must not pre-bundle it
-  vite: {
-    build: { target: "es2022" },
-    optimizeDeps: { exclude: ["harfbuzzjs"] },
-  },
 });

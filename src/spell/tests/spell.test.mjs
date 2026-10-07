@@ -1,10 +1,11 @@
 /* Run: npm run test:spell — spell() step lists and the scheme file. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
-import { spell, unitsFor } from '../spell.js';
+import { readFileSync, existsSync } from 'node:fs';
+import { spell } from '../spell.js';
 import { parseSyllable } from '../../typing/lib/anatomy.js';
-import { SPELL_EXAMPLES, ANATOMY_EXAMPLES, WORD_POOL } from '../../typing/data/curriculum.js';
+import { ANATOMY_EXAMPLES, WORD_POOL, STACKS } from '../../typing/data/curriculum.js';
+import { toUnicode } from '../../foundry/lib/ewts.js';
 
 const scheme = JSON.parse(readFileSync(new URL('../utsang.json', import.meta.url), 'utf8'));
 const run = (wy) => spell(parseSyllable(wy), scheme);
@@ -48,7 +49,7 @@ test('the genitive, two vowels, g.y, and prefixes before ta and before a ra-btag
 });
 
 test('every course syllable spells: known units, the stack only grows, the Tibetan matches', () => {
-  const syls = [...new Set([...SPELL_EXAMPLES, ...ANATOMY_EXAMPLES, ...WORD_POOL].flatMap((w) => w.split(/[\s/]+/)).filter(Boolean))];
+  const syls = [...new Set([...ANATOMY_EXAMPLES, ...WORD_POOL].flatMap((w) => w.split(/[\s/]+/)).filter(Boolean))];
   let spelled = 0;
   for (const wy of syls) {
     const p = parseSyllable(wy);
@@ -69,10 +70,17 @@ test('every course syllable spells: known units, the stack only grows, the Tibet
   assert.ok(spelled > 150, `only ${spelled} syllables spelled`);
 });
 
-test('the examples need only a handful of recordings', () => {
-  const units = unitsFor(SPELL_EXAMPLES.map(parseSyllable), scheme);
-  assert.equal(units.length, 31);
-  for (const u of units) assert.ok(u.label && u.tib, u.id);
+test("the superscript lesson: Sonam Tsering's 33 stacks, each drawn in two parts and voiced", () => {
+  const lesson = JSON.parse(readFileSync(new URL('../superscripts.json', import.meta.url), 'utf8'));
+  const stacks = lesson.series.flatMap((s) => s.stacks);
+  assert.deepEqual(lesson.series.map((s) => s.stacks.length), [12, 10, 11]);
+  for (const st of stacks) {
+    assert.ok(st.red.length > 20 && st.ink.length > 20, `${st.wy}: a part is empty`);
+    assert.equal(st.bo, toUnicode(st.wy).text, st.wy);
+    assert.ok(existsSync(new URL(`../../../public/spell/sonam/${st.wy}.mp3`, import.meta.url)), `${st.wy}: no recording`);
+  }
+  // the same stacks as the tutor's own ra-mgo / la-mgo / sa-mgo series (the video orders ra-mgo its own way)
+  for (const [k, s] of lesson.series.entries()) assert.deepEqual([...s.stacks.map((x) => x.wy)].sort(), [...STACKS[k].set].sort(), s.sup);
 });
 
 test('the scheme: every table entry is a unit, every unit is in a table', () => {

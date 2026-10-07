@@ -1,5 +1,5 @@
 /*
-  app.js — everything on /typing that moves: theme, the spelling demonstration, the anatomy explorer,
+  app.js — everything on /typing that moves: theme, the superscript lesson, the anatomy explorer,
   the course map, the practice room, personal bests and the practice log.
 
   State is kept in localStorage under wylie.* (settings, progress, scores, key statistics, log).
@@ -11,11 +11,7 @@ import { LEXICON } from './data/lexicon.js';
 import { parseSyllable, tokenAt } from './lib/anatomy.js';
 import { buildLesson, buildTimed, buildWeak, buildCustom, weakKeys, rng32 } from './lib/drill.js';
 import { Session, starsFor } from './lib/session.js';
-import scheme from '../spell/utsang.json';
-import { spell } from '../spell/spell.js';
-import { createStack } from '../spell/stack.js';
-import { createPlayer } from '../spell/player.js';
-import { createVoice } from '../spell/voice.js';
+import LESSON from '../spell/superscripts.json';
 
 /* ───────────────────────── helpers ───────────────────────── */
 const $ = (s, el = document) => el.querySelector(s);
@@ -62,7 +58,7 @@ const DEFAULTS = { sound: 'off', size: 'm', font: 'jomolhari' };
 const settings = { ...DEFAULTS, ...store.get('settings.v1', {}) };
 const saveSettings = () => store.set('settings.v1', settings);
 
-const SPELL = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}spell/`;
+const SONAM = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}spell/sonam/`;
 
 const FONTS = {
   jomolhari: "'TT Jomolhari'",
@@ -158,63 +154,119 @@ function partsHtml(parsed, offset = Infinity, { numbered = false } = {}) {
     .join('');
 }
 
-/* ───────────────────────── spelling it out (the opening demonstration) ───────────────────────── */
+/* ───────────────────────── the superscript lesson (the opening card) ───────────────────────── */
 /*
-  A stack and the examples beside it. "Spell it" builds the stack piece by piece in the order it is
-  spelled in class, each piece red as it is named, then the fused sound with the whole stack red.
-  Each unit is spoken when its recording exists (public/spell/audio/), silently until then.
+  Sonam Tsering's lesson "The Superscript Letters", as a player: one stack at a time with its
+  superscript in red, the whole series beneath, his voice for each stack (public/spell/sonam/),
+  a stack every three seconds as in his video. The stacks are drawn from Jomolhari, already split
+  into superscript and root (src/spell/superscripts.json, made by scripts/superscripts.py).
 */
-function initSpell() {
-  const root = $('[data-spell]');
+const STACK_MS = 3000;
+const SUPER_NAME = { r: 'ར', l: 'ལ', s: 'ས' };
+
+function initSupers() {
+  const root = $('[data-supers]');
   if (!root) return;
-  const stageEl = $('[data-spell-stage]', root);
-  const boEl = $('[data-spell-bo]', root);
-  const btn = $('[data-spell-btn]', root);
-  const chips = $$('[data-spell-ex]', root);
-  let recorded = [];
-  try {
-    recorded = JSON.parse(root.dataset.spellAudio || '[]');
-  } catch {
-    /* none */
+  const titleEl = $('[data-supers-title]', root);
+  const countEl = $('[data-supers-count]', root);
+  const glyph = $('[data-supers-glyph]', root);
+  const inkEl = $('[data-supers-ink]', root);
+  const redEl = $('[data-supers-red]', root);
+  const sayEl = $('[data-supers-say]', root);
+  const rowEl = $('[data-supers-row]', root);
+  const tabs = $$('[data-supers-series]', root);
+  const playBtn = $('[data-supers-play]', root);
+  const W = LESSON.right - LESSON.left;
+
+  let si = 0; // series
+  let k = 0; // stack in the series
+  let playing = false;
+  let timer = 0;
+  const clips = new Map();
+  let sounding = null;
+
+  const stackAt = (s, i) => LESSON.series[s].stacks[i];
+  const clip = (wy) => {
+    if (!clips.has(wy)) {
+      const a = new Audio(`${SONAM}${wy}.mp3`);
+      a.preload = 'auto';
+      clips.set(wy, a);
+    }
+    return clips.get(wy);
+  };
+
+  function say(wy) {
+    if (sounding) sounding.pause();
+    sounding = clip(wy);
+    sounding.currentTime = 0;
+    sounding.play().catch(() => {});
   }
-  const voice = createVoice(`${SPELL}audio/`, recorded);
-  let stack = null; // the glyph renderer, once HarfBuzz and the font have loaded
-  let current = null;
 
-  const player = createPlayer({
-    scheme,
-    voice,
-    getStack: () => stack,
-    onDone: () => root.classList.add('is-paused'),
-  });
+  function drawRow() {
+    rowEl.innerHTML = LESSON.series[si].stacks
+      .map((st, i) => `<button type="button" lang="bo" data-k="${i}" aria-label="${st.wy}">${st.bo}་</button>`)
+      .join('');
+  }
 
-  function select(wy) {
-    player.stop();
-    chips.forEach((c) => c.setAttribute('aria-pressed', c.dataset.spellEx === wy ? 'true' : 'false'));
-    current = spell(parseSyllable(wy), scheme);
-    boEl.textContent = current.text;
-    if (stack) {
-      stack.frame(current.text);
-      stack.draw({ text: current.text });
+  function show(s, i) {
+    if (s !== si) {
+      si = s;
+      drawRow();
+      tabs.forEach((t, n) => t.setAttribute('aria-pressed', n === si ? 'true' : 'false'));
+      const sup = LESSON.series[si].sup;
+      titleEl.innerHTML = `${si + 1}. Superscript <b lang="bo">${SUPER_NAME[sup]}</b>`;
+    }
+    k = i;
+    const st = stackAt(si, k);
+    inkEl.setAttribute('d', st.ink);
+    redEl.setAttribute('d', st.red);
+    glyph.setAttribute('transform', `translate(${(W - st.w) / 2} 0) scale(1 -1)`);
+    sayEl.textContent = st.bo;
+    countEl.textContent = `${k + 1} / ${LESSON.series[si].stacks.length}`;
+    $$('button', rowEl).forEach((b, n) => b.setAttribute('aria-current', n === k ? 'true' : 'false'));
+    const next = k + 1 < LESSON.series[si].stacks.length ? stackAt(si, k + 1) : stackAt((si + 1) % LESSON.series.length, 0);
+    if (playing) clip(next.wy); // fetch the next voice ahead
+  }
+
+  /* One stack: show it, say it, and when playing move on after three seconds. */
+  function step(s, i) {
+    clearTimeout(timer);
+    show(s, i);
+    say(stackAt(si, k).wy);
+    if (!playing) return;
+    timer = setTimeout(() => {
+      if (k + 1 < LESSON.series[si].stacks.length) step(si, k + 1);
+      else step((si + 1) % LESSON.series.length, 0);
+    }, STACK_MS);
+  }
+
+  function setPlaying(on) {
+    playing = on;
+    root.classList.toggle('is-playing', on);
+    $('[data-ico-play]', playBtn).toggleAttribute('hidden', on);
+    $('[data-ico-pause]', playBtn).toggleAttribute('hidden', !on);
+    $('[data-supers-play-label]', playBtn).textContent = on ? 'Pause' : 'Play';
+    if (on) step(si, k);
+    else {
+      clearTimeout(timer);
+      if (sounding) sounding.pause();
     }
   }
 
-  chips.forEach((c) => c.addEventListener('click', () => select(c.dataset.spellEx)));
-  btn.addEventListener('click', () => {
-    root.classList.remove('is-paused');
-    player.play(current);
+  playBtn.addEventListener('click', () => setPlaying(!playing));
+  rowEl.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-k]');
+    if (b) step(si, Number(b.dataset.k));
   });
-  root.addEventListener('keydown', (e) => e.key === 'Escape' && player.stop());
-  select(($('[data-spell-ex][aria-pressed="true"]', root) || chips[0]).dataset.spellEx);
-
-  createStack(stageEl, { fontUrl: `${SPELL}yangtso-tibetan.ttf` })
-    .then((s) => {
-      stack = s;
-      root.classList.add('has-stage');
-      s.frame(current.text);
-      s.draw({ text: current.text });
-    })
-    .catch((e) => console.warn('spelling stage unavailable, showing text', e));
+  tabs.forEach((t) => t.addEventListener('click', () => step(Number(t.dataset.supersSeries), 0)));
+  root.addEventListener('keydown', (e) => {
+    const n = LESSON.series[si].stacks.length;
+    if (e.key === 'ArrowRight') step(si, (k + 1) % n);
+    else if (e.key === 'ArrowLeft') step(si, (k + n - 1) % n);
+    else return;
+    e.preventDefault();
+  });
+  document.addEventListener('visibilitychange', () => document.hidden && playing && setPlaying(false));
 }
 
 /* ───────────────────────── anatomy explorer ───────────────────────── */
@@ -1225,7 +1277,7 @@ function initTrainer() {
 /* ───────────────────────── boot ───────────────────────── */
 export function boot() {
   initChrome();
-  initSpell();
+  initSupers();
   initAnatomy();
   const trainer = initTrainer();
   renderScores();

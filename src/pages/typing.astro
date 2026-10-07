@@ -4,10 +4,9 @@
   rest of the site. Everything lives in src/typing/ (see the README there).
 */
 import '../typing/styles/typing.css';
-import { readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import LESSON from '../spell/superscripts.json';
 import { toUnicode } from '../foundry/lib/ewts.js';
-import { UNITS, LESSONS, CONSONANTS, VOWELS, POSITIONS, ANATOMY_EXAMPLES, SPELL_EXAMPLES } from '../typing/data/curriculum.js';
+import { UNITS, LESSONS, CONSONANTS, VOWELS, POSITIONS, ANATOMY_EXAMPLES, STACKS } from '../typing/data/curriculum.js';
 import { LEXICON } from '../typing/data/lexicon.js';
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
@@ -30,16 +29,6 @@ const description =
   'A complete, free course in typing Tibetan with Extended Wylie (EWTS): a live demonstration, ten units and fifty-five lessons, WPM and accuracy, timed tests and personal bests. Type on the keyboard you already have.';
 
 const star = 'M12 2.6l2.85 5.95 6.55.85-4.8 4.55 1.25 6.5L12 17.3l-5.85 3.15 1.25-6.5L2.6 9.4l6.55-.85z';
-
-const STACKS = [
-  { name: 'ra-mgo', note: 'ra on top', set: ['rka', 'rga', 'rnga', 'rja', 'rnya', 'rta', 'rda', 'rna', 'rba', 'rma', 'rtsa', 'rdza'] },
-  { name: 'la-mgo', note: 'la on top', set: ['lka', 'lga', 'lnga', 'lca', 'lja', 'lta', 'lda', 'lpa', 'lba', 'lha'] },
-  { name: 'sa-mgo', note: 'sa on top', set: ['ska', 'sga', 'snga', 'snya', 'sta', 'sda', 'sna', 'spa', 'sba', 'sma', 'stsa'] },
-  { name: 'ya-btags', note: 'ya beneath', set: ['kya', 'khya', 'gya', 'pya', 'phya', 'bya', 'mya'] },
-  { name: 'ra-btags', note: 'ra beneath', set: ['kra', 'khra', 'gra', 'tra', 'thra', 'dra', 'pra', 'phra', 'bra', 'mra', 'sra', 'hra'] },
-  { name: 'la-btags', note: 'la beneath', set: ['kla', 'gla', 'bla', 'zla', 'rla', 'sla'] },
-  { name: 'wa-zur', note: 'w beneath', set: ['kwa', 'khwa', 'gwa', 'cwa', 'nywa', 'twa', 'dwa', 'tswa', 'tshwa', 'zhwa', 'zwa', 'rwa', 'shwa', 'hwa', 'grwa', 'phywa'] },
-];
 
 const MARKS = [
   { keys: ['space'], bo: '་', name: 'tsheg', text: 'Ends every syllable. <b>A space is a tsheg.</b>' },
@@ -65,15 +54,11 @@ const SANSKRIT = [
   ['+', 'k+Sha', 'join two letters into one stack'],
 ];
 
-/* Recorded spelling units (public/spell/audio/<unit id>.wav): the spelling plays these and is silent for the rest. */
-let recorded: string[] = [];
-try {
-  recorded = readdirSync(join(process.cwd(), 'public', 'spell', 'audio'))
-    .filter((f) => f.endsWith('.wav'))
-    .map((f) => f.slice(0, -4));
-} catch {
-  /* no recordings yet */
-}
+/* The superscript lesson in the opening card (scripts/superscripts.py): the first stack is drawn here. */
+const W = LESSON.right - LESSON.left;
+const H = LESSON.top - LESSON.bottom;
+const first = LESSON.series[0].stacks[0];
+const SERIES_NAME: Record<string, string> = { r: 'ra mgo', l: 'la mgo', s: 'sa mgo' };
 
 const wordCount = LEXICON.size;
 const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
@@ -179,27 +164,46 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
             </dl>
           </div>
 
-          <figure class="demo is-paused" data-spell data-spell-audio={JSON.stringify(recorded)} aria-label="Spelling it out: each piece of a Tibetan stack, in the order it is spelled">
+          <figure class="demo supers" data-supers aria-label="The three superscript letters, stack by stack, each superscript in red">
             <div class="demo__top">
-              <span class="demo__live"><i></i>Spelling it out</span>
+              <span class="supers__title" data-supers-title>1. Superscript <b lang="bo">ར</b></span>
+              <span class="demo__count" data-supers-count>1 / {LESSON.series[0].stacks.length}</span>
             </div>
-            <div class="demo__stage">
-              <div class="spell-stage" data-spell-stage></div>
-              <div class="demo__bo" lang="bo" data-spell-bo>{U(SPELL_EXAMPLES[6])}</div>
+            <div class="supers__stage">
+              <svg class="supers__svg" viewBox={`0 ${-LESSON.top} ${W} ${H}`} aria-hidden="true">
+                <g data-supers-glyph transform={`translate(${(W - first.w) / 2} 0) scale(1 -1)`}>
+                  <path class="supers__ink" d={first.ink} data-supers-ink></path>
+                  <path class="supers__red" d={first.red} data-supers-red></path>
+                </g>
+              </svg>
+              <span class="vh" lang="bo" aria-live="polite" data-supers-say>{first.bo}</span>
             </div>
-            <div class="spell-ex" role="group" aria-label="Examples">
+            <div class="supers__row" data-supers-row>
               {
-                SPELL_EXAMPLES.map((w, i) => (
-                  <button class="chip" type="button" data-spell-ex={w} aria-label={w} aria-pressed={i === 6 ? 'true' : 'false'}>
-                    <span lang="bo">{U(w)}</span>
+                LESSON.series[0].stacks.map((st, i) => (
+                  <button type="button" lang="bo" data-k={i} aria-label={st.wy} aria-current={i === 0 ? 'true' : 'false'}>
+                    {st.bo}་
                   </button>
                 ))
               }
             </div>
-            <button class="btn btn--primary spell-btn" type="button" data-spell-btn>
-              <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
-              Spell it
-            </button>
+            <div class="supers__foot">
+              <div class="supers__tabs" role="group" aria-label="The three superscripts">
+                {
+                  LESSON.series.map((ser, i) => (
+                    <button class="chip" type="button" data-supers-series={i} aria-pressed={i === 0 ? 'true' : 'false'}>
+                      <span lang="bo">{U(SERIES_NAME[ser.sup])}</span>
+                    </button>
+                  ))
+                }
+              </div>
+              <button class="btn btn--primary supers__play" type="button" data-supers-play>
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" data-ico-play><path d="M7 4.5v15l12-7.5z"></path></svg>
+                <svg class="ico" viewBox="0 0 24 24" aria-hidden="true" data-ico-pause hidden><path d="M9 5v14M15 5v14"></path></svg>
+                <span data-supers-play-label>Play</span>
+              </button>
+            </div>
+            <figcaption class="supers__credit">Voice and lesson: Sonam Tsering</figcaption>
           </figure>
         </div>
       </section>

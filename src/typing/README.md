@@ -23,15 +23,13 @@ src/typing/
                            per-key statistics, pause/resume, timed tests, stars
   styles/typing.css        The page's own styles (light and dark)
   tests/typing.test.mjs    `npm run test:typing` (also a step in the deploy workflow)
-src/spell/                 Spelling it out (the demonstration card at the top of the page)
-  utsang.json              The Ü-Tsang classroom spelling as data: what each piece is called,
-                           when the fused sound is said. TO_CONFIRM marks best guesses.
-  spell.js                 anatomy.js parse + scheme -> steps (say, highlight, show, label)
-  stack.js                 Draws the syllable from Yangtso's outlines (harfbuzzjs) and paints
-                           the piece being named red; the font is public/spell/yangtso-tibetan.ttf
-  player.js, voice.js      Plays the steps at 1.2 s each; speaks a unit when its recording
-                           exists (public/spell/audio/<unit id>.wav), silently otherwise
-  tests/spell.test.mjs     `npm run test:spell` (also a step in the deploy workflow)
+src/spell/
+  superscripts.json        The opening lesson: Sonam Tsering's three superscript series, each
+                           stack drawn from Jomolhari as two SVG paths (superscript red, the
+                           rest ink). Made by scripts/superscripts.py, with his voice cut from
+                           his video into public/spell/sonam/<wylie>.mp3
+  utsang.json, spell.js    The Ü-Tsang spelling-out as data and as a pure function (not on the
+                           page yet; tests/spell.test.mjs, `npm run test:spell`)
 ```
 
 ## How it teaches
@@ -50,14 +48,16 @@ src/spell/                 Spelling it out (the demonstration card at the top of
   **Your text** practises any passage pasted in Wylie or Tibetan.
 - No accounts, nothing uploaded: progress, scores and statistics live in `localStorage`.
 
-## Spelling it out
+## The superscript lesson
 
-The card at the top of the page shows one stack and ten examples (`SPELL_EXAMPLES`, each adding
-one piece to the one before). **Spell it** builds the stack the way it is spelled in class: each
-piece lands in red as it is named (ba-o, ka, ra-ta), and after each group the fused sound is said
-with the whole stack red (bkra). The ten examples need 31 recordings. None is recorded yet, so the
-spelling plays silently; a recording dropped into `public/spell/audio/` under its unit ID (`l.ka`,
-`sub.ra`, `syl.bkra`) is picked up at the next build.
+The card at the top of the page is Sonam Tsering's lesson "The Superscript Letters" (མགོ་ཅན་གསུམ) as a
+player: one stack at a time with its superscript in red, the whole series beneath, his voice for
+each stack, a stack every three seconds as in his video. **Play** runs through all three series;
+a stack in the row or ← → says one stack. The ra-mgo row follows his order (rtsa before rma).
+
+`python scripts/superscripts.py --video "<his video>.mp4"` rebuilds it: ffmpeg's silencedetect finds
+his 33 utterances (he pauses after each stack) and cuts them; each stack is split at the top of its
+root letter's head bar, found by laying the root letter over the stack where they overlap most.
 
 ## Content
 

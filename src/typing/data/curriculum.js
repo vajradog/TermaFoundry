@@ -777,9 +777,13 @@ export const WORD_POOL = [...new Set(LESSONS.filter((l) => l.drill.kind === 'wor
 /* Example words for the anatomy explorer. */
 export const ANATOMY_EXAMPLES = ['brgyad', 'bsgrigs', 'skad', 'rta', 'mig', 'g.yag', 'dbyangs', "spre'u", "'khyags", 'khyi', 'zla', 'lcags'];
 
-/*
-  The stacks the opening demonstration spells out. Each adds one piece to the one before: a vowel,
-  each of the four subscripts, a superscript, a prefix, then whole stacks with suffixes. Together
-  they need 31 recorded units (src/spell/utsang.json).
-*/
-export const SPELL_EXAMPLES = ['ki', 'kya', 'kra', 'zla', 'grwa', 'rka', 'bkra', 'sgrub', 'brgyad', 'bsgrubs'];
+/* The stacks, series by series (the reference table; the opening lesson plays the first three). */
+export const STACKS = [
+  { name: 'ra-mgo', note: 'ra on top', set: ['rka', 'rga', 'rnga', 'rja', 'rnya', 'rta', 'rda', 'rna', 'rba', 'rma', 'rtsa', 'rdza'] },
+  { name: 'la-mgo', note: 'la on top', set: ['lka', 'lga', 'lnga', 'lca', 'lja', 'lta', 'lda', 'lpa', 'lba', 'lha'] },
+  { name: 'sa-mgo', note: 'sa on top', set: ['ska', 'sga', 'snga', 'snya', 'sta', 'sda', 'sna', 'spa', 'sba', 'sma', 'stsa'] },
+  { name: 'ya-btags', note: 'ya beneath', set: ['kya', 'khya', 'gya', 'pya', 'phya', 'bya', 'mya'] },
+  { name: 'ra-btags', note: 'ra beneath', set: ['kra', 'khra', 'gra', 'tra', 'thra', 'dra', 'pra', 'phra', 'bra', 'mra', 'sra', 'hra'] },
+  { name: 'la-btags', note: 'la beneath', set: ['kla', 'gla', 'bla', 'zla', 'rla', 'sla'] },
+  { name: 'wa-zur', note: 'w beneath', set: ['kwa', 'khwa', 'gwa', 'cwa', 'nywa', 'twa', 'dwa', 'tswa', 'tshwa', 'zhwa', 'zwa', 'rwa', 'shwa', 'hwa', 'grwa', 'phywa'] },
+];
