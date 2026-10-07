@@ -1472,16 +1472,6 @@ body.wt {
 .c.is-shake {
   animation: shake 0.32s var(--ease);
 }
-/* reading mode: the Wylie of what is ahead stays hidden; the caret still shows where you are */
-.trainer[data-script='bo'] .c:not(.is-done):not(.is-cur) .c__wy {
-  visibility: hidden;
-}
-.trainer[data-script='bo'] .c.is-cur .c__wy i.todo:not(.hint) {
-  color: transparent;
-  background: transparent;
-  transition: none;
-}
-
 /* overlay: brief, focus, results */
 .tr-over {
   position: absolute;

@@ -53,7 +53,7 @@ const store = {
   },
 };
 
-const DEFAULTS = { script: 'both', sound: 'off', size: 'm', font: 'jomolhari' };
+const DEFAULTS = { sound: 'off', size: 'm', font: 'jomolhari' };
 const settings = { ...DEFAULTS, ...store.get('settings.v1', {}) };
 const saveSettings = () => store.set('settings.v1', settings);
 
@@ -145,7 +145,7 @@ function initChrome() {
 }
 
 /* ───────────────────────── syllable chips ───────────────────────── */
-function partsHtml(parsed, offset = Infinity, { hideTodo = false, numbered = false } = {}) {
+function partsHtml(parsed, offset = Infinity, { numbered = false } = {}) {
   if (!parsed || !parsed.ok) return '';
   let n = 0;
   return parsed.parts
@@ -153,9 +153,8 @@ function partsHtml(parsed, offset = Infinity, { hideTodo = false, numbered = fal
     .map((p) => {
       n++;
       const state = offset >= p.end ? '' : offset >= p.start ? 'is-cur' : 'is-todo';
-      const wy = hideTodo && state !== '' ? '·' : p.wy;
       const label = p.detail || p.label;
-      return `<span class="part ${state}" data-role="${p.role}"${numbered ? ` data-n="${n}"` : ''}><b>${esc(wy)}</b><small>${esc(label)}</small></span>`;
+      return `<span class="part ${state}" data-role="${p.role}"${numbered ? ` data-n="${n}"` : ''}><b>${esc(p.wy)}</b><small>${esc(label)}</small></span>`;
     })
     .join('');
 }
@@ -490,24 +489,13 @@ function initTrainer() {
 
   /* ── settings ── */
   function applySettings() {
-    root.dataset.script = settings.script;
     root.dataset.size = settings.size;
     document.documentElement.style.setProperty('--bo', `${FONTS[settings.font] || FONTS.jomolhari}, 'TT Noto Tibetan', serif`);
-    $$('[data-set-script]', root).forEach((b) => b.setAttribute('aria-pressed', b.dataset.setScript === settings.script ? 'true' : 'false'));
     $$('[data-set]', root).forEach((b) => b.setAttribute('aria-pressed', settings[b.dataset.set] === b.dataset.v ? 'true' : 'false'));
     const sel = $('[data-set-font]', root);
     if (sel) sel.value = settings.font;
   }
 
-  $$('[data-set-script]', root).forEach((b) =>
-    b.addEventListener('click', () => {
-      settings.script = b.dataset.setScript;
-      saveSettings();
-      applySettings();
-      refreshCursor();
-      refocus();
-    }),
-  );
   // after a toolbar click, keys go back to the text (Enter starts, Esc restarts)
   root.addEventListener('click', (e) => {
     const b = e.target.closest('.tr-bar button, .tr-head button');
@@ -697,12 +685,11 @@ function initTrainer() {
       T.nowChar = ch;
     } else T.nowChar = null;
 
-    // the hint line: the next key (in reading mode only after a mistake)
+    // the hint line: the next key
     const exp = s.done ? null : s.expected;
-    const reading = settings.script === 'bo';
     if (T.phase === 'brief' || T.phase === 'done') {
       // the overlay explains what to do
-    } else if (exp != null && (!reading || s.posErrors > 0)) {
+    } else if (exp != null) {
       let tokenWy = null;
       if (cell && pos < cell.sylEnd) {
         const tok = tokenAt(cell.wy, pos - cell.start);
@@ -715,8 +702,6 @@ function initTrainer() {
             ? '<b>/</b>, the shad'
             : `<b>${esc(exp)}</b>${tokenWy ? ` of <b>${esc(tokenWy)}</b>` : ''}${/[A-Z+]/.test(exp) ? ' (with Shift)' : ''}`;
       el.hint.innerHTML = `${s.posErrors > 0 ? 'Not that one. ' : ''}Next key: ${what}`;
-    } else {
-      el.hint.textContent = 'Reading mode: transliterate the Tibetan. A mistake reveals the key.';
     }
 
     // info strip
@@ -735,7 +720,7 @@ function initTrainer() {
         pv = el.compose.querySelector('[lang="bo"]');
       }
       pv.textContent = off >= cell.wy.length ? cell.bo + cell.punct.trim() : preview(typed);
-      el.parts.innerHTML = partsHtml(parseSyllable(cell.wy), off, { hideTodo: settings.script === 'bo' }) || `<span class="empty-note"><code>${esc(cell.wy)}</code> — ${/\d/.test(cell.wy) ? 'Tibetan figures' : 'a Sanskrit form'}</span>`;
+      el.parts.innerHTML = partsHtml(parseSyllable(cell.wy), off) || `<span class="empty-note"><code>${esc(cell.wy)}</code> — ${/\d/.test(cell.wy) ? 'Tibetan figures' : 'a Sanskrit form'}</span>`;
     }
     scrollToCursor(false);
   }

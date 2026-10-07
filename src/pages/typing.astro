@@ -331,12 +331,11 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
             </div>
             <p>
               Type on your own keyboard: Wylie uses the ordinary Latin keys, so there is nothing to install and no layout to learn. The
-              cursor waits for the right key, so every mistake is noticed and every word is typed correctly once. Switch to
-              <b>Tibetan only</b> to practise reading: the Wylie disappears and you transliterate from the script.
+              cursor waits for the right key, so every mistake is noticed and every word is typed correctly once.
             </p>
           </div>
 
-          <div class="trainer reveal" data-trainer data-script="both" data-size="m">
+          <div class="trainer reveal" data-trainer data-size="m">
             <div class="tr-bar">
               <div class="seg" role="tablist" aria-label="Practice mode">
                 <button type="button" role="tab" data-mode="course" aria-selected="true">Course</button>
@@ -345,10 +344,6 @@ const firstGloss = (w: string) => LEXICON.get(w)?.en || '';
                 <button type="button" role="tab" data-mode="custom" aria-selected="false">Your text</button>
               </div>
               <div class="tr-bar__right">
-                <div class="seg" role="group" aria-label="Script shown">
-                  <button type="button" data-set-script="both" aria-pressed="true">Tibetan + Wylie</button>
-                  <button type="button" data-set-script="bo" aria-pressed="false">Tibetan only</button>
-                </div>
                 <button class="icon-btn" type="button" data-settings-btn aria-expanded="false" aria-label="Settings">
                   <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"></path><circle cx="16" cy="7" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>
                 </button>

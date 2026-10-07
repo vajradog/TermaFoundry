@@ -35,7 +35,6 @@ src/typing/
 - **WPM is the international standard**: correct keystrokes ÷ 5 per minute. Syllables per
   minute are shown beside it.
 - **Stars**: one for finishing, two at 95 % accuracy, three at 97 % and the unit's target speed.
-- **Reading mode** ("Tibetan only") hides the Wylie: the student transliterates from the script.
   A mistake reveals the key.
 - **Timed tests** (1 minute and 3 minutes of words, 1 minute of sentences) keep the ten best
   results on the device. **Weak keys** builds a drill from the keys the student misses most.
